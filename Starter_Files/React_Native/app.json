@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "My App",
+    "slug": "my-app",
+    "version": "1.0.0",
+    "scheme": "myapp",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a2e"
+    },
+
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourname.myapp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Used to capture photos.",
+        "NSPhotoLibraryUsageDescription": "Used to select photos from your library.",
+        "NSLocationWhenInUseUsageDescription": "Used to show content near you."
+      }
+    },
+
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#1a1a2e"
+      },
+      "package": "com.yourname.myapp",
+      "permissions": [
+        "READ_MEDIA_IMAGES",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
