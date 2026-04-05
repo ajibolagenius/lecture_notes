@@ -1,719 +1,970 @@
-# 🐍 Python Course — Tutor's Master Outline
+# 🐍 Python — Tutor's Master Outline
 ### Deejoft Coding School | Python Programming Track
-**Instructor Notes — Beginner to Intermediate (Windows Focus)**
+**Duration:** 4 Weeks · 8 Classes · ~2 hours per class
+**Level:** Beginner–Intermediate (standalone track, no web dev prerequisite)
 
 ---
 
 > **Dear Tutor,**
-> Python is often students' first experience with a general-purpose programming language. Unlike HTML/CSS, everything here is abstract — there's no visual feedback on screen until you deliberately create it. Your job is to keep students grounded in *real-world applications*. At Deejoft, we frame everything around Windows automation, file management, and practical utilities. If a student can see how a concept helps them automate a boring task, they stay motivated.
+> Python 3.13 is the current stable release and the version this course teaches. Relevant new features include a much-improved interactive REPL with syntax highlighting, the experimental free-threaded mode (no GIL), and better error messages that actually explain what went wrong. Teach the error messages — Python 3.13's tracebacks are the best they've ever been, and students who learn to read them become self-sufficient faster.
+>
+> Tooling note: this course uses **`uv`** instead of `pip` for package management. `uv` is written in Rust, installs packages 10–100× faster than pip, and handles virtual environments automatically. It has become the industry standard in 2024–2025. Students who learn `uv` are immediately more productive than those who learned the old pip/venv workflow.
 
 ---
 
-## 🗺️ Course at a Glance
+## 🗺️ Course Map
 
-| Part | Module | Focus | Key Outcome |
-|------|--------|-------|-------------|
-| Part 1 | 1 | Setup & Environment | Run a Python script from PowerShell |
-| Part 1 | 2 | Building Blocks | Receipt calculator or bio generator |
-| Part 2 | 4 | Loops & Lists | Batch file renaming tool |
-| Part 2 | 5 | Functions & Modules | Reusable toolkit |
-| Part 2 | 6 | File I/O & Error Handling | Expense tracker that reads/writes CSV |
-| Part 3 | 7 | Advanced Data Handling | Data cleaning utilities |
-| Part 3 | 8 | Object-Oriented Programming | Inventory management system |
-| Part 4 | 10 | GUI Development (Tkinter) | Windows desktop app |
-| Part 4 | 11 | Virtual Environments & Distribution | Shareable `.exe` tool |
-| Capstone | — | Choose one of 3 projects | Portfolio-ready project |
-
-**Prerequisites:** None (absolute beginners welcome, but logical thinking helps)  
-**Platform:** Windows (PowerShell + VS Code)  
-**Python Version:** 3.10+ (always recommend installing the latest stable release)
+| Week | Classes | Focus | Deliverable |
+|------|---------|-------|-------------|
+| Week 1 | 1–2 | Python Fundamentals: Setup, Types, Control Flow | CLI expense logger |
+| Week 2 | 3–4 | Data Structures, Functions & File I/O | Personal finance CSV reporter |
+| Week 3 | 5–6 | OOP, Error Handling & External APIs | Student grade management system |
+| Week 4 | 7–8 | Type Hints, Testing, Packaging & Automation | Packaged CLI tool or Desktop GUI |
 
 ---
 
-## 🎯 Course Philosophy
+## 🎯 Course Philosophy — Three Rules
 
-Three principles to build from the start:
+```
+1. READABLE > CLEVER          →  Python code should read like English.
+                                  If your teammate can't read it at a glance, rewrite it.
 
-1. **Readable code is correct code** — Python's philosophy is readability. If your code is hard to read, it's probably wrong.
-2. **Automate your own life** — Every concept should be linked to a real task the student might actually want to automate.
-3. **Errors are teachers** — Read every error message. Understand it. Then fix it.
+2. ERRORS ARE INFORMATION     →  Read the full traceback. The last line tells you what went wrong.
+                                  The second-to-last line tells you where. Never ignore it.
+
+3. THE STANDARD LIBRARY FIRST →  Check if Python already has what you need before installing
+                                  a third-party library. It usually does.
+```
 
 ---
 
-## 📦 Part 1: The Foundation
+## 📅 Week 1 — Python Fundamentals
 
-### Module 1 — The Launchpad (Setup & Environment)
+### Class 1 — Setup, Variables & Types
 
-**Tutor Guidance:**
-Nothing is more demoralising than spending the first session fighting installation issues. Arrive early. Have a checklist. The two most common issues on Windows: (1) Python not added to PATH, (2) VS Code not recognising the Python interpreter.
+**Tutor Guidance:** Python 3.13's new REPL (type `python` in the terminal) now has syntax highlighting, multi-line editing, and better error messages. Use it for all Class 1 demos — students get immediate feedback without creating files.
 
-**Python Installation Checklist:**
-```
-✅ Download from python.org — choose the latest stable version
-✅ On the installer, CHECK "Add Python to PATH" (critical!)
-✅ After install, open PowerShell and verify:
-   python --version     → Should print Python 3.x.x
-   pip --version        → Should print pip x.x.x
-✅ Install VS Code extensions: Python (Microsoft), Pylance
-✅ In VS Code, press Ctrl+Shift+P → "Python: Select Interpreter" → choose correct version
-```
+#### Tooling Setup with `uv`
 
-**Essential PowerShell Commands for Students:**
-```powershell
-# Print current folder
-pwd
+```bash
+# Install uv — the modern Python package manager
+# Windows (PowerShell):
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
-# List files in current folder
-ls  (or dir)
+# Verify
+uv --version      # uv 0.5.x
 
-# Change directory
-cd Documents
-cd ..          # Go up one level
-cd ~           # Go to home directory
+# Create and activate a virtual environment (uv does this automatically per project)
+uv init my-project    # Creates a new project with pyproject.toml
+cd my-project
+uv run python         # Run Python in the project's virtual env
 
-# Create a folder
-mkdir my_project
+# Install packages (100x faster than pip)
+uv add requests       # Installs and adds to pyproject.toml
+uv add --dev pytest   # Dev-only dependency
+uv sync               # Install all dependencies from pyproject.toml (for collaborators)
 
-# Run a Python file
-python script.py
-
-# Open current folder in VS Code
-code .
+# VS Code setup
+# → Install 'Python' extension by Microsoft
+# → Ctrl+Shift+P → "Python: Select Interpreter" → choose the .venv version
 ```
 
-**Your First Python Script:**
+---
+
+#### Variables and Data Types
+
 ```python
-# hello.py
+# Python is dynamically typed — types are inferred, not declared
+# But in modern Python, we add type hints for clarity (Week 4)
 
-# This is a comment — Python ignores this line
-# Comments explain your code to humans
+# ── Strings ──
+name:   str = "Ada Lovelace"
+school: str = 'Deejoft Coding School'
 
-print("Hello, World!")
-print("Welcome to Deejoft Coding School!")
-print(2 + 2)  # Python can evaluate expressions directly
-```
-
----
-
-### Module 2 — The Building Blocks
-
-**Tutor Guidance:**
-Start with the REPL (interactive Python shell) — type `python` in PowerShell and start typing expressions. This gives instant feedback and helps students understand types and operators before writing files.
-
-**Variables and Data Types:**
-```python
-# Variables store data — Python figures out the type automatically (dynamic typing)
-
-# String — text, always in quotes
-first_name = "Ada"
-last_name = 'Lovelace'   # Single or double quotes both work
-school = "Deejoft Coding School"
-
-# Integer — whole numbers
+# f-strings — the modern way (Python 3.12+ added = for debug expressions)
 age = 30
-students_enrolled = 48
+print(f"Name: {name}, Age: {age}")          # Name: Ada Lovelace, Age: 30
+print(f"{age = }")                           # age = 30  (debug shorthand, Python 3.8+)
+print(f"{age * 2 = }")                       # age * 2 = 60
+print(f"Upper: {name.upper()}")              # Upper: ADA LOVELACE
+print(f"Price: ₦{49_999:.2f}")              # Price: ₦49999.00 (underscore in numbers)
 
-# Float — decimal numbers
-price = 99.99
-tax_rate = 0.075
-
-# Boolean — True or False (capital first letter in Python!)
-is_active = True
-has_paid = False
-
-# Check what type a variable is
-print(type(age))          # <class 'int'>
-print(type(price))        # <class 'float'>
-print(type(first_name))   # <class 'str'>
-print(type(is_active))    # <class 'bool'>
-```
-
-**User Input and Type Conversion:**
-```python
-# input() ALWAYS returns a string
-name = input("What is your name? ")     # Returns str
-age_str = input("How old are you? ")    # Returns str "25", not int 25
-
-# Type conversion is necessary for calculations
-age = int(age_str)            # str → int
-price = float(input("Price: "))  # str → float (can chain directly)
-
-# Checking your conversion
-print(f"Hello, {name}! In 10 years you'll be {age + 10}.")
-```
-
-> **Common Error:** `TypeError: can only concatenate str (not "int") to str`  
-> This means a student is trying to do `"Age: " + age` where `age` is an int.  
-> Fix: Use an f-string: `f"Age: {age}"` — no conversion needed.
-
-**F-Strings (Modern String Formatting):**
-```python
-name = "Ada"
-language = "Python"
-years = 3
-hourly_rate = 85.50
-
-# Basic f-string — put f before the opening quote
-intro = f"My name is {name} and I have {years} years of {language} experience."
-
-# Expressions inside f-strings
-daily_rate = f"At ${hourly_rate:.2f}/hr, 8 hours = ${hourly_rate * 8:.2f}"
-# :.2f = format as float with 2 decimal places
-
-# Multi-line f-string
+# Multi-line f-strings
 receipt = f"""
-========== RECEIPT ==========
-Item:  Python Course
-Price: ${hourly_rate * 40:.2f}
-Tax:   ${hourly_rate * 40 * 0.075:.2f}
-TOTAL: ${hourly_rate * 40 * 1.075:.2f}
-=================================
+{'=' * 35}
+ DEEJOFT — Payment Receipt
+{'=' * 35}
+ Student : {name}
+ Course  : JavaScript (4 Weeks)
+ Amount  : ₦79,999
+ Date    : {__import__('datetime').date.today()}
+{'=' * 35}
 """
-print(receipt)
+
+# ── Numbers ──
+cohort:  int   = 7
+price:   float = 79_999.00    # Underscore separators for readability
+pi:      float = 3.14159_265
+big:     int   = 1_000_000    # Also valid for integers
+
+# Integer division and modulo (very useful)
+print(17 // 5)   # 3  — floor division (how many times does 5 fit into 17?)
+print(17 %  5)   # 2  — remainder (what's left over?)
+print(2  ** 10)  # 1024 — exponentiation
+
+# ── Booleans ──
+is_enrolled: bool = True
+has_paid:    bool = False
+
+# Truthy / Falsy — important for conditionals
+# Falsy values: False, 0, 0.0, '', [], {}, None
+# Everything else is truthy
+print(bool(""))      # False
+print(bool("hello")) # True
+print(bool(0))       # False
+print(bool([]))      # False
+print(bool([0]))     # True — a list with one item (even if it's 0) is truthy
+
+# ── None — Python's "no value" ──
+result = None   # Intentionally empty — not yet calculated, not found, not applicable
+print(result is None)     # True   — use 'is' for None comparison, never ==
+print(result is not None) # False
+```
+
+#### String Methods
+
+```python
+text = "  Hello, Deejoft World!  "
+
+# Whitespace
+text.strip()             # "Hello, Deejoft World!"
+text.lstrip()            # "Hello, Deejoft World!  "  — left only
+text.rstrip()            # "  Hello, Deejoft World!"  — right only
+
+# Case
+text.lower()             # "  hello, deejoft world!  "
+text.upper()             # "  HELLO, DEEJOFT WORLD!  "
+text.title()             # "  Hello, Deejoft World!  "
+text.capitalize()        # "  hello, deejoft world!  " — only first char
+
+# Search & Replace
+text.find("Deejoft")     # 9  — index of first occurrence (-1 if not found)
+text.count("l")          # 3
+text.replace("World", "Cohort 7")
+"deejoft" in text.lower()  # True — membership test
+
+# Split & Join
+"apple,banana,mango".split(",")     # ['apple', 'banana', 'mango']
+", ".join(["HTML", "CSS", "JS"])    # "HTML, CSS, JS"
+text.strip().split()                # Split on any whitespace: ["Hello,", "Deejoft", "World!"]
+
+# Modern string methods (Python 3.9+)
+"Hello World".removeprefix("Hello ")  # "World"
+"Hello World".removesuffix(" World")  # "Hello"
 ```
 
 ---
 
-## 📦 Part 2: Automation and Structure
+### Class 2 — Control Flow & Loops
 
-### Module 4 — Loops and Lists
-
-**Tutor Guidance:**
-Loops are where programming starts to feel powerful. Show the *without loops* version first — manually printing 100 lines — then show the loop version. The contrast is dramatic.
-
-**Lists:**
 ```python
-# A list stores multiple values in order
+# ── Conditionals ──
+score = 78
+
+# match/case — Python 3.10+ (like switch/case in other languages but more powerful)
+match score:
+    case n if n >= 90: print(f"{n}/100 — Grade A (Distinction)")
+    case n if n >= 75: print(f"{n}/100 — Grade B (Credit)")
+    case n if n >= 50: print(f"{n}/100 — Grade C (Pass)")
+    case _:            print(f"{score}/100 — Grade F (Fail)")
+
+# Ternary expression
+status = "Pass" if score >= 50 else "Fail"
+
+# ── Loops ──
+
+# for — iterate over any iterable
 courses = ["HTML", "CSS", "JavaScript", "React", "Python"]
-scores = [88, 92, 75, 95, 81]
-mixed = ["Ada", 30, True, 99.99]  # Lists can hold any types
 
-# Accessing items (zero-indexed, just like JavaScript)
-print(courses[0])   # "HTML"
-print(courses[-1])  # "Python" — negative index counts from end
-
-# Slicing — get a portion of the list
-print(courses[1:4]) # ["CSS", "JavaScript", "React"]
-
-# List methods
-courses.append("React Native")   # Add to end
-courses.insert(0, "Command Line")  # Insert at index 0
-courses.remove("HTML")           # Remove by value
-popped = courses.pop()           # Remove and return last item
-print(len(courses))              # Number of items
-print("CSS" in courses)          # True/False membership check
-courses.sort()                   # Sort in place
-```
-
-**For Loops:**
-```python
-# Loop over a list
 for course in courses:
     print(f"📚 {course}")
 
-# Loop with index — use enumerate()
+# enumerate — get index AND value (no manual counter needed)
 for index, course in enumerate(courses, start=1):
-    print(f"{index}. {course}")
+    print(f"{index:2}. {course}")
 
-# Loop over a range of numbers
-for i in range(1, 6):       # 1, 2, 3, 4, 5
-    print(f"Lesson {i}")
+# zip — iterate over multiple iterables in parallel
+prices  = [49_999, 49_999, 79_999, 89_999, 79_999]
+for course, price in zip(courses, prices):
+    print(f"{course}: ₦{price:,}")
 
-for i in range(0, 10, 2):   # 0, 2, 4, 6, 8 (step of 2)
-    print(i)
+# range
+for i in range(1, 6):       # 1 2 3 4 5
+    print(i, end=" ")
 
-# Practical example: Process a list of numbers
-scores = [88, 92, 75, 95, 81, 67]
-total = 0
-for score in scores:
-    total = total + score   # or: total += score
+for i in range(10, 0, -2):  # 10 8 6 4 2 (count down, step -2)
+    print(i, end=" ")
 
-average = total / len(scores)
-print(f"Class average: {average:.1f}")
-```
-
-**Windows Automation Example — Batch File Renaming:**
-```python
-# Rename all .txt files in a folder to add a date prefix
-from pathlib import Path
-from datetime import date
-
-folder = Path("C:/Users/YourName/Documents/Reports")
-today = date.today().strftime("%Y-%m-%d")  # e.g., "2025-06-15"
-
-renamed_count = 0
-for file in folder.iterdir():
-    if file.suffix == ".txt":
-        new_name = f"{today}_{file.name}"
-        file.rename(folder / new_name)
-        renamed_count += 1
-        print(f"Renamed: {file.name} → {new_name}")
-
-print(f"\nDone! Renamed {renamed_count} files.")
-```
-
-**While Loops:**
-```python
-# while loops run as long as a condition is True
+# while — for unknown iteration count
 attempts = 0
 max_attempts = 3
-correct_pin = "1234"
 
 while attempts < max_attempts:
-    pin = input("Enter PIN: ")
+    answer = input(f"Attempt {attempts + 1}: Enter the password: ")
     attempts += 1
-    
-    if pin == correct_pin:
-        print("Access granted! ✅")
-        break  # Exit the loop
-    else:
-        remaining = max_attempts - attempts
-        if remaining > 0:
-            print(f"Incorrect. {remaining} attempts remaining.")
-        else:
-            print("Account locked. ❌")
+    if answer == "deejoft2025":
+        print("✅ Access granted")
+        break
+    print(f"❌ Incorrect. {max_attempts - attempts} attempts remaining.")
+else:
+    # The else block on a while loop runs when the condition becomes False (not on break)
+    print("🔒 Account locked after 3 failed attempts.")
+
+# List comprehension — the Pythonic loop
+squares      = [n**2 for n in range(1, 11)]
+even_squares = [n**2 for n in range(1, 11) if n % 2 == 0]
+matrix_flat  = [cell for row in [[1,2],[3,4],[5,6]] for cell in row]  # Nested
+
+# Walrus operator (:=) — assign and test in one expression (Python 3.8+)
+import re
+data = ["Ada: 95", "Alan: invalid", "Grace: 88"]
+scores = [int(m.group(1)) for item in data if (m := re.search(r"(\d+)$", item))]
+print(scores)  # [95, 88]  — skips "Alan: invalid" because re.search returns None
 ```
 
 ---
 
-### Module 5 — Functions and Modules
+## 📅 Week 2 — Data Structures, Functions & File I/O
 
-**Tutor Guidance:**
-The DRY principle (Don't Repeat Yourself) is the motivation for functions. Show the same calculation written 3 times in a row, then refactored into a function. The improvement is obvious.
-
-**Defining and Calling Functions:**
-```python
-# Basic function — no parameters, no return value
-def print_separator():
-    print("=" * 40)
-
-print_separator()  # Call it
-print_separator()  # Reuse it
-
-# Function with parameters
-def greet(name, greeting="Hello"):  # Default parameter
-    print(f"{greeting}, {name}!")
-
-greet("Ada")               # Hello, Ada!
-greet("Ada", "Welcome")    # Welcome, Ada!
-
-# Function with return value
-def calculate_vat(price, rate=0.075):
-    vat_amount = price * rate
-    total = price + vat_amount
-    return total  # Returns the result to the caller
-
-course_total = calculate_vat(500)
-print(f"Total with VAT: ₦{course_total:.2f}")
-
-# Returning multiple values (as a tuple)
-def get_name_parts(full_name):
-    parts = full_name.strip().split()
-    first = parts[0]
-    last = parts[-1] if len(parts) > 1 else ""
-    return first, last  # Returns a tuple
-
-first, last = get_name_parts("Ada Lovelace")
-print(first)  # Ada
-print(last)   # Lovelace
-```
-
-**Importing Built-in Modules:**
-```python
-# pathlib — modern file path handling
-from pathlib import Path
-
-desktop = Path.home() / "Desktop"
-new_folder = desktop / "MyProject"
-new_folder.mkdir(exist_ok=True)  # Create folder (no error if it exists)
-
-# List all Python files recursively
-for py_file in desktop.rglob("*.py"):
-    print(py_file)
-
-# datetime — working with dates and times
-from datetime import datetime, date, timedelta
-
-now = datetime.now()
-print(now.strftime("%d %B %Y at %H:%M"))  # e.g., "15 June 2025 at 14:30"
-
-today = date.today()
-next_week = today + timedelta(days=7)
-print(f"Today: {today}, Next week: {next_week}")
-
-# random — for games, simulations, sampling
-import random
-
-print(random.randint(1, 6))        # Random die roll
-print(random.choice(["HTML", "CSS", "Python"]))  # Pick randomly from list
-numbers = list(range(1, 11))
-random.shuffle(numbers)            # Shuffle in place
-sample = random.sample(numbers, 3) # Pick 3 without repetition
-```
-
----
-
-### Module 6 — File I/O and Error Handling
-
-**Tutor Guidance:**
-Error handling is a professional skill. Students often write "happy path" code that assumes everything works. Show them what happens when a file doesn't exist, when the user types text instead of a number, when the network is down. Then show them `try/except`.
-
-**Reading and Writing Files:**
-```python
-# Writing a text file
-with open("expenses.txt", "w", encoding="utf-8") as file:
-    file.write("Date,Item,Amount\n")
-    file.write("2025-06-01,Coffee,3.50\n")
-    file.write("2025-06-01,Lunch,12.00\n")
-# 'with' automatically closes the file — always use this
-
-# Reading a text file
-with open("expenses.txt", "r", encoding="utf-8") as file:
-    content = file.read()        # Read entire file as one string
-    # OR
-    lines = file.readlines()     # Read as a list of lines
-    # OR (most Pythonic for large files)
-    for line in file:
-        print(line.strip())
-
-# Appending to a file (doesn't overwrite)
-with open("expenses.txt", "a", encoding="utf-8") as file:
-    file.write("2025-06-02,Transport,2.00\n")
-```
-
-**Working with CSV Files:**
-```python
-import csv
-
-# Writing CSV
-expenses = [
-    {"date": "2025-06-01", "item": "Coffee", "amount": 3.50},
-    {"date": "2025-06-01", "item": "Lunch", "amount": 12.00},
-    {"date": "2025-06-02", "item": "Books", "amount": 45.00},
-]
-
-with open("expenses.csv", "w", newline="", encoding="utf-8") as file:
-    fieldnames = ["date", "item", "amount"]
-    writer = csv.DictWriter(file, fieldnames=fieldnames)
-    
-    writer.writeheader()          # Writes the column headers
-    writer.writerows(expenses)    # Writes all rows at once
-
-# Reading CSV
-with open("expenses.csv", "r", encoding="utf-8") as file:
-    reader = csv.DictReader(file)  # Each row becomes a dictionary
-    total = 0
-    for row in reader:
-        amount = float(row["amount"])
-        total += amount
-        print(f"{row['date']} — {row['item']}: ${amount:.2f}")
-    
-    print(f"\nTotal spent: ${total:.2f}")
-```
-
-**Error Handling with try/except:**
-```python
-# Without error handling — script crashes on bad input
-age = int(input("Enter your age: "))  # Crashes if user types "abc"
-
-# With error handling — graceful failure
-def get_age():
-    while True:
-        try:
-            age = int(input("Enter your age: "))
-            if age < 0 or age > 120:
-                raise ValueError("Age must be between 0 and 120")
-            return age
-        except ValueError as e:
-            print(f"Invalid input: {e}. Please enter a valid number.")
-
-# Handling file errors
-def load_config(filepath):
-    try:
-        with open(filepath, "r") as file:
-            return file.read()
-    except FileNotFoundError:
-        print(f"Config file not found: {filepath}")
-        print("Using default settings.")
-        return None
-    except PermissionError:
-        print(f"Permission denied: Cannot read {filepath}")
-        return None
-    except Exception as e:
-        print(f"Unexpected error reading config: {e}")
-        return None
-```
-
----
-
-## 📦 Part 3: Intermediate Mastery
-
-### Module 7 — Advanced Data Handling
+### Class 3 — Data Structures
 
 ```python
-# Dictionaries — fast key:value lookups
+# ── Lists ── ordered, mutable, duplicates allowed
+students = ["Ada", "Alan", "Grace", "Linus", "Dennis"]
+
+students.append("Tim")              # Add to end
+students.insert(0, "Charles")       # Insert at index
+students.remove("Alan")             # Remove first occurrence by value
+students.pop(2)                     # Remove by index, returns the item
+students.sort()                     # Sort in place
+sorted_copy = sorted(students)      # Return new sorted list (non-destructive)
+students.reverse()
+students.count("Ada")               # Number of occurrences
+students.index("Grace")             # Index of first occurrence
+
+# Slicing — [start:stop:step]  — stop is EXCLUSIVE
+nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+nums[2:5]      # [2, 3, 4]
+nums[:4]       # [0, 1, 2, 3]
+nums[6:]       # [6, 7, 8, 9]
+nums[::2]      # [0, 2, 4, 6, 8]  — every other element
+nums[::-1]     # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]  — reversed
+
+
+# ── Dictionaries ── key:value pairs, ordered (Python 3.7+), mutable
 student = {
-    "name": "Ada Lovelace",
-    "age": 30,
-    "courses": ["HTML", "Python"],
-    "scores": {"HTML": 95, "Python": 88}
+    "name":    "Ada Lovelace",
+    "cohort":  7,
+    "courses": ["HTML", "CSS", "JavaScript"],
+    "scores":  {"HTML": 95, "CSS": 88, "JavaScript": 92},
+    "active":  True,
 }
 
-print(student["name"])                     # "Ada Lovelace"
-print(student.get("email", "Not set"))     # .get() with a default — no KeyError
+# Access
+student["name"]                      # "Ada Lovelace"
+student.get("email", "Not set")      # "Not set" — safe, no KeyError
+student["scores"]["CSS"]             # 88  — nested access
 
-# Iterating a dictionary
-for key, value in student.items():
-    print(f"{key}: {value}")
+# Modify
+student["email"] = "ada@deejoft.com" # Add or update
+del student["active"]                # Remove key
+student.pop("cohort", None)          # Remove and return, with default if missing
 
-# List comprehension — compact, readable transformations
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# Iteration
+for key in student:                  print(key)
+for value in student.values():       print(value)
+for key, value in student.items():   print(f"{key}: {value}")
 
-# Old way:
-evens = []
-for n in numbers:
-    if n % 2 == 0:
-        evens.append(n)
+# Dictionary comprehension
+squared = {n: n**2 for n in range(1, 6)}    # {1:1, 2:4, 3:9, 4:16, 5:25}
+uppercase = {k: v.upper() for k, v in {"a": "apple"}.items()}
 
-# Comprehension way: [expression for item in iterable if condition]
-evens = [n for n in numbers if n % 2 == 0]
-squares = [n ** 2 for n in numbers]
-upper_names = [name.upper() for name in ["ada", "alan", "grace"]]
 
-# Sets — unordered, unique values (great for deduplication)
-emails = ["ada@test.com", "alan@test.com", "ada@test.com", "grace@test.com"]
-unique_emails = set(emails)
-print(unique_emails)  # {'ada@test.com', 'alan@test.com', 'grace@test.com'}
+# ── Tuples ── ordered, immutable — use for data that should not change
+point     = (3.5, 7.2)           # 2D coordinate — should not be mutated
+rgb_red   = (255, 0, 0)
+http_ok   = (200, "OK")
+
+x, y = point                     # Unpacking (works on any iterable)
+status_code, message = http_ok
+
+# Named tuples — self-documenting tuples (excellent for structured data without OOP)
+from collections import namedtuple
+Student = namedtuple("Student", ["name", "cohort", "score"])
+ada = Student(name="Ada", cohort=7, score=95)
+print(ada.name)   # "Ada"   — dot access like an object
+print(ada[0])     # "Ada"   — index access like a tuple
+
+
+# ── Sets ── unordered, unique values — O(1) lookup
+active_ids = {101, 102, 103, 104}
+vip_ids    = {102, 104, 106}
+
+102 in active_ids           # True  — O(1)
+active_ids | vip_ids        # {101, 102, 103, 104, 106}  — union
+active_ids & vip_ids        # {102, 104}                 — intersection
+active_ids - vip_ids        # {101, 103}                 — difference
+
+# Deduplication
+emails = ["a@b.com", "c@d.com", "a@b.com", "e@f.com"]
+unique_emails = list(set(emails))
 ```
 
 ---
 
-### Module 8 — Object-Oriented Programming (OOP)
-
-**Tutor Guidance:**
-OOP is abstract for beginners. Always ground it in a real-world model. "Let's model a bank account" or "let's model a student record." Students understand objects when they can relate to what's being modelled.
+### Class 4 — Functions & File I/O
 
 ```python
+# ── Modern Function Features ──
+
+# Type hints (Python 3.5+, strongly recommended in 2025)
+def calculate_grade(score: float, max_score: float = 100.0) -> str:
+    percentage = (score / max_score) * 100
+    match percentage:
+        case p if p >= 90: return "A"
+        case p if p >= 75: return "B"
+        case p if p >= 50: return "C"
+        case _:            return "F"
+
+# *args and **kwargs
+def log_event(event_type: str, *messages: str, **metadata) -> None:
+    print(f"[{event_type.upper()}]", *messages)
+    for key, value in metadata.items():
+        print(f"  {key}: {value}")
+
+log_event("info", "Student enrolled", "Payment confirmed",
+          student="Ada", course="React", cohort=7)
+
+# Keyword-only arguments (force callers to use keyword syntax)
+def create_student(name: str, *, cohort: int, course: str) -> dict:
+    return {"name": name, "cohort": cohort, "course": course}
+
+create_student("Ada", cohort=7, course="React")  # ✅
+# create_student("Ada", 7, "React")              # ❌ TypeError — cohort must be keyword
+
+
+# ── File I/O ──
+from pathlib import Path
+
+# Pathlib — the modern, object-oriented way to work with paths
+data_dir = Path("data")
+data_dir.mkdir(exist_ok=True)   # Create if doesn't exist, no error if it does
+
+report = data_dir / "report.txt"  # / operator builds paths (cross-platform!)
+
+# Writing
+report.write_text("Deejoft Cohort 7 Report\n", encoding="utf-8")
+
+# Appending
+with report.open("a", encoding="utf-8") as f:
+    f.write("Student: Ada Lovelace — Grade A\n")
+    f.write("Student: Alan Turing  — Grade B\n")
+
+# Reading
+content = report.read_text(encoding="utf-8")
+lines   = report.read_text(encoding="utf-8").splitlines()
+
+# Path utilities
+print(report.exists())        # True
+print(report.suffix)          # '.txt'
+print(report.stem)            # 'report'
+print(report.parent)          # data/
+
+# Iterate all CSV files recursively
+for csv_file in data_dir.rglob("*.csv"):
+    print(csv_file)
+
+
+# ── CSV Files ──
+import csv
+
+EXPENSES_FILE = Path("data/expenses.csv")
+FIELDNAMES = ["date", "category", "description", "amount"]
+
+def write_expenses(expenses: list[dict]) -> None:
+    with EXPENSES_FILE.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+        writer.writeheader()
+        writer.writerows(expenses)
+
+def read_expenses() -> list[dict]:
+    if not EXPENSES_FILE.exists():
+        return []
+    with EXPENSES_FILE.open("r", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+def get_total_by_category(expenses: list[dict]) -> dict[str, float]:
+    totals: dict[str, float] = {}
+    for expense in expenses:
+        cat    = expense["category"]
+        amount = float(expense["amount"])
+        totals[cat] = totals.get(cat, 0.0) + amount
+    return dict(sorted(totals.items(), key=lambda x: x[1], reverse=True))
+
+
+# ── JSON Files ──
+import json
+
+config_file = Path("config.json")
+
+def load_config() -> dict:
+    if not config_file.exists():
+        return {"theme": "dark", "language": "en", "notifications": True}
+    return json.loads(config_file.read_text(encoding="utf-8"))
+
+def save_config(config: dict) -> None:
+    config_file.write_text(
+        json.dumps(config, indent=2, ensure_ascii=False),
+        encoding="utf-8"
+    )
+```
+
+---
+
+## 📅 Week 3 — OOP, Error Handling & APIs
+
+### Class 5 — Object-Oriented Programming
+
+```python
+from datetime import date
+from typing import ClassVar
+
 class Student:
-    # Class variable — shared by ALL instances
-    school_name = "Deejoft Coding School"
-    total_students = 0
-    
-    def __init__(self, name, age, course):
-        """Constructor — runs automatically when a new Student is created"""
-        # Instance variables — unique to each Student object
-        self.name = name
-        self.age = age
-        self.course = course
-        self.grades = []
-        self.is_active = True
-        Student.total_students += 1
-    
-    def add_grade(self, subject, score):
-        """Add a grade to the student's record"""
-        self.grades.append({"subject": subject, "score": score})
-    
-    def get_average(self):
-        """Calculate and return the student's average score"""
+    """Represents a student at Deejoft Coding School."""
+
+    # Class variable — shared by all instances
+    school: ClassVar[str] = "Deejoft Coding School"
+    _count: ClassVar[int] = 0
+
+    def __init__(self, name: str, cohort: int, course: str) -> None:
+        self.name:    str        = name
+        self.cohort:  int        = cohort
+        self.course:  str        = course
+        self.grades:  list[dict] = []
+        self.enrolled_on:  date  = date.today()
+        Student._count += 1
+
+    # ── Dunder methods — define how objects behave ──
+    def __str__(self)  -> str: return f"{self.name} (Cohort {self.cohort}, {self.course})"
+    def __repr__(self) -> str: return f"Student(name={self.name!r}, cohort={self.cohort})"
+    def __len__(self)  -> int: return len(self.grades)
+    def __lt__(self, other: "Student") -> bool: return self.average < other.average
+
+    # ── Properties — computed attributes with @property ──
+    @property
+    def average(self) -> float:
         if not self.grades:
-            return 0
-        total = sum(g["score"] for g in self.grades)
-        return total / len(self.grades)
-    
-    def get_report(self):
-        """Return a formatted student report"""
-        avg = self.get_average()
-        grade_letter = "A" if avg >= 90 else "B" if avg >= 75 else "C" if avg >= 60 else "F"
-        return (
-            f"{'=' * 35}\n"
-            f"Student: {self.name}\n"
-            f"Course:  {self.course}\n"
-            f"Average: {avg:.1f} ({grade_letter})\n"
-            f"{'=' * 35}"
-        )
-    
-    def __str__(self):
-        """What prints when you print(student) — always define this"""
-        return f"Student({self.name}, {self.course})"
-    
-    def __repr__(self):
-        """Developer-friendly representation"""
-        return f"Student(name={self.name!r}, course={self.course!r})"
+            return 0.0
+        return sum(g["score"] for g in self.grades) / len(self.grades)
+
+    @property
+    def grade_letter(self) -> str:
+        avg = self.average
+        if avg >= 90: return "A"
+        if avg >= 75: return "B"
+        if avg >= 50: return "C"
+        return "F"
+
+    # ── Class methods — alternative constructors ──
+    @classmethod
+    def from_dict(cls, data: dict) -> "Student":
+        return cls(name=data["name"], cohort=data["cohort"], course=data["course"])
+
+    @classmethod
+    def total_count(cls) -> int:
+        return cls._count
+
+    # ── Static methods — utilities that don't need self or cls ──
+    @staticmethod
+    def is_valid_score(score: float) -> bool:
+        return 0.0 <= score <= 100.0
+
+    # ── Instance methods ──
+    def add_grade(self, subject: str, score: float) -> None:
+        if not self.is_valid_score(score):
+            raise ValueError(f"Score {score} is not between 0 and 100")
+        self.grades.append({"subject": subject, "score": score, "date": date.today()})
+
+    def report(self) -> str:
+        separator = "=" * 40
+        lines = [
+            separator,
+            f"  {self.school}",
+            f"  Student Report — Cohort {self.cohort}",
+            separator,
+            f"  Name   : {self.name}",
+            f"  Course : {self.course}",
+            f"  Average: {self.average:.1f}/100 (Grade {self.grade_letter})",
+            separator,
+        ]
+        for g in self.grades:
+            lines.append(f"  {g['subject']:<20} {g['score']:>5.1f}")
+        return "\n".join(lines)
 
 
-# Inheritance — a specialised version of Student
+# ── Inheritance ──
 class InternationalStudent(Student):
-    def __init__(self, name, age, course, country):
-        super().__init__(name, age, course)  # Call parent __init__
-        self.country = country
-    
-    def get_report(self):
-        """Override parent method to add country info"""
-        base_report = super().get_report()  # Get parent's report
-        return base_report + f"\nCountry: {self.country}"
+    def __init__(self, name: str, cohort: int, course: str, country: str) -> None:
+        super().__init__(name, cohort, course)
+        self.country: str = country
+
+    def __str__(self) -> str:
+        return f"{super().__str__()} from {self.country}"
+
+    def report(self) -> str:
+        return super().report() + f"\n  Country: {self.country}\n{'=' * 40}"
 
 
-# Using the classes
-ada = Student("Ada Lovelace", 30, "Python")
-ada.add_grade("Loops", 92)
-ada.add_grade("Functions", 88)
-ada.add_grade("OOP", 95)
-print(ada.get_report())
-print(f"Total students: {Student.total_students}")
+# ── Dataclasses — less boilerplate for data-focused classes (Python 3.7+) ──
+from dataclasses import dataclass, field
 
-alan = InternationalStudent("Alan Turing", 28, "Python", "UK")
-alan.add_grade("OOP", 98)
-print(alan.get_report())
+@dataclass(order=True)
+class Course:
+    title:     str
+    duration:  str
+    price:     float
+    level:     str = "Beginner"
+    students:  list[str] = field(default_factory=list)  # Mutable default must use field()
+
+    def enrol(self, student_name: str) -> None:
+        if student_name not in self.students:
+            self.students.append(student_name)
+
+react = Course(title="React", duration="4 Weeks", price=89_999, level="Intermediate")
+react.enrol("Ada Lovelace")
+print(react)
 ```
 
 ---
 
-## 📦 Part 4: Deployment and Interfaces
-
-### Module 10 — GUI Development (Tkinter)
+### Class 6 — Error Handling & External APIs
 
 ```python
-import tkinter as tk
-from tkinter import ttk, messagebox
+# ── Exception Hierarchy ──
+# BaseException
+#  └── Exception
+#       ├── ValueError      — wrong value (int("hello"))
+#       ├── TypeError       — wrong type  (1 + "2")
+#       ├── KeyError        — dict key not found
+#       ├── IndexError      — list index out of range
+#       ├── FileNotFoundError — file doesn't exist
+#       ├── PermissionError  — can't access file/directory
+#       ├── AttributeError   — object has no such attribute
+#       └── (custom exceptions inherit from Exception)
 
-def create_tip_calculator():
-    root = tk.Tk()
-    root.title("Tip Calculator")
-    root.geometry("350x250")
-    root.resizable(False, False)
+# ── Custom Exception ──
+class DeejoftError(Exception):
+    """Base exception for all Deejoft application errors."""
 
-    # === INPUT SECTION ===
-    tk.Label(root, text="Bill Amount (₦):").grid(row=0, column=0, padx=10, pady=10, sticky="w")
-    bill_entry = tk.Entry(root, width=20)
-    bill_entry.grid(row=0, column=1, padx=10, pady=10)
+class StudentNotFoundError(DeejoftError):
+    def __init__(self, student_id: int) -> None:
+        super().__init__(f"Student with ID {student_id} was not found.")
+        self.student_id = student_id
 
-    tk.Label(root, text="Tip Percentage (%):").grid(row=1, column=0, padx=10, pady=5, sticky="w")
-    tip_var = tk.IntVar(value=15)
-    tip_spinbox = ttk.Spinbox(root, from_=0, to=50, textvariable=tip_var, width=18)
-    tip_spinbox.grid(row=1, column=1, padx=10, pady=5)
+class InvalidGradeError(DeejoftError):
+    pass
 
-    # === RESULT SECTION ===
-    result_label = tk.Label(root, text="", font=("Arial", 12, "bold"), fg="green")
-    result_label.grid(row=3, column=0, columnspan=2, pady=10)
 
-    # === BUTTON & LOGIC ===
-    def calculate():
-        try:
-            bill = float(bill_entry.get())
-            tip_pct = tip_var.get()
-            tip_amount = bill * (tip_pct / 100)
-            total = bill + tip_amount
-            result_label.config(
-                text=f"Tip: ₦{tip_amount:.2f}  |  Total: ₦{total:.2f}"
-            )
-        except ValueError:
-            messagebox.showerror("Invalid Input", "Please enter a valid bill amount.")
+# ── Comprehensive try/except ──
+def load_student_data(filepath: str) -> list[dict]:
+    from pathlib import Path
+    import json
 
-    def clear():
-        bill_entry.delete(0, tk.END)
-        result_label.config(text="")
+    path = Path(filepath)
 
-    tk.Button(root, text="Calculate", command=calculate, bg="#007bff", fg="white", width=12).grid(row=2, column=0, padx=5, pady=10)
-    tk.Button(root, text="Clear", command=clear, width=12).grid(row=2, column=1, padx=5, pady=10)
+    try:
+        content = path.read_text(encoding="utf-8")
+        data = json.loads(content)
+        if not isinstance(data, list):
+            raise ValueError("Expected a JSON array at the top level")
+        return data
 
-    root.mainloop()
+    except FileNotFoundError:
+        print(f"⚠️  File not found: {filepath}. Starting with empty data.")
+        return []
 
-create_tip_calculator()
+    except json.JSONDecodeError as e:
+        print(f"❌ Invalid JSON in {filepath}: {e}")
+        return []
+
+    except PermissionError:
+        print(f"🔒 Permission denied: cannot read {filepath}")
+        raise   # Re-raise — this is a system error, not recoverable
+
+    except Exception as e:
+        print(f"Unexpected error loading {filepath}: {type(e).__name__}: {e}")
+        raise
+
+    finally:
+        # Runs ALWAYS — even if an exception is raised and re-raised
+        print(f"Attempted to load: {filepath}")
+
+
+# ── Context Managers (with statement) ──
+# The 'with' statement guarantees cleanup even if an exception occurs.
+# Used for: files, database connections, network sockets, locks.
+
+class Timer:
+    """Context manager that times a block of code."""
+    def __enter__(self):
+        from time import perf_counter
+        self.start = perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        from time import perf_counter
+        self.elapsed = perf_counter() - self.start
+        print(f"⏱ Elapsed: {self.elapsed:.3f}s")
+        return False  # Don't suppress exceptions
+
+with Timer() as t:
+    total = sum(range(1_000_000))
+
+# Or use @contextmanager for simpler cases:
+from contextlib import contextmanager
+
+@contextmanager
+def db_transaction(connection):
+    try:
+        yield connection
+        connection.commit()
+    except Exception:
+        connection.rollback()
+        raise
+
+
+# ── HTTP Requests with httpx (modern replacement for requests) ──
+# uv add httpx
+
+import httpx
+
+def get_github_user(username: str) -> dict | None:
+    """Fetch a GitHub user's public profile."""
+    url = f"https://api.github.com/users/{username}"
+
+    try:
+        with httpx.Client(timeout=10.0, headers={"User-Agent": "DeejoftApp/1.0"}) as client:
+            response = client.get(url)
+            response.raise_for_status()  # Raises httpx.HTTPStatusError for 4xx/5xx
+            return response.json()
+
+    except httpx.TimeoutException:
+        print(f"Request to GitHub timed out after 10 seconds")
+        return None
+
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 404:
+            print(f"User '{username}' not found on GitHub")
+        else:
+            print(f"GitHub API error: {e.response.status_code}")
+        return None
+
+    except httpx.RequestError as e:
+        print(f"Network error: {e}")
+        return None
+
+
+# ── Async HTTP (for multiple concurrent requests) ──
+import asyncio
+import httpx
+
+async def fetch_many_users(usernames: list[str]) -> list[dict | None]:
+    async with httpx.AsyncClient(timeout=10.0) as client:
+        tasks = [client.get(f"https://api.github.com/users/{u}") for u in usernames]
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
+
+        results = []
+        for r in responses:
+            if isinstance(r, Exception):
+                results.append(None)
+            else:
+                results.append(r.json() if r.status_code == 200 else None)
+        return results
+
+# users = asyncio.run(fetch_many_users(["ajibolagenius", "torvalds", "gvanrossum"]))
 ```
 
 ---
 
-### Module 11 — Virtual Environments & Distribution
+## 📅 Week 4 — Type Hints, Testing, CLI & GUI
 
-```powershell
-# Create a virtual environment inside your project
-python -m venv venv
+### Class 7 — Type Hints, Testing with pytest
 
-# Activate it (Windows PowerShell)
-.\venv\Scripts\Activate.ps1
+```python
+# ── Type Hints in 2025 (Python 3.10+) ──
+# Use | for unions instead of Optional[X] or Union[X, Y]
 
-# You should see (venv) at the start of the prompt
+def find_student(students: list[dict], name: str) -> dict | None:
+    return next((s for s in students if s["name"] == name), None)
 
-# Install packages (they stay isolated to this project)
-pip install requests pyinstaller
+def process_scores(scores: list[int | float]) -> dict[str, float]:
+    return {
+        "count":  len(scores),
+        "total":  sum(scores),
+        "mean":   sum(scores) / len(scores),
+        "min":    min(scores),
+        "max":    max(scores),
+    }
 
-# Save all installed packages to requirements.txt
-pip freeze > requirements.txt
+# TypedDict — type-safe dictionary structure
+from typing import TypedDict
 
-# Someone else clones your project and installs everything
-pip install -r requirements.txt
+class StudentDict(TypedDict):
+    name:   str
+    cohort: int
+    score:  float
 
-# Deactivate when done
-deactivate
+def format_result(student: StudentDict) -> str:
+    return f"{student['name']} — {student['score']:.1f}/100"
+
+# Protocol — structural subtyping (duck typing with type safety)
+from typing import Protocol
+
+class Gradable(Protocol):
+    @property
+    def average(self) -> float: ...
+    @property
+    def grade_letter(self) -> str: ...
+
+def print_grade_summary(gradable: Gradable) -> None:
+    print(f"Average: {gradable.average:.1f} (Grade {gradable.grade_letter})")
+# Any class with .average and .grade_letter properties satisfies Gradable — no inheritance needed.
+
+
+# ── Testing with pytest ──
+# uv add --dev pytest pytest-cov
+
+# tests/test_student.py
+import pytest
+from student import Student, InvalidGradeError
+
+class TestStudent:
+    @pytest.fixture
+    def student(self) -> Student:
+        """A fresh Student instance for each test."""
+        return Student(name="Ada", cohort=7, course="Python")
+
+    def test_initial_average_is_zero(self, student):
+        assert student.average == 0.0
+
+    def test_add_grade_updates_average(self, student):
+        student.add_grade("Functions", 90)
+        student.add_grade("OOP", 80)
+        assert student.average == 85.0
+
+    def test_grade_letter_a(self, student):
+        student.add_grade("Test", 95)
+        assert student.grade_letter == "A"
+
+    def test_invalid_score_raises_error(self, student):
+        with pytest.raises(InvalidGradeError):
+            student.add_grade("Test", 150)  # Score > 100
+
+    @pytest.mark.parametrize("score,expected", [
+        (95, "A"), (80, "B"), (60, "C"), (30, "F")
+    ])
+    def test_grade_letters(self, student, score, expected):
+        student.add_grade("Test", score)
+        assert student.grade_letter == expected
+
+# Run tests:
+# uv run pytest                    — run all tests
+# uv run pytest -v                 — verbose output
+# uv run pytest --cov=student      — with coverage report
 ```
 
-**Packaging as an `.exe`:**
-```powershell
-# Install auto-py-to-exe (GUI wrapper for PyInstaller)
-pip install auto-py-to-exe
+---
 
-# Launch the GUI
-auto-py-to-exe
+### Class 8 — CLI Tools, GUI & Packaging
 
-# OR use PyInstaller directly
-pyinstaller --onefile --windowed tip_calculator.py
-# --onefile: pack into a single .exe
-# --windowed: no console window (for GUI apps)
-# Output: /dist/tip_calculator.exe
+#### Building a CLI with `typer`
+
+```python
+# uv add typer rich  (rich = beautiful terminal output)
+# grades_cli.py
+
+import typer
+from rich.console import Console
+from rich.table import Table
+from pathlib import Path
+import json
+
+app     = typer.Typer(help="Deejoft Student Grade Manager CLI")
+console = Console()
+
+STUDENTS_FILE = Path("students.json")
+
+def load_students() -> list[dict]:
+    return json.loads(STUDENTS_FILE.read_text()) if STUDENTS_FILE.exists() else []
+
+def save_students(students: list[dict]) -> None:
+    STUDENTS_FILE.write_text(json.dumps(students, indent=2))
+
+@app.command()
+def add(name: str, cohort: int = typer.Option(..., "--cohort", "-c", help="Cohort number")):
+    """Add a new student."""
+    students = load_students()
+    student  = {"id": len(students) + 1, "name": name, "cohort": cohort, "grades": []}
+    students.append(student)
+    save_students(students)
+    console.print(f"✅ [green]Added:[/] {name} (Cohort {cohort})")
+
+@app.command()
+def grade(
+    student_id: int = typer.Argument(..., help="Student ID"),
+    subject:    str = typer.Option(..., "--subject", "-s"),
+    score:      float = typer.Option(..., "--score"),
+):
+    """Record a grade for a student."""
+    students = load_students()
+    student  = next((s for s in students if s["id"] == student_id), None)
+    if not student:
+        console.print(f"❌ [red]Student ID {student_id} not found[/]")
+        raise typer.Exit(code=1)
+
+    student["grades"].append({"subject": subject, "score": score})
+    save_students(students)
+    console.print(f"📝 Recorded {subject}: {score}/100 for {student['name']}")
+
+@app.command()
+def report():
+    """Print a grade report for all students."""
+    students = load_students()
+    if not students:
+        console.print("No students found.")
+        return
+
+    table = Table(title="📊 Deejoft Grade Report", show_header=True, header_style="bold #e94560")
+    table.add_column("ID",      style="dim",     width=4)
+    table.add_column("Name",    style="bold",     min_width=20)
+    table.add_column("Cohort",  justify="center", width=8)
+    table.add_column("Grades",  justify="center", width=8)
+    table.add_column("Average", justify="right",  width=10)
+    table.add_column("Grade",   justify="center", width=8)
+
+    for s in students:
+        grades  = s.get("grades", [])
+        avg     = sum(g["score"] for g in grades) / len(grades) if grades else 0.0
+        letter  = "A" if avg >= 90 else "B" if avg >= 75 else "C" if avg >= 50 else "F"
+        colour  = {"A":"green", "B":"yellow", "C":"blue", "F":"red"}[letter]
+        table.add_row(
+            str(s["id"]), s["name"], str(s["cohort"]),
+            str(len(grades)), f"{avg:.1f}", f"[{colour}]{letter}[/]"
+        )
+
+    console.print(table)
+
+if __name__ == "__main__":
+    app()
+
+# Usage:
+# uv run python grades_cli.py add "Ada Lovelace" --cohort 7
+# uv run python grades_cli.py grade 1 --subject Python --score 95
+# uv run python grades_cli.py report
+```
+
+#### Packaging & Distribution
+
+```bash
+# pyproject.toml — modern Python project configuration (replaces setup.py)
+```
+```toml
+[project]
+name = "deejoft-grades"
+version = "1.0.0"
+description = "Grade management CLI for Deejoft Coding School"
+authors = [{ name = "Ada Lovelace", email = "ada@deejoft.com" }]
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.12",
+    "rich>=13.0",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+deejoft-grades = "grades_cli:app"   # 'deejoft-grades' becomes a terminal command
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",    # Modern linter/formatter — replaces flake8 + black + isort
+]
+
+[tool.ruff]
+line-length = 100
+```
+
+```bash
+# Install as a local CLI tool
+uv sync
+uv run deejoft-grades report
+
+# Build a distributable package
+uv build    # Creates dist/*.whl and dist/*.tar.gz
+
+# Package as a standalone executable (no Python needed)
+uv add --dev pyinstaller
+uv run pyinstaller --onefile --name deejoft-grades grades_cli.py
+# → dist/deejoft-grades.exe (Windows) or dist/deejoft-grades (Mac/Linux)
 ```
 
 ---
 
 ### 🏆 Capstone Project Options
 
-**Option A: Automated File Organizer**
-```
-Goal: Sort ~/Downloads into subfolders by file type
-Folders: Images/, Documents/, Videos/, Audio/, Archives/, Others/
-Features: Dry-run mode (preview changes), logging to a .txt file, config.json for custom rules
-```
+**Option A: Personal Finance Tracker (CLI)**
+Full CRUD for income and expense entries stored in JSON. Monthly summary report with rich tables, category breakdown, and CSV export. Packaged as a `deejoft-finance` terminal command. Full pytest test suite with ≥80% coverage.
 
-**Option B: Desktop Weather App**
-```
-Goal: Tkinter GUI that fetches live weather from OpenWeatherMap API
-Features: City search, temperature display, weather icon, error handling for invalid city/no internet
-Stretch: Cache last result, dark/light mode toggle
-```
+**Option B: Student Grade Management System (Full)**
+The grades CLI from Class 8 extended with: CSV import/export, cohort-level analytics (mean, median, std deviation using stdlib `statistics`), email report generation (SMTP with `smtplib`), and a persistent SQLite backend using `sqlite3`.
 
-**Option C: Task Manager**
-```
-Goal: Add, complete, and delete tasks. Data persists between sessions.
-Storage: JSON or CSV file
-Features: Priority levels, due dates, filter by status (all/active/done)
-Stretch: Tkinter GUI
-```
+**Option C: Automated Report Generator**
+Reads raw data from a folder of CSV files, cleans and processes the data, generates a formatted PDF report using `fpdf2`, and sends it to a list of email addresses. Runs on a schedule using `schedule`.
 
 ---
 
-**Capstone Evaluation Rubric:**
+**Capstone Rubric:**
 
 | Criterion | Points |
 |-----------|--------|
-| Code runs without errors from PowerShell | 10 |
-| Virtual environment + requirements.txt present | 10 |
-| Uses functions (no repeated logic blocks) | 15 |
-| Uses at least one module (pathlib, csv, datetime, etc.) | 10 |
-| Error handling with try/except | 15 |
-| Reads/writes to a file for persistence | 15 |
-| Code is readable (clear variable names, comments) | 10 |
-| Achieves the stated goal of the project | 15 |
+| `uv` project with `pyproject.toml` and virtual environment | 5 |
+| Type hints used throughout all functions | 10 |
+| Custom exception class(es) used | 10 |
+| `try/except/finally` with specific exception types | 10 |
+| OOP with at least one class using `@property` and `@classmethod` | 15 |
+| File I/O using `pathlib` (JSON or CSV) | 10 |
+| External API call using `httpx` | 10 |
+| `pytest` test suite with ≥ 5 passing tests | 15 |
+| Code linted and formatted with `ruff` (zero errors) | 5 |
+| Packaged as a runnable CLI or `.exe` | 10 |
 | **Total** | **100** |
 
 ---
 
-## 📚 Recommended Resources
+## 📚 Essential References
 
-- **Official Docs:** [docs.python.org/3](https://docs.python.org/3)
-- **Automate the Boring Stuff:** [automatetheboringstuff.com](https://automatetheboringstuff.com) — free online, very practical
-- **Python Tutor:** [pythontutor.com](https://pythontutor.com) — visualise code execution step by step
-- **Real Python:** [realpython.com](https://realpython.com) — high-quality tutorials
+| Resource | URL | Use For |
+|----------|-----|---------|
+| Python Docs (3.13) | `docs.python.org/3.13` | Official language reference |
+| uv Docs | `docs.astral.sh/uv` | Package management and project setup |
+| Ruff Docs | `docs.astral.sh/ruff` | Linting and formatting |
+| Real Python | `realpython.com` | High-quality tutorials |
+| Python Type Hints Cheat Sheet | `mypy.readthedocs.io/en/stable/cheat_sheet_py3.html` | Type annotation reference |
+| Typer Docs | `typer.tiangolo.com` | CLI framework |
+| httpx Docs | `python-httpx.org` | HTTP client |
 
 ---
 
-*Deejoft Coding School — Instructor Materials | Python Track*  
-*Last Updated: 2025*
+*Deejoft Coding School — Instructor Materials | Python Track*
+*Rebuilt 2025 — Python 3.13, uv, ruff, typer, httpx, match/case, dataclasses, pytest*

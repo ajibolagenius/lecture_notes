@@ -1,735 +1,849 @@
-# ⚡ JavaScript Course — Tutor's Master Outline
+# ⚡ JavaScript — Tutor's Master Outline
 ### Deejoft Coding School | Web Development Track
-**Instructor Notes — Fundamentals to Modern JS (ES6+)**
+**Duration:** 4 Weeks · 8 Classes · ~2 hours per class
+**Level:** Beginner–Intermediate (requires HTML + CSS)
 
 ---
 
 > **Dear Tutor,**
-> JavaScript is the first *programming language* most of your students will encounter. This is a major shift from HTML and CSS — students now have to think logically, not just descriptively. Expect confusion, frustration, and then breakthroughs. Your job is to normalise the struggle, celebrate the breakthroughs, and never let a student copy-paste code they don't understand. If they can't explain it, they haven't learned it.
+> JavaScript is the first general-purpose programming language for most students. The shift from declarative (HTML/CSS) to imperative thinking is real and takes time. Two rules for this course: (1) Never let a student copy-paste code they cannot explain line by line. (2) The error message is the lesson — teach students to read the console before reaching for Google or AI. Students who develop these habits early become strong developers. Those who skip them plateau.
+>
+> This course teaches **modern JavaScript only** — ES2020 through ES2024. There is no `var`, no `function` keyword as the default, and no jQuery. Everything is written the way a professional would write it today.
 
 ---
 
-## 🗺️ Course at a Glance
+## 🗺️ Course Map
 
-| Week | Focus | Key Deliverable |
-|------|-------|-----------------|
-| Week 1 | Fundamentals: Variables, Types, Operators | Temperature Converter |
-| Week 2 | Control Flow: Conditionals & Loops | FizzBuzz + Number Guessing Game |
-| Week 3 | Functions & Scope | Calculator Functions Library |
-| Week 4 | Arrays, Objects & ES6+ | Student Grade Tracker |
-| Week 5 | DOM Manipulation | Interactive To-Do List |
-| Week 6 | Async JS: Fetch & Promises | Live Weather Widget |
-
-**Prerequisites:** HTML5 + CSS (Weeks 1–6)  
-**Next Course:** React
+| Week | Classes | Focus | Deliverable |
+|------|---------|-------|-------------|
+| Week 1 | 1–2 | Core Language: Variables, Types, Control Flow, Functions | CLI-style quiz game |
+| Week 2 | 3–4 | Data Structures & Modern Syntax | Student grade tracker |
+| Week 3 | 5–6 | The DOM & Browser APIs | Interactive component library |
+| Week 4 | 7–8 | Async JS, Modules & Tooling | Live data dashboard |
 
 ---
 
-## 🎯 Course Philosophy
+## 🎯 Non-Negotiable Rules (Write on the board — Week 1, Session 1)
 
-Four rules to teach from Day 1 and reinforce constantly:
-
-1. **`const` by default, `let` when you must, never `var`** — Modern JavaScript convention.
-2. **`===` not `==`** — Always use strict equality. Always.
-3. **Read the error message** — The browser console is your best teacher. Never ignore it.
-4. **Break it down** — If a problem feels overwhelming, solve the smallest possible piece first.
-
----
-
-## 📅 Week 1: JavaScript Fundamentals
-
-### Module 1 — Introduction to JavaScript
-
-**Tutor Guidance:**
-Show JavaScript in action *before* explaining it. Open the browser console (`F12` → Console tab) on any website and type `document.body.style.backgroundColor = 'hotpink'`. The page turns pink instantly. The room reacts. *Now* explain what JavaScript is.
-
-**Adding JavaScript to a Page:**
-```html
-<!-- ✅ Best practice: External JS file, loaded at end of <body> -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My JS Project</title>
-</head>
-<body>
-  <h1>My Page</h1>
-  
-  <!-- Place <script> at the END of <body> so HTML loads first -->
-  <script src="./js/app.js"></script>
-</body>
-</html>
 ```
-
-> **Why at the end of `<body>`?** If the script is in `<head>` and it tries to find an element like `document.getElementById('title')`, the element doesn't exist yet because the browser hasn't read the `<body>`. Loading JS last prevents this.
-
-**The Browser Console:**
-```javascript
-// Print to the console — your most important debugging tool
-console.log('Hello, World!');
-console.log(42);
-console.log(true);
-
-// Print multiple values at once
-const name = 'Ada';
-const age = 30;
-console.log('Name:', name, 'Age:', age);
-
-// Different log levels
-console.warn('This is a warning');   // Yellow warning icon
-console.error('This is an error');   // Red error icon
+1.  const  by default. let  when it must change. Never  var.
+2.  ===  always. ==  never.
+3.  Arrow functions for callbacks. Named functions for top-level declarations.
+4.  Read the error. The full error. All of it.
+5.  If you can't explain it, you haven't learned it.
 ```
 
 ---
 
-### Module 2 — Variables, Data Types & Operators
+## 📅 Week 1 — Core Language
 
-**Tutor Guidance:**
-Students often confuse `null` and `undefined`. Use the analogy: a glass with no water in it (`null`, deliberately empty) vs. a glass that was never given to you (`undefined`, doesn't exist yet).
+### Class 1 — Variables, Types & Operators
 
-**Variables:**
+**Tutor Guidance:** Open the browser DevTools Console (`F12`) immediately. All of Week 1 should be demonstrated live in the console before students write a single file. Immediate feedback in the REPL builds intuition faster than any editor.
+
+---
+
+#### Variables
+
 ```javascript
-// const — for values that NEVER change (use this first, always)
-const PI = 3.14159;
-const SCHOOL_NAME = 'Deejoft';
+// const — a binding that cannot be reassigned. Use this FIRST, always.
+const schoolName = 'Deejoft';
+const MAX_STUDENTS = 30;        // Convention: ALL_CAPS for true constants
+const PI = Math.PI;
 
-// let — for values that WILL change
+// let — a binding that CAN be reassigned. Use only when reassignment is necessary.
 let score = 0;
-let playerName = 'Ada';
-score = score + 10; // This is fine — let can be re-assigned
+let currentUser = null;
+score += 10;            // OK — reassigning a let
+currentUser = { id: 1 }; // OK
 
-// var — OLD. Do not use in modern JavaScript.
-// var has confusing scoping rules that have been replaced by let/const
+// var — DO NOT USE. It has function scope, not block scope, which causes bugs.
+// var count = 0; ← never write this
+
+// ✅ Correct mental model:
+// Start with const. If you get a "cannot reassign" error, switch to let.
+// That constraint is usually intentional — const forces you to think about mutation.
 ```
 
-**Data Types:**
+#### Data Types
+
 ```javascript
-// String — any text, wrapped in quotes
-const greeting = 'Hello, World!';
-const school = "Deejoft Coding School";
-const template = `Welcome, ${playerName}!`;  // Template literal (ES6)
+// ── Primitives ── (immutable, passed by value)
 
-// Number — integers and decimals are the same type in JS
-const age = 25;
-const price = 99.99;
-const negative = -10;
+const name    = 'Ada Lovelace';       // String
+const age     = 30;                    // Number (integers and floats are the same type)
+const score   = 99.5;                 // Number
+const isActive = true;                // Boolean
+const nothing  = null;                // Null — explicitly empty, intentional absence
+let   pending;                        // Undefined — declared but not yet given a value
+const id      = Symbol('user-id');    // Symbol — unique identifier
+const bigNum  = 9007199254740993n;    // BigInt — for integers larger than 2^53
 
-// Boolean — only two values
-const isLoggedIn = true;
-const hasSubscription = false;
-
-// null — intentionally empty value
-const selectedProduct = null;
-
-// undefined — variable declared but not given a value
-let userChoice;
-console.log(userChoice); // undefined
+// ── Reference Types ── (mutable, passed by reference)
+const user    = { name: 'Ada', age: 30 };    // Object
+const courses = ['HTML', 'CSS', 'JS'];       // Array (a specialised object)
+const greet   = (name) => `Hello, ${name}`;  // Function (also an object)
 
 // Checking types
-console.log(typeof greeting);       // "string"
-console.log(typeof age);            // "number"
-console.log(typeof isLoggedIn);     // "boolean"
-console.log(typeof null);           // "object" ← known JS quirk, not a real object
-console.log(typeof userChoice);     // "undefined"
+console.log(typeof name);        // 'string'
+console.log(typeof age);         // 'number'
+console.log(typeof isActive);    // 'boolean'
+console.log(typeof null);        // 'object' ← historical JS quirk, not a real object
+console.log(typeof pending);     // 'undefined'
+console.log(typeof user);        // 'object'
+console.log(typeof courses);     // 'object' ← arrays are objects
+console.log(Array.isArray(courses)); // true ← correct way to check for arrays
 ```
 
-**Template Literals (Modern String Syntax):**
+#### Strings & Template Literals
+
 ```javascript
 const firstName = 'Ada';
-const lastName = 'Lovelace';
-const age = 30;
+const lastName  = 'Lovelace';
+const cohort    = 3;
+const score     = 94.5;
 
-// ❌ Old way (concatenation) — messy
-const intro = 'My name is ' + firstName + ' ' + lastName + ' and I am ' + age + ' years old.';
+// ❌ Concatenation — messy, error-prone
+const intro = 'Welcome, ' + firstName + ' ' + lastName + '. Cohort: ' + cohort;
 
-// ✅ Modern way (template literal) — clean and readable
-const introModern = `My name is ${firstName} ${lastName} and I am ${age} years old.`;
+// ✅ Template literal — clean, readable, no quote escaping needed
+const introModern = `Welcome, ${firstName} ${lastName}. Cohort: ${cohort}`;
 
-// Template literals can span multiple lines too
-const multiLine = `
-  <div>
-    <h1>${firstName}</h1>
-    <p>Age: ${age}</p>
-  </div>
-`;
+// Expressions inside ${} — any valid JS expression works
+console.log(`Score: ${score.toFixed(1)}%`);        // "Score: 94.5%"
+console.log(`Status: ${score >= 50 ? 'Pass' : 'Fail'}`); // "Status: Pass"
+console.log(`Next cohort: ${cohort + 1}`);          // "Next cohort: 4"
+
+// Essential string methods
+const code = '  Hello, World!  ';
+
+code.trim()                   // 'Hello, World!'       — remove whitespace
+code.toLowerCase()            // '  hello, world!  '
+code.toUpperCase()            // '  HELLO, WORLD!  '
+code.includes('World')        // true
+code.startsWith('  Hello')    // true
+code.replace('World', 'Ada')  // '  Hello, Ada!  '
+code.split(', ')              // ['  Hello', 'World!  ']
+'Ada'.padStart(10, '-')       // '-------Ada'
+'Ada'.repeat(3)               // 'AdaAdaAda'
 ```
 
-**Operators:**
+#### Operators
+
 ```javascript
 // Arithmetic
-console.log(10 + 3);   // 13
-console.log(10 - 3);   // 7
-console.log(10 * 3);   // 30
-console.log(10 / 3);   // 3.333...
-console.log(10 % 3);   // 1 (remainder/modulo — very useful)
-console.log(2 ** 8);   // 256 (exponentiation)
+console.log(17 % 5);    // 2  ← modulo (remainder) — use this for even/odd, cyclical logic
+console.log(2 ** 10);   // 1024 ← exponentiation
 
-// Comparison — ALWAYS use === (strict), not == (loose)
-console.log(5 === 5);     // true
-console.log(5 === '5');   // false — different types!
-console.log(5 == '5');    // true  — loose equality does type coercion (AVOID)
-console.log(5 !== '5');   // true
+// Comparison — ALWAYS use strict equality
+console.log(5 === 5);     // true  — same value, same type
+console.log(5 === '5');   // false — same value, DIFFERENT type
+console.log(5 == '5');    // true  — loose equality coerces types ← NEVER USE
 
-// Logical
-console.log(true && false);  // false (AND — both must be true)
-console.log(true || false);  // true  (OR — at least one must be true)
-console.log(!true);          // false (NOT — flip the value)
+console.log(null === undefined); // false — they are different types
+console.log(null == undefined);  // true  — loose equality quirk ← don't rely on this
 
-// Practical logical example
-const age = 20;
-const hasTicket = true;
-const canEnter = age >= 18 && hasTicket;
-console.log(canEnter); // true
+// Logical operators — short-circuit evaluation
+console.log(false && 'hello');  // false  — stops at false, never evaluates 'hello'
+console.log(true  && 'hello');  // 'hello' — truthy, returns second operand
+console.log(null  || 'default'); // 'default' — null is falsy, falls back to 'default'
+console.log('ada' || 'default'); // 'ada'     — 'ada' is truthy, returns first operand
+
+// Nullish coalescing (??) — only falls back for null/undefined, not for 0 or ''
+const username = '';
+console.log(username || 'Guest');  // 'Guest'  — empty string is falsy, falls back
+console.log(username ?? 'Guest');  // ''       — empty string is NOT null/undefined, keeps it
+
+// Optional chaining (?.) — safely access nested properties
+const user = { profile: { avatar: 'ada.jpg' } };
+console.log(user.profile?.avatar);        // 'ada.jpg'
+console.log(user.settings?.theme);        // undefined — no error thrown
+console.log(user.settings?.theme ?? 'light'); // 'light' — combine with nullish coalescing
 ```
 
 ---
 
-## 📅 Week 2: Control Flow
+### Class 2 — Control Flow & Functions
 
-### Module 3 — Conditionals
+#### Control Flow
 
-**Tutor Guidance:**
-Use real-world scenarios. "You're building a login page. If the username and password match, show the dashboard. Otherwise, show an error message." Real context makes abstract concepts concrete.
-
-**`if`, `else if`, `else`:**
 ```javascript
-const score = 75;
+// ── if / else if / else ──
+const score = 82;
 
 if (score >= 90) {
-  console.log('Grade: A — Distinction');
+  console.log('Grade A — Distinction');
 } else if (score >= 75) {
-  console.log('Grade: B — Credit');
-} else if (score >= 60) {
-  console.log('Grade: C — Pass');
+  console.log('Grade B — Credit');
+} else if (score >= 50) {
+  console.log('Grade C — Pass');
 } else {
-  console.log('Grade: F — Fail');
-}
-// Output: "Grade: B — Credit"
-```
-
-**Ternary Operator (for simple conditions):**
-```javascript
-// condition ? valueIfTrue : valueIfFalse
-const age = 20;
-const status = age >= 18 ? 'Adult' : 'Minor';
-console.log(status); // "Adult"
-
-// Useful in template literals
-const userName = 'Ada';
-const message = `Welcome back, ${userName ? userName : 'Guest'}!`;
-```
-
-**Switch Statement (for many specific values):**
-```javascript
-const day = 'Monday';
-
-switch (day) {
-  case 'Monday':
-  case 'Tuesday':
-  case 'Wednesday':
-  case 'Thursday':
-  case 'Friday':
-    console.log('It\'s a weekday. Time to code!');
-    break;
-  case 'Saturday':
-  case 'Sunday':
-    console.log('It\'s the weekend. Rest and review!');
-    break;
-  default:
-    console.log('That\'s not a valid day.');
-}
-```
-
-### Module 4 — Loops
-
-```javascript
-// for loop — when you know how many iterations
-for (let i = 1; i <= 5; i++) {
-  console.log(`Lap ${i}`);
+  console.log('Grade F — Fail');
 }
 
-// while loop — when you don't know how many iterations
+// Ternary — for simple, single-expression conditions (not nested)
+const grade = score >= 50 ? 'Pass' : 'Fail';
+
+// ── Loops ──
+
+// for...of — the modern way to iterate over any iterable
+const courses = ['HTML', 'CSS', 'JavaScript', 'React'];
+for (const course of courses) {
+  console.log(`📚 ${course}`);
+}
+
+// for...in — iterate over object keys (use Object.entries() for better control)
+const student = { name: 'Ada', age: 30, cohort: 3 };
+for (const key in student) {
+  console.log(`${key}: ${student[key]}`);
+}
+
+// while — when you don't know the number of iterations upfront
 let attempts = 0;
-let isCorrect = false;
-while (!isCorrect && attempts < 3) {
-  // (In real code, this would get user input)
+while (attempts < 3) {
   attempts++;
-  isCorrect = attempts === 2; // Simulate correct on attempt 2
+  console.log(`Attempt ${attempts}`);
 }
-console.log(`Solved in ${attempts} attempts`);
 
-// FizzBuzz — classic interview exercise
-for (let i = 1; i <= 20; i++) {
-  if (i % 15 === 0) {
-    console.log('FizzBuzz');
-  } else if (i % 3 === 0) {
-    console.log('Fizz');
-  } else if (i % 5 === 0) {
-    console.log('Buzz');
-  } else {
-    console.log(i);
-  }
+// Loop control
+for (let i = 0; i < 10; i++) {
+  if (i === 3) continue;  // Skip this iteration
+  if (i === 7) break;     // Exit the loop entirely
+  console.log(i);
 }
+```
+
+#### Functions — The Most Important Topic in Week 1
+
+```javascript
+// ── Named Function Declaration ── hoisted, callable before definition
+function calculateVAT(price, rate = 0.075) {
+  const vat = price * rate;
+  return { vat, total: price + vat };
+}
+
+const result = calculateVAT(10000);
+console.log(`VAT: ₦${result.vat}, Total: ₦${result.total}`);
+
+// ── Arrow Function Expression ── modern, concise, non-hoisted
+const add = (a, b) => a + b;                   // Single expression — implicit return
+const square = n => n ** 2;                    // Single param — parentheses optional
+const greet = () => 'Hello, World!';           // No params — parentheses required
+const makeUser = (name, age) => ({ name, age }); // Return object — wrap in ()
+
+// ── When to use which ──
+// Named function declaration → top-level reusable functions, recursive functions
+// Arrow function            → callbacks, short transformations, methods in objects
+
+// ── Rest Parameters & Spread ──
+function sum(...numbers) {         // ...rest collects remaining args into an array
+  return numbers.reduce((total, n) => total + n, 0);
+}
+console.log(sum(1, 2, 3, 4, 5));  // 15
+
+const nums1 = [1, 2, 3];
+const nums2 = [4, 5, 6];
+const combined = [...nums1, ...nums2, 7]; // spread into new array: [1,2,3,4,5,6,7]
+
+// ── Destructuring ──
+// Array destructuring
+const [first, second, ...rest] = [10, 20, 30, 40, 50];
+console.log(first);  // 10
+console.log(rest);   // [30, 40, 50]
+
+// Object destructuring — with rename and default value
+const { name: studentName, age = 18, cohort } = { name: 'Ada', cohort: 3 };
+console.log(studentName); // 'Ada'
+console.log(age);         // 18 (default used — age wasn't in the object)
+
+// Function parameter destructuring
+function displayCard({ title, author, date = 'Unknown' }) {
+  console.log(`${title} by ${author} (${date})`);
+}
+displayCard({ title: 'The Pragmatic Programmer', author: 'Hunt & Thomas' });
 ```
 
 ---
 
-## 📅 Week 3: Functions & Scope
+## 📅 Week 2 — Data Structures & Modern Syntax
 
-### Module 5 — Functions
+### Class 3 — Arrays & Their Methods
 
-**Tutor Guidance:**
-The DRY principle (Don't Repeat Yourself) is your anchor for this module. Show the same code written twice, then refactored into a function. The improvement is immediately obvious.
-
-**Three Ways to Write Functions:**
-```javascript
-// 1. Function Declaration — Hoisted (can be called before it's defined)
-function greet(name) {
-  return `Hello, ${name}!`;
-}
-console.log(greet('Ada')); // "Hello, Ada!"
-
-// 2. Function Expression — Not hoisted
-const greet = function(name) {
-  return `Hello, ${name}!`;
-};
-
-// 3. Arrow Function (ES6) — Modern, concise, preferred
-const greet = (name) => {
-  return `Hello, ${name}!`;
-};
-
-// Arrow function shorthand (for single-expression returns)
-const greet = name => `Hello, ${name}!`;
-const add = (a, b) => a + b;
-const getPI = () => 3.14159; // No parameters = empty parentheses required
-```
-
-**Parameters, Arguments & Default Values:**
-```javascript
-// Default parameter values (ES6)
-function createGreeting(name, greeting = 'Hello') {
-  return `${greeting}, ${name}!`;
-}
-
-console.log(createGreeting('Ada'));            // "Hello, Ada!"
-console.log(createGreeting('Ada', 'Welcome')); // "Welcome, Ada!"
-
-// Multiple parameters and return values
-function calculateBMI(weightKg, heightM) {
-  const bmi = weightKg / (heightM ** 2);
-  return bmi.toFixed(1); // toFixed(1) = 1 decimal place
-}
-
-const myBMI = calculateBMI(70, 1.75);
-console.log(`Your BMI is ${myBMI}`); // "Your BMI is 22.9"
-```
-
-**Scope — The Visibility of Variables:**
-```javascript
-const globalVar = 'I am global';  // Accessible everywhere
-
-function myFunction() {
-  const localVar = 'I am local'; // Only accessible inside this function
-  console.log(globalVar); // ✅ Can access global
-  console.log(localVar);  // ✅ Can access local
-}
-
-myFunction();
-console.log(globalVar); // ✅ Works
-console.log(localVar);  // ❌ ReferenceError: localVar is not defined
-```
-
----
-
-## 📅 Week 4: Arrays, Objects & ES6+
-
-### Module 6 — Arrays
+**Tutor Guidance:** Arrays and their higher-order methods (`map`, `filter`, `reduce`) are the most-used JavaScript feature after variables. Every subsequent topic — React, data fetching, state management — depends on fluency here. Take the full class.
 
 ```javascript
-// Creating an array
-const fruits = ['apple', 'banana', 'cherry'];
+// ── Array Creation ──
+const scores = [88, 92, 75, 95, 67, 81];
+const names  = new Array(3).fill('');   // ['', '', '']
+const range  = Array.from({ length: 5 }, (_, i) => i + 1); // [1, 2, 3, 4, 5]
 
-// Accessing elements (zero-indexed!)
-console.log(fruits[0]); // 'apple'
-console.log(fruits[2]); // 'cherry'
-console.log(fruits.length); // 3
+// ── Read Operations ──
+scores.at(0);         // 88  — same as scores[0], but supports negative index
+scores.at(-1);        // 81  — last element (modern, clean)
+scores.indexOf(75);   // 2
+scores.includes(95);  // true
+scores.find(n => n > 90);       // 92  — first match
+scores.findIndex(n => n > 90);  // 1   — index of first match
 
-// Common array methods
-fruits.push('date');          // Add to END
-fruits.unshift('avocado');    // Add to START
-fruits.pop();                 // Remove from END
-fruits.shift();               // Remove from START
+// ── Non-Destructive Transformations (return new arrays) ──
+const doubled   = scores.map(n => n * 2);
+const passing   = scores.filter(n => n >= 70);
+const total     = scores.reduce((sum, n) => sum + n, 0);
+const average   = total / scores.length;
+const sorted    = [...scores].sort((a, b) => b - a);  // [...scores] copies first — sort mutates
+const top3      = sorted.slice(0, 3);
+const combined  = [...scores, 78, 90];                // Add items
 
-// indexOf and includes
-console.log(fruits.indexOf('banana'));  // 1 (or -1 if not found)
-console.log(fruits.includes('cherry')); // true
+// ── Chaining ──
+const topPassers = scores
+  .filter(n => n >= 70)
+  .sort((a, b) => b - a)
+  .slice(0, 3)
+  .map(n => `${n}%`);
+console.log(topPassers); // ['95%', '92%', '88%']
 
-// slice — extract a portion (non-destructive)
-const citrus = fruits.slice(1, 3); // From index 1 up to (not including) 3
+// ── Checking ──
+scores.every(n => n >= 50);  // false — checks ALL
+scores.some(n => n >= 90);   // true  — checks ANY
 
-// splice — remove/replace items (destructive — modifies original)
-fruits.splice(1, 2); // Remove 2 items starting at index 1
-```
+// ── Destructive Operations (modify the original — avoid when possible) ──
+const arr = [1, 2, 3];
+arr.push(4);         // [1, 2, 3, 4]  — add to end
+arr.pop();           // [1, 2, 3]     — remove from end
+arr.unshift(0);      // [0, 1, 2, 3]  — add to start
+arr.shift();         // [1, 2, 3]     — remove from start
+arr.splice(1, 1);    // [1, 3]        — remove from index 1, count 1
 
-**Array Iteration Methods (Modern & Powerful):**
-```javascript
+// ── Flat & FlatMap ──
+const nested = [[1, 2], [3, 4], [5, 6]];
+nested.flat();       // [1, 2, 3, 4, 5, 6]
+
+const sentences = ['Hello World', 'Good Morning'];
+sentences.flatMap(s => s.split(' ')); // ['Hello', 'World', 'Good', 'Morning']
+
+// ── Object.groupBy (ES2024) ── 
 const students = [
-  { name: 'Ada', grade: 92 },
-  { name: 'Alan', grade: 78 },
-  { name: 'Grace', grade: 95 },
-  { name: 'Linus', grade: 61 },
+  { name: 'Ada',   grade: 'A' },
+  { name: 'Alan',  grade: 'B' },
+  { name: 'Grace', grade: 'A' },
+  { name: 'Linus', grade: 'C' },
 ];
-
-// forEach — loop through every item (no return value)
-students.forEach(student => {
-  console.log(`${student.name}: ${student.grade}`);
-});
-
-// map — transform every item into something new (returns NEW array)
-const names = students.map(student => student.name);
-console.log(names); // ['Ada', 'Alan', 'Grace', 'Linus']
-
-const grades = students.map(student => student.grade);
-console.log(grades); // [92, 78, 95, 61]
-
-// filter — keep items that pass a test (returns NEW array)
-const passing = students.filter(student => student.grade >= 70);
-console.log(passing); // Ada, Alan, Grace
-
-// find — returns FIRST item that passes the test
-const topStudent = students.find(student => student.grade > 90);
-console.log(topStudent); // { name: 'Ada', grade: 92 }
-
-// reduce — condense array to a single value
-const totalScore = grades.reduce((accumulator, grade) => accumulator + grade, 0);
-const average = totalScore / grades.length;
-console.log(`Class average: ${average}`); // 81.5
-```
-
-### Module 7 — Objects
-
-```javascript
-// Creating an object
-const student = {
-  firstName: 'Ada',
-  lastName: 'Lovelace',
-  age: 30,
-  isEnrolled: true,
-  address: {           // Nested object
-    city: 'Lagos',
-    country: 'Nigeria'
-  },
-  courses: ['HTML', 'CSS', 'JavaScript'],  // Array inside object
-
-  // Method — a function inside an object
-  getFullName() {
-    return `${this.firstName} ${this.lastName}`;
-  },
-  
-  introduce() {
-    return `Hi, I'm ${this.getFullName()}, ${this.age} years old, from ${this.address.city}.`;
-  }
-};
-
-// Accessing properties
-console.log(student.firstName);        // Dot notation — use this
-console.log(student['lastName']);      // Bracket notation — use when key is dynamic
-console.log(student.address.city);    // Accessing nested objects
-console.log(student.courses[0]);      // Accessing array in object
-
-// Calling methods
-console.log(student.getFullName());   // "Ada Lovelace"
-console.log(student.introduce());
-
-// Destructuring — extract values into variables (very common in React)
-const { firstName, lastName, age } = student;
-console.log(firstName); // 'Ada'
-
-// Spread operator — copy or merge objects
-const updatedStudent = { ...student, age: 31, city: 'Abuja' };
-
-// Object.keys(), Object.values(), Object.entries()
-console.log(Object.keys(student));    // Array of all property names
-console.log(Object.values(student));  // Array of all property values
+const byGrade = Object.groupBy(students, s => s.grade);
+// { A: [{Ada}, {Grace}], B: [{Alan}], C: [{Linus}] }
 ```
 
 ---
 
-## 📅 Week 5: DOM Manipulation
+### Class 4 — Objects, Maps & Immutable Patterns
 
-### Module 8 — The DOM
-
-**Tutor Guidance:**
-The DOM (Document Object Model) is where HTML meets JavaScript. This module is the payoff — students finally make things *happen* on screen. Start by showing DevTools → Elements panel. The tree structure there is the DOM.
-
-**Selecting Elements:**
 ```javascript
-// Get ONE element by ID (fastest, most specific)
-const title = document.getElementById('main-title');
+// ── Object Creation & Shorthand ──
+const name = 'Ada';
+const age  = 30;
 
-// Get ONE element by CSS selector (most flexible)
-const btn = document.querySelector('.submit-btn');
-const header = document.querySelector('header');
+// Old way
+const user1 = { name: name, age: age };
 
-// Get ALL matching elements (returns NodeList, like an array)
-const allCards = document.querySelectorAll('.card');
-const allLinks = document.querySelectorAll('nav a');
+// Shorthand property names (ES6) — when variable name = key name
+const user2 = { name, age };
 
-// Looping over multiple elements
-allCards.forEach(card => {
-  card.style.border = '2px solid blue';
+// Computed property names
+const field = 'email';
+const user3 = { [field]: 'ada@deejoft.com' };   // { email: 'ada@deejoft.com' }
+
+// ── Methods ──
+const calculator = {
+  value: 0,
+  add(n)      { this.value += n; return this; },  // method shorthand
+  subtract(n) { this.value -= n; return this; },  // return this enables chaining
+  reset()     { this.value = 0;  return this; },
+  result()    { return this.value; },
+};
+console.log(calculator.add(10).add(5).subtract(3).result()); // 12
+
+// ── Immutable Update Patterns ── (critical for React)
+const original = { name: 'Ada', age: 30, role: 'student' };
+
+// ❌ Mutation — modifies the original object
+original.age = 31;
+
+// ✅ Create a new object with the change
+const updated = { ...original, age: 31 };         // { name, age: 31, role }
+const promoted = { ...original, role: 'instructor' };
+
+// Nested update
+const userWithAddress = {
+  name: 'Ada',
+  address: { city: 'Lagos', country: 'Nigeria' }
+};
+const movedUser = {
+  ...userWithAddress,
+  address: { ...userWithAddress.address, city: 'Abuja' }
+};
+
+// ── Object Utility Methods ──
+const config = { theme: 'dark', lang: 'en', font: 'Inter' };
+
+Object.keys(config);    // ['theme', 'lang', 'font']
+Object.values(config);  // ['dark', 'en', 'Inter']
+Object.entries(config); // [['theme','dark'], ['lang','en'], ['font','Inter']]
+Object.fromEntries([['theme', 'dark'], ['lang', 'en']]); // recreate object from entries
+
+// ── structuredClone — deep copy (ES2022) ──
+const original2 = { name: 'Ada', scores: [88, 92] };
+const shallow = { ...original2 };           // Shallow — scores array is shared!
+const deep    = structuredClone(original2); // Deep — fully independent copy
+
+shallow.scores.push(95);   // Also modifies original2.scores ← dangerous
+deep.scores.push(95);      // Safe — original2.scores unchanged
+
+// ── Map — when keys aren't strings ──
+const userCache = new Map();
+const userKey = { id: 1 };
+
+userCache.set(userKey, { name: 'Ada', score: 95 });
+userCache.get(userKey);  // { name: 'Ada', score: 95 }
+userCache.has(userKey);  // true
+userCache.size;          // 1
+
+// ── Set — unique values ──
+const raw = ['ada', 'alan', 'ada', 'grace', 'alan'];
+const unique = [...new Set(raw)];  // ['ada', 'alan', 'grace']
+
+// Fast existence check (O(1) vs array O(n))
+const activeUsers = new Set(['ada', 'grace']);
+activeUsers.has('ada');   // true
+activeUsers.has('alan');  // false
+```
+
+---
+
+## 📅 Week 3 — The DOM & Browser APIs
+
+### Class 5 — DOM Manipulation
+
+**Tutor Guidance:** The DOM is where JavaScript becomes visible. Start the session by typing `document.body.style.background = 'hotpink'` in the console of any website. Then say: "Everything you see on any webpage can be created, changed, or removed with JavaScript. That is what we are learning today."
+
+```javascript
+// ── Selecting Elements ──
+const title    = document.getElementById('main-title');          // By ID
+const btn      = document.querySelector('.submit-btn');          // First CSS match
+const allCards = document.querySelectorAll('.card');             // All CSS matches (NodeList)
+
+// NodeList → Array (do this to use array methods)
+const cardsArray = Array.from(allCards);
+// or: const cardsArray = [...allCards];
+
+// ── Reading & Writing Content ──
+title.textContent;                  // Plain text — safe, no HTML parsing
+title.textContent = 'New Title';
+
+title.innerHTML;                    // HTML string — DANGEROUS with user input (XSS)
+title.innerHTML = '<em>New</em>';   // Use only with trusted, sanitised content
+
+title.dataset.userId;               // Read data-user-id="123" attribute → '123'
+
+// ── Modifying Classes ──
+const card = document.querySelector('.card');
+card.classList.add('active');
+card.classList.remove('hidden');
+card.classList.toggle('expanded');       // Add if absent, remove if present
+card.classList.replace('old', 'new');
+card.classList.contains('active');       // true/false
+
+// ── Modifying Styles via CSS Custom Properties ──
+// Prefer this over .style — keeps logic in CSS, not JS
+document.documentElement.style.setProperty('--colour-primary', '#00d4aa');
+
+// ── Creating & Inserting Elements ──
+function createCard({ title, body, tags = [] }) {
+  const article = document.createElement('article');
+  article.className = 'card';
+
+  article.innerHTML = `
+    <h3 class="card__title">${title}</h3>
+    <p class="card__body">${body}</p>
+    <ul class="card__tags">
+      ${tags.map(tag => `<li class="tag">${tag}</li>`).join('')}
+    </ul>
+  `;
+
+  return article;
+}
+
+const newCard = createCard({
+  title: 'React in 2025',
+  body: 'Server Components change everything.',
+  tags: ['React', 'Frontend'],
 });
+
+document.querySelector('#card-grid').append(newCard);
+
+// ── Removing Elements ──
+document.querySelector('.old-banner')?.remove();   // Optional chaining for safety
+
+// ── Traversal ──
+const list = document.querySelector('ul');
+list.children;          // HTMLCollection of direct children
+list.firstElementChild; // First child element
+list.lastElementChild;  // Last child element
+list.parentElement;     // The parent element
+btn.closest('.form-group'); // Walk up the DOM until you find .form-group
 ```
 
-**Manipulating Elements:**
+---
+
+### Class 6 — Events & the Browser API
+
 ```javascript
-const heading = document.querySelector('h1');
+// ── Event Listeners ──
+const btn = document.querySelector('#add-btn');
 
-// Change text content
-heading.textContent = 'New Heading Text';
+// ✅ addEventListener — attach multiple listeners, can be removed
+btn.addEventListener('click', handleClick);
 
-// Change HTML (careful — can expose XSS vulnerabilities with user input)
-heading.innerHTML = 'New <em>Styled</em> Heading';
+function handleClick(event) {
+  event.preventDefault();     // Stop default behaviour (form submit, link nav)
+  event.stopPropagation();    // Stop event bubbling up to parent elements
 
-// Change CSS styles
-heading.style.color = '#e94560';
-heading.style.fontSize = '2rem';
+  console.log(event.target);  // The exact element that was clicked
+  console.log(event.currentTarget); // The element the listener is attached to
+}
 
-// Better approach: toggle CSS classes
-heading.classList.add('highlighted');
-heading.classList.remove('hidden');
-heading.classList.toggle('active');     // Add if absent, remove if present
-console.log(heading.classList.contains('highlighted')); // true
+btn.removeEventListener('click', handleClick); // Remove by reference
 
-// Change attributes
-const img = document.querySelector('#profile-img');
-img.setAttribute('src', './images/new-photo.jpg');
-img.setAttribute('alt', 'Updated profile photo');
+// ── Event Delegation — one listener for many elements ──
+// Instead of attaching a listener to each card (inefficient, breaks on new cards):
+const grid = document.querySelector('#card-grid');
 
-// Create and append new elements
-const newParagraph = document.createElement('p');
-newParagraph.textContent = 'This paragraph was created by JavaScript!';
-newParagraph.classList.add('dynamic-text');
-document.querySelector('main').appendChild(newParagraph);
-```
+grid.addEventListener('click', (event) => {
+  // Find the closest card ancestor of what was clicked
+  const card = event.target.closest('.card');
+  if (!card) return;   // Click wasn't on a card — exit
 
-**Event Listeners:**
-```javascript
-const button = document.querySelector('#submit-btn');
-const input = document.querySelector('#name-input');
-
-// Click event
-button.addEventListener('click', function(event) {
-  event.preventDefault(); // Prevent default form submission
-  const name = input.value.trim(); // .trim() removes whitespace
-  
-  if (name === '') {
-    alert('Please enter your name!');
+  const deleteBtn = event.target.closest('.card__delete');
+  if (deleteBtn) {
+    card.remove();
     return;
   }
-  
-  console.log(`Hello, ${name}!`);
+
+  card.classList.toggle('card--expanded');
 });
 
-// Input event (fires on every keystroke)
-input.addEventListener('input', function() {
-  console.log('Current value:', this.value);
+// ── Useful Events ──
+// Input events
+input.addEventListener('input',  handler);   // Every keystroke
+input.addEventListener('change', handler);   // On blur after change
+input.addEventListener('focus',  handler);
+input.addEventListener('blur',   handler);
+
+// Form events
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+  const values = Object.fromEntries(data); // { name: 'Ada', email: '...' }
 });
 
-// Keyboard event
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    // Close a modal, for example
-    console.log('Escape pressed');
-  }
+// Keyboard events
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'k' && (e.metaKey || e.ctrlKey)) openCommandPalette(); // Cmd+K
 });
-```
 
-**Interactive To-Do List Example:**
-```javascript
-const addBtn = document.querySelector('#add-btn');
-const todoInput = document.querySelector('#todo-input');
-const todoList = document.querySelector('#todo-list');
+// Intersection Observer — "is this element visible?"
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('card--visible');
+        observer.unobserve(entry.target); // Stop watching after first reveal
+      }
+    });
+  },
+  { threshold: 0.1 } // Trigger when 10% of the element is visible
+);
 
-addBtn.addEventListener('click', function() {
-  const taskText = todoInput.value.trim();
-  if (!taskText) return; // Guard clause — exit early if empty
-  
-  // Create the list item
-  const li = document.createElement('li');
-  li.textContent = taskText;
-  
-  // Create a delete button
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = 'Delete';
-  deleteBtn.classList.add('delete-btn');
-  
-  deleteBtn.addEventListener('click', function() {
-    li.remove(); // Remove the whole list item
-  });
-  
-  li.appendChild(deleteBtn);
-  todoList.appendChild(li);
-  
-  // Clear the input
-  todoInput.value = '';
-  todoInput.focus(); // Put cursor back in input
-});
+document.querySelectorAll('.card').forEach(card => observer.observe(card));
 ```
 
 ---
 
-## 📅 Week 6: Asynchronous JavaScript
+## 📅 Week 4 — Async JavaScript, Modules & Tooling
 
-### Module 9 — Fetch, Promises & Async/Await
+### Class 7 — Promises, Async/Await & Error Handling
 
-**Tutor Guidance:**
-Async is the hardest concept in this course. Don't rush it. Use the "ordering food" analogy: you place your order (fetch), get a ticket (promise), continue chatting with friends (non-blocking), and the food arrives when ready (resolved promise).
+**Tutor Guidance:** The "ordering food" analogy is still the best. You place your order (fetch), get a ticket (Promise), continue talking with your friends (non-blocking), and the food comes when it's ready (resolved). The key point: JavaScript does not wait. It registers a callback and moves on.
 
-**Why Async Matters:**
 ```javascript
-// ❌ This is NOT how fetch works — you can't do this
-const data = fetch('https://api.example.com/users'); // This returns a Promise, not data!
-console.log(data); // You'd get a Promise object, not users
+// ── Why Async Matters ──
 
-// ✅ You must WAIT for the promise to resolve
-```
+// The event loop: JS is single-threaded.
+// Network requests can take 500ms. The UI freezes if we block.
+// Async lets JS register "do this when done" and continue.
 
-**Promises:**
-```javascript
-// A Promise is a placeholder for a future value
-// It has three states: pending → fulfilled or rejected
-
-fetch('https://jsonplaceholder.typicode.com/users')
+// ── Fetch & Promises ──
+fetch('https://api.github.com/users/ajibolagenius')
   .then(response => {
-    // response is the HTTP response object
-    return response.json(); // Parse JSON — this also returns a Promise
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();                   // Also returns a Promise
   })
-  .then(users => {
-    // users is the actual data
-    console.log(users);
-  })
-  .catch(error => {
-    // Runs if the network request fails
-    console.error('Failed to fetch users:', error);
-  });
-```
+  .then(user => console.log(user.name))
+  .catch(error => console.error(error));
 
-**Async/Await (Modern, Cleaner Syntax):**
-```javascript
-// async function always returns a Promise
-async function getUsers() {
+// ── Async/Await — cleaner syntax for the same thing ──
+async function getGitHubUser(username) {
   try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-    
+    const response = await fetch(`https://api.github.com/users/${username}`);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`GitHub user not found (HTTP ${response.status})`);
     }
-    
-    const users = await response.json();
-    return users;
-    
+
+    const user = await response.json();
+    return user;
+
   } catch (error) {
-    console.error('Failed to fetch users:', error);
-    return []; // Return empty array as fallback
+    // Handle: network failure, bad status, JSON parse error
+    console.error('Failed to fetch user:', error.message);
+    return null;    // Return a safe fallback — don't let callers deal with undefined
   }
 }
 
-// Using the async function
-async function displayUsers() {
-  const users = await getUsers();
-  
-  users.forEach(user => {
-    console.log(`${user.name} — ${user.email}`);
-  });
-}
-
-displayUsers();
-```
-
-**Weather Widget Example (Practical Fetch):**
-```javascript
-const API_KEY = 'YOUR_API_KEY'; // From openweathermap.org (free tier)
-
-async function getWeather(city) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
-  
+// ── Parallel Requests — Promise.all ──
+async function getDashboardData() {
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('City not found');
-    
-    const data = await response.json();
-    
-    return {
-      city: data.name,
-      temp: Math.round(data.main.temp),
-      description: data.weather[0].description,
-      humidity: data.main.humidity,
-    };
-    
+    // ❌ Sequential — each waits for the previous (300ms + 200ms + 400ms = 900ms total)
+    // const users    = await fetchUsers();
+    // const courses  = await fetchCourses();
+    // const stats    = await fetchStats();
+
+    // ✅ Parallel — all start at the same time (max of 300, 200, 400 = 400ms total)
+    const [users, courses, stats] = await Promise.all([
+      fetchUsers(),
+      fetchCourses(),
+      fetchStats(),
+    ]);
+
+    return { users, courses, stats };
+
   } catch (error) {
-    throw error; // Re-throw so the caller can handle it
+    // If ANY request fails, this catch runs
+    throw error;
   }
 }
 
-// Display in the DOM
-const searchBtn = document.querySelector('#search-btn');
-const cityInput = document.querySelector('#city-input');
-const weatherDisplay = document.querySelector('#weather-display');
+// ── Promise.allSettled — get results even if some fail ──
+const results = await Promise.allSettled([
+  fetch('/api/users'),
+  fetch('/api/courses'),
+  fetch('/api/broken-endpoint'),
+]);
 
-searchBtn.addEventListener('click', async function() {
-  const city = cityInput.value.trim();
-  if (!city) return;
-  
-  weatherDisplay.textContent = 'Loading...';
-  
-  try {
-    const weather = await getWeather(city);
-    weatherDisplay.innerHTML = `
-      <h2>${weather.city}</h2>
-      <p class="temp">${weather.temp}°C</p>
-      <p class="description">${weather.description}</p>
-      <p>Humidity: ${weather.humidity}%</p>
-    `;
-  } catch (error) {
-    weatherDisplay.textContent = `Error: ${error.message}`;
+results.forEach(result => {
+  if (result.status === 'fulfilled') {
+    console.log('Success:', result.value);
+  } else {
+    console.error('Failed:', result.reason);
   }
 });
+
+// ── AbortController — cancel requests ──
+const controller = new AbortController();
+
+// Cancel the request after 5 seconds
+const timeout = setTimeout(() => controller.abort(), 5000);
+
+try {
+  const response = await fetch('/api/data', { signal: controller.signal });
+  clearTimeout(timeout);
+  const data = await response.json();
+} catch (error) {
+  if (error.name === 'AbortError') {
+    console.log('Request timed out');
+  }
+}
 ```
 
 ---
 
-### 🏆 Final Project: Live Weather Widget
+### Class 8 — ES Modules, Local Storage & Tooling
 
-Students build a weather app combining DOM manipulation, event handling, and async fetch.
+#### ES Modules — Organising Code
 
-**Evaluation Rubric:**
+```javascript
+// ── utils/api.js ── (a utility module)
+const BASE_URL = 'https://api.deejoft.com';
+
+export async function fetchCourses() {
+  const response = await fetch(`${BASE_URL}/courses`);
+  if (!response.ok) throw new Error('Failed to fetch courses');
+  return response.json();
+}
+
+export async function enrolStudent(courseId, studentData) {
+  const response = await fetch(`${BASE_URL}/courses/${courseId}/enrol`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(studentData),
+  });
+  if (!response.ok) throw new Error('Enrolment failed');
+  return response.json();
+}
+
+export const DEFAULT_PAGE_SIZE = 12;
+
+// ── utils/dom.js ──
+export function $(selector, parent = document) {
+  return parent.querySelector(selector);
+}
+
+export function $$(selector, parent = document) {
+  return [...parent.querySelectorAll(selector)];
+}
+
+export function createElement(tag, { className, text, html, dataset } = {}) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text)      el.textContent = text;
+  if (html)      el.innerHTML = html;
+  if (dataset)   Object.assign(el.dataset, dataset);
+  return el;
+}
+
+
+// ── main.js ── (the entry point)
+import { fetchCourses, DEFAULT_PAGE_SIZE } from './utils/api.js';
+import { $, $$, createElement } from './utils/dom.js';
+
+const grid = $('#course-grid');
+
+async function init() {
+  grid.innerHTML = '<p>Loading...</p>';
+
+  try {
+    const courses = await fetchCourses();
+    grid.innerHTML = '';
+
+    courses.slice(0, DEFAULT_PAGE_SIZE).forEach(course => {
+      const card = createElement('article', {
+        className: 'card',
+        dataset: { id: course.id },
+      });
+      card.innerHTML = `<h3>${course.title}</h3><p>${course.description}</p>`;
+      grid.append(card);
+    });
+
+  } catch (error) {
+    grid.innerHTML = `<p class="error">Failed to load courses: ${error.message}</p>`;
+  }
+}
+
+init();
+```
+
+#### Web Storage
+
+```javascript
+// ── localStorage — persists after the tab/browser closes ──
+// Values must be strings — always JSON.stringify/parse for objects
+
+const STORAGE_KEY = 'deejoft_prefs';
+
+// Save
+function savePreferences(prefs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+}
+
+// Load
+function loadPreferences() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : { theme: 'light', lang: 'en' };
+  } catch {
+    return { theme: 'light', lang: 'en' };  // Fallback on parse error
+  }
+}
+
+// Remove
+function clearPreferences() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+// ── sessionStorage — cleared when the tab closes ──
+// Same API as localStorage, but data is session-scoped
+sessionStorage.setItem('draft', JSON.stringify(formData));
+```
+
+#### Vite — The Modern Build Tool
+
+```bash
+# Create a vanilla JS project with Vite
+npm create vite@latest my-dashboard -- --template vanilla
+
+cd my-dashboard
+npm install
+npm run dev     # → http://localhost:5173
+
+# What Vite gives you:
+# - ES Modules resolved automatically (import './utils/api.js' just works)
+# - Hot Module Replacement (HMR) — page updates without full reload
+# - Optimised production build (tree-shaking, minification, code-splitting)
+# - Environment variables (.env file, accessed via import.meta.env.VITE_API_KEY)
+
+# .env file
+# VITE_API_KEY=your_secret_key  ← never commit this file
+
+# In code:
+const apiKey = import.meta.env.VITE_API_KEY;
+```
+
+---
+
+### 🏆 Week 4 Capstone — Live Data Dashboard
+
+Build a data dashboard for a public API (e.g., REST Countries, Open Meteo weather, GitHub Stats).
+
+**Requirements:**
+
+| Feature | Must Include |
+|---------|-------------|
+| Project structure | Vite project with separate utility modules |
+| Data fetching | `async/await` with `try/catch`, loading and error states |
+| DOM rendering | Dynamic card rendering from API data |
+| Filtering | Live search/filter using `Array.filter()` + input event |
+| Sorting | Sort by at least one property using `Array.sort()` |
+| Persistence | Save user preferences (e.g., last search, sort order) in `localStorage` |
+| Event delegation | One listener on the container handles all card interactions |
+| Parallel fetching | At least one `Promise.all()` call |
+
+**Rubric:**
 
 | Criterion | Points |
 |-----------|--------|
-| HTML structure is semantic and accessible | 10 |
-| External JS file linked correctly | 5 |
-| Variables use `const`/`let` appropriately (no `var`) | 10 |
+| Code split into ES modules (no single-file spaghetti) | 10 |
+| `const`/`let` used correctly throughout (no `var`) | 5 |
 | `===` used for all comparisons | 5 |
-| Functions defined with arrow syntax | 10 |
-| DOM elements selected and updated correctly | 15 |
-| Event listeners attached correctly | 10 |
-| Fetch uses `async/await` with `try/catch` | 20 |
-| Loading state shown while fetching | 5 |
-| Error handled and displayed to user | 10 |
+| Async functions with `try/catch` and fallback states | 20 |
+| Loading and error states rendered in the UI | 10 |
+| DOM manipulation with `createElement` (no direct `innerHTML` on user data) | 10 |
+| Event delegation on dynamic lists | 10 |
+| `localStorage` used for at least one persistent preference | 10 |
+| Functional array methods (`map`, `filter`, `sort`) used throughout | 10 |
+| Vite project structure with clean module separation | 10 |
 | **Total** | **100** |
 
 ---
 
-## 📚 Recommended Resources
+## 📚 Essential References
 
-- **MDN JavaScript Guide:** [developer.mozilla.org/en-US/docs/Web/JavaScript/Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
-- **JavaScript.info:** [javascript.info](https://javascript.info) — best free JS textbook
-- **Eloquent JavaScript:** [eloquentjavascript.net](https://eloquentjavascript.net) — free online book
-- **Free APIs to practice fetch:** JSONPlaceholder, OpenWeatherMap, REST Countries
+| Resource | URL | Use For |
+|----------|-----|---------|
+| MDN JavaScript | `developer.mozilla.org/en-US/docs/Web/JavaScript` | Every method, every API |
+| javascript.info | `javascript.info` | Best free in-depth JS textbook |
+| What the f*ck JavaScript | `github.com/denysdovhan/wtfjs` | JS quirks explained |
+| Roadmap.sh JS | `roadmap.sh/javascript` | Visual learning path |
 
 ---
 
-*Deejoft Coding School — Instructor Materials | JavaScript Track*  
-*Last Updated: 2025*
+*Deejoft Coding School — Instructor Materials | JavaScript Track*
+*Rebuilt 2025 — ES2024, native modules, Vite, structuredClone, Object.groupBy*

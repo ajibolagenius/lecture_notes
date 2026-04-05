@@ -1,189 +1,200 @@
-# ⚛️ React Course — Tutor's Master Outline
+# ⚛️ React — Tutor's Master Outline
 ### Deejoft Coding School | Web Development Track
-**Instructor Notes — Fundamentals to Modern Web Apps**
+**Duration:** 4 Weeks · 8 Classes · ~2 hours per class
+**Level:** Intermediate (requires JS completion)
 
 ---
 
 > **Dear Tutor,**
-> React is where students transition from "person who can build web pages" to "frontend developer." The mental shift from imperative DOM manipulation (telling the browser *how* to update the page) to declarative components (describing *what* the UI should look like given the current state) is significant. Be patient with this shift. Everything in this course should be taught with **functional components and hooks only** — class components are legacy code that students shouldn't be writing in 2025.
+> React 19 is a significant release. Actions, the `use()` hook, and Server Components change how we think about async state, form handling, and data loading. Teach these as first-class concepts, not advanced topics. Students who learn the modern patterns from the start write cleaner, more maintainable apps than those who learn the old patterns and have to unlearn them.
+>
+> This course is **100% functional components**. Zero class components. All hooks. All modern. The toolchain is **Vite** (not Create React App, which is deprecated) and routing is **React Router v7**, which now supports both SPA and full-stack (framework) modes. Git and GitHub are used from day one — every week's work is committed.
 
 ---
 
-## 🗺️ Course at a Glance
+## 🗺️ Course Map
 
-| Week | Focus | Key Deliverable |
-|------|-------|-----------------|
-| Week 1 | Setup, Git, JSX & First Components | Static Bio Card (3 components) |
-| Week 2 | Props & Component Composition | Reusable Product Card with Props |
-| Week 3 | State & Events | Interactive Counter + Toggle |
-| Week 4 | Lists, Keys & Forms | Controlled Input Form |
-| Week 5 | useEffect, Data Fetching & React Router | Multi-Page App with Live Data |
-| Week 6 | Context, Custom Hooks & Deployment | Full Capstone App |
+| Week | Classes | Focus | Deliverable |
+|------|---------|-------|-------------|
+| Week 1 | 1–2 | React Foundations: Vite, JSX, Components, Props | Component library: Card, Badge, Avatar |
+| Week 2 | 3–4 | State, Events, Controlled Forms & Lists | Task board with filtering |
+| Week 3 | 5–6 | Data Fetching, `useEffect`, React Router v7 | Multi-page app with live API data |
+| Week 4 | 7–8 | Context, Custom Hooks, React 19 APIs, Deployment | Full capstone app |
 
-**Prerequisites:** HTML + CSS + JavaScript (ES6+), including: arrow functions, destructuring, spread operator, array methods, async/await  
-**Tools:** Node.js (LTS), VS Code, Vite, Git & GitHub  
-**Next Course:** React Native (or full-stack with Node/Express)
+**Prerequisites:** All JavaScript topics — especially: destructuring, spread, array methods, `async/await`, ES modules  
+**Tools:** Node.js LTS, VS Code, Vite, Git & GitHub, Vercel (for deployment)
 
 ---
 
-## 🎯 Course Philosophy
+## 🎯 Mental Models for the Whole Course
 
-Five principles to reinforce throughout the course:
+```
+1. UI = f(state)           →  The UI is a pure function of state.
+                               Change the state, React re-renders the UI. That's it.
 
-1. **One component, one responsibility** — If a component does two things, it should be two components.
-2. **Data flows down, events flow up** — Props go from parent to child. Callbacks go from child to parent.
-3. **Never mutate state directly** — Always use the state setter function.
-4. **Keys are for React, not for humans** — A `key` must be unique and stable. Never use array index as a key in dynamic lists.
-5. **Lift state to the nearest common ancestor** — If two siblings need the same state, lift it to their parent.
+2. Data flows DOWN         →  Props pass data from parent to child. Never the reverse.
+
+3. Events flow UP          →  Callbacks let children notify parents of actions.
+
+4. Never mutate state      →  Always create a new value and pass it to the setter.
+
+5. Keys identify reality   →  Without stable, unique keys, React cannot reconcile lists correctly.
+```
 
 ---
 
-## 📅 Week 1: Setup, Git & React Fundamentals
+## 📅 Week 1 — React Foundations
 
-### Module 1 — The Modern React Environment
+### Class 1 — Environment, JSX & Components
 
-**Tutor Guidance:**
-This session is heavy on setup. Have students follow along step by step. Common issues: Node not installed, wrong version, Git not configured. Solve these one by one. By end of session, every student should have a running Vite React app pushed to GitHub.
+**Tutor Guidance:** Don't spend more than 20 minutes on setup. If a student can't get Vite running after 20 minutes, pair them with someone who can and return to their machine later. The most common issue: Node version too old. The minimum is Node 20 LTS.
 
-**Scaffolding a Project with Vite:**
+#### Scaffold with Vite
+
 ```bash
-# In your terminal, navigate to where you keep projects
-cd ~/projects
-
-# Create a new React + Vite project
-npm create vite@latest my-first-app -- --template react
-
-# Navigate into the project
-cd my-first-app
-
-# Install dependencies
+npm create vite@latest deejoft-app -- --template react
+cd deejoft-app
 npm install
-
-# Start the development server
-npm run dev
-# → Open http://localhost:5173 in your browser
+npm run dev   # → http://localhost:5173
 ```
 
 **Vite Project Structure:**
 ```
-my-first-app/
-├── public/             ← Static assets (favicon, images that don't need processing)
+deejoft-app/
 ├── src/
-│   ├── assets/         ← Images, fonts imported by JS
-│   ├── App.jsx         ← Root component — your app starts here
-│   ├── App.css         ← Styles for App
-│   ├── index.css       ← Global styles
-│   └── main.jsx        ← Entry point — renders <App /> into index.html
-├── index.html          ← The ONE HTML file in your app
+│   ├── components/          ← All reusable components
+│   ├── pages/               ← Route-level components
+│   ├── hooks/               ← Custom hooks
+│   ├── context/             ← Context providers
+│   ├── utils/               ← Helper functions, API calls
+│   ├── assets/              ← Images, fonts
+│   ├── App.jsx              ← Root component — routes live here
+│   ├── main.jsx             ← Entry — renders <App /> into index.html
+│   └── index.css            ← Global styles / design tokens
+├── index.html
 ├── vite.config.js
 └── package.json
 ```
 
-**Setting Up Git & GitHub:**
-```bash
-# Configure Git (one-time setup)
-git config --global user.name "Your Name"
-git config --global user.email "your@email.com"
+#### JSX — What It Really Is
 
-# Initialize a repo (if not already)
-git init
+```jsx
+// JSX is syntactic sugar over React.createElement() calls.
+// This JSX:
+const element = <h1 className="title">Hello, {name}</h1>;
 
-# Stage all files
-git add .
+// Compiles to this:
+const element = React.createElement('h1', { className: 'title' }, `Hello, ${name}`);
 
-# First commit
-git commit -m "feat: initial Vite React project setup"
-
-# Connect to GitHub (create repo on github.com first)
-git remote add origin https://github.com/yourusername/my-first-app.git
-git branch -M main
-git push -u origin main
+// You never need to write createElement — but knowing it explains:
+// - Why you need one root element (one createElement call returns one thing)
+// - Why className not class (it's a JS object property, not HTML)
+// - Why self-closing tags are required (<img /> not <img>)
 ```
 
-> **Commit Message Convention:** Teach students to write meaningful commit messages from Day 1.  
-> - `feat:` — a new feature  
-> - `fix:` — a bug fix  
-> - `style:` — CSS/formatting changes  
-> - `refactor:` — code restructure without feature change  
-> - `docs:` — documentation updates
+**JSX Rules & Differences from HTML:**
 
----
-
-### Module 2 — JSX & Your First Components
-
-**Tutor Guidance:**
-JSX is not HTML. This distinction must be established clearly. Show the differences side by side. The most common early errors: forgetting `className`, returning multiple elements without a wrapper.
-
-**JSX vs. HTML — Key Differences:**
 ```jsx
-// ❌ HTML syntax — DOES NOT work in JSX
-<div class="container">
-  <label for="name">Name</label>
-  <input type="text">
-</div>
+// Rule 1: One root element (or use a Fragment)
+// ❌
+return (
+  <h1>Title</h1>
+  <p>Body</p>
+)
 
-// ✅ JSX syntax
-<div className="container">
-  <label htmlFor="name">Name</label>
-  <input type="text" />  {/* Self-closing required! */}
-</div>
+// ✅ Option A: Wrap in a container
+return (
+  <div>
+    <h1>Title</h1>
+    <p>Body</p>
+  </div>
+)
+
+// ✅ Option B: Fragment — no extra DOM node
+return (
+  <>
+    <h1>Title</h1>
+    <p>Body</p>
+  </>
+)
+
+// Rule 2: className, not class
+<div className="card">...</div>
+
+// Rule 3: htmlFor, not for
+<label htmlFor="email">Email</label>
+
+// Rule 4: camelCase event handlers
+<button onClick={handleClick}>Click</button>
+<input onChange={handleChange} onBlur={handleBlur} />
+
+// Rule 5: Inline styles are objects with camelCase properties
+<p style={{ fontSize: '1.25rem', color: '#1a1a2e', marginBottom: '8px' }}>...</p>
+
+// Rule 6: All tags must be closed
+<input type="text" />   // ← self-closing required
+<br />
+<img src="..." alt="..." />
+
+// Rule 7: JavaScript expressions in {}
+const items = ['HTML', 'CSS', 'JS'];
+<p>{items.length} courses</p>
+<p>{2 + 2}</p>
+<p>{isLoggedIn ? 'Welcome back' : 'Please sign in'}</p>
 ```
 
-| HTML Attribute | JSX Equivalent | Note |
-|----------------|----------------|------|
-| `class` | `className` | `class` is a reserved JS keyword |
-| `for` | `htmlFor` | `for` is a reserved JS keyword |
-| `onclick` | `onClick` | camelCase in JSX |
-| `style="color: red"` | `style={{ color: 'red' }}` | Object syntax |
-| `<input>` | `<input />` | Self-closing required |
+#### Components
 
-**Writing and Exporting Components:**
 ```jsx
-// src/components/ProfileCard.jsx
+// A component is a function that returns JSX.
+// Component names MUST be PascalCase — this is how React distinguishes
+// components from native DOM elements (lowercase = DOM tag, PascalCase = component).
 
-// A component is just a function that returns JSX
-function ProfileCard() {
-  // JavaScript logic lives ABOVE the return
-  const name = 'Ada Lovelace';
-  const role = 'Full-Stack Developer';
-  const joinYear = 2023;
-  const currentYear = new Date().getFullYear();
-  const yearsActive = currentYear - joinYear;
-
-  // The return contains JSX — must return ONE parent element
+// src/components/CourseCard.jsx
+function CourseCard({ title, duration, price, level, isNew = false }) {
   return (
-    <div className="profile-card">
-      <img 
-        src="./images/ada.jpg" 
-        alt={`Profile photo of ${name}`}  // Dynamic attribute with {}
-      />
-      <h2>{name}</h2>
-      <p className="role">{role}</p>
-      <p>{yearsActive} year{yearsActive !== 1 ? 's' : ''} in the community</p>
-    </div>
+    <article className="course-card">
+      <header className="course-card__header">
+        <h3 className="course-card__title">{title}</h3>
+        {isNew && <span className="badge badge--new">New</span>}
+      </header>
+
+      <dl className="course-card__meta">
+        <dt>Duration</dt>  <dd>{duration}</dd>
+        <dt>Level</dt>     <dd>{level}</dd>
+        <dt>Price</dt>     <dd>₦{price.toLocaleString()}</dd>
+      </dl>
+
+      <a href={`/courses/${title.toLowerCase().replace(/ /g, '-')}`} className="btn btn--primary">
+        View Course
+      </a>
+    </article>
   );
 }
 
-// Named export (can have multiple per file)
-export { ProfileCard };
+export default CourseCard;
 
-// Default export (one per file — use for the main component of a file)
-export default ProfileCard;
-```
 
-**Using the Component in App.jsx:**
-```jsx
 // src/App.jsx
-import ProfileCard from './components/ProfileCard';
+import CourseCard from './components/CourseCard';
+
+const courses = [
+  { id: 1, title: 'HTML & CSS',   duration: '2 Weeks', price: 49999, level: 'Beginner',     isNew: false },
+  { id: 2, title: 'JavaScript',   duration: '4 Weeks', price: 79999, level: 'Beginner',     isNew: false },
+  { id: 3, title: 'React',        duration: '4 Weeks', price: 89999, level: 'Intermediate', isNew: false },
+  { id: 4, title: 'React Native', duration: '4 Weeks', price: 89999, level: 'Intermediate', isNew: true  },
+];
 
 function App() {
   return (
-    <div className="app">
-      <h1>Our Team</h1>
-      {/* Use it like an HTML tag, but PascalCase */}
-      <ProfileCard />
-      <ProfileCard />  {/* Components are reusable! */}
-    </div>
+    <main>
+      <h1>Our Courses</h1>
+      <div className="course-grid">
+        {courses.map(course => (
+          <CourseCard key={course.id} {...course} />
+        ))}
+      </div>
+    </main>
   );
 }
 
@@ -192,216 +203,173 @@ export default App;
 
 ---
 
-## 📅 Week 2: Props & Component Composition
+### Class 2 — Props, Composition & Thinking in Components
 
-### Module 3 — Props
-
-**Tutor Guidance:**
-Props are how components receive data — like function arguments, but for JSX. Emphasise: props flow **only downward** (parent to child). A child cannot change its own props.
-
-**Passing and Receiving Props:**
 ```jsx
-// Parent passes props like HTML attributes
-function App() {
+// ── children prop — composition pattern ──
+function Card({ children, className = '' }) {
   return (
-    <div>
-      <ProductCard 
-        name="Wireless Headphones"
-        price={129.99}
-        rating={4.5}
-        inStock={true}
-        imageUrl="./images/headphones.jpg"
-      />
-      <ProductCard 
-        name="Mechanical Keyboard"
-        price={89.99}
-        rating={4.8}
-        inStock={false}
-        imageUrl="./images/keyboard.jpg"
-      />
-    </div>
-  );
-}
-
-// Child receives props as an object parameter
-// Destructure immediately for cleaner code
-function ProductCard({ name, price, rating, inStock, imageUrl }) {
-  return (
-    <div className="product-card">
-      <img src={imageUrl} alt={name} />
-      <h3>{name}</h3>
-      <p className="price">₦{price.toLocaleString()}</p>
-      <p className="rating">⭐ {rating} / 5</p>
-      
-      {/* Conditional rendering */}
-      {inStock 
-        ? <button className="btn-primary">Add to Cart</button>
-        : <p className="out-of-stock">Out of Stock</p>
-      }
-    </div>
-  );
-}
-```
-
-**PropTypes (Validation — Teach as Best Practice):**
-```jsx
-import PropTypes from 'prop-types'; // npm install prop-types
-
-function ProductCard({ name, price, rating, inStock, imageUrl }) {
-  // ... component JSX
-}
-
-ProductCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  rating: PropTypes.number,
-  inStock: PropTypes.bool,
-  imageUrl: PropTypes.string.isRequired,
-};
-
-ProductCard.defaultProps = {
-  rating: 0,
-  inStock: true,
-};
-```
-
-**The `children` Prop:**
-```jsx
-// A generic "wrapper" component using children
-function Card({ children, className }) {
-  return (
-    <div className={`card ${className || ''}`}>
+    <article className={`card ${className}`}>
       {children}
+    </article>
+  );
+}
+
+function CardHeader({ children }) {
+  return <header className="card__header">{children}</header>;
+}
+
+function CardBody({ children }) {
+  return <div className="card__body">{children}</div>;
+}
+
+// Usage — highly composable, no prop-drilling needed for layout
+<Card className="card--featured">
+  <CardHeader>
+    <h2>React 19</h2>
+    <Badge>New</Badge>
+  </CardHeader>
+  <CardBody>
+    <p>Learn the latest React features...</p>
+  </CardBody>
+</Card>
+
+
+// ── Conditional Rendering Patterns ──
+function UserGreeting({ user, isLoading, error }) {
+  // Pattern 1: Early return for loading/error states
+  if (isLoading) return <Spinner />;
+  if (error)     return <ErrorMessage message={error} />;
+  if (!user)     return null;
+
+  return (
+    <div className="greeting">
+      {/* Pattern 2: && for simple show/hide */}
+      {user.isNew && <NewUserBanner />}
+
+      {/* Pattern 3: Ternary for either/or */}
+      <h1>
+        {user.firstName
+          ? `Welcome back, ${user.firstName}!`
+          : 'Welcome!'}
+      </h1>
+
+      {/* Pattern 4: Helper function for complex conditions */}
+      {renderSubscriptionStatus(user.subscription)}
     </div>
   );
 }
 
-// Usage — anything between the tags becomes `children`
-function App() {
-  return (
-    <Card className="featured">
-      <h2>Welcome</h2>
-      <p>This content is the children prop.</p>
-    </Card>
-  );
+function renderSubscriptionStatus(subscription) {
+  const statusMap = {
+    active:   <span className="badge badge--green">Active</span>,
+    trial:    <span className="badge badge--yellow">Trial</span>,
+    expired:  <span className="badge badge--red">Expired</span>,
+  };
+  return statusMap[subscription] ?? null;
 }
 ```
 
 ---
 
-## 📅 Week 3: State & Events
+## 📅 Week 2 — State, Events & Forms
 
-### Module 4 — useState & Event Handling
+### Class 3 — useState & Event Handling
 
-**Tutor Guidance:**
-State is the most important concept in React. Before touching code, use an analogy: a light switch. The *state* is either ON or OFF. When you *flip the switch* (an event), the *state changes*, and the *UI updates* to reflect the new state. React manages this cycle automatically.
-
-**The useState Hook:**
 ```jsx
 import { useState } from 'react';
 
+// ── Basic State ──
 function Counter() {
-  // useState returns [currentValue, setterFunction]
-  // The argument to useState is the INITIAL value
   const [count, setCount] = useState(0);
-  
-  // When setCount is called, React re-renders this component
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
-  const reset = () => setCount(0);
+
+  // ✅ Use functional update when new state depends on previous state
+  // This guarantees you always have the latest value (avoids stale closures)
+  const increment = () => setCount(prev => prev + 1);
+  const decrement = () => setCount(prev => prev - 1);
+  const reset     = () => setCount(0);
 
   return (
     <div className="counter">
-      <h2>Score: {count}</h2>
-      <button onClick={decrement}>−</button>
+      <button onClick={decrement} aria-label="Decrease count">−</button>
+      <output className="counter__value">{count}</output>
+      <button onClick={increment} aria-label="Increase count">+</button>
       <button onClick={reset}>Reset</button>
-      <button onClick={increment}>+</button>
     </div>
   );
 }
-```
 
-**⚠️ Never Mutate State Directly:**
-```jsx
-// ❌ WRONG — React won't detect this change and won't re-render
-count = count + 1;
-count++;
-myArray.push(newItem);
-myObject.name = 'New Name';
 
-// ✅ CORRECT — Always use the setter function
-setCount(count + 1);
-setMyArray([...myArray, newItem]);      // New array with spread
-setMyObject({ ...myObject, name: 'New Name' }); // New object with spread
-```
+// ── Object State — Never Mutate ──
+function ProfileEditor({ initialProfile }) {
+  const [profile, setProfile] = useState(initialProfile);
 
-**Functional Updates (When new state depends on old state):**
-```jsx
-// ✅ Use callback form when new value depends on previous
-setCount(prevCount => prevCount + 1);
-
-// Why? React batches state updates. The callback guarantees you get
-// the most recent value, not a potentially stale closure value.
-```
-
-**Multiple State Variables:**
-```jsx
-function RegistrationForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name && email) {
-      setIsSubmitted(true);
-    }
+  const updateField = (field, value) => {
+    // ✅ Spread creates a new object — React detects the change
+    setProfile(prev => ({ ...prev, [field]: value }));
   };
-  
-  if (isSubmitted) {
-    return <p>Thanks, {name}! We'll email {email}.</p>;
-  }
-  
+
+  // ❌ WRONG — mutates the existing object. React won't re-render.
+  // profile.name = 'New Name';
+  // setProfile(profile);  ← same object reference, React skips re-render
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        placeholder="Your name"
+    <form>
+      <input
+        value={profile.name}
+        onChange={e => updateField('name', e.target.value)}
       />
-      <input 
-        type="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        placeholder="Your email"
+      <input
+        value={profile.email}
+        onChange={e => updateField('email', e.target.value)}
       />
-      <button type="submit">Register</button>
     </form>
   );
 }
-```
 
----
 
-## 📅 Week 4: Lists, Keys & Controlled Forms
+// ── Array State — Immutable Patterns ──
+function TaskList() {
+  const [tasks, setTasks] = useState([
+    { id: 1, text: 'Learn React', done: false },
+    { id: 2, text: 'Build a project', done: false },
+  ]);
 
-### Module 5 — Rendering Lists
+  // ADD — spread existing items, add new one
+  const addTask = (text) => {
+    const newTask = { id: Date.now(), text, done: false };
+    setTasks(prev => [...prev, newTask]);
+  };
 
-```jsx
-const products = [
-  { id: 1, name: 'Laptop', price: 450000 },
-  { id: 2, name: 'Mouse', price: 8000 },
-  { id: 3, name: 'Monitor', price: 120000 },
-];
+  // TOGGLE — map returns a new array with the changed item
+  const toggleTask = (id) => {
+    setTasks(prev =>
+      prev.map(task =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
 
-function ProductList() {
+  // DELETE — filter returns a new array without the removed item
+  const deleteTask = (id) => {
+    setTasks(prev => prev.filter(task => task.id !== id));
+  };
+
   return (
     <ul>
-      {products.map(product => (
-        // key MUST be unique and stable — use database IDs, never array index
-        <li key={product.id}>
-          {product.name} — ₦{product.price.toLocaleString()}
+      {tasks.map(task => (
+        <li key={task.id}>
+          <input
+            type="checkbox"
+            checked={task.done}
+            onChange={() => toggleTask(task.id)}
+          />
+          <span style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
+            {task.text}
+          </span>
+          <button onClick={() => deleteTask(task.id)} aria-label={`Delete ${task.text}`}>
+            ×
+          </button>
         </li>
       ))}
     </ul>
@@ -409,247 +377,604 @@ function ProductList() {
 }
 ```
 
-> **Why keys matter:** React uses `key` to identify which items changed, were added, or removed. Without unique keys, React re-renders the entire list inefficiently and can cause bugs with input state.
+---
+
+### Class 4 — Controlled Forms, useReducer & Lists
+
+```jsx
+// ── Controlled Form — Full Example ──
+import { useState } from 'react';
+
+const INITIAL_FORM = { name: '', email: '', course: '', message: '' };
+
+function EnrolmentForm() {
+  const [form, setForm]     = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+
+  const validate = () => {
+    const newErrors = {};
+    if (!form.name.trim())                         newErrors.name    = 'Name is required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = 'Valid email is required';
+    if (!form.course)                              newErrors.course  = 'Please select a course';
+    return newErrors;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+    // Clear the error for this field as the user types
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setStatus('loading');
+    try {
+      await submitEnrolment(form);
+      setStatus('success');
+      setForm(INITIAL_FORM);
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  if (status === 'success') return <SuccessMessage />;
+
+  return (
+    <form onSubmit={handleSubmit} noValidate>
+      <div className="field">
+        <label htmlFor="name">Full Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          value={form.name}
+          onChange={handleChange}
+          aria-describedby={errors.name ? 'name-error' : undefined}
+          aria-invalid={!!errors.name}
+        />
+        {errors.name && <p id="name-error" className="field-error" role="alert">{errors.name}</p>}
+      </div>
+
+      {/* ... similar fields for email, course, message ... */}
+
+      <button type="submit" disabled={status === 'loading'}>
+        {status === 'loading' ? 'Submitting...' : 'Submit Enrolment'}
+      </button>
+
+      {status === 'error' && <p role="alert" className="form-error">Something went wrong. Please try again.</p>}
+    </form>
+  );
+}
+
+
+// ── useReducer — for complex state with multiple actions ──
+import { useReducer } from 'react';
+
+const initialState = {
+  tasks: [],
+  filter: 'all',    // 'all' | 'active' | 'done'
+  sortBy: 'newest', // 'newest' | 'oldest' | 'alpha'
+};
+
+function taskReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_TASK':
+      return { ...state, tasks: [{ id: Date.now(), text: action.payload, done: false }, ...state.tasks] };
+    case 'TOGGLE_TASK':
+      return { ...state, tasks: state.tasks.map(t => t.id === action.payload ? { ...t, done: !t.done } : t) };
+    case 'DELETE_TASK':
+      return { ...state, tasks: state.tasks.filter(t => t.id !== action.payload) };
+    case 'SET_FILTER':
+      return { ...state, filter: action.payload };
+    case 'SET_SORT':
+      return { ...state, sortBy: action.payload };
+    default:
+      return state;
+  }
+}
+
+function TaskBoard() {
+  const [state, dispatch] = useReducer(taskReducer, initialState);
+
+  const addTask    = (text) => dispatch({ type: 'ADD_TASK',    payload: text });
+  const toggleTask = (id)   => dispatch({ type: 'TOGGLE_TASK', payload: id });
+  const deleteTask = (id)   => dispatch({ type: 'DELETE_TASK', payload: id });
+
+  const visibleTasks = state.tasks.filter(task => {
+    if (state.filter === 'active') return !task.done;
+    if (state.filter === 'done')   return task.done;
+    return true;
+  });
+
+  // ... render
+}
+```
 
 ---
 
-## 📅 Week 5: useEffect, Routing & Data Fetching
+## 📅 Week 3 — Data Fetching & Routing
 
-### Module 6 — useEffect
-
-**Tutor Guidance:**
-`useEffect` is the second most important hook. It lets you "sync" your component with the outside world — APIs, timers, subscriptions. The dependency array is the part students get wrong most often.
+### Class 5 — useEffect & Data Fetching Patterns
 
 ```jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-function UserProfile({ userId }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// ── Standard Fetch Pattern ──
+function CoursesPage() {
+  const [courses, setCourses] = useState([]);
+  const [status, setStatus]   = useState('loading'); // 'loading' | 'success' | 'error'
+  const [error, setError]     = useState(null);
 
   useEffect(() => {
-    // This function runs AFTER the component renders
-    async function fetchUser() {
+    // Cleanup flag — prevents setting state after unmount
+    let cancelled = false;
+
+    async function loadCourses() {
+      setStatus('loading');
       try {
-        setLoading(true);
-        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
-        if (!response.ok) throw new Error('User not found');
+        const response = await fetch('/api/courses');
+        if (!response.ok) throw new Error(`Error ${response.status}`);
         const data = await response.json();
-        setUser(data);
+        if (!cancelled) {
+          setCourses(data);
+          setStatus('success');
+        }
       } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setError(err.message);
+          setStatus('error');
+        }
       }
     }
 
-    fetchUser();
-  }, [userId]); // Dependency array — re-run when userId changes
+    loadCourses();
+    return () => { cancelled = true; }; // Cleanup on unmount
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!user) return null;
+  }, []); // Empty array = run once after mount
+
+  if (status === 'loading') return <CourseSkeleton count={6} />;
+  if (status === 'error')   return <ErrorBoundaryUI message={error} />;
+
+  return (
+    <div className="course-grid">
+      {courses.map(course => <CourseCard key={course.id} {...course} />)}
+    </div>
+  );
+}
+
+// ── useEffect Dependency Rules ──
+useEffect(() => { /* runs once after mount */ },    []);
+useEffect(() => { /* runs after EVERY render */ }    /* no array — rarely what you want */ );
+useEffect(() => { /* runs when userId changes */ }, [userId]);
+useEffect(() => { /* runs when userId OR page changes */ }, [userId, page]);
+
+// ── useMemo & useCallback ──
+import { useMemo, useCallback } from 'react';
+
+function FilterableCourseList({ courses, searchQuery, sortBy }) {
+  // Memoize expensive computation — only recalculates when dependencies change
+  const filteredCourses = useMemo(() => {
+    return courses
+      .filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      .sort((a, b) => sortBy === 'price' ? a.price - b.price : a.title.localeCompare(b.title));
+  }, [courses, searchQuery, sortBy]);
+
+  // Stable function reference — prevents child re-renders when parent re-renders
+  const handleEnrol = useCallback((courseId) => {
+    console.log('Enrolling in:', courseId);
+  }, []); // No dependencies — function never changes
 
   return (
     <div>
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
+      {filteredCourses.map(course => (
+        <CourseCard key={course.id} course={course} onEnrol={handleEnrol} />
+      ))}
     </div>
   );
 }
 ```
 
-**Dependency Array Rules:**
-```jsx
-useEffect(() => {
-  // Runs ONCE after first render (like componentDidMount)
-}, []);
+---
 
-useEffect(() => {
-  // Runs after EVERY render (usually not what you want)
-});
+### Class 6 — React Router v7
 
-useEffect(() => {
-  // Runs after first render AND whenever count or userId changes
-}, [count, userId]);
-```
-
-### React Router (Client-Side Navigation):
 ```bash
-npm install react-router-dom
+npm install react-router
 ```
+
 ```jsx
 // src/main.jsx
-import { BrowserRouter } from 'react-router-dom';
-// Wrap <App /> in <BrowserRouter>
+import { BrowserRouter } from 'react-router';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
 
 // src/App.jsx
-import { Routes, Route, Link, NavLink } from 'react-router-dom';
-import Home from './pages/Home';
-import About from './pages/About';
-import Users from './pages/Users';
-import UserDetail from './pages/UserDetail';
+import { Routes, Route, Navigate } from 'react-router';
+import RootLayout from './layouts/RootLayout';
+import HomePage from './pages/HomePage';
+import CoursesPage from './pages/CoursesPage';
+import CourseDetailPage from './pages/CourseDetailPage';
+import ProfilePage from './pages/ProfilePage';
+import NotFoundPage from './pages/NotFoundPage';
+import { useAuth } from './context/AuthContext';
+
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" replace />;
+}
 
 function App() {
   return (
-    <>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/users">Users</NavLink>
-      </nav>
+    <Routes>
+      <Route element={<RootLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="courses" element={<CoursesPage />} />
+        <Route path="courses/:slug" element={<CourseDetailPage />} />
+        <Route
+          path="profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
+}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:id" element={<UserDetail />} /> {/* Dynamic route */}
-      </Routes>
+// src/layouts/RootLayout.jsx
+import { Outlet, NavLink } from 'react-router';
+
+function RootLayout() {
+  return (
+    <>
+      <header>
+        <nav>
+          {/* NavLink automatically adds class="active" on the current route */}
+          <NavLink to="/"        end>Home</NavLink>
+          <NavLink to="/courses">Courses</NavLink>
+          <NavLink to="/profile">Profile</NavLink>
+        </nav>
+      </header>
+      <main>
+        <Outlet /> {/* Child route renders here */}
+      </main>
+      <footer>...</footer>
     </>
   );
 }
+
+// src/pages/CourseDetailPage.jsx
+import { useParams, useNavigate, Link } from 'react-router';
+
+function CourseDetailPage() {
+  const { slug } = useParams();           // Read :slug from the URL
+  const navigate = useNavigate();          // Programmatic navigation
+
+  const goBack = () => navigate(-1);       // Go back one step in history
+  const goToCourses = () => navigate('/courses', { replace: true }); // Replace history entry
+
+  // Fetch course by slug...
+  return <div>{slug}</div>;
+}
 ```
 
 ---
 
-## 📅 Week 6: Context, Custom Hooks & Deployment
+## 📅 Week 4 — Context, Custom Hooks & React 19
 
-### Module 7 — Context API & Custom Hooks
+### Class 7 — Context & Custom Hooks
 
-**Tutor Guidance:**
-Context solves "prop drilling" — passing props through many layers of components that don't need them. Use a concrete example: a theme (light/dark mode) that every component needs access to, without passing it as a prop 10 levels deep.
-
-**Context API:**
 ```jsx
-// src/context/ThemeContext.jsx
-import { createContext, useContext, useState } from 'react';
+// ── Context — for truly global state ──
+// Use for: current user, theme, language, notification system
+// Do NOT use for: state that only 2–3 components share (just lift state instead)
 
-const ThemeContext = createContext();
+import { createContext, useContext, useState, useCallback } from 'react';
 
-// Provider component — wraps the part of the app that needs this data
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
-  
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  };
-  
+// 1. Create the context
+const NotificationContext = createContext(null);
+
+// 2. Build the provider
+export function NotificationProvider({ children }) {
+  const [notifications, setNotifications] = useState([]);
+
+  const addNotification = useCallback(({ message, type = 'info', duration = 4000 }) => {
+    const id = crypto.randomUUID(); // Native browser API — no library needed
+    setNotifications(prev => [...prev, { id, message, type }]);
+    setTimeout(() => removeNotification(id), duration);
+  }, []);
+
+  const removeNotification = useCallback((id) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  }, []);
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <NotificationContext.Provider value={{ addNotification }}>
       {children}
-    </ThemeContext.Provider>
+      {/* The toast UI lives here, outside the component tree */}
+      <div className="toast-region" aria-live="polite" aria-atomic="false">
+        {notifications.map(n => (
+          <div key={n.id} className={`toast toast--${n.type}`} role="status">
+            <span>{n.message}</span>
+            <button onClick={() => removeNotification(n.id)} aria-label="Dismiss">×</button>
+          </div>
+        ))}
+      </div>
+    </NotificationContext.Provider>
   );
 }
 
-// Custom hook — cleaner way to consume context
-export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error('useTheme must be used within ThemeProvider');
+// 3. Custom hook — never expose useContext directly
+export function useNotifications() {
+  const context = useContext(NotificationContext);
+  if (!context) throw new Error('useNotifications must be used within NotificationProvider');
   return context;
 }
-```
 
-**Custom Hook — Abstracting Fetch Logic:**
-```jsx
-// src/hooks/useFetch.js
-import { useState, useEffect } from 'react';
+// 4. Usage anywhere in the tree
+function EnrolButton({ courseId }) {
+  const { addNotification } = useNotifications();
 
+  const handleEnrol = async () => {
+    try {
+      await enrolInCourse(courseId);
+      addNotification({ message: 'Enrolled successfully! 🎉', type: 'success' });
+    } catch {
+      addNotification({ message: 'Enrolment failed. Please try again.', type: 'error' });
+    }
+  };
+
+  return <button onClick={handleEnrol}>Enrol Now</button>;
+}
+
+
+// ── Custom Hooks — extract and reuse stateful logic ──
+
+// hooks/useFetch.js
 export function useFetch(url) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data, setData]     = useState(null);
+  const [status, setStatus] = useState('idle');
+  const [error, setError]   = useState(null);
 
   useEffect(() => {
     if (!url) return;
-    
-    async function fetchData() {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
+    let cancelled = false;
+    setStatus('loading');
 
-    fetchData();
+    fetch(url)
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(d => { if (!cancelled) { setData(d); setStatus('success'); } })
+      .catch(e => { if (!cancelled) { setError(e.message); setStatus('error'); } });
+
+    return () => { cancelled = true; };
   }, [url]);
 
-  return { data, loading, error };
+  return { data, status, error, isLoading: status === 'loading' };
 }
 
-// Usage in any component — clean and reusable!
-function Posts() {
-  const { data: posts, loading, error } = useFetch('https://jsonplaceholder.typicode.com/posts');
-  
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  
-  return (
-    <ul>
-      {posts?.map(post => <li key={post.id}>{post.title}</li>)}
-    </ul>
+// hooks/useLocalStorage.js
+export function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch { return initialValue; }
+  });
+
+  const setStoredValue = useCallback((newValue) => {
+    const valueToStore = newValue instanceof Function ? newValue(value) : newValue;
+    setValue(valueToStore);
+    localStorage.setItem(key, JSON.stringify(valueToStore));
+  }, [key, value]);
+
+  return [value, setStoredValue];
+}
+
+// hooks/useDebounce.js — delay state updates until user stops typing
+export function useDebounce(value, delay = 400) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
+}
+
+// Usage
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 400);
+
+  // Only fires a new fetch when the user pauses typing for 400ms
+  const { data, isLoading } = useFetch(
+    debouncedQuery ? `/api/search?q=${debouncedQuery}` : null
   );
+  // ...
 }
-```
-
-**Deploying to Vercel or Netlify:**
-```bash
-# Build the project
-npm run build
-# → Creates /dist folder with production-ready files
-
-# Deploy to Vercel (easiest)
-npm install -g vercel
-vercel  # Follow the prompts — auto-detects Vite
-
-# OR deploy to Netlify via GitHub
-# 1. Push your code to GitHub
-# 2. Connect GitHub repo to Netlify
-# 3. Set: Build command = npm run build, Publish directory = dist
-# 4. Click Deploy — done!
 ```
 
 ---
 
-### 🏆 Final Capstone: Full React Application
+### Class 8 — React 19 APIs & Deployment
 
-Students build a multi-page React app of their choice. Suggested ideas:
-- **Job Board** — Lists jobs fetched from an API, with detail pages and a filter
-- **Movie Finder** — Search movies via TMDB API, save favourites to localStorage
-- **Personal Finance Tracker** — CRUD app with context for global state
+```jsx
+// ── React 19: The use() hook — read a Promise or Context in render ──
+import { use, Suspense } from 'react';
 
-**Evaluation Rubric:**
+// Before React 19: you needed useEffect + useState to fetch data
+// With React 19: you can pass a Promise directly to use()
+
+function CourseList({ coursesPromise }) {
+  // use() suspends the component until the promise resolves
+  // Suspense above catches the "suspension" and shows the fallback
+  const courses = use(coursesPromise);
+
+  return (
+    <ul>
+      {courses.map(c => <li key={c.id}>{c.title}</li>)}
+    </ul>
+  );
+}
+
+function CoursesPage() {
+  const [promise] = useState(() => fetch('/api/courses').then(r => r.json()));
+
+  return (
+    <Suspense fallback={<CourseSkeleton />}>
+      <CourseList coursesPromise={promise} />
+    </Suspense>
+  );
+}
+
+
+// ── React 19: Actions & useActionState — async form handling ──
+import { useActionState } from 'react';
+
+async function submitContactForm(previousState, formData) {
+  const name    = formData.get('name');
+  const email   = formData.get('email');
+  const message = formData.get('message');
+
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message }),
+    });
+    if (!response.ok) throw new Error('Failed');
+    return { status: 'success', message: `Thanks, ${name}! We'll be in touch.` };
+  } catch {
+    return { status: 'error', message: 'Something went wrong. Please try again.' };
+  }
+}
+
+function ContactForm() {
+  const [state, formAction, isPending] = useActionState(submitContactForm, null);
+
+  return (
+    <form action={formAction}>
+      <input name="name"    type="text"  required />
+      <input name="email"   type="email" required />
+      <textarea name="message" required />
+
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Sending...' : 'Send Message'}
+      </button>
+
+      {state?.status === 'success' && <p className="success">{state.message}</p>}
+      {state?.status === 'error'   && <p className="error">{state.message}</p>}
+    </form>
+  );
+}
+
+
+// ── React 19: useOptimistic — instant UI feedback ──
+import { useOptimistic } from 'react';
+
+function LikeButton({ post }) {
+  const [optimisticPost, addOptimisticLike] = useOptimistic(
+    post,
+    (state) => ({ ...state, likeCount: state.likeCount + 1, liked: true })
+  );
+
+  const handleLike = async () => {
+    addOptimisticLike();            // Update UI immediately
+    await likePost(post.id);        // Then send the real request
+    // If the request fails, React automatically rolls back to the real state
+  };
+
+  return (
+    <button onClick={handleLike} aria-pressed={optimisticPost.liked}>
+      ♥ {optimisticPost.likeCount}
+    </button>
+  );
+}
+```
+
+#### Deployment to Vercel
+
+```bash
+# Build
+npm run build     # → /dist folder
+
+# Deploy (3 ways)
+# 1. Vercel CLI
+npm i -g vercel
+vercel
+
+# 2. GitHub Integration (recommended)
+# → Push to GitHub
+# → Connect repo at vercel.com
+# → Every push to main auto-deploys
+
+# 3. Netlify — same GitHub integration approach
+# Build command: npm run build
+# Publish directory: dist
+```
+
+---
+
+### 🏆 Capstone Project Options
+
+**Option A: Course Marketplace**
+Multi-page app with course listing, search/filter, detail page, cart, and fake checkout. Uses Context for cart state, `useActionState` for checkout form, and React Router for navigation.
+
+**Option B: Developer Portfolio + Blog**
+Static pages (About, Projects, Skills) + a Blog section that fetches markdown posts from a free headless CMS (e.g., Contentful free tier). Shows Server-side-inspired fetching patterns.
+
+**Option C: Real-Time Dashboard**
+Polls a free API (stock prices, weather, sports scores) every 30 seconds. Uses `useEffect` for polling, `useMemo` for derived stats, charts from Recharts, and `useLocalStorage` for saved preferences.
+
+---
+
+**Rubric:**
 
 | Criterion | Points |
 |-----------|--------|
-| Project scaffolded with Vite and pushed to GitHub | 5 |
-| Minimum 5 functional components, each in its own file | 10 |
-| Props used to pass data between components | 10 |
-| At least 3 `useState` hooks used correctly | 15 |
-| `useEffect` used for data fetching with loading/error states | 15 |
-| Lists rendered with `.map()` and unique `key` props | 10 |
-| React Router with at least 3 routes | 15 |
-| No direct state mutation | 10 |
-| App deployed live (Vercel or Netlify) | 10 |
+| Vite project pushed to GitHub with clean commit history | 5 |
+| Minimum 8 components, each in its own file | 10 |
+| Props and children used for composition | 5 |
+| `useState` (or `useReducer`) with correct immutable patterns | 15 |
+| At least one form using `useActionState` (React 19) | 10 |
+| `useEffect` for data fetching with cleanup and error handling | 15 |
+| React Router — 4+ routes including one dynamic route | 10 |
+| Context + custom hook for global state | 10 |
+| `useMemo` or `useCallback` used where appropriate | 5 |
+| App deployed live on Vercel | 10 |
+| Responsive layout (uses CSS from the CSS course) | 5 |
 | **Total** | **100** |
 
 ---
 
-## 📚 Recommended Resources
+## 📚 Essential References
 
-- **React Docs:** [react.dev](https://react.dev) — The official, modern React documentation (hooks-based)
-- **Vite Docs:** [vitejs.dev](https://vitejs.dev)
-- **React Router Docs:** [reactrouter.com](https://reactrouter.com)
-- **Free APIs for Projects:** TMDB (movies), Open Library (books), REST Countries, PokéAPI
+| Resource | URL | Use For |
+|----------|-----|---------|
+| React Docs (react.dev) | `react.dev` | Official docs — hooks-first, excellent |
+| React Router Docs | `reactrouter.com/en/main` | Routing API reference |
+| TanStack Query | `tanstack.com/query` | Advanced async state (recommend for capstone) |
+| Recharts | `recharts.org` | Charts and data visualisation |
+| Radix UI | `radix-ui.com` | Accessible headless UI components |
 
 ---
 
-*Deejoft Coding School — Instructor Materials | React Track*  
-*Last Updated: 2025*
+*Deejoft Coding School — Instructor Materials | React Track*
+*Rebuilt 2025 — React 19, useActionState, useOptimistic, use(), React Router v7*

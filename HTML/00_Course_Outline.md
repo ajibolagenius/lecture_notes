@@ -1,615 +1,851 @@
-# 📘 HTML5 Course — Tutor's Master Outline
+# 📘 HTML5 — Tutor's Master Outline
 ### Deejoft Coding School | Web Development Track
-**Instructor Notes — Beginner to Semantic Expert**
+**Duration:** 2 Weeks · 4 Classes · ~2 hours per class
+**Level:** Absolute Beginner
 
 ---
 
 > **Dear Tutor,**
-> This document is your master guide for the HTML5 course. Before each session, review the relevant module section. The goal is not just to teach tags — it is to build *confident thinkers* who understand **why** HTML is structured the way it is. Always connect every concept back to a real website students can open in their browser.
+> HTML is taught in two focused weeks. The goal is not exhaustive tag memorisation — it is to wire in three instincts that will serve students for their entire career: write *meaningful* structure, keep *accessibility* in mind from the first line, and always think about *document hierarchy* before touching a keyboard. Every exercise in this course should be done in the browser with DevTools open.
 
 ---
 
-## 🗺️ Course at a Glance
+## 🗺️ Course Map
 
-| Week | Focus | Key Deliverable |
-|------|-------|-----------------|
-| Week 1 | Absolute Fundamentals | Simple Bio Page |
-| Week 2 | Structuring Content | Recipe Page |
-| Week 3 | Semantic Layout & Tables | Company Homepage (Structure Only) |
-| Week 4 | Forms | Registration Form |
-| Week 5 | Multimedia & Embedding | Media Showcase Page |
-| Week 6 | Accessibility, SEO & Best Practices | Professional Portfolio Website |
+| Class | Title | Core Skill Unlocked |
+|-------|-------|---------------------|
+| Class 1 | Document Structure & Content | Build a valid, well-structured HTML page from memory |
+| Class 2 | Semantic HTML & Data | Replace every `<div>` with the right tag; build accessible tables |
+| Class 3 | Forms & Interactive Controls | Build a fully labelled, validated, accessible form |
+| Class 4 | Media, Accessibility & Modern HTML | Embed media responsively; audit a page with a screen reader |
 
-**Total Duration:** 6 Weeks · ~3–4 contact hours per week  
-**Prerequisites:** None (absolute beginners welcome)  
-**Next Course:** CSS (students should complete this before styling anything)
+**Prerequisites:** None  
+**Tools:** VS Code + Live Server extension, Google Chrome + DevTools  
+**Next Course:** CSS (starts immediately after)
 
 ---
 
-## 🎯 Course Philosophy
+## 🎯 Three Instincts to Build
 
-HTML is the **skeleton** of every website. CSS is the clothes; JavaScript is the brain. Students who skip or rush HTML end up writing brittle, inaccessible code that breaks under pressure. Spend time here. Do it right.
+Write these on the board on Day 1. Come back to them every class.
 
-**Three principles to instil from Day 1:**
-1. **Semantics first** — Always choose the most meaningful tag, not the most convenient one.
-2. **Accessibility always** — The web is for everyone. Screen readers are real users.
-3. **Structure before style** — Never touch CSS until the HTML structure is solid.
+```
+1. MEANING BEFORE APPEARANCE  →  Choose the tag that describes what the content IS,
+                                  not what you want it to look like.
+
+2. STRUCTURE BEFORE STYLE     →  Perfect HTML first. CSS comes in the next course.
+
+3. EVERY USER MATTERS         →  If a screen reader user or search engine can't
+                                  understand your page, your HTML is wrong.
+```
 
 ---
 
-## 📅 Week 1: The Absolute Fundamentals
+## 📅 Class 1 — Document Structure & Content Tags
 
-### Module 1 — Introduction to Web Development
+**Duration:** ~2 hours  
+**Objective:** Students can write a valid HTML5 page from a blank file, with correct document structure, headings, paragraphs, links, and images.
 
-**Tutor Guidance:**
-Start by *showing*, not telling. Open a browser, visit a simple website (e.g., `example.com`), right-click → "View Page Source." Let students see the raw HTML. Then open DevTools (`F12`). This builds immediate excitement.
+---
 
-**The "Skeleton, Clothes, Brain" Analogy:**
-Draw this on the board (or share your screen with a diagram):
+### Part A — How the Web Works (20 min)
 
+**Tutor Guidance:** Open `example.com` → right-click → View Page Source. Let the class read it raw for 60 seconds. Then open DevTools (`F12`). This moment — seeing that a real website is "just text" — is the hook. Use it.
+
+**The Three-Layer Model:**
 ```
-HTML  =  Skeleton   → gives the page its structure and bones
-CSS   =  Clothes    → makes it look good (colours, fonts, layout)
-JS    =  Brain      → makes it interactive and smart
+HTML  ──▶  Structure   "What is on the page?"         The skeleton
+CSS   ──▶  Presentation "What does it look like?"     The skin & clothes
+JS    ──▶  Behaviour    "What does it do?"             The muscles & brain
 ```
 
-Ask: *"If you had to build a house, which comes first — the interior design or the foundation?"* HTML is the foundation.
+> This course is **only** the skeleton. Resist adding `style=""` attributes for visual results — it builds a bad habit that CSS class will have to undo.
 
-**Key Concepts to Cover:**
+---
 
-**1. The DOCTYPE Declaration**
-```html
-<!DOCTYPE html>
-```
-> **Explain:** This is NOT an HTML tag. It is a *declaration* that tells the browser: "This document follows the HTML5 standard." Without it, older browsers enter "quirks mode" and display things unpredictably. Always put this on line 1.
+### Part B — The HTML Document (30 min)
 
-**2. The Basic HTML Skeleton**
+**The Minimal Valid HTML5 Page:**
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Page</title>
+    <title>Deejoft | Home</title>
+    <meta name="description" content="Learn to code at Deejoft Coding School in Lagos.">
   </head>
   <body>
-    <h1>Hello, World!</h1>
-    <p>My name is Ada.</p>
+
+    <h1>Hello, World.</h1>
+
   </body>
 </html>
 ```
 
-Walk through each line:
-- `<html lang="en">` — The root element. `lang="en"` helps screen readers and search engines.
-- `<head>` — The "backstage" of your page. Nothing in here is visible to users.
-- `<meta charset="UTF-8">` — Ensures your page can display characters from any language (emojis, accented letters, etc.).
-- `<title>` — What appears on the browser tab and in Google search results.
-- `<body>` — Everything the user *sees and interacts with* goes here.
+Walk through every line. No line is optional. No line is "just boilerplate" — each has a specific job:
 
-**⚠️ Common Mistake:** Students often write content directly inside `<head>`. Demonstrate what happens: the text disappears. "If you can't see it, it belongs in `<head>`. If you can see it, it belongs in `<body>`."
+| Line | What It Does | What Breaks Without It |
+|------|-------------|------------------------|
+| `<!DOCTYPE html>` | Tells the browser: use modern HTML5 standards | Browser enters "quirks mode" — layout behaves unpredictably |
+| `<html lang="en">` | Declares the page language | Screen readers use wrong pronunciation; SEO penalty |
+| `<meta charset="UTF-8">` | Enables all Unicode characters | Accented letters, emojis, and Arabic/Yoruba text break |
+| `<meta name="viewport" ...>` | Makes the page respect the device width | Page appears zoomed-out and tiny on mobile |
+| `<title>` | Sets the browser tab and Google result title | Tab shows blank or file path; SEO penalty |
+| `<meta name="description">` | Sets the Google search snippet | Google writes its own — often worse |
 
 ---
 
-### Module 2 — Core Content Tags
+### Part C — Content Tags (45 min)
 
-**Tutor Guidance:**
-This module builds students' "vocabulary" of HTML. Teach tags in *groups of related purpose* (text tags together, links together, images together). Use real examples — news articles, Wikipedia pages — to show each tag in context.
-
-**Headings — The Document Hierarchy**
-
+**Headings — The Document Outline:**
 ```html
-<h1>My Blog</h1>            <!-- ONE per page — the main title -->
-  <h2>My Latest Posts</h2>  <!-- Major sections -->
-    <h3>Post Title</h3>     <!-- Sub-sections -->
-      <h4>...</h4>
-        <h5>...</h5>
-          <h6>...</h6>
+<h1>Deejoft Coding School</h1>        <!-- ONE per page. The page's main title. -->
+  <h2>Our Courses</h2>                <!-- Major sections -->
+    <h3>Web Development Track</h3>    <!-- Sub-sections within a major section -->
+      <h4>HTML & CSS Fundamentals</h4>
 ```
 
-> **Analogy:** Think of headings like a book. The `<h1>` is the book title. `<h2>`s are chapter names. `<h3>`s are sections within chapters. You would never skip from a book title directly to a sub-section without naming the chapter — the same logic applies here.
+> **The newspaper analogy:** `<h1>` is the front-page headline. `<h2>` is a section headline. `<h3>` is an article sub-heading. You would never have a sub-heading without a section headline above it. The same rule applies in HTML — never skip levels.
 
-> **⚠️ Rule:** There should only be **one `<h1>`** per page. This is both a semantic and an SEO rule.
+> ⚠️ **One `<h1>` per page.** This is both an SEO and accessibility rule. Screen readers and Google use it as the page's primary identifier.
 
-**Links — The `<a>` Tag**
-
+**Links:**
 ```html
-<!-- Linking to an external website (always use https://) -->
-<a href="https://www.google.com" target="_blank" rel="noopener noreferrer">
-  Visit Google
+<!-- External link — always HTTPS, always opens in new tab for external sites -->
+<a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">
+  MDN Web Docs
 </a>
 
-<!-- Linking to another page in the same project -->
-<a href="/about.html">About Us</a>
+<!-- Internal link — relative path, no leading slash for same directory -->
+<a href="about.html">About Us</a>
+<a href="./courses/html.html">HTML Course</a>
 
-<!-- Linking to a section on the same page (using an ID) -->
-<a href="#contact-section">Jump to Contact</a>
+<!-- Jump to a section on the same page — the href matches an element's id -->
+<a href="#contact">Skip to Contact</a>
+...
+<section id="contact">...</section>
+
+<!-- Email link -->
+<a href="mailto:hello@deejoft.com">Email Us</a>
 ```
 
-> **Explain `target="_blank"`:** This opens the link in a new tab. Always pair it with `rel="noopener noreferrer"` — this is a *security best practice* that prevents the new tab from being able to control the original tab.
+> **`rel="noopener noreferrer"` is a security requirement** when using `target="_blank"`. Without it, the new tab can access and manipulate the original tab via `window.opener`. Always write these two attributes together.
 
-> **Relative vs. Absolute Paths:**
-> - **Absolute:** `https://google.com` — the full address, works from anywhere.
-> - **Relative:** `about.html` or `./about.html` — relative to the current file's location.
-
-**Images — The `<img>` Tag**
-
+**Images:**
 ```html
-<!-- Self-closing tag — no separate closing tag needed -->
-<img 
-  src="./images/profile.jpg" 
-  alt="A photo of Ada smiling in a blue dress"
-  width="300"
-  height="300"
+<!-- Basic image — src and alt are always required -->
+<img
+  src="./images/campus.jpg"
+  alt="Students coding at laptops in the Deejoft open classroom"
+  width="800"
+  height="500"
+  loading="lazy"
 >
 ```
 
-> **The `alt` attribute is NOT optional.** Stress this strongly.
-> - Screen readers read `alt` text aloud to visually impaired users.
-> - If the image fails to load, `alt` text is shown in its place.
-> - Search engines use `alt` text to understand image content.
+> **`alt` is not optional.** Run through these three scenarios every time a student writes an `<img>`:
+> 1. **Screen reader:** reads the `alt` text aloud. An empty or useless `alt` fails blind users.
+> 2. **Broken image:** `alt` text is shown in its place. Users still understand what was there.
+> 3. **Search engine:** Google Images ranks images by their `alt` text. "photo.jpg" wins nothing.
 >
-> **Bad `alt` text:** `alt="image"` or `alt="photo1.jpg"`  
-> **Good `alt` text:** `alt="A golden retriever puppy sitting on green grass"`
+> **Decorative images** (purely visual, no meaning) get an empty `alt=""` — this tells screen readers to skip them entirely. Do NOT leave `alt` out entirely.
+
+> **`width` and `height` attributes** prevent Cumulative Layout Shift (CLS) — a Core Web Vital metric Google uses for ranking. Always set them.
 
 ---
 
-### 📝 Week 1 Assignment: Simple Bio Page
+### ✏️ Class 1 Exercise — Personal Bio Page (40 min)
 
-**Instructions for Students:**
-Create a single `index.html` file that contains:
-- A `<h1>` with your full name
-- An `<img>` of yourself or a hobby (with meaningful `alt` text)
-- At least two `<h2>` sections: "About Me" and "Hobbies"
-- `<p>` tags with text under each section
-- One `<a>` link to an external website you enjoy
+Build `index.html` from scratch without copying code. Must include:
+- Full valid HTML5 skeleton (from memory by the end)
+- `<h1>` with full name
+- Two `<h2>` sections: "About Me" and "What I'm Learning"
+- At least three `<p>` tags with real text
+- One `<img>` with a meaningful `alt` attribute
+- One external `<a>` link and one internal link to an `about.html`
 
-**Tutor Marking Criteria:**
-- [ ] Correct `<!DOCTYPE html>` and basic skeleton
-- [ ] `<head>` contains `<title>` and `<meta charset>`
-- [ ] `<h1>` used exactly once
-- [ ] `<img>` has a descriptive `alt` attribute
-- [ ] `<a>` tag uses `https://` and opens correctly
+**Marking Focus:** Does the file validate at `validator.w3.org`? Zero errors = full marks.
 
 ---
 
-## 📅 Week 2: Structuring Content
+## 📅 Class 2 — Semantic HTML & Structured Data
 
-### Module 3 — Lists & Text Formatting
+**Duration:** ~2 hours  
+**Objective:** Students can build a complete page layout using semantic HTML5 elements and structure tabular data correctly.
 
-**Tutor Guidance:**
-Students find lists intuitive — start here to build confidence. Then move to inline semantics which are trickier (especially the `<strong>` vs. `<b>` distinction).
+---
 
-**Unordered Lists (Bullet Points)**
-```html
-<ul>
-  <li>HTML</li>
-  <li>CSS</li>
-  <li>JavaScript</li>
-</ul>
-```
-Use for: navigation menus, feature lists, ingredient lists, any collection where order doesn't matter.
+### Part A — The "Divitis" Problem (25 min)
 
-**Ordered Lists (Numbered)**
-```html
-<ol>
-  <li>Preheat oven to 180°C</li>
-  <li>Mix flour and sugar</li>
-  <li>Bake for 25 minutes</li>
-</ol>
-```
-Use for: step-by-step instructions, rankings, recipes, tutorials.
-
-**Semantic Inline Tags — The Key Distinction**
-
-| Tag | Meaning | Visual Effect |
-|-----|---------|---------------|
-| `<strong>` | **Importance** — this text is critically important | Bold |
-| `<b>` | Bold — purely visual, no semantic weight | Bold |
-| `<em>` | *Emphasis* — stress this word when reading aloud | Italic |
-| `<i>` | Italic — for titles, foreign words, technical terms | Italic |
+**Show this side-by-side on the projector:**
 
 ```html
-<p>
-  <strong>Warning:</strong> Never share your password with anyone.
-  The book was called <em>The Great Gatsby</em>.
-</p>
-```
-
-> **Rule of thumb:** If you're making something bold for *meaning* (like a warning), use `<strong>`. If you're making it bold just for *appearance*, use CSS instead.
-
-**`<div>` vs. `<span>` — The Container Tags**
-
-```html
-<!-- div is BLOCK-LEVEL — takes up full width, starts on a new line -->
-<div class="card">
-  <h2>Card Title</h2>
-  <p>Card content goes here.</p>
+<!-- ❌ MEANINGLESS — What is any of this? Robots and screen readers are lost. -->
+<div class="top-thing">
+  <div class="logo-area">Deejoft</div>
+  <div class="link-area">
+    <div class="link">Home</div>
+    <div class="link">Courses</div>
+  </div>
 </div>
-
-<!-- span is INLINE — flows within text, doesn't break the line -->
-<p>
-  The sky is <span style="color: blue;">bright blue</span> today.
-</p>
+<div class="big-content">
+  <div class="writing-box">
+    <div class="writing-title">Welcome</div>
+    <div class="writing-body">We teach modern coding.</div>
+  </div>
+</div>
+<div class="bottom-thing">© 2025 Deejoft</div>
 ```
 
-> **Explain:** `<div>` and `<span>` are neutral containers with no semantic meaning. Use them only when no other semantic tag fits. In Week 3, we'll replace many `<div>`s with semantic tags like `<header>`, `<main>`, and `<section>`.
-
----
-
-### 📝 Week 2 Assignment: Recipe Page
-
-**Instructions for Students:**
-Build a recipe page using:
-- `<h1>` for the recipe name
-- `<img>` of the dish (with `alt` text)
-- `<h2>` + `<ul>` for the Ingredients section
-- `<h2>` + `<ol>` for the Instructions section
-- `<strong>` to highlight at least one important instruction (e.g., "**Do not overmix**")
-
----
-
-## 📅 Week 3: Semantic Layout & Tables
-
-### Module 4 — Building with Semantic HTML5
-
-**Tutor Guidance:**
-This is arguably the most important module in the course. Students often continue using `<div>` for everything ("divitis") unless you clearly show them the problem. Use a real news website in DevTools to show semantic structure in action.
-
-**The "Divitis" Problem:**
 ```html
-<!-- ❌ BAD — What does any of this mean? -->
-<div class="top">
-  <div class="logo">My Site</div>
-  <div class="links">...</div>
-</div>
-<div class="content">...</div>
-<div class="bottom">...</div>
-
-<!-- ✅ GOOD — Self-documenting and accessible -->
+<!-- ✅ MEANINGFUL — Self-documenting. Accessible. SEO-friendly. -->
 <header>
-  <h1>My Site</h1>
-  <nav>...</nav>
+  <span>Deejoft</span>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/courses">Courses</a>
+  </nav>
 </header>
-<main>...</main>
-<footer>...</footer>
+<main>
+  <article>
+    <h1>Welcome</h1>
+    <p>We teach modern coding.</p>
+  </article>
+</main>
+<footer>
+  <p>© 2025 Deejoft</p>
+</footer>
 ```
 
-**The Semantic Layout Tags:**
+> **Key insight:** Both render identically in the browser without CSS. The difference is invisible to the human eye but enormous to screen readers, search engines, and your future teammates reading your code.
+
+---
+
+### Part B — The Semantic Layout Elements (40 min)
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deejoft Blog</title>
 </head>
 <body>
 
-  <!-- The page header — logo, site title, main navigation -->
   <header>
-    <h1>Deejoft Blog</h1>
-    <nav>
+    <!-- The page header: site identity + primary navigation -->
+    <a href="/" aria-label="Deejoft home page">
+      <img src="./logo.svg" alt="Deejoft Coding School logo" width="120" height="40">
+    </a>
+    <nav aria-label="Primary navigation">
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/courses">Courses</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- The ONE main content area — use only once per page -->
   <main>
+    <!-- main wraps the page's unique content. One per page. Never in a sidebar. -->
 
-    <!-- A thematic grouping of content — can have many sections -->
-    <section id="featured-posts">
-      <h2>Featured Posts</h2>
+    <section aria-labelledby="featured-heading">
+      <!-- section: a thematic group. Only use it if you would give it a heading. -->
+      <h2 id="featured-heading">Featured Articles</h2>
 
-      <!-- A self-contained, distributable piece of content -->
       <article>
-        <h3>Getting Started with HTML</h3>
-        <p>Published on <time datetime="2025-01-15">January 15, 2025</time></p>
-        <p>HTML is the foundation of the web...</p>
+        <!-- article: self-contained content that makes sense if lifted out of the page.
+             Blog posts, news stories, product cards, forum comments — all articles. -->
+        <header>
+          <!-- <header> can also appear inside article/section, not just the page -->
+          <h3>Getting Started with React in 2025</h3>
+          <p>By <a href="/author/ada">Ada Lovelace</a> ·
+             <time datetime="2025-06-15">June 15, 2025</time>
+          </p>
+        </header>
+        <p>React 19 introduced Actions and the <code>use()</code> hook, making
+           async state management cleaner than ever before...</p>
+        <a href="/blog/react-2025">Read full article →</a>
       </article>
 
       <article>
-        <h3>Why CSS Grid Changed Everything</h3>
-        <p>...</p>
+        <header>
+          <h3>Python 3.13 — What's New</h3>
+          <p>By <a href="/author/alan">Alan Turing</a> ·
+             <time datetime="2025-05-28">May 28, 2025</time>
+          </p>
+        </header>
+        <p>The new free-threaded mode and improved REPL make Python 3.13
+           the most developer-friendly release yet...</p>
+        <a href="/blog/python-313">Read full article →</a>
       </article>
     </section>
 
-    <!-- Related content — sidebar, callout, author bio -->
-    <aside>
-      <h2>About the Author</h2>
-      <p>Ada Lovelace is a full-stack developer...</p>
+    <aside aria-label="About this blog">
+      <!-- aside: supplementary content related to the main content.
+           Sidebars, author bios, pull quotes, related links.
+           NOT for decorative panels unrelated to the content. -->
+      <h2>About This Blog</h2>
+      <p>Weekly articles on HTML, CSS, JavaScript, React, and Python
+         from the instructors at Deejoft Coding School.</p>
     </aside>
 
   </main>
 
-  <!-- The page footer — copyright, secondary links -->
   <footer>
-    <p>&copy; 2025 Deejoft Coding School. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+    </nav>
+    <p><small>© 2025 Deejoft Coding School. All rights reserved.</small></p>
   </footer>
 
 </body>
 </html>
 ```
 
-**`<section>` vs. `<article>` — The Key Test:**
-> Ask yourself: *"Could I copy this content and paste it somewhere else (another website, an RSS feed, an email) and it would still make complete sense on its own?"*
-> - If **YES** → `<article>` (a blog post, a news story, a product card, a comment)
-> - If **NO** → `<section>` (a chapter of a page, a group of related things that only make sense in context)
+**The `<section>` vs. `<article>` test:**
+> Ask: *"If I copied this content to a different website, would it still make complete sense?"*
+> - YES → `<article>` (a blog post, a product listing, a tweet, a comment)
+> - NO → `<section>` (a chapter of *this* page that only makes sense in context)
+
+**Other semantic elements worth knowing:**
+
+```html
+<figure>
+  <!-- Self-contained content referenced from the main text: diagrams, charts, photos -->
+  <img src="./js-event-loop.png" alt="Diagram of the JavaScript event loop">
+  <figcaption>Fig. 1 — The JavaScript event loop. Call stack on the left, task queue on the right.</figcaption>
+</figure>
+
+<details>
+  <!-- Native disclosure widget — no JavaScript needed -->
+  <summary>What is the prerequisite for the JavaScript course?</summary>
+  <p>You should have completed our HTML and CSS courses, or have equivalent experience.</p>
+</details>
+
+<dialog id="enrolment-modal">
+  <!-- Native modal/dialog element — part of HTML5, widely supported since 2022 -->
+  <h2>Enrol Today</h2>
+  <p>Get started for ₦49,999/month.</p>
+  <button onclick="this.closest('dialog').close()">Close</button>
+</dialog>
+<button onclick="document.getElementById('enrolment-modal').showModal()">
+  Enrol Now
+</button>
+
+<address>
+  <!-- Contact information for the nearest <article> or <body> -->
+  <p>Deejoft Coding School</p>
+  <p>14 Tech Hub Crescent, Lekki, Lagos</p>
+  <a href="tel:+2348012345678">+234 801 234 5678</a>
+</address>
+```
 
 ---
 
-### Module 5 — Tables for Data
+### Part C — Tables for Tabular Data (30 min)
 
-**Tutor Guidance:**
-Tables are *only* for tabular data — grids of information with row and column headers. Emphasize: tables are **never** used for page layout. That mistake was made in the 1990s. We use CSS Grid and Flexbox for layouts now.
+> **Rule before code:** Tables are for data that has rows AND columns. They are never used for page layout. Not in 2025.
 
-**Full Table Structure:**
 ```html
 <table>
-  <caption>Student Grades — Term 1</caption>
+  <caption>Deejoft Course Schedule — Q3 2025</caption>
+
   <thead>
     <tr>
-      <th scope="col">Student Name</th>
-      <th scope="col">HTML</th>
-      <th scope="col">CSS</th>
-      <th scope="col">JavaScript</th>
+      <th scope="col">Course</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">Tuition (₦)</th>
     </tr>
   </thead>
+
   <tbody>
     <tr>
-      <td>Ada Lovelace</td>
-      <td>95</td>
-      <td>88</td>
-      <td>92</td>
+      <td>HTML & CSS</td>
+      <td>2 Weeks</td>
+      <td><time datetime="2025-07-07">7 July 2025</time></td>
+      <td>49,999</td>
     </tr>
     <tr>
-      <td>Alan Turing</td>
-      <td>87</td>
-      <td>91</td>
-      <td>98</td>
+      <td>JavaScript</td>
+      <td>4 Weeks</td>
+      <td><time datetime="2025-07-21">21 July 2025</time></td>
+      <td>79,999</td>
+    </tr>
+    <tr>
+      <td>React</td>
+      <td>4 Weeks</td>
+      <td><time datetime="2025-08-18">18 August 2025</time></td>
+      <td>89,999</td>
     </tr>
   </tbody>
+
   <tfoot>
     <tr>
-      <td>Class Average</td>
-      <td>91</td>
-      <td>89.5</td>
-      <td>95</td>
+      <th scope="row" colspan="3">Full Track (Bundle)</th>
+      <td>189,999</td>
     </tr>
   </tfoot>
 </table>
 ```
 
-**Merging Cells:**
-```html
-<!-- colspan: merge across columns -->
-<td colspan="2">This cell spans 2 columns</td>
-
-<!-- rowspan: merge down rows -->
-<td rowspan="3">This cell spans 3 rows</td>
-```
+> `scope="col"` and `scope="row"` on `<th>` elements tell screen readers which data the header applies to. Without these, a screen reader user hearing a data cell has no way of knowing which column or row it belongs to.
 
 ---
 
-### 📝 Week 3 Assignment: Company Homepage (Structure Only)
+### ✏️ Class 2 Exercise — Semantic Refactor (30 min)
 
-**Goal:** Perfect semantic structure. No CSS needed — this is about HTML architecture.
-- `<header>` with `<nav>` containing a `<ul>` of links
-- `<main>` with:
-  - A `<section>` for "About Us"
-  - A `<section>` for "Our Services" (with `<article>` tags for each service)
-  - A `<table>` showing a pricing plan comparison
-- `<aside>` for testimonials
-- `<footer>` with copyright
+Given a `<div>`-heavy starter file, students refactor it to use correct semantic HTML5 elements. Bonus: add a data table (e.g., a pricing table or timetable).
 
 ---
 
-## 📅 Week 4: Forms
+## 📅 Class 3 — Forms & Interactive Controls
 
-### Module 6 & 7 — Forms (Basic to Advanced)
+**Duration:** ~2 hours  
+**Objective:** Students can build a complete, accessible, validated form using modern HTML5 form elements and attributes.
 
-**Tutor Guidance:**
-Forms are the *most interactive* part of pure HTML. Students are highly engaged here because they can finally see user input. Focus heavily on the `<label>` connection — it is the single most overlooked accessibility feature.
+---
 
-**The Critical Label Connection:**
+### Part A — Why Forms Are an Accessibility Battleground (15 min)
+
+> Demonstrate live: open a form with no `<label>` tags using the ChromeVox screen reader extension (or Tab through it). Students cannot tell what any field is for. Then demonstrate the same form with correct labels. The difference is stark.
+
+The two rules that matter most:
+1. **Every input must have a visible, programmatically linked `<label>`.**
+2. **Use the right `type` attribute** — it gives mobile users the right keyboard and gives browsers the right validation rules for free.
+
+---
+
+### Part B — Form Anatomy (50 min)
+
 ```html
-<!-- ✅ Explicit label — ALWAYS use this method -->
-<label for="email">Email Address</label>
-<input type="email" id="email" name="email" placeholder="you@example.com">
+<form
+  action="/enrol"
+  method="POST"
+  novalidate
+>
+  <!-- novalidate lets us style validation ourselves with CSS/JS, but
+       HTML5 built-in validation attributes still work as an API -->
 
-<!-- ❌ Unlabelled input — a screen reader user cannot know what to type here -->
-<input type="email" name="email">
-```
-
-> **Live Demo:** Open a screen reader (or use the ChromeVox extension). Tab through a form that has labels, then one that doesn't. Students immediately understand why labels matter.
-
-**A Complete Registration Form Example:**
-```html
-<form action="/register" method="POST">
-
+  <!-- ── FIELDSET 1: Personal Details ── -->
   <fieldset>
-    <legend>Account Details</legend>
-    
-    <label for="full-name">Full Name</label>
-    <input 
-      type="text" 
-      id="full-name" 
-      name="full-name" 
-      placeholder="Ada Lovelace" 
-      required 
-      minlength="2"
-    >
-    
-    <label for="email">Email Address</label>
-    <input 
-      type="email" 
-      id="email" 
-      name="email" 
-      placeholder="ada@example.com" 
-      required
-    >
-    
-    <label for="password">Password</label>
-    <input 
-      type="password" 
-      id="password" 
-      name="password" 
-      minlength="8" 
-      required
-    >
+    <legend>Personal Details</legend>
+
+    <div class="field">
+      <label for="full-name">Full Name <span aria-hidden="true">*</span></label>
+      <input
+        type="text"
+        id="full-name"
+        name="full_name"
+        autocomplete="name"
+        placeholder="Ada Lovelace"
+        required
+        minlength="2"
+        maxlength="100"
+        aria-describedby="name-hint"
+      >
+      <span id="name-hint" class="field-hint">Enter your name as it appears on your ID.</span>
+    </div>
+
+    <div class="field">
+      <label for="email">Email Address <span aria-hidden="true">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        autocomplete="email"
+        placeholder="ada@example.com"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone Number</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        autocomplete="tel"
+        placeholder="+234 800 000 0000"
+      >
+    </div>
+
+    <div class="field">
+      <label for="dob">Date of Birth</label>
+      <input
+        type="date"
+        id="dob"
+        name="dob"
+        min="1940-01-01"
+        max="2010-12-31"
+      >
+    </div>
   </fieldset>
 
+
+  <!-- ── FIELDSET 2: Course Preferences ── -->
   <fieldset>
-    <legend>Preferences</legend>
-    
-    <p>Preferred Contact Method:</p>
-    <input type="radio" id="contact-email" name="contact" value="email">
-    <label for="contact-email">Email</label>
-    
-    <input type="radio" id="contact-phone" name="contact" value="phone">
-    <label for="contact-phone">Phone</label>
-    
-    <label for="experience">Experience Level</label>
-    <select id="experience" name="experience">
-      <option value="">-- Please choose --</option>
-      <option value="beginner">Beginner</option>
-      <option value="intermediate">Intermediate</option>
-      <option value="expert">Expert</option>
-    </select>
-    
-    <input type="checkbox" id="newsletter" name="newsletter" value="yes">
-    <label for="newsletter">Subscribe to newsletter</label>
+    <legend>Course Preferences</legend>
+
+    <!-- Select dropdown -->
+    <div class="field">
+      <label for="course">Choose a Starting Course</label>
+      <select id="course" name="course" required>
+        <option value="" disabled selected>-- Select a course --</option>
+        <optgroup label="Web Development">
+          <option value="html-css">HTML & CSS</option>
+          <option value="javascript">JavaScript</option>
+          <option value="react">React</option>
+        </optgroup>
+        <optgroup label="Mobile Development">
+          <option value="react-native">React Native</option>
+        </optgroup>
+        <optgroup label="Backend">
+          <option value="python">Python</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <!-- Radio buttons — grouped by shared name -->
+    <fieldset>
+      <legend>Preferred Schedule</legend>
+      <div class="field field--inline">
+        <input type="radio" id="schedule-morning" name="schedule" value="morning" checked>
+        <label for="schedule-morning">Weekday Mornings (9am–12pm)</label>
+      </div>
+      <div class="field field--inline">
+        <input type="radio" id="schedule-evening" name="schedule" value="evening">
+        <label for="schedule-evening">Weekday Evenings (6pm–9pm)</label>
+      </div>
+      <div class="field field--inline">
+        <input type="radio" id="schedule-weekend" name="schedule" value="weekend">
+        <label for="schedule-weekend">Weekends (10am–4pm)</label>
+      </div>
+    </fieldset>
+
+    <!-- Checkboxes -->
+    <fieldset>
+      <legend>How did you hear about us?</legend>
+      <div class="field field--inline">
+        <input type="checkbox" id="source-twitter" name="source" value="twitter">
+        <label for="source-twitter">X / Twitter</label>
+      </div>
+      <div class="field field--inline">
+        <input type="checkbox" id="source-instagram" name="source" value="instagram">
+        <label for="source-instagram">Instagram</label>
+      </div>
+      <div class="field field--inline">
+        <input type="checkbox" id="source-referral" name="source" value="referral">
+        <label for="source-referral">Friend / Colleague Referral</label>
+      </div>
+    </fieldset>
   </fieldset>
 
-  <label for="bio">Tell us about yourself</label>
-  <textarea id="bio" name="bio" rows="4" cols="40"></textarea>
 
-  <button type="submit">Create Account</button>
+  <!-- ── FIELDSET 3: Additional Info ── -->
+  <fieldset>
+    <legend>A Little More</legend>
+
+    <div class="field">
+      <label for="experience">Current Coding Experience Level</label>
+      <input
+        type="range"
+        id="experience"
+        name="experience"
+        min="0"
+        max="4"
+        step="1"
+        value="0"
+        list="experience-labels"
+      >
+      <datalist id="experience-labels">
+        <option value="0" label="None"></option>
+        <option value="1" label="Beginner"></option>
+        <option value="2" label="Some"></option>
+        <option value="3" label="Intermediate"></option>
+        <option value="4" label="Advanced"></option>
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label for="goals">What do you hope to build?</label>
+      <textarea
+        id="goals"
+        name="goals"
+        rows="4"
+        placeholder="I want to build a mobile app that helps..."
+        maxlength="500"
+      ></textarea>
+    </div>
+  </fieldset>
+
+  <!-- Submission -->
+  <p class="form-note">
+    Fields marked <abbr title="required">*</abbr> are required.
+  </p>
+
+  <button type="submit">Submit Enrolment</button>
+  <button type="reset">Clear Form</button>
+
 </form>
 ```
 
+**Modern `type` attribute values and why they matter on mobile:**
+
+| `type=` | Mobile keyboard shown | Built-in validation |
+|---------|----------------------|---------------------|
+| `text` | Standard keyboard | None |
+| `email` | Keyboard with `@` key prominent | Must contain `@` and domain |
+| `tel` | Number pad | None (phone formats vary too much) |
+| `number` | Number pad with decimal | Must be a number, respects `min`/`max`/`step` |
+| `url` | Keyboard with `.com` button | Must start with `http://` or `https://` |
+| `date` | Native date picker | Must be a valid date |
+| `password` | Standard, input masked | None |
+| `search` | Standard, with clear button | None |
+
 ---
 
-## 📅 Week 5: Multimedia & Embedding
+### ✏️ Class 3 Exercise — Enrolment Form (30 min)
 
-### Module 8 & 9 — Audio, Video, iframes & Responsive Images
+Students rebuild the above form from scratch, without reference to the notes — using only MDN docs if needed. Focus on the `for`/`id` connection being correct on every field.
 
-**Tutor Guidance:**
-Use this week to show students how "rich" modern HTML is. Many students think you need JavaScript for video players — demonstrate that HTML5 native elements handle a lot.
+---
 
-**Embedding Video:**
+## 📅 Class 4 — Media, Accessibility & Production HTML
+
+**Duration:** ~2 hours  
+**Objective:** Students can embed responsive media, audit a page with a screen reader, add comprehensive meta tags, and understand the `<dialog>` and `<template>` elements.
+
+---
+
+### Part A — Responsive & Modern Media Embedding (35 min)
+
+**`<picture>` — Art Direction and Format Selection:**
 ```html
-<video 
-  src="./videos/intro.mp4" 
-  poster="./images/video-thumbnail.jpg"
-  controls 
-  width="640" 
-  height="360"
+<!--
+  The browser reads <source> elements top to bottom and picks
+  the FIRST one it supports. The <img> is always the final fallback
+  and is the one that carries the alt text.
+-->
+<picture>
+  <!-- Modern format: AVIF — smallest file size, best quality -->
+  <source
+    type="image/avif"
+    srcset="
+      ./images/hero-400.avif  400w,
+      ./images/hero-800.avif  800w,
+      ./images/hero-1200.avif 1200w
+    "
+    sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
+  >
+  <!-- Fallback format: WebP — widely supported, good compression -->
+  <source
+    type="image/webp"
+    srcset="
+      ./images/hero-400.webp  400w,
+      ./images/hero-800.webp  800w,
+      ./images/hero-1200.webp 1200w
+    "
+    sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
+  >
+  <!-- Final fallback: JPEG — works everywhere -->
+  <img
+    src="./images/hero-800.jpg"
+    alt="Students collaborating at a coding workstation at Deejoft"
+    width="1200"
+    height="600"
+    fetchpriority="high"
+  >
+</picture>
+```
+
+**`<video>` — Self-hosted Video:**
+```html
+<video
+  poster="./videos/intro-poster.webp"
+  controls
+  preload="metadata"
+  width="854"
+  height="480"
 >
-  <!-- Fallback for browsers that don't support video -->
-  <p>Your browser doesn't support video. 
-     <a href="./videos/intro.mp4">Download it instead</a>.
+  <source src="./videos/intro.webm" type="video/webm">
+  <source src="./videos/intro.mp4" type="video/mp4">
+  <track
+    kind="subtitles"
+    src="./captions/intro.en.vtt"
+    srclang="en"
+    label="English"
+    default
+  >
+  <p>
+    Your browser doesn't support HTML video.
+    <a href="./videos/intro.mp4">Download the video</a> instead.
   </p>
 </video>
 ```
 
-> **`autoplay` Warning:** Never use `autoplay` without `muted`. Browsers block autoplay with sound by default (to protect users). Always write `autoplay muted` together if you need it.
+> **`<track>` for captions is an accessibility requirement**, not optional. Deaf users, non-native speakers, and anyone watching in a noisy environment depend on it. The file format is WebVTT (`.vtt`) — a plain text format students can write by hand.
 
-**Embedding Audio:**
+**Embedding Third-Party Content with `<iframe>`:**
 ```html
-<audio controls>
-  <source src="./audio/song.mp3" type="audio/mpeg">
-  <source src="./audio/song.ogg" type="audio/ogg">
-  <p>Your browser doesn't support audio.</p>
-</audio>
+<iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  title="Introduction to Deejoft Coding School — YouTube video"
+  width="560"
+  height="315"
+  loading="lazy"
+  allowfullscreen
+  referrerpolicy="strict-origin-when-cross-origin"
+></iframe>
 ```
 
-**Responsive Images with `<picture>`:**
-```html
-<!-- Art Direction: Show a different image crop on mobile vs desktop -->
-<picture>
-  <source media="(max-width: 768px)" srcset="./images/banner-mobile.jpg">
-  <source media="(min-width: 769px)" srcset="./images/banner-desktop.jpg">
-  <img src="./images/banner-desktop.jpg" alt="Students coding at Deejoft School">
-</picture>
-```
-
-> **Explain:** The browser picks the first `<source>` whose `media` condition is true, then loads that image. The final `<img>` is always required as a fallback — it's also what gets the `alt` text.
+> `title` on an `<iframe>` is required for accessibility — screen readers announce it to tell users what the embedded content is.
 
 ---
 
-## 📅 Week 6: Accessibility & SEO
+### Part B — ARIA & Accessibility (30 min)
 
-### Module 10 & 11 — Accessibility, ARIA & Modern HTML
-
-**Tutor Guidance:**
-Frame accessibility not as a "nice to have" extra but as a professional standard. Many countries have legal requirements for web accessibility (WCAG guidelines). Developers who understand accessibility are more hireable.
-
-**ARIA Labels:**
+**The ARIA First Principle:**
+> Use the correct native HTML element first. ARIA should only fill gaps where no native element exists.
 ```html
-<!-- ❌ Bad: User sees "X" but has no idea what it closes -->
-<button>X</button>
+<!-- ❌ Do not do this — reinventing a button with ARIA -->
+<div role="button" tabindex="0" onclick="doSomething()">Click me</div>
 
-<!-- ✅ Good: Screen reader announces "Close dialog" -->
-<button aria-label="Close dialog">X</button>
-
-<!-- ✅ Good: Decorative icon hidden from screen readers -->
-<button>
-  <svg aria-hidden="true" ...></svg>
-  Save Changes
-</button>
+<!-- ✅ Do this — the native element already has all the ARIA built in -->
+<button onclick="doSomething()">Click me</button>
 ```
 
-**SEO & Open Graph Meta Tags:**
+**When ARIA IS necessary:**
+```html
+<!-- aria-label: give an element a text name that isn't visible on screen -->
+<!-- Use for icon-only buttons, where the visual icon is the only label -->
+<button aria-label="Close newsletter modal">
+  <svg aria-hidden="true" focusable="false">...</svg>
+</button>
+
+<!-- aria-describedby: link extra descriptions to an input -->
+<label for="password">Password</label>
+<input
+  type="password"
+  id="password"
+  aria-describedby="password-rules"
+  required
+>
+<ul id="password-rules">
+  <li>At least 8 characters</li>
+  <li>At least one uppercase letter</li>
+  <li>At least one number</li>
+</ul>
+
+<!-- aria-live: announce dynamic content changes to screen readers -->
+<!-- Use for: error messages, notifications, cart updates, search results -->
+<div role="status" aria-live="polite" id="search-status">
+  <!-- JS will update this text; screen readers will announce it automatically -->
+</div>
+
+<!-- aria-expanded: tell screen readers if a toggle (menu, accordion) is open -->
+<button aria-expanded="false" aria-controls="nav-menu" id="nav-toggle">
+  Menu
+</button>
+<ul id="nav-menu" hidden>
+  <li><a href="/">Home</a></li>
+</ul>
+```
+
+---
+
+### Part C — Complete `<head>` for Production (20 min)
+
 ```html
 <head>
+  <!-- ── Character & Viewport ── -->
   <meta charset="UTF-8">
-  <title>Ada Lovelace | Full-Stack Developer</title>
-  
-  <!-- SEO: Description shown in Google search results -->
-  <meta name="description" content="Ada Lovelace is a full-stack developer specialising in React and Python, based in Lagos.">
-  
-  <!-- Open Graph: How the page looks when shared on social media -->
-  <meta property="og:title" content="Ada Lovelace | Portfolio">
-  <meta property="og:description" content="Full-stack developer. View my projects.">
-  <meta property="og:image" content="https://adalovelace.dev/og-image.jpg">
-  <meta property="og:url" content="https://adalovelace.dev">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ── Identity ── -->
+  <title>HTML & CSS Course | Deejoft Coding School</title>
+  <meta name="description" content="Learn modern HTML5 and CSS in 2 intensive weeks at Deejoft Coding School, Lagos. Small classes, real projects, job-ready skills.">
+  <link rel="canonical" href="https://deejoft.com/courses/html-css">
+
+  <!-- ── Open Graph (Facebook, LinkedIn, WhatsApp previews) ── -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deejoft.com/courses/html-css">
+  <meta property="og:title" content="HTML & CSS Course | Deejoft Coding School">
+  <meta property="og:description" content="Learn modern HTML5 and CSS in 2 intensive weeks.">
+  <meta property="og:image" content="https://deejoft.com/og/html-css.png">
+  <meta property="og:locale" content="en_NG">
+
+  <!-- ── Twitter / X Card ── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@deejoftschool">
+  <meta name="twitter:title" content="HTML & CSS Course | Deejoft Coding School">
+  <meta name="twitter:image" content="https://deejoft.com/og/html-css.png">
+
+  <!-- ── Favicon (Modern Setup) ── -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- ── Fonts ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- ── Stylesheet ── -->
+  <link rel="stylesheet" href="./css/main.css">
 </head>
 ```
 
 ---
 
-### 🏆 Final Project: Professional Portfolio Website
+### 🏆 Class 4 & Final Project — Portfolio Home Page
+
+Build a single `index.html` that consolidates everything from all four classes.
 
 **Requirements:**
-Three-page site: `index.html`, `about.html`, `contact.html`
 
-**Evaluation Rubric:**
+| Feature | Must Include |
+|---------|-------------|
+| Document structure | Full valid `<head>` with all meta tags, OG tags, and favicon links |
+| Semantic layout | `<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>` |
+| Content | `<article>` for a featured project, `<section>` for skills, `<figure>` for a screenshot |
+| Media | `<picture>` with AVIF/WebP/JPEG sources; `<video>` or embedded YouTube with `<iframe>` |
+| Form | A working contact form with `<fieldset>`, `<label>`, `<input>`, `<select>`, `<textarea>` |
+| Accessibility | All images have `alt`, all inputs have `<label>`, one `aria-label` on an icon button |
+| Native dialog | `<dialog>` used as a "Thank You" confirmation modal |
+| Table | A skills or timeline table with `<caption>`, `<thead>`, `<tbody>`, `scope` attributes |
+| Validation | Zero errors at `validator.w3.org` |
+
+**Rubric:**
 
 | Criterion | Points |
 |-----------|--------|
-| Correct semantic structure on all pages (`header`, `nav`, `main`, `footer`) | 20 |
-| Navigation links all 3 pages correctly | 10 |
-| Homepage has `section` + `article` elements | 15 |
-| About page uses `video` or `audio` + `aside` | 15 |
-| Contact page has fully accessible form with `label`s and `fieldset`s | 20 |
-| All images have meaningful `alt` text | 10 |
-| Each page has unique `title` and `meta description` | 10 |
+| Zero W3C validation errors | 20 |
+| Correct semantic structure (no layout `<div>`s where a semantic tag exists) | 20 |
+| Fully accessible form (every input labelled) | 20 |
+| Correct `<picture>` responsive image setup | 15 |
+| Complete production `<head>` (OG, favicon, description) | 15 |
+| `<dialog>` element used correctly | 10 |
 | **Total** | **100** |
 
 ---
 
-## 📚 Recommended Resources
+## 📚 Essential References
 
-- **MDN Web Docs:** [developer.mozilla.org](https://developer.mozilla.org) — the definitive HTML reference
-- **HTML Validator:** [validator.w3.org](https://validator.w3.org) — validate student work before marking
-- **WebAIM:** [webaim.org](https://webaim.org) — accessibility checker and resources
-- **Can I Use:** [caniuse.com](https://caniuse.com) — browser support for HTML features
+| Resource | URL | Use For |
+|----------|-----|---------|
+| MDN HTML Reference | `developer.mozilla.org/en-US/docs/Web/HTML` | Looking up any element or attribute |
+| W3C Validator | `validator.w3.org` | Validating every assignment before submission |
+| Can I Use | `caniuse.com` | Checking browser support before using a new element |
+| WebAIM Screen Reader | `webaim.org/articles/nvda` | Accessibility testing guide |
+| a11y Project Checklist | `a11yproject.com/checklist` | Pre-submission accessibility audit |
 
 ---
 
-*Deejoft Coding School — Instructor Materials | HTML5 Track*  
-*Last Updated: 2025*
+*Deejoft Coding School — Instructor Materials | HTML5 Track*
+*Rebuilt 2025 — Based on HTML Living Standard & WHATWG spec*
