@@ -19,8 +19,8 @@
 | Class 3 | Forms & Interactive Controls | Build a fully labelled, validated, accessible form |
 | Class 4 | Media, Accessibility & Modern HTML | Embed media responsively; audit a page with a screen reader |
 
-**Prerequisites:** None  
-**Tools:** VS Code + Live Server extension, Google Chrome + DevTools  
+**Prerequisites:** None
+**Tools:** VS Code + Live Server extension, Google Chrome + DevTools
 **Next Course:** CSS (starts immediately after)
 
 ---
@@ -43,7 +43,7 @@ Write these on the board on Day 1. Come back to them every class.
 
 ## 📅 Class 1 — Document Structure & Content Tags
 
-**Duration:** ~2 hours  
+**Duration:** ~2 hours
 **Objective:** Students can write a valid HTML5 page from a blank file, with correct document structure, headings, paragraphs, links, and images.
 
 ---
@@ -73,7 +73,7 @@ JS    ──▶  Behaviour    "What does it do?"             The muscles & brain
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deejoft | Home</title>
-    <meta name="description" content="Learn to code at Deejoft Coding School in Lagos.">
+    <meta name="description" content="Learn to code at Deejoft Coding School in Ibadan.">
   </head>
   <body>
 
@@ -171,7 +171,7 @@ Build `index.html` from scratch without copying code. Must include:
 
 ## 📅 Class 2 — Semantic HTML & Structured Data
 
-**Duration:** ~2 hours  
+**Duration:** ~2 hours
 **Objective:** Students can build a complete page layout using semantic HTML5 elements and structure tabular data correctly.
 
 ---
@@ -406,7 +406,7 @@ Given a `<div>`-heavy starter file, students refactor it to use correct semantic
 
 ## 📅 Class 3 — Forms & Interactive Controls
 
-**Duration:** ~2 hours  
+**Duration:** ~2 hours
 **Objective:** Students can build a complete, accessible, validated form using modern HTML5 form elements and attributes.
 
 ---
@@ -618,7 +618,7 @@ Students rebuild the above form from scratch, without reference to the notes —
 
 ## 📅 Class 4 — Media, Accessibility & Production HTML
 
-**Duration:** ~2 hours  
+**Duration:** ~2 hours
 **Objective:** Students can embed responsive media, audit a page with a screen reader, add comprehensive meta tags, and understand the `<dialog>` and `<template>` elements.
 
 ---
