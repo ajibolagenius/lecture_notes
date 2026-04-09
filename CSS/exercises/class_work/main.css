@@ -1,0 +1,65 @@
+/*
+Single line comment
+Multiline comment
+*/
+
+/* Selectors */
+
+/* Type/Element/Tag Selector */
+
+h1 {
+    color: limegreen;
+    text-decoration: underline;
+    font-size: 2rem;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+}
+
+p {
+    color: darkslategray;
+    font-size: 1.2rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Class Selector — targets element with that specific class name */
+
+.one {
+    color: #333;
+    font-weight: bold;
+}
+
+/* ID Selector — targets element with that specific ID */
+
+#one {
+    color: crimson
+}
+
+/* Attribute Selector — targets element with that specific attribute */
+
+a {
+    color: dodgerblue;
+    text-decoration: none;
+}
+
+a[href^="https"] {
+    color: orange;
+}
+
+a[href$=".pdf"] {
+    color: limegreen;
+}
+input[type="submit"] {
+    border: 2px solid #333;
+    background-color: #333;
+    color: white;
+}
