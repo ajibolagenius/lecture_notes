@@ -51,15 +51,87 @@ a {
     text-decoration: none;
 }
 
-a[href^="https"] {
+.list {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+/* Pseudo-Class Selectors */
+a:hover {
+    text-decoration: underline;
+}
+a:active {
+    color: red;
+}
+
+a:visited {
+    color: purple;
+}
+
+input:focus {
+    border-color: dodgerblue;
+    outline: none;
+}
+
+input[type="submit"]:active {
+    cursor: pointer;
+    outline: none;
+    background-color: dodgerblue;
+    border: none;
+}
+
+/* .list li:first-child {
+    color: dodgerblue;
+}
+
+.list li:last-child {
+    color: red;
+} */
+
+/* .list li:nth-child(odd) {
+    color: crimson;
+}
+.list li:nth-child(even) {
+    color: dodgerblue;
+} */
+
+/* .list li:not(.five) {
+    color:dodgerblue
+} */
+
+/* End of Pseudo-Class Selectors */
+
+/* a[href^="https"] {
     color: orange;
 }
 
 a[href$=".pdf"] {
     color: limegreen;
-}
+} */
+
 input[type="submit"] {
     border: 2px solid #333;
     background-color: #333;
     color: white;
+}
+
+/* Pseudo-Elements */
+
+/* End of Pseudo-Elements */
+
+/* p::first-line {
+    font-size: 2rem;
+    color: dodgerblue;
+    font-weight: bold;
+} */
+
+.list li::before {
+    content: "✓ ";
+    color: green;
+}
+
+.list li::after {
+    content: " (done)";
+    color: gray;
+    font-style: italic;
 }
