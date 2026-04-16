@@ -1,77 +1,129 @@
+from itertools import cycle
 import random
+import datetime
+import time
 
 def main():
     print("Hello from robot-sim!")
     print("======================================")
-    print("This is a placeholder for the robot simulation exercise.")
-    print("--------------------------------------")
 
-    # Variables and Data Types — Robot Context
+    # # String Methods
+    # raw_message = " ERROR: obstacle_detected at sector_B "
 
-    # --- Modelling the Robot ---
+    # # Clean and Parse
+    # clean = raw_message.strip() # Remove leading/trailing whitespace
+    # parts = clean.split(": ", maxsplit=1) # Split into type and details
+    # level = parts[0] # "ERROR"
+    # detail = parts[1] # "obstacle_detected at sector_B"
 
-    robot_name: str = "Farha-UV-1" # The name of the robot with a string data type
-    robot_id: int = 101 # The unique identifier for the robot with an integer data type
-    battery_level: float = 75.5 # The current battery level of the robot with a float data type
-    is_active: bool = True # A boolean indicating if the robot is currently active
-    last_error: str | None = None # A variable to store the last error message, initialized to None or a string if an error occurs
+    # # Log Formatting
+    # def format_log(level: str, message: str) -> str:
+    #     # import datetime
+    #     ts = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3] # Get current time with milliseconds
+    #     return f"[{ts}] [{level:<7}] {message}" # Format log with timestamp and level
 
-    # --- Telemetry Data Output ---
-    print(f"Robot Name      : {robot_name} (ID: #{robot_id})") # Output the robot's name and ID
-    print(f"Battery Level   : {battery_level:.1f}%") # Output the battery level formatted to one decimal place
-    print(f"Active Status   : {'Active' if is_active else 'Inactive'}") # Output the active status of the robot
-    print(f"Error Status    : {last_error if last_error else 'No errors detected'}") # Output the error status, showing the last error if it exists
-
-
-    # --- Debug Shorthands ---
-    speed = 1.25 # (m/s) The current speed of the robot in meters per second
-    print(f"Speed  : {speed:.2f} m/s") # Output the speed formatted to two decimal places
-    print(f"Speed  : {speed * 3.6:.2f} km/h") # Convert speed to kilometers per hour and output it formatted to two decimal places
-
-    # --- Sensor Readings ---
-    temperature             : float = 22.5 # (°C) The current temperature reading from the robot's sensor in degrees Celsius
-    ultrasonic_distance     : float = 0.42 # (m) The distance to the nearest obstacle detected by the ultrasonic sensor in meters
-    lidar_angle             : int = 270 # (degrees) The angle at which the LiDAR sensor is currently scanning
-    encoder_ticks           : int = 15_320 # The number of encoder ticks counted, representing the distance traveled by the robot
-    wheel_circumference    : float = 0.314_159 # (m) The circumference of the robot's wheel in meters
-
-    # Useful Calculations
-    distance_traveled      : float = (encoder_ticks / 360) * wheel_circumference # Calculate the distance traveled based on encoder ticks and wheel circumference
-    print(f"Distance Traveled : {distance_traveled:.2f} m") # Output the distance traveled formatted to two decimal places
-
-    # --- Integer division and modulo for navigation ---
-    full_rotations = encoder_ticks // 360 # Calculate the number of full rotations completed by the robot
-    partial_ticks = encoder_ticks % 360 # Calculate the remaining ticks after accounting for full rotations
-    print(f"Full Rotations    : {full_rotations} rotations") # Output the number of full rotations
-    print(f"Partial Ticks     : {partial_ticks} ticks") # Output the number of partial ticks remaining after full rotations
-
-    # --- None and Optional Types ---
-    def generate_random_point():
-        latitude = random.uniform(-90.0, 90.0) # Generate a random latitude value between -90 and 90 degrees
-        longitude = random.uniform(-180.0, 180.0) # Generate a random longitude value between -180 and 180 degrees
-        return round(latitude, 6), round(longitude, 6) # Return the generated latitude and longitude as a tuple
+    # # Printing
+    # print(format_log("INFO",    "Robot initialised"))
+    # print(format_log("WARNING", "Battery below 20%"))
+    # print(format_log("ERROR",   "Ultrasonic timeout"))
 
 
-    gps_latitude: float | None = generate_random_point()[0] # The current latitude from the GPS sensor, initialized to None if no data is available
-    gps_longitude: float | None = generate_random_point()[1] # The current longitude from the GPS sensor, initialized to None if no data is available
+    # Control Flow: Robot Decision Making
 
-    if gps_latitude is None:
-        print("⚠️  GPS not ready — waiting for fix...") # Output a warning message if the GPS data is not available
-    else:
-        print(f"GPS Coordinates   : ({gps_latitude:.6f}, {gps_longitude:.6f})") # Output the GPS coordinates formatted to six decimal places if data is available
+    # --- State Machine Pattern ---
 
+    # state = "IDLE" # Possible states: IDLE, MOVING, CHARGING, ERROR, OBSTACLE
 
+    # # match/case logic to determine next state
+    # match state:
+    #     case "IDLE":
+    #         print("🤖 Waiting for command...")
+    #     case "MOVING":
+    #         print("➡️  Moving to waypoint")
+    #     case "OBSTACLE":
+    #         print("🛑 Obstacle detected — stopping")
+    #     case "CHARGING":
+    #         print("🔋 Charging — do not disturb")
+    #     case "ERROR":
+    #         print("❌ Fault — require manual intervention")
+    #     case _:
+    #         print(f"⚠️  Unknown state: {state}")
 
+    # print("---*20")
 
+    # # --- Sensor threshold decision chain ---
+    # distance_cm = random.uniform(0, 100) # Simulate a distance sensor reading in cm
 
+    # if distance_cm < 20:
+    #     action = (f"🚨 Obstacle very close: {distance_cm:.1f} cm — stopping immediately!")
+    # elif distance_cm < 50:
+    #     action = (f"⚠️  Obstacle detected: {distance_cm:.1f} cm — slowing down")
+    # elif distance_cm < 80:
+    #     action = (f"⚠️  Caution: object at {distance_cm:.1f} cm — maintaining current speed")
+    # else:
+    #     action = (f"✅ Path clear: {distance_cm:.1f} cm — proceeding at normal speed")
 
+    # print(f"Distance {distance_cm:.1f} cm -> Action: {action}")
 
+    # print("---*20")
 
+    # # --- The Control Loop ---
 
+    # battery         = 100.0
+    # obstacle_dist   = random.uniform(0, 100)
+    # running         = True
 
+    # MAX_CYCLES      = 10
+    # cycle_count     = 0
 
+    # while running and cycle_count < MAX_CYCLES:
+    #     print(f"Cycle {cycle_count+1}/{MAX_CYCLES} - Battery: {battery:.1f}% - Obstacle Distance: {obstacle_dist:.1f} cm")
 
+    #     # Decision logic based on sensor data
+    #     if battery < 20:
+    #         print("🔋 Battery low — seeking charging station")
+    #         running = False # For this simulation, we stop when battery is low
+    #         state = "CHARGING"
+    #     elif obstacle_dist < 20:
+    #         print("🚨 Obstacle very close — stopping immediately!")
+    #         running = False # For this simulation, we stop when an obstacle is detected
+    #         state = "OBSTACLE"
+    #     elif obstacle_dist < 50:
+    #         print("⚠️  Obstacle detected — slowing down")
+    #         state = "MOVING"
+    #     else:
+    #         print("✅ Path clear — proceeding at normal speed")
+    #         state = "MOVING"
 
+    #     # Simulate battery drain and sensor updates
+    #     battery -= random.uniform(5, 15) # Drain battery randomly
+    #     obstacle_dist = random.uniform(0, 100) # Update obstacle distance
+
+    #     # Check for end conditions
+    #     if battery <= 0:
+    #         print("🔋 Battery depleted — shutting down")
+    #         running = False
+
+    #     cycle_count += 1
+    #     time.sleep(1) # Simulate time delay for next cycle
+
+    # --- Iterating over waypoints ---
+    waypoints = [
+    (0.0, 0.0),
+    (1.5, 0.0),
+    (1.5, 2.0),
+    (0.0, 2.0),
+    (0.0, 0.0),  # Return to origin
+]
+
+    for index, (x, y) in enumerate(waypoints):
+        is_last = index == len(waypoints) - 1
+        tag = "🏁 Final waypoint" if is_last else f"Waypoint {index}"
+        print(f" -> Navigating to {tag}: ({x: .1f}, {y: .1f})")
+
+    # List comprehension — filter only waypoints in positive quadrant
+    safe_wps = [(x, y) for (x, y) in waypoints if x >= 0 and y >= 0]
+    print(f"Safe waypoints in positive quadrant: {safe_wps}")
 
 if __name__ == "__main__":
     main()
