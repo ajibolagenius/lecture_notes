@@ -75,7 +75,7 @@ connsole.log('hi')  // ReferenceError: connsole is not defined
 ### The Three Keywords — And Why Two Are Dead (10 min)
 
 **[SAY]:**
-> "JavaScript has three keywords for declaring variables: `var`, `let`, and `const`. One of them is legacy and should never be written in 2025. Two of them we use every day. Let me explain the difference."
+> "JavaScript has three keywords for declaring variables: `var`, `let`, and `const`. One of them is legacy and should never be written in 2026. Two of them we use every day. Let me explain the difference."
 
 **[TYPE in console:]**
 ```javascript
