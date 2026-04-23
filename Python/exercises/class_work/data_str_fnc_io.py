@@ -3,6 +3,7 @@
 
 # Pathlib is a module in Python that provides an object-oriented interface for working with file paths. It allows you to manipulate file paths and perform various operations on them.
 
+from logging import config
 from os import write
 from pathlib import Path
 
@@ -37,45 +38,76 @@ lines = report.read_text(encoding="utf-8").splitlines()  # Read the content and 
 # CSV (Comma-Separated Values) is a common file format used for storing tabular data. Python provides a built-in csv module for working with CSV files.
 
 # Iterate all CSV files recursively in the data directory
-for csv_file in data_dir.rglob("*.csv"):
-    print(csv_file)
+# for csv_file in data_dir.rglob("*.csv"):
+#     print(csv_file)
 
-import csv
+# import csv
 
-EXPENSES_FILE = Path("data/expenses.csv")
-FIELDNAMES = ["date", "category", "description", "amount"]
+# EXPENSES_FILE = Path("data/expenses.csv")
+# FIELDNAMES = ["date", "category", "description", "amount"]
 
-def write_expenses(expenses: list[dict]) -> None:
-    with EXPENSES_FILE.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
-        writer.writeheader()
-        writer.writerows(expenses)
+# def write_expenses(expenses: list[dict]) -> None:
+#     with EXPENSES_FILE.open("w", newline="", encoding="utf-8") as f:
+#         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+#         writer.writeheader()
+#         writer.writerows(expenses)
 
-def read_expenses() -> list[dict]:
-    if not EXPENSES_FILE.exists():
-        return []
-    with EXPENSES_FILE.open("r", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+# def read_expenses() -> list[dict]:
+#     if not EXPENSES_FILE.exists():
+#         return []
+#     with EXPENSES_FILE.open("r", encoding="utf-8") as f:
+#         return list(csv.DictReader(f))
 
-def get_total_by_category(expenses: list[dict]) -> dict[str, float]:
-    totals: dict[str, float] = {}
-    for expense in expenses:
-        cat    = expense["category"]
-        amount = float(expense["amount"])
-        totals[cat] = totals.get(cat, 0.0) + amount
+# def get_total_by_category(expenses: list[dict]) -> dict[str, float]:
+#     totals: dict[str, float] = {}
+#     for expense in expenses:
+#         cat    = expense["category"]
+#         amount = float(expense["amount"])
+#         totals[cat] = totals.get(cat, 0.0) + amount
 
-    print(totals)
-    return dict(sorted(totals.items(), key=lambda x: x[1], reverse=True))
+#     print(totals)
+#     return dict(sorted(totals.items(), key=lambda x: x[1], reverse=True))
 
 
-write_expenses([
-    {"date": "2024-06-01", "category": "Food", "description": "Groceries", "amount": "50.00"},
-    {"date": "2024-06-02", "category": "Transport", "description": "Bus ticket", "amount": "2.50"},
-    {"date": "2024-06-03", "category": "Food", "description": "Pizza", "amount": "10.00"},
-    {"date": "2024-06-04", "category": "Entertainment", "description": "Movie tickets", "amount": "15.00"},
-    {"date": "2024-06-05", "category": "Transport", "description": "Taxi", "amount": "20.00"},
-])
+# write_expenses([
+#     {"date": "2024-06-01", "category": "Food", "description": "Groceries", "amount": "50.00"},
+#     {"date": "2024-06-02", "category": "Transport", "description": "Bus ticket", "amount": "2.50"},
+#     {"date": "2024-06-03", "category": "Food", "description": "Pizza", "amount": "10.00"},
+#     {"date": "2024-06-04", "category": "Entertainment", "description": "Movie tickets", "amount": "15.00"},
+#     {"date": "2024-06-05", "category": "Transport", "description": "Taxi", "amount": "20.00"},
+# ])
 
-read_expenses()
+# read_expenses()
 
-get_total_by_category(read_expenses())
+# get_total_by_category(read_expenses())
+
+
+# # --- JSON Files ---
+# JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for humans to read and write, and easy for machines to parse and generate. Python provides a built-in json module for working with JSON files.
+import json
+
+config_file = Path("data/config.json")
+
+def load_config() -> dict:
+    if not config_file.exists():
+        return {
+            "theme": "dark",
+            "language": "en",
+            "notifications": True
+        }
+    return json.loads(config_file.read_text(encoding="utf-8"))
+
+def save_config(config: dict) -> None:
+    config_file.write_text(
+        json.dumps(config, indent=2, ensure_ascii=False)
+    )
+
+# Example usage
+# config = load_config()
+# print(config)
+
+save_config({
+    "theme": "light",
+    "language": "es",
+    "notifications": False
+})
