@@ -84,30 +84,24 @@ lines = report.read_text(encoding="utf-8").splitlines()  # Read the content and 
 
 # # --- JSON Files ---
 # JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for humans to read and write, and easy for machines to parse and generate. Python provides a built-in json module for working with JSON files.
-import json
+
+import json # Import the json module for working with JSON files
 
 config_file = Path("data/config.json")
 
 def load_config() -> dict:
     if not config_file.exists():
         return {
-            "theme": "dark",
+            "theme": "light",
             "language": "en",
-            "notifications": True
+            "show_notifications": True,
+            "last_seen": "2 hours ago"
         }
     return json.loads(config_file.read_text(encoding="utf-8"))
 
 def save_config(config: dict) -> None:
-    config_file.write_text(
-        json.dumps(config, indent=2, ensure_ascii=False)
-    )
+    config_file.write_text(json.dumps(config, indent=4), encoding="utf-8")
 
-# Example usage
-# config = load_config()
-# print(config)
 
-save_config({
-    "theme": "light",
-    "language": "es",
-    "notifications": False
-})
+config = load_config()
+save_config(config)

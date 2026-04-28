@@ -1,5 +1,6 @@
 {
-  "theme": "light",
-  "language": "es",
-  "notifications": false
+    "theme": "light",
+    "language": "en",
+    "show_notifications": true,
+    "last_seen": "2 hours ago"
 }
