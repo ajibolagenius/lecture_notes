@@ -6,8 +6,47 @@
     box-sizing: border-box;
 }
 
-div {
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  margin-bottom: 50px;
+}
+
+img, video, canvas, svg {
+  display: block;
+  max-width: 50%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  /* display: block; */
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+
+
+
+
+/* .special_img {
+    max-width: 80%;
+} */
+
+/* div {
     border: 5px solid black;
     margin: 25px;
     padding: 25px;
+} */
+
+h1 {
+    color: red
 }
