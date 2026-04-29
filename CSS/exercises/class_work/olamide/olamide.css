@@ -6,6 +6,8 @@
     box-sizing: border-box;
 }
 
+/* Type/Element/Tag */
+
 html {
   font-size: 100%;
   scroll-behavior: smooth;
@@ -33,20 +35,54 @@ p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
+a {
+    text-decoration: none;
+}
 
+/* Class Selector */
+.red_color {
+    color: crimson;
+}
 
+/* ID Selector */
+#blue_color {
+    color: dodgerblue;
+}
 
-
-/* .special_img {
-    max-width: 80%;
+/* Attribute Selector */
+/* a[target="_blank"] {
+    color: chocolate;
+}
+a[target="_parent"] {
+    color: cornflowerblue;
 } */
+/* a[href^="mailto"] {
+    color: dodgerblue;
+}
 
-/* div {
-    border: 5px solid black;
-    margin: 25px;
-    padding: 25px;
+a[href$=".pdf"] {
+    color:rgb(65, 136, 14);
 } */
+/*
+input[type="password"] {
+    border-color: #e94560;
+ } */
 
-h1 {
-    color: red
+ /* Pseudo-class selector */
+a:hover {
+    color: crimson;
+    text-decoration: underline;
+}
+
+button[type="submit"]:hover {
+    background-color: dodgerblue;
+}
+
+a:focus-visible {
+    outline: 3px solid #5545e9;
+    outline-offset: 2px;
+}
+input[type]:disabled {
+    background-color: #000000;
+    color: #333;
 }
