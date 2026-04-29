@@ -4,119 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deejoft | Home</title>
-    <meta name="description" content="Learn to code at Deejoft Coding School in Lagos.">
-    <meta name="keywords" content="coding school, programming courses, web development, Python, Lagos">
+    <title>Semantic HTML</title>
 </head>
 
 <body>
-    <header>
-        <div class="top-thing">
-            <div class="logo-area">Deejoft</div>
-            <div class="link-area">
-                <div class="link">Home</div>
-                <div class="link">Courses</div>
-            </div>
-        </div>
-    </header>
 
-    <main>
-        <h1 id="top">Deejoft Coding School</h1>
-        <p>Welcome to Deejoft Coding School! We are dedicated to helping you learn to code and build your skills in the
-            tech industry.</p>
-        <hr>
+    <header>
+        <a href="/" aria-label="Deejoft home page">
+            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4bb/512.webp" alt="Deejoft School Logo"
+                height="32">
+        </a>
         <nav>
-            <a href="#web_dev">Web Dev</a> - <a href="#graphic_design">Graphic Design</a> - <a
-                href="#cyber_security">Cyber Security</a> - <a href="#mobile_app_dev">Mobile App Dev</a> - <a
-                href="#artificial_intelligence">Artificial Intelligence</a> - <a href="#game_development">Game Dev</a>
+            <ul>
+                <li><a href="/" aria-current="page">Home</a></li>
+                <li><a href="/courses">Courses</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
         </nav>
         <hr>
-        <h2>Our Courses</h2>
-        <p>We offer a variety of courses to help you learn to code and build your skills.</p>
-        <hr>
-        <section id="web_dev">
-            <h3>Web Development Track</h3>
-            <p>Learn to build modern websites and web applications.</p>
-            <h4>Front-End Development</h4>
-            <h4>Back-End Development</h4>
-            <h4>Full-Stack Development</h4>
+    </header>
+    <main>
+        <section>
+            <h2>Featured Articles</h2>
+            <article>
+                <header>
+                    <h3>Getting Started with React in 2026</h3>
+                    <p>
+                        By <a href="/author/ada">Ada Lovelace</a> · <time datetime="2026-04-29">April 29, 2026</time>
+                    </p>
+                </header>
+                <p>React 19 introduced Actions and the <code>use()</code> hook, making
+                    async state management cleaner than ever before...</p>
+                <a href="/blog/react-2025">Read full article →</a>
+            </article>
+            <article>
+                <header>
+                    <h3>Python 3.13 — What's New</h3>
+                    <p>By <a href="/author/alan">Alan Turing</a> ·
+                        <time datetime="2025-05-28">May 28, 2025</time>
+                    </p>
+                </header>
+                <p>The new free-threaded mode and improved REPL make Python 3.13
+                    the most developer-friendly release yet...</p>
+                <a href="/blog/python-313">Read full article →</a>
+            </article>
         </section>
-        <section id="graphic_design">
-            <h3>Graphic Design Track</h3>
-            <p>Learn to create stunning visuals and designs for digital and print media.</p>
-            <h4>Adobe Photoshop</h4>
-            <h4>Adobe Illustrator</h4>
-            <h4>Adobe InDesign</h4>
+        <aside>
+            <h2>About This Blog</h2>
+            <p>Weekly articles on HTML, CSS, JavaScript, React, and Python
+                from the instructors at Deejoft Coding School.</p>
+        </aside>
+        <section>
+            <figure>
+                <img src="https://images.pexels.com/photos/37194808/pexels-photo-37194808.jpeg"
+                    alt="Elderly Couple Sharing a Heartfelt Hug Outdoors" width="100%">
+                <figcaption>Fig 1.2a - Elderly Couple Sharing a Heartfelt Hug Outdoors</figcaption>
+            </figure>
+            <hr>
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>What is the prerequisite for the JavaScript course?</summary>
+                <p>You should have completed our HTML and CSS courses, or have equivalent experience.</p>
+            </details>
+            <hr>
+            <dialog id="enrolment-modal">
+                <h2>Enrol Today</h2>
+                <p>Get started for ₦49,999/month.</p>
+                <button onclick="this.closest('dialog').close()">Close</button>
+            </dialog>
+            <button onclick="document.getElementById('enrolment-modal').showModal()">
+                Enrol Now
+            </button>
+            <hr>
+            <address>
+                <p>Deejoft Coding School</p>
+                <p>14 Tech Hub Crescent, Lekki, Lagos</p>
+                <a href="tel:+2348012345678">+234 801 234 5678</a>
+            </address>
         </section>
-        <section id="cyber_security">
-            <h3>Cyber Security Track</h3>
-            <p>Learn about network security, ethical hacking, and cyber forensics.</p>
-            <h4>Network Security</h4>
-            <h4>Ethical Hacking</h4>
-            <h4>Cyber Forensics</h4>
-        </section>
-        <section id="mobile_app_dev">
-            <h3>Mobile App Development Track</h3>
-            <p>Learn to build mobile applications for iOS and Android platforms.</p>
-            <h4>iOS Development</h4>
-            <h4>Android Development</h4>
-            <h4>Cross-Platform Development</h4>
-        </section>
-        <section id="artificial_intelligence">
-            <h3>Artificial Intelligence Track</h3>
-            <p>Learn about machine learning, deep learning, and AI applications.</p>
-            <h4>Machine Learning</h4>
-            <h4>Deep Learning</h4>
-            <h4>AI Applications</h4>
-        </section>
-        <section id="game_development">
-            <h3>Game Development Track</h3>
-            <p>Learn to create engaging and interactive games for various platforms.</p>
-            <h4>Unity Development</h4>
-            <h4>Unreal Engine Development</h4>
-            <h4>Mobile Game Development</h4>
-        </section>
-        <!-- Images -->
-        <img src="https://images.pexels.com/photos/28645481/pexels-photo-28645481.jpeg"
-            alt="Artisan Holding a Jar of Preserved Rose Petals" loading="lazy" width="50%" />
-
-        <img src="https://images.pexels.com/photos/36904804/pexels-photo-36904804.jpeg"
-            alt="Mexican Enchiladas with Rich Sauces and Garnishes" loadsing="lazy" width="50%" />
-        <div class="big-content">
-            <div class="writing-box">
-                <div class="writing-title">Welcome</div>
-                <div class="writing-body">We teach modern coding.</div>
-            </div>
-        </div>
     </main>
-
+    <br><br><br><br>
+    <hr>
     <footer>
-        <hr>
-        <a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN Web Docs</a> -
-        <a href="about.html">About Us</a> -
-        <a href="./courses/html.html">HTML Course</a> -
-        <a href="mailto:info@deejoft.com">Email Us</a>
-        <hr>
-        <a href="#top"> &uarr; Top</a>
-        <hr>
-        &copy; 2024 Deejoft Coding School. All rights reserved.
+        <nav aria-label="Footer navigation">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Use</a>
+        </nav>
+        <p><small>© 2025 Deejoft Coding School. All rights reserved.</small></p>
     </footer>
-</body>
-</div>
-</div>
-</main>
 
-<footer>
-    <hr>
-    <a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN Web Docs</a> -
-    <a href="about.html">About Us</a> -
-    <a href="./courses/html.html">HTML Course</a> -
-    <a href="mailto:info@deejoft.com">Email Us</a>
-    <hr>
-    <a href="#top"> &uarr; Top</a>
-    <hr>
-    &copy; 2024 Deejoft Coding School. All rights reserved.
-</footer>
 </body>
 
 </html>
