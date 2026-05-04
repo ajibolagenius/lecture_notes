@@ -1,4 +1,75 @@
 /* the all property and CSS reset */
+/* Design tokens live on :root — globally accessible */
+:root {
+  /* ── Colour Palette ── */
+  --clr-neutral-900: #0f0f11;
+  --clr-neutral-700: #3a3a4a;
+  --clr-neutral-400: #888899;
+  --clr-neutral-100: #f8f8fc;
+  --clr-white:       #ffffff;
+
+  --clr-brand:       #e98745;
+  --clr-brand-light: #ff7a90;
+  --clr-accent:      #0f3460;
+
+  /* ── Semantic Tokens (reference palette tokens, not raw values) ── */
+  --colour-text:         var(--clr-neutral-900);
+  --colour-text-muted:   var(--clr-neutral-400);
+  --colour-bg:           var(--clr-white);
+  --colour-bg-subtle:    var(--clr-neutral-100);
+  --colour-border:       #e2e2e8;
+  --colour-primary:      var(--clr-brand);
+  --colour-primary-hover:var(--clr-brand-light);
+
+  /* ── Typography ── */
+  --font-sans:  'Inter', system-ui, sans-serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+  --step--1: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --step-0:  clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --step-1:  clamp(1.2rem, 1.05rem + 0.75vw, 1.5rem);
+  --step-2:  clamp(1.44rem, 1.2rem + 1.2vw, 2rem);
+  --step-3:  clamp(1.73rem, 1.4rem + 1.65vw, 2.75rem);
+  --step-4:  clamp(2.07rem, 1.6rem + 2.35vw, 3.75rem);
+
+  /* ── Spacing ── */
+  --space-3xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.375rem);
+  --space-2xs: clamp(0.5rem,  0.45rem + 0.25vw, 0.625rem);
+  --space-xs:  clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --space-s:   clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --space-m:   clamp(1.5rem, 1.4rem + 0.5vw, 1.75rem);
+  --space-l:   clamp(2rem, 1.85rem + 0.75vw, 2.5rem);
+  --space-xl:  clamp(3rem, 2.75rem + 1.25vw, 4rem);
+  --space-2xl: clamp(4rem, 3.65rem + 1.75vw, 5.5rem);
+
+  /* ── Shape ── */
+  --radius-s:  4px;
+  --radius-m:  8px;
+  --radius-l:  16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Shadow ── */
+  --shadow-s: 0 1px 3px hsl(0 0% 0% / 8%),  0 1px 2px hsl(0 0% 0% / 6%);
+  --shadow-m: 0 4px 6px hsl(0 0% 0% / 7%),  0 2px 4px hsl(0 0% 0% / 5%);
+  --shadow-l: 0 10px 15px hsl(0 0% 0% / 7%), 0 4px 6px hsl(0 0% 0% / 4%);
+
+  /* ── Transitions ── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+}
+
+/* Dark mode — swap semantic tokens only, never the palette */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --colour-text:       var(--clr-neutral-100);
+    --colour-text-muted: var(--clr-neutral-400);
+    --colour-bg:         var(--clr-neutral-900);
+    --colour-bg-subtle:  #1a1a2a;
+    --colour-border:     #2a2a3a;
+  }
+}
 
 *, *::before, *::after {
     margin: 0;
@@ -11,7 +82,7 @@ html {
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-}
+} */
 
 body {
     min-height: 100dvh;
@@ -34,165 +105,24 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* Selectors */
 
-/* Type/Element/Tag Selector */
+.boxmodel {
+    width: 200px;
+    height: 200px;
 
-h1 {
-    color: limegreen;
-    text-decoration: underline;
-    font-size: 2rem;
+    padding: 15px;
+    margin: 10px;
+
+    border: 1px solid black;
+    overflow:scroll;
 }
 
-
-p {
-    color: darkslategray;
-    font-size: 1.2rem;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+.login {
+    background-color: var(--clr-brand);
+    color: var(--clr-white);
+    padding: var(--space-2xs);
+    border-radius: var(--radius-full);
 }
 
-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.register {
+
 }
-
-/* Class Selector — targets element with that specific class name */
-
-.one {
-    color: #333;
-    font-weight: bold;
-}
-
-/* ID Selector — targets element with that specific ID */
-
-#one {
-    color: crimson
-}
-
-/* Attribute Selector — targets element with that specific attribute */
-
-a {
-    color: dodgerblue;
-    text-decoration: none;
-}
-
-.list {
-    list-style-type: square;
-    padding-left: 20px;
-}
-
-/* Pseudo-Class Selectors */
-a:hover {
-    text-decoration: underline;
-}
-a:active {
-    color: red;
-}
-
-a:visited {
-    color: purple;
-}
-
-input:focus {
-    border-color: dodgerblue;
-    outline: none;
-}
-
-input[type="submit"]:active {
-    cursor: pointer;
-    outline: none;
-    background-color: dodgerblue;
-    border: none;
-}
-
-/* .list li:first-child {
-    color: dodgerblue;
-}
-
-.list li:last-child {
-    color: red;
-} */
-
-/* .list li:nth-child(odd) {
-    color: crimson;
-}
-.list li:nth-child(even) {
-    color: dodgerblue;
-} */
-
-/* .list li:not(.five) {
-    color:dodgerblue
-} */
-
-/* End of Pseudo-Class Selectors */
-
-/* a[href^="https"] {
-    color: orange;
-}
-
-a[href$=".pdf"] {
-    color: limegreen;
-} */
-
-input[type="submit"] {
-    border: 2px solid #333;
-    background-color: #333;
-    color: white;
-}
-
-/* Pseudo-Elements */
-
-/* End of Pseudo-Elements */
-
-/* p::first-line {
-    font-size: 2rem;
-    color: dodgerblue;
-    font-weight: bold;
-} */
-
-.list li::before {
-    content: "✓ ";
-    color: green;
-}
-
-.list li::after {
-    content: " (done)";
-    color: gray;
-    font-style: italic;
-}
-
-/* Combinator Selector */
-
-div p {
-    color: dodgerblue;
-}
-
-nav a {
-    color: crimson;
-    margin-right: 10px;
-} /* Descendant combinator */
-
-ul > li {
-    color: dodgerblue;
-} /* Child combinator */
-
-h2 + p {
-    color: crimson;
-} /* Adjacent sibling combinator */
-
-h2 ~ p {
-    color: salmon;
-} /* General sibling combinator */
-
-/* Specificity */
-p           { color: black;  }   /* 0-0-1 */
-.lead       { color: blue;   }   /* 0-1-0 */
-#intro      { color: green;  }   /* 1-0-0 */
-p.lead      { color: purple; }   /* 0-1-1 */
-
-/* * {
-    color: black !important;
-} */
-
-/* .hidden {
-    display: none !important;
-} */
