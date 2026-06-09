@@ -1,15 +1,84 @@
+/* Root */
+:root {
+    /* colors */
+    --palette-neutral-900: #0f0f11;
+    --palette-neutral-700: #3a3a4a;
+    --palette-neutral-400: #888899;
+    --palette-neutral-100: #f8f8fc;
+    --palette-white: #ffffff;
+    --palette-brand: #e94560;
+    --palette-brand-light: #ff7a90;
+    --palette-accent: #0f3460;
+
+    /* ── Tier 2: Semantic Tokens ── */
+    --colour-text: var(--palette-neutral-900);
+    --colour-text-muted: var(--palette-neutral-400);
+    --colour-bg: var(--palette-white);
+    --colour-bg-subtle: var(--palette-neutral-100);
+    --colour-border: #e2e2e8;
+    --colour-primary: var(--palette-brand);
+    --colour-primary-hover: var(--palette-brand-light);
+
+    /* ── Tier 3: Component Tokens ── */
+    /* ── Spacing ── */
+    --space-xs: 0.5rem;
+    --space-s: 1rem;
+    --space-m: 1.5rem;
+    --space-l: 2.5rem;
+    --space-xl: 4rem;
+
+    /* ── Shape ── */
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 16px;
+    --radius-full: 9999px;
+
+    /* ── Shadows ── */
+    --shadow-s: 0 1px 3px hsl(0 0% 0% / 8%);
+    --shadow-m: 0 4px 6px hsl(0 0% 0% / 7%), 0 2px 4px hsl(0 0% 0% / 5%);
+    --shadow-l: 0 10px 15px hsl(0 0% 0% / 7%);
+
+    /* ── Transitions ── */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+}
+
 /* CSS RESET */
 
-*, *::before, *::after {
+/* *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+} */
+
+.btn-primary {
+    background-color: var(--brd-color);
+    color: var(--colour-text);
+    display: inline-block;
+    margin: 2px;
+    padding: 4px;
 }
 
-p {color:yellowgreen}
+.badge {
+    background-color: var(--brd-color);
+    margin: 2px;
+    width: 100px;
+    height: 30px;
+    border-radius: 25px;
+}
 
-p {color:tomato}
+.link {
+    text-decoration: none;
+    color: black;
+    font-size: var(--xl);
+}
 
-h2 > p {
-    columns: 1;
+.link:hover {
+    color: var(--brd-color);
+}
+
+.border-brand {
+    border-radius: var(--radius-l);
+    border-width: 1px;
+    border-style: solid;
 }

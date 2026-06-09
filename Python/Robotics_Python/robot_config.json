@@ -1,0 +1,6 @@
+{
+  "robot_id": "R-001",
+  "max_speed": 1.5,
+  "wheel_base": 0.3,
+  "sensor_rate": 10
+}
