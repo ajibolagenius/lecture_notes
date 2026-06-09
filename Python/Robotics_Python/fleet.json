@@ -1,0 +1,18 @@
+[
+  {
+    "id": "farhat",
+    "max_speed": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "battery": 100.0,
+    "state": "IDLE"
+  },
+  {
+    "id": "farhat1",
+    "max_speed": 2.5,
+    "x": 5.5,
+    "y": 7.2,
+    "battery": 95.46982340300072,
+    "state": "IDLE"
+  }
+]
