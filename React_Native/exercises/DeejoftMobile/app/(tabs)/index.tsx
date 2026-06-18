@@ -12,14 +12,14 @@ export default function ProfileScreen() {
                 {/* Image - requires explicit width and height */}
 
                 <Image
-                    source={{ uri: 'https://placehold.co/400x400?font=roboto' }}
+                    source={{ uri: 'https://placehold.co/400x400.png' }}
                     className="w-24 h-24 rounded-full border-4 border-brand"
                 />
 
                 {/* Text — ALL strings must be inside Text */}
 
                 <View className="items-center gap-1">
-                    <Text className="text-2xl font-bold text-dark">John Doe</Text>
+                    <Text className="text-2xl font-bold text-dark">Odun Coder</Text>
                     <Text className="text-base text-muted">Full-Stack Developer</Text>
                 </View>
 
