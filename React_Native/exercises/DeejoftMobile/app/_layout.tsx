@@ -1,25 +1,44 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-import '../global.css';
+import { Tabs } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+const TABS = [
+    { name: 'index', title: 'Home', icon: 'home-outline' },
+    { name: 'explore', title: 'Explore', icon: 'compass-outline' },
+    { name: 'profile', title: 'Profile', icon: 'person-outline' },
+]
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+export default function TabsLayout() {
+    const insets = useSafeAreaInsets()
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+    return (
+        <Tabs
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ color, size, focused }) => {
+                    const tab = TABS.find(t => t.name === route.name)
+                    if (!tab) return null
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+                    const iconName = focused
+                        ? tab.icon.replace('-outline', '')
+                        : tab.icon
+                    return <Ionicons name={iconName as any} size={size} color={color} />
+                },
+                tabBarActiveTintColor: '#4e24e6ff',
+                tabBarInactiveTintColor: '#888899',
+                tabBarStyle: {
+                    height: 56 + insets.bottom,
+                    paddingBottom: insets.bottom,
+                    backgroundColor: 'white',
+                    borderTopColor: '#ff5f0eff',
+                },
+                headerStyle: { backgroundColor: '#1a1a2e' },
+                headerTintColor: 'white',
+                headerTitleStyle: { fontWeight: '700', fontSize: 18 },
+            })}
+        >
+            {TABS.map(tab => (
+                <Tabs.Screen key={tab.name} name={tab.name} options={{ title: tab.title }} />
+            ))}
+        </Tabs>
+    )
 }
