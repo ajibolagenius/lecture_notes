@@ -109,10 +109,16 @@ import * as SecureStore from 'expo-secure-store';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL; // e.g. http://192.168.1.42:3000
 
-const TOKEN_KEY = 'authToken';
+const ACCESS_TOKEN_KEY = 'accessToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
+
+async function storeTokens(accessToken: string, refreshToken: string) {
+  await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, accessToken);
+  await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
+}
 
 export async function login(email: string, password: string) {
-  const response = await fetch(`${API_URL}/auth/login`, {
+  const response = await fetch(`${API_URL}/api/v1/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -121,13 +127,13 @@ export async function login(email: string, password: string) {
     const body = await response.json();
     throw new Error(body.message ?? 'Login failed');
   }
-  const { token } = await response.json();
-  await SecureStore.setItemAsync(TOKEN_KEY, token);
-  return token;
+  const { accessToken, refreshToken } = await response.json();
+  await storeTokens(accessToken, refreshToken);
+  return accessToken;
 }
 
 export async function signup(email: string, password: string) {
-  const response = await fetch(`${API_URL}/auth/signup`, {
+  const response = await fetch(`${API_URL}/api/v1/auth/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -136,21 +142,24 @@ export async function signup(email: string, password: string) {
     const body = await response.json();
     throw new Error(body.message ?? 'Signup failed');
   }
-  const { token } = await response.json();
-  await SecureStore.setItemAsync(TOKEN_KEY, token);
-  return token;
+  const { accessToken, refreshToken } = await response.json();
+  await storeTokens(accessToken, refreshToken);
+  return accessToken;
 }
 
 export async function getToken() {
-  return SecureStore.getItemAsync(TOKEN_KEY);
+  return SecureStore.getItemAsync(ACCESS_TOKEN_KEY);
 }
 
 export async function logout() {
-  await SecureStore.deleteItemAsync(TOKEN_KEY);
+  await SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
+  await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
 }
 ```
 
-> **Note:** `process.env.EXPO_PUBLIC_API_URL` comes from a `.env` file at your project root (any variable prefixed `EXPO_PUBLIC_` is inlined into the app at build time). Set it to your machine's LAN IP while developing (`http://192.168.1.42:3000`), matching whatever you configured on the Node/Express course's side.
+> **Note:** `process.env.EXPO_PUBLIC_API_URL` comes from a `.env` file at your project root (any variable prefixed `EXPO_PUBLIC_` is inlined into the app at build time). Set it to your machine's LAN IP while developing (`http://192.168.1.42:3000`), matching whatever you configured on the Node/Express course's side — and note the paths themselves are versioned (`/api/v1/...`), matching that course's own Week 1 addition. **A production build needs a different value entirely** (a deployed URL, not your laptop's LAN IP) — Week 6 shows how `eas.json` sets this per build profile, so development and production never share a URL by accident.
+>
+> **On the two tokens:** the Node/Express API now returns a short-lived `accessToken` and a longer-lived `refreshToken` (its own Week 4 addition). This app stores both but, for now, only ever *uses* the access token — meaning a user gets silently logged out once it expires, exactly the problem refresh tokens exist to solve. Actually calling `/api/v1/auth/refresh` when a request comes back `401`, and retrying with the new token, is the natural next step here — a real, worthwhile extension once you're comfortable with the request flow above, not covered in depth in this course.
 
 ### 4. Redirecting Based on Auth State
 
@@ -271,7 +280,7 @@ export type Reminder = {
 
 async function authedFetch(path: string, options: RequestInit = {}) {
   const token = await getToken();
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${API_URL}/api/v1${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -288,6 +297,10 @@ async function authedFetch(path: string, options: RequestInit = {}) {
 
 export function getReminders(): Promise<Reminder[]> {
   return authedFetch('/reminders');
+}
+
+export function getReminderById(id: number): Promise<Reminder> {
+  return authedFetch(`/reminders/${id}`);
 }
 
 export function createReminder(input: { title: string; notes?: string; dueDate?: string }) {
@@ -310,10 +323,12 @@ export function deleteReminder(id: number) {
 import { View, Text, Pressable, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ReminderListItem from '../../components/ReminderListItem';
 import { getReminders } from '../../services/reminderService';
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   const { data, isLoading, error } = useQuery({
     queryKey: ['reminders'],
     queryFn: getReminders,
@@ -330,7 +345,10 @@ export default function HomeScreen() {
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <ReminderListItem reminderItem={item} />}
       />
-      <Pressable style={styles.addButton} onPress={() => router.push('/(protected)/createUpdateReminder')}>
+      <Pressable
+        style={[styles.addButton, { bottom: 24 + insets.bottom }]}
+        onPress={() => router.push('/(protected)/createUpdateReminder')}
+      >
         <Text style={styles.addButtonText}>+</Text>
       </Pressable>
     </View>
@@ -340,48 +358,106 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   heading: { fontSize: 28, fontWeight: '700', marginBottom: 12 },
-  addButton: { position: 'absolute', right: 24, bottom: 24, width: 56, height: 56, borderRadius: 28, backgroundColor: '#0E7AFE', alignItems: 'center', justifyContent: 'center' },
+  addButton: { position: 'absolute', right: 24, width: 56, height: 56, borderRadius: 28, backgroundColor: '#0E7AFE', alignItems: 'center', justifyContent: 'center' },
   addButtonText: { color: 'white', fontSize: 28 },
 });
 ```
 
-### 5. Mutations With Optimistic Updates
+### 5. Mutations for Create, Update, and Delete
+
+Week 3 taught this screen to create, edit, *and* delete a reminder against the local store. Moving to a real backend must not quietly lose two-thirds of that — `useMutation` replaces `addReminder`/`updateReminder`/`deleteReminder` from `remindersStore.ts` with the same-named functions from `reminderService.ts`, and the `id`-driven edit/delete logic from Week 3 carries over unchanged.
 
 ```tsx
 // app/(protected)/createUpdateReminder.tsx
-import { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, Alert } from 'react-native';
-import { router, Stack } from 'expo-router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createReminder } from '../../services/reminderService';
+import { useEffect, useState } from 'react';
+import { View, TextInput, Text, Pressable, StyleSheet, Alert } from 'react-native';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createReminder, updateReminder, deleteReminder, getReminderById } from '../../services/reminderService';
+import { isReminderValid } from '../../state/validation';
 
 export default function CreateUpdateReminderScreen() {
-  const [title, setTitle] = useState('');
-  const [notes, setNotes] = useState('');
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const reminderId = id ? Number(id) : undefined;
+  const isEditing = reminderId !== undefined;
+
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  // Only fires when editing — fetches the one reminder to pre-fill the form
+  const { data: existingReminder } = useQuery({
+    queryKey: ['reminders', reminderId],
+    queryFn: () => getReminderById(reminderId!),
+    enabled: isEditing,
+  });
+
+  const [title, setTitle] = useState('');
+  const [notes, setNotes] = useState('');
+
+  useEffect(() => {
+    if (existingReminder) {
+      setTitle(existingReminder.title);
+      setNotes(existingReminder.notes ?? '');
+    }
+  }, [existingReminder]);
+
+  function onSettled() {
+    queryClient.invalidateQueries({ queryKey: ['reminders'] });
+    router.back();
+  }
+
+  const createMutation = useMutation({
     mutationFn: createReminder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reminders'] });
-      router.back();
-    },
+    onSuccess: onSettled,
     onError: (error: any) => Alert.alert('Could not save reminder', error.message),
   });
 
+  const updateMutation = useMutation({
+    mutationFn: (input: { title: string; notes?: string }) => updateReminder(reminderId!, input),
+    onSuccess: onSettled,
+    onError: (error: any) => Alert.alert('Could not save reminder', error.message),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteReminder(reminderId!),
+    onSuccess: onSettled,
+    onError: (error: any) => Alert.alert('Could not delete reminder', error.message),
+  });
+
   function handleSave() {
-    if (!title.trim()) {
+    if (!isReminderValid(title)) {
       Alert.alert('A title is required');
       return;
     }
-    mutation.mutate({ title: title.trim(), notes: notes.trim() || undefined });
+    const input = { title: title.trim(), notes: notes.trim() || undefined };
+    if (isEditing) {
+      updateMutation.mutate(input);
+    } else {
+      createMutation.mutate(input);
+    }
+  }
+
+  function handleDelete() {
+    Alert.alert('Delete this reminder?', undefined, [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Delete', style: 'destructive', onPress: () => deleteMutation.mutate() },
+    ]);
   }
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ headerRight: () => <Text onPress={handleSave} style={{ color: '#0E7AFE' }}>Save</Text> }} />
+      <Stack.Screen
+        options={{
+          headerTitle: isEditing ? 'Edit Reminder' : 'New Reminder',
+          headerRight: () => <Text onPress={handleSave} style={{ color: '#0E7AFE' }}>Save</Text>,
+        }}
+      />
       <TextInput style={styles.titleInput} placeholder="Title" value={title} onChangeText={setTitle} />
       <TextInput style={styles.notesInput} placeholder="Notes" value={notes} onChangeText={setNotes} multiline />
+      {isEditing && (
+        <Pressable onPress={handleDelete} style={styles.deleteButton}>
+          <Text style={styles.deleteButtonText}>Delete Reminder</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -390,16 +466,20 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 12 },
   titleInput: { fontSize: 20, fontWeight: '600', borderBottomWidth: 1, borderColor: '#ddd', paddingVertical: 8 },
   notesInput: { fontSize: 16, minHeight: 80, textAlignVertical: 'top' },
+  deleteButton: { marginTop: 24, alignItems: 'center' },
+  deleteButtonText: { color: '#D32F2F', fontSize: 16, fontWeight: '600' },
 });
 ```
 
-`queryClient.invalidateQueries({ queryKey: ['reminders'] })` tells TanStack Query "the reminders data might be stale now — refetch it" — which is what makes the new reminder show up on the home screen automatically after the modal closes.
+`queryClient.invalidateQueries({ queryKey: ['reminders'] })` tells TanStack Query "the reminders data might be stale now — refetch it" — which is what makes a create, edit, *or* delete show up correctly on the home screen the instant the modal closes, for all three operations alike.
 
-> **Note:** `state/remindersStore.ts` and the local AsyncStorage/notification-scheduling logic from Weeks 3-4 should now be retired for the *data* itself — but keep the notification-scheduling call (`Notifications.scheduleNotificationAsync`) and move it into `createReminder`'s `onSuccess`, since that's still a genuinely local, on-device feature independent of the backend.
+Also update `ReminderListItem`'s navigation target from `/createUpdateReminder?id=...` to `/(protected)/createUpdateReminder?id=...`, matching the route-group restructure from section 1.
+
+> **Note:** `state/remindersStore.ts` and the local AsyncStorage/notification-scheduling logic from Weeks 3-4 should now be retired for the *data* itself — but keep the notification calls, since those are still a genuinely local, on-device feature independent of the backend: `Notifications.scheduleNotificationAsync` moves into `createMutation`/`updateMutation`'s `onSuccess`, and `Notifications.cancelScheduledNotificationAsync` moves into `deleteMutation`'s `onSuccess` (and wherever "mark complete" lives on the home screen). `state/validation.ts`'s `isReminderValid`, on the other hand, doesn't change at all — it never depended on where the data lives.
 
 **⭐️ Class Exercise: Full Round Trip, For Real**
 
-Sign up, create a reminder, and confirm it appears in the list. Then check the Node/Express course's Postman collection (or ask your backend partner) to confirm the reminder really exists in the Postgres database — not just in the app's local cache.
+Sign up, create a reminder, and confirm it appears in the list. Then check the Node/Express course's Postman collection (or ask your backend partner) to confirm the reminder really exists in the Postgres database — not just in the app's local cache. Then edit that same reminder's title and delete a different one, confirming both also reflect correctly in Postman/the database, not just in the app.
 
 ---
 
@@ -410,10 +490,10 @@ Sign up, create a reminder, and confirm it appears in the list. Then check the N
 ### Requirements
 
 1. `app/` is restructured into `(auth)/` (login, signup) and `(protected)/` (index, createUpdateReminder) route groups.
-2. Login and signup call the real Node/Express `/auth/login` and `/auth/signup` endpoints and store a real JWT via `expo-secure-store`.
+2. Login and signup call the real Node/Express `/api/v1/auth/login` and `/api/v1/auth/signup` endpoints and store both the access and refresh JWT via `expo-secure-store`.
 3. On launch, the app redirects to `(protected)` if a token exists, or `(auth)/login` if not.
-4. `services/reminderService.ts` wraps every reminders endpoint, attaching the JWT on every call.
-5. The reminders list and the create/update form are both wired through `useQuery`/`useMutation` — no more local-only `remindersStore.ts` data.
+4. `services/reminderService.ts` wraps every reminders endpoint (including `getReminderById`), attaching the access token on every call.
+5. The reminders list, create, edit, **and** delete all go through `useQuery`/`useMutation` — no more local-only `remindersStore.ts` data, and no functionality lost from Week 3's edit/delete work.
 
 ### Git Workflow
 

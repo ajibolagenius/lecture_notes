@@ -137,12 +137,18 @@ export default function RootLayout() {
 // app/index.tsx
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Reminders</Text>
-      <Pressable style={styles.addButton} onPress={() => router.push('/createUpdateReminder')}>
+      <Pressable
+        style={[styles.addButton, { bottom: 24 + insets.bottom }]}
+        onPress={() => router.push('/createUpdateReminder')}
+      >
         <Text style={styles.addButtonText}>+</Text>
       </Pressable>
     </View>
@@ -155,7 +161,6 @@ const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
     right: 24,
-    bottom: 24,
     width: 56,
     height: 56,
     borderRadius: 28,
@@ -169,9 +174,11 @@ const styles = StyleSheet.create({
 
 `Pressable` is React Native's general-purpose tappable component (a more flexible alternative to the older `TouchableOpacity`) — its `onPress` is the native equivalent of a web `onClick`.
 
+> **Why `useSafeAreaInsets` instead of a hardcoded `bottom: 24`:** a hardcoded value looks fine on the simulator you happen to be testing on, then quietly collides with the home indicator on a real notched phone (or the navigation bar on Android) — because that reserved space isn't part of your layout at all unless you account for it. `react-native-safe-area-context` is already a transitive dependency of Expo Router, so nothing new to install here. `insets.bottom` is the exact height of whatever system UI is reserved at the bottom of *this specific device*, so `24 + insets.bottom` keeps the button a consistent 24px above it on every phone, notched or not.
+
 **⭐️ Class Exercise: Full Round Trip**
 
-Confirm tapping the "+" button slides up the modal with "New Reminder" as its title, and tapping "Cancel" dismisses it back to the home screen. This is the exact navigation shape the rest of this course builds on.
+Confirm tapping the "+" button slides up the modal with "New Reminder" as its title, and tapping "Cancel" dismisses it back to the home screen. This is the exact navigation shape the rest of this course builds on. On a physical device (not just the simulator), confirm the "+" button sits clearly above the home indicator / gesture bar, not overlapping it.
 
 ---
 

@@ -46,6 +46,18 @@ With the app running on your phone, open `App.tsx` (or `app/index.tsx`, dependin
 
 Nothing about *how* you think in components, props, and state changes. What changes is the vocabulary of what you render and how you style it.
 
+> **One More Difference: There Are Two Natives.** "React Native" doesn't mean one platform — it means iOS *and* Android, and they don't always behave identically. `Platform.OS` (`'ios'` or `'android'`) lets you branch when they genuinely differ:
+> ```tsx
+> import { Platform, StyleSheet } from 'react-native';
+>
+> const styles = StyleSheet.create({
+>   shadow: Platform.OS === 'ios'
+>     ? { shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 4 } // iOS shadow API
+>     : { elevation: 3 }, // Android's own, different shadow system
+> });
+> ```
+> You'll meet this again in Week 4, where permission dialogs behave differently on each platform. Nothing to build right now — just know the two platforms aren't identical, and `Platform.OS` is how you handle it when it matters.
+
 ---
 
 ## Module 2: Your First Real Component — `ReminderListItem`

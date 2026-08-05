@@ -191,37 +191,56 @@ export async function toggleCompleted(id: number) {
 }
 ```
 
-Add a simple tap-to-complete interaction to `ReminderListItem` using these:
+Add a way to mark a reminder complete — but tapping the row *already* means something: since Week 3, tapping a `ReminderListItem` navigates to edit it. Reusing the same tap for "toggle complete" would make the two features fight over one gesture, so completing needs its own, separate tappable area: a checkbox.
 
 ```tsx
 // components/ReminderListItem.tsx
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
 import { toggleCompleted } from '../state/remindersStore';
-
-// ...
 
 export default function ReminderListItem({ reminderItem }: { reminderItem: Reminder }) {
   return (
-    <Pressable style={styles.container} onPress={() => toggleCompleted(reminderItem.id)}>
-      <Text style={[styles.title, reminderItem.completed && styles.completedTitle]}>
-        {reminderItem.title}
-      </Text>
-      {reminderItem.notes ? <Text style={styles.notes}>{reminderItem.notes}</Text> : null}
+    <Pressable
+      style={styles.container}
+      onPress={() => router.push(`/createUpdateReminder?id=${reminderItem.id}`)}
+    >
+      <Pressable
+        style={styles.checkbox}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        onPress={() => toggleCompleted(reminderItem.id)}
+      >
+        {reminderItem.completed && <View style={styles.checkboxFill} />}
+      </Pressable>
+      <View style={styles.textContainer}>
+        <Text style={[styles.title, reminderItem.completed && styles.completedTitle]}>
+          {reminderItem.title}
+        </Text>
+        {reminderItem.notes ? <Text style={styles.notes}>{reminderItem.notes}</Text> : null}
+      </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 12, borderBottomWidth: 1, borderBottomColor: '#e5e5e5' },
+  container: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderBottomWidth: 1, borderBottomColor: '#e5e5e5' },
+  checkbox: {
+    width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: '#0E7AFE',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  checkboxFill: { width: 14, height: 14, borderRadius: 7, backgroundColor: '#0E7AFE' },
+  textContainer: { flex: 1 },
   title: { fontSize: 16, fontWeight: '600' },
   completedTitle: { textDecorationLine: 'line-through', color: '#999' },
   notes: { fontSize: 14, color: '#666' },
 });
 ```
 
+> **Two `Pressable`s, one row:** the outer `Pressable` handles tapping the row to edit; the inner one handles tapping just the checkbox to complete. React Native's touch system resolves this correctly on its own — tapping precisely on the checkbox fires only the checkbox's `onPress`, not the row's. **`hitSlop`** expands the checkbox's *tappable* area by 10px on each side without changing its *visual* size — the visible circle stays a clean 24px, but the actual touch target is closer to Apple's 44pt minimum, which a bare 24px box would fail on its own.
+
 **⭐️ Class Exercise: Schedule and Verify**
 
-Create a reminder with a due date 1-2 minutes in the future. Background the app (don't force-quit it) and wait — confirm you get a real notification at the scheduled time. Then create another, mark it complete immediately, and confirm its notification does *not* fire.
+Create a reminder with a due date 1-2 minutes in the future. Background the app (don't force-quit it) and wait — confirm you get a real notification at the scheduled time. Then create another, tap its checkbox to mark it complete immediately, and confirm its notification does *not* fire. Confirm tapping anywhere else on that same row still opens it for editing, not toggling complete.
 
 ---
 
@@ -234,7 +253,7 @@ Create a reminder with a due date 1-2 minutes in the future. Background the app 
 1. Reminders are saved to and loaded from `AsyncStorage`; force-quitting and reopening the app does not lose data.
 2. Creating a reminder with a due date schedules a real local notification for that exact time.
 3. Marking a reminder complete, or deleting it, cancels its scheduled notification.
-4. Tapping a reminder toggles its completed state, with a visible style change (e.g. strikethrough).
+4. Tapping a reminder's checkbox toggles its completed state (strikethrough style), without also opening it for editing; tapping the rest of the row still opens it for editing.
 
 ### Git Workflow
 
