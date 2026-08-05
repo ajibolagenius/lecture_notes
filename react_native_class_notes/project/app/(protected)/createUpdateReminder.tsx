@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Alert, Platform } from 'react-native';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { createReminder, Reminder, updateReminder } from '../../services/reminderService';
 import { cancelReminderNotification, scheduleReminderNotification } from '../../state/notifications';
+
+type PickerStep = 'date' | 'time' | null;
 
 export default function CreateUpdateReminderScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -20,7 +22,8 @@ export default function CreateUpdateReminderScreen() {
   const [dueDate, setDueDate] = useState<Date | undefined>(
     existingReminder?.dueDate ? new Date(existingReminder.dueDate) : undefined
   );
-  const [showPicker, setShowPicker] = useState(false);
+  // Android has no combined "datetime" mode — pick date, then time.
+  const [pickerStep, setPickerStep] = useState<PickerStep>(null);
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -48,6 +51,36 @@ export default function CreateUpdateReminderScreen() {
     mutation.mutate();
   }
 
+  function openPicker() {
+    setPickerStep('date');
+  }
+
+  function handlePickerChange(event: DateTimePickerEvent, selectedDate?: Date) {
+    if (event.type === 'dismissed' || !selectedDate) {
+      setPickerStep(null);
+      return;
+    }
+
+    if (Platform.OS === 'ios') {
+      setDueDate(selectedDate);
+      setPickerStep(null);
+      return;
+    }
+
+    // Android has no "datetime" mode — date dialog, then time dialog.
+    if (pickerStep === 'date') {
+      setDueDate(selectedDate);
+      setPickerStep('time');
+      return;
+    }
+
+    const base = dueDate ?? selectedDate;
+    const combined = new Date(base);
+    combined.setHours(selectedDate.getHours(), selectedDate.getMinutes(), 0, 0);
+    setDueDate(combined);
+    setPickerStep(null);
+  }
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -62,19 +95,16 @@ export default function CreateUpdateReminderScreen() {
       />
       <TextInput style={styles.titleInput} placeholder="Title" value={title} onChangeText={setTitle} />
       <TextInput style={styles.notesInput} placeholder="Notes" value={notes} onChangeText={setNotes} multiline />
-      <Pressable onPress={() => setShowPicker(true)}>
+      <Pressable onPress={openPicker}>
         <Text style={styles.dueDateText}>
           {dueDate ? dueDate.toLocaleString() : 'Set a due date (optional)'}
         </Text>
       </Pressable>
-      {showPicker && (
+      {pickerStep && (
         <DateTimePicker
           value={dueDate ?? new Date()}
-          mode="datetime"
-          onChange={(event, selectedDate) => {
-            setShowPicker(false);
-            if (selectedDate) setDueDate(selectedDate);
-          }}
+          mode={Platform.OS === 'ios' ? 'datetime' : pickerStep}
+          onChange={handlePickerChange}
         />
       )}
     </View>

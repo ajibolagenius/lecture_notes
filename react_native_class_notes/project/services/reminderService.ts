@@ -1,4 +1,10 @@
-import { getToken } from './authService';
+import { getToken, isDemoToken } from './authService';
+import {
+  createDemoReminder,
+  deleteDemoReminder,
+  getDemoReminders,
+  updateDemoReminder,
+} from './demoReminders';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -27,18 +33,26 @@ async function authedFetch(path: string, options: RequestInit = {}) {
   return response.json();
 }
 
-export function getReminders(): Promise<Reminder[]> {
+export async function getReminders(): Promise<Reminder[]> {
+  if (isDemoToken(await getToken())) return getDemoReminders();
   return authedFetch('/reminders');
 }
 
-export function createReminder(input: { title: string; notes?: string; dueDate?: string }): Promise<Reminder> {
+export async function createReminder(input: {
+  title: string;
+  notes?: string;
+  dueDate?: string;
+}): Promise<Reminder> {
+  if (isDemoToken(await getToken())) return createDemoReminder(input);
   return authedFetch('/reminders', { method: 'POST', body: JSON.stringify(input) });
 }
 
-export function updateReminder(id: number, input: Partial<Reminder>): Promise<Reminder> {
+export async function updateReminder(id: number, input: Partial<Reminder>): Promise<Reminder> {
+  if (isDemoToken(await getToken())) return updateDemoReminder(id, input);
   return authedFetch(`/reminders/${id}`, { method: 'PATCH', body: JSON.stringify(input) });
 }
 
-export function deleteReminder(id: number): Promise<{ message: string }> {
+export async function deleteReminder(id: number): Promise<{ message: string }> {
+  if (isDemoToken(await getToken())) return deleteDemoReminder(id);
   return authedFetch(`/reminders/${id}`, { method: 'DELETE' });
 }
