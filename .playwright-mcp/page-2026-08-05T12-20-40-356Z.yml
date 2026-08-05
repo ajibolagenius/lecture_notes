@@ -1,0 +1,190 @@
+- generic [active] [ref=f20e1]:
+  - generic [ref=f20e4]:
+    - generic [ref=f20e6]:
+      - link [ref=f20e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f20e12]:
+        - banner [ref=f20e19]:
+          - generic [ref=f20e21]:
+            - generic [ref=f20e22]:
+              - link "Apple Reminders Clone Guide" [ref=f20e24] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f20e32] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "🧱 First Custom Component" [disabled] [ref=f20e38]:
+                - generic [ref=f20e39]: 🧱
+                - generic [ref=f20e42]: First Custom Component
+            - generic [ref=f20e43]:
+              - button "Close panel" [ref=f20e45] [cursor=pointer]
+              - generic [ref=f20e49]:
+                - button [ref=f20e50] [cursor=pointer]
+                - button "Share site to socials" [ref=f20e55] [cursor=pointer]
+                - button [ref=f20e60] [cursor=pointer]
+                - button "More actions" [ref=f20e64] [cursor=pointer]
+                - button "Get Notion free" [ref=f20e67] [cursor=pointer]
+        - main [ref=f20e15]:
+          - group [disabled] [ref=f20e69]:
+            - generic [ref=f20e71]:
+              - generic [ref=f20e89]:
+                - img "Page icon" [ref=f20e94]: 🧱
+                - heading "First Custom Component" [level=1] [ref=f20e99]
+              - table "Page properties" [ref=f20e106]:
+                - row [disabled] [ref=f20e108]:
+                  - cell "Modules" [ref=f20e113]
+                  - cell "FE" [ref=f20e123]
+              - generic [ref=f20e135]:
+                - generic [ref=f20e141]:
+                  - text: So far, we’ve worked with built-in React Native components like
+                  - generic [ref=f20e142]: <Text>
+                  - text: and
+                  - generic [ref=f20e143]: <View>
+                  - text: . Now, it’s time to take the next step and learn how to create our own reusable custom components.
+                - heading "Displaying a Basic Reminder" [level=2] [ref=f20e148]
+                - generic [ref=f20e154]:
+                  - text: Let’s start by displaying a simple reminder inside
+                  - generic [ref=f20e155]: HomeScreen
+                  - text: .
+                - figure [ref=f20e158]:
+                  - generic [ref=f20e159]: "import { ActivityIndicator, Text, View } from \"react-native\"; import { useQuery } from \"@tanstack/react-query\"; import { getReminders } from \"@/services/reminderService\"; export default function HomeScreen() { const { data, isLoading, error } = useQuery({ queryKey: ['reminders'], queryFn: () => getReminders(), }); if (isLoading) { return <ActivityIndicator style={{ marginTop: '20%' }} />; } if (error) { return <Text style={{alignSelf: 'center', marginTop: '20%'}}>{error.message}</Text>; } const reminderItem = data[0]; return ( <View> <Text>{reminderItem.reminder}</Text> <Text>{reminderItem.notes}</Text> </View> ); };"
+                - note [ref=f20e164]:
+                  - generic [ref=f20e165]:
+                    - img "Callout icon" [ref=f20e171]: 💡
+                    - generic [ref=f20e172]:
+                      - generic [ref=f20e178]:
+                        - text: Why use curly braces
+                        - generic [ref=f20e179]: "{}"
+                        - text: inside
+                        - generic [ref=f20e180]: <Text>
+                        - text: "?"
+                      - generic [ref=f20e186]:
+                        - text: JSX treats everything inside
+                        - generic [ref=f20e187]: <Text>
+                        - text: as a plain text by default. To include dynamic values like
+                        - generic [ref=f20e188]: reminderItem.reminder
+                        - text: ", we need to wrap them in"
+                        - generic [ref=f20e189]: "{}"
+                        - text: to tell that it needs to be evaluated as JavaScript expression, not a plain text.
+                - heading "Creating Custom Component" [level=2] [ref=f20e194]
+                - generic [ref=f20e200]:
+                  - text: Right now, we’re hardcoding the code inside
+                  - generic [ref=f20e201]: HomeScreen
+                  - text: ". This has several problems:"
+                - generic [ref=f20e205]:
+                  - generic [ref=f20e206]: •
+                  - generic [ref=f20e208]: Adding multiple reminders would require copy pasting the same block of code multiple times.
+                - generic [ref=f20e214]:
+                  - generic [ref=f20e215]: •
+                  - generic [ref=f20e217]: The file will quickly become a big mess as we add more logic to it.
+                - generic [ref=f20e223]:
+                  - generic [ref=f20e224]: •
+                  - generic [ref=f20e226]: Our code isn't reusable at all.
+                - generic [ref=f20e235]: "To improve this, let’s move the logic of displaying a reminder into a separate component:"
+                - generic [ref=f20e244]:
+                  - generic [ref=f20e245]: "1."
+                  - generic [ref=f20e249]:
+                    - text: Inside the
+                    - generic [ref=f20e250]: components
+                    - text: directory, create a new file called
+                    - generic [ref=f20e251]: ReminderListItem.tsx
+                - generic [ref=f20e255]:
+                  - generic [ref=f20e256]: "2."
+                  - generic [ref=f20e260]:
+                    - text: Move the code related to the reminder from
+                    - generic [ref=f20e261]: HomeScreen
+                    - text: into this new file.
+                - figure [ref=f20e265]
+                - generic [ref=f20e282]:
+                  - text: Now, we can import and use this component inside
+                  - generic [ref=f20e283]: HomeScreen
+                  - text: ":"
+                - figure [ref=f20e286]:
+                  - generic [ref=f20e287]: "import { ActivityIndicator, Text, View } from \"react-native\"; import { useQuery } from \"@tanstack/react-query\"; import { getReminders } from \"@/services/reminderService\"; import ReminderListItem from \"@/components/ReminderListItem\"; export default function HomeScreen() { const { data, isLoading, error } = useQuery({ queryKey: ['reminders'], queryFn: () => getReminders(), }); if (isLoading) { return <ActivityIndicator style={{ marginTop: '20%' }} />; } if (error) { return <Text style={{alignSelf: 'center', marginTop: '20%'}}>{error.message}</Text>; } return ( <View> <ReminderListItem /> </View> ); }"
+                - note [ref=f20e292]:
+                  - generic [ref=f20e293]:
+                    - img "Callout icon" [ref=f20e299]: 💡
+                    - generic [ref=f20e300]:
+                      - generic [ref=f20e301]: "This way we made our component:"
+                      - generic [ref=f20e310]:
+                        - generic [ref=f20e311]: •
+                        - generic [ref=f20e313]: "Manageable: We no longer need to copy paste the whole code to have multiple reminders in one screen."
+                      - generic [ref=f20e319]:
+                        - generic [ref=f20e320]: •
+                        - generic [ref=f20e324]:
+                          - text: "Reusable: Now"
+                          - generic [ref=f20e325]: ReminderListItem
+                          - text: can be used anywhere in the app.
+                      - generic [ref=f20e329]:
+                        - generic [ref=f20e330]: •
+                        - generic [ref=f20e332]: "Scalable: We can easily modify the component in one place and have changes applied everywhere it’s used."
+                - heading "Passing Data with Props" [level=2] [ref=f20e339]
+                - generic [ref=f20e345]:
+                  - text: Right now, every
+                  - generic [ref=f20e346]: <ReminderListItem />
+                  - text: displays static content. To make it dynamic, we need to pass data from
+                  - generic [ref=f20e347]: HomeScreen
+                  - text: to
+                  - generic [ref=f20e348]: ReminderListItem
+                  - text: .
+                - generic [ref=f20e354]:
+                  - text: That’s where
+                  - generic [ref=f20e355]: props
+                  - text: come in.
+                  - generic [ref=f20e356]: props
+                  - text: (properties) allow us to send data from a parent component (
+                  - generic [ref=f20e357]: HomeScreen
+                  - text: ) to a child component (
+                  - generic [ref=f20e358]: ReminderListItem
+                  - text: ).
+                - generic [ref=f20e359]: "We already saw how that works when we were sending style prop:"
+                - figure [ref=f20e367]:
+                  - generic [ref=f20e368]: "<View style={styles.container}> // Here, style={styles.container} is a prop being passed."
+                - generic [ref=f20e377]:
+                  - text: As we can see, sending a prop has the following syntax
+                  - generic [ref=f20e378]: "propName={propValue}"
+                  - text: .
+                - heading "Sending Data to the Component" [level=2] [ref=f20e383]
+                - generic [ref=f20e389]:
+                  - text: Now, let’s pass the reminders data to
+                  - generic [ref=f20e390]: <ReminderListItem />
+                  - text: using props.
+                - figure [ref=f20e393]:
+                  - generic [ref=f20e394]: "import { ActivityIndicator, Text, View } from \"react-native\"; import { useQuery } from \"@tanstack/react-query\"; import { getReminders } from \"@/services/reminderService\"; import ReminderListItem from \"@/components/ReminderListItem\"; export default function HomeScreen() { const { data, isLoading, error } = useQuery({ queryKey: ['reminders'], queryFn: () => getReminders(), }); if (isLoading) { return <ActivityIndicator style={{ marginTop: '20%' }} />; } if (error) { return <Text style={{alignSelf: 'center', marginTop: '20%'}}>{error.message}</Text>; } return ( <View> <ReminderListItem reminderItem={data[0]} /> <ReminderListItem reminderItem={data[1]} /> </View> ); }"
+                - generic [ref=f20e403]:
+                  - text: Here, we are passing two different reminders as props (
+                  - generic [ref=f20e404]: data[0]
+                  - text: and
+                  - generic [ref=f20e405]: data[1]
+                  - text: ). But we are not done yet, we also need to receive the props inside
+                  - generic [ref=f20e406]: ReminderListItem
+                  - text: and tell the component how to use them.
+                - heading "Receiving Props" [level=2] [ref=f20e411]
+                - generic [ref=f20e417]:
+                  - text: By default, props are available as an object in the first function parameter. But to simplify it, instead of using
+                  - generic [ref=f20e418]: props.reminderItem
+                  - text: ", we can use destructuring to directly extract"
+                  - generic [ref=f20e419]: reminderItem
+                  - text: ":"
+                - figure [ref=f20e422]:
+                  - generic [ref=f20e423]: "import { View, Text } from \"react-native\"; export default function ReminderListItem({ reminderItem }) { return ( <View> <Text>{reminderItem.reminder}</Text> <Text>{reminderItem.notes}</Text> </View> ); }"
+                - note [ref=f20e428]:
+                  - generic [ref=f20e429]:
+                    - img "Callout icon" [ref=f20e435]: 💡
+                    - generic [ref=f20e436]:
+                      - generic [ref=f20e437]: Destructuring makes the code a lot cleaner and easier to read, especially when there is a lot of props used in many places.
+                      - generic [ref=f20e443]: "Instead of:"
+                      - figure [ref=f20e451]:
+                        - generic [ref=f20e452]: "<Text>{props.reminderItem.reminder}</Text>"
+                      - generic [ref=f20e456]: "We can simply write:"
+                      - figure [ref=f20e464]:
+                        - generic [ref=f20e465]: "<Text>{reminderItem.reminder}</Text>"
+                - separator [disabled] [ref=f20e477]
+                - generic [ref=f20e482]:
+                  - button "Open" [disabled] [ref=f20e484] [cursor=pointer]
+                  - heading "Final UI Of ReminderListItem" [level=2] [ref=f20e489]:
+                    - text: Final UI Of
+                    - generic [ref=f20e490]: ReminderListItem
+        - region [ref=f20e492]
+    - status [ref=f20e17]
+    - alert [ref=f20e18]
+  - iframe [ref=f20e493]:
+    

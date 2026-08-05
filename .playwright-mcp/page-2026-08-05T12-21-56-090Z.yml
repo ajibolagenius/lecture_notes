@@ -1,0 +1,87 @@
+- generic [active] [ref=f22e1]:
+  - generic [ref=f22e4]:
+    - generic [ref=f22e6]:
+      - link [ref=f22e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f22e12]:
+        - banner [ref=f22e13]:
+          - generic [ref=f22e15]:
+            - generic [ref=f22e16]:
+              - link "Apple Reminders Clone Guide" [ref=f22e18] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f22e26] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "📜 Reminders List" [disabled] [ref=f22e32]:
+                - generic [ref=f22e33]: 📜
+                - generic [ref=f22e36]: Reminders List
+            - generic [ref=f22e37]:
+              - button "Close panel" [ref=f22e39] [cursor=pointer]
+              - generic [ref=f22e43]:
+                - button [ref=f22e44] [cursor=pointer]
+                - button "Share site to socials" [ref=f22e49] [cursor=pointer]
+                - button [ref=f22e54] [cursor=pointer]
+                - button "More actions" [ref=f22e58] [cursor=pointer]
+                - button "Get Notion free" [ref=f22e61] [cursor=pointer]
+        - main [ref=f22e62]:
+          - group [disabled] [ref=f22e65]:
+            - generic [ref=f22e67]:
+              - generic [ref=f22e70]:
+                - img "Page icon" [ref=f22e75]: 📜
+                - heading "Reminders List" [level=1] [ref=f22e80]
+              - table "Page properties" [ref=f22e87]:
+                - row [disabled] [ref=f22e89]:
+                  - cell "Modules" [ref=f22e94]
+                  - cell "FE" [ref=f22e104]
+              - generic [ref=f22e116]:
+                - generic [ref=f22e122]:
+                  - text: Right now, we’re manually rendering individual reminders in our
+                  - generic [ref=f22e123]: HomeScreen
+                  - text: . But what if we had hundreds of reminders?
+                - generic [ref=f22e129]:
+                  - text: Instead of manually adding
+                  - generic [ref=f22e130]: "<ReminderListItem reminderItem={data[x]} />"
+                  - text: over and over, we need a way to automatically display all reminders, even when new ones are added in the future.
+                - generic [ref=f22e136]:
+                  - text: That’s where
+                  - generic [ref=f22e137]: FlatList
+                  - text: comes in!
+                - heading "Setting Up FlatList" [level=2] [ref=f22e142]
+                - generic [ref=f22e148]:
+                  - generic [ref=f22e149]: FlatList
+                  - text: is a React Native component that efficiently renders large lists of data. It's designed for scrollable lists (like an Instagram feed) and only loads visible items, making it performant.
+                - generic [ref=f22e155]:
+                  - text: We will use
+                  - generic [ref=f22e156]: FlatList
+                  - text: to display reminders dynamically in our
+                  - generic [ref=f22e157]: HomeScreen
+                  - text: .
+                - generic [ref=f22e169]:
+                  - text: To render a list,
+                  - generic [ref=f22e170]: FlatList
+                  - text: "requires two key properties:"
+                - generic [ref=f22e174]:
+                  - generic [ref=f22e175]: "1."
+                  - generic [ref=f22e179]:
+                    - generic [ref=f22e180]: data
+                    - text: to know what list of items needs to be rendered.
+                - generic [ref=f22e184]:
+                  - generic [ref=f22e185]: "2."
+                  - generic [ref=f22e189]:
+                    - generic [ref=f22e190]: renderItem
+                    - text: function to know how to render each item.
+                - figure [ref=f22e193]:
+                  - generic [ref=f22e194]: "import { ActivityIndicator, Text, FlatList } from \"react-native\"; import { useQuery } from \"@tanstack/react-query\"; import { getReminders } from \"@/services/reminderService\"; import ReminderListItem from \"@/components/ReminderListItem\"; export default function HomeScreen() { const { data, isLoading, error } = useQuery({ queryKey: ['reminders'], queryFn: () => getReminders(), }); if (isLoading) { return <ActivityIndicator style={{ marginTop: '20%' }} />; } if (error) { return <Text style={{alignSelf: 'center', marginTop: '20%'}}>{error.message}</Text>; } return ( <FlatList data={data} renderItem={({ item }) => <ReminderListItem reminderItem={item} />} /> ) }"
+                - note [ref=f22e199]:
+                  - generic [ref=f22e200]:
+                    - img "Callout icon" [ref=f22e206]: 💡
+                    - generic [ref=f22e213]:
+                      - text: We can’t leave
+                      - generic [ref=f22e214]: "<ReminderListItem reminderItem={data[0]} />"
+                      - text: because it would always render that one reminder (first one from the list in this case), that’s why we must use
+                      - generic [ref=f22e215]: "{ item }"
+                      - text: ", which represents the current item being rendered."
+        - region [ref=f22e217]
+    - status [ref=f22e218]
+    - alert [ref=f22e219]
+  - iframe [ref=f22e220]:
+    
