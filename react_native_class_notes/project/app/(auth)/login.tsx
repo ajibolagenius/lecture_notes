@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { login } from '../../services/authService';
+import { setSession } from '../../state/session';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -11,7 +12,8 @@ export default function LoginScreen() {
   async function handleLogin() {
     setSubmitting(true);
     try {
-      await login(email.trim(), password);
+      const token = await login(email.trim(), password);
+      setSession(token);
       router.replace('/(protected)');
     } catch (error: any) {
       Alert.alert('Login failed', error.message ?? 'Please try again');

@@ -40,7 +40,6 @@
   },
   "private": true,
   "jest": {
-    "preset": "jest-expo",
-    "resolver": "react-native-worklets/jest/resolver.js"
+    "preset": "jest-expo"
   }
 }
