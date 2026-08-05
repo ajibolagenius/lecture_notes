@@ -55,7 +55,7 @@ Welcome to HTML! This week is all about building a solid foundation — and star
 * **In-Depth Example (The Boilerplate):**
     ```html
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
       <head>
         <!-- Metadata goes here -->
       </head>
@@ -64,10 +64,11 @@ Welcome to HTML! This week is all about building a solid foundation — and star
       </body>
     </html>
     ```
+    * **`lang="en"` on `<html>`:** Not optional, even though the browser won't complain if you skip it. It tells screen readers which language to pronounce your content in, and it's an actual accessibility requirement (WCAG 3.1.1) — not a "nice to have." Set it once, here, and it's done for the whole site.
 
 * **Class Exercise: Create `index.html`**
     1.  In VS Code, inside your `portfolio` folder, create a new file named `index.html`. This is your portfolio's homepage, and it's the file this entire course builds on.
-    2.  Type (don't copy-paste!) the full 5-line boilerplate above.
+    2.  Type (don't copy-paste!) the full boilerplate above — including `lang="en"` on the `<html>` tag.
     3.  Inside the `<body>` tags, temporarily write `Hello, World!`.
     4.  Save the file. Find it in your computer's file explorer and double-click it to open it in Chrome. You've made the first version of your portfolio!
 
@@ -79,20 +80,54 @@ Welcome to HTML! This week is all about building a solid foundation — and star
     * The `<head>` is the "brain" of your page. It's crucial but invisible.
     * **`<title>`:** This is the *only required* tag inside the `<head>`. It defines the text that appears in the **browser tab**. This is also what Google uses as the main blue link in search results.
     * **`<meta charset="UTF-8">`:** This tells the browser which "character set" (alphabet) to use. `UTF-8` is the universal standard that includes all international characters and emojis (like "😊"). You should *always* include this as the first or second line in your `<head>`.
+    * **`<meta name="viewport" content="width=device-width, initial-scale=1.0">`:** Without this line, mobile browsers quietly render your page as a shrunk-down desktop layout — every phone visitor gets a tiny, pinch-to-zoom version of your site instead of one that fits their screen. It looks like nothing when you're only testing on a laptop, which is exactly why it's so easy to forget. Add it now, in the boilerplate, and every page you build for the rest of this course inherits it for free.
 
 * **In-Depth Example:**
     ```html
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>My First Awesome Website</title>
     </head>
     ```
 
 * **Class Exercise: Title Your Portfolio**
     1.  Go back to your `index.html` file.
-    2.  Inside the `<head>` tags, add the `<meta charset="UTF-8">` tag.
+    2.  Inside the `<head>` tags, add the `<meta charset="UTF-8">` tag, then the `<meta name="viewport" ...>` tag above it.
     3.  Add a `<title>` tag with your name in it (e.g., `<title>Alice Chen — Portfolio</title>`).
-    4.  Save and refresh the page in your browser. Look at the browser tab. It should now show your title!
+    4.  Save and refresh the page in your browser. Look at the browser tab. It should now show your title! Then open Dev Tools (F12), toggle the device toolbar, and pick a phone size — the page should already behave better with the viewport tag than without it, even with zero CSS yet.
+
+---
+
+### 5. Version Control: Saving Your Work with Git
+
+* **Lecture & Concepts:**
+    * Right now, your only backup is whatever's on your hard drive. **Git** is a version control system — it saves snapshots ("commits") of your project over time, so you can always go back, and so your code can live somewhere other than one laptop.
+    * **`git init`:** Turns your `portfolio` folder into a git repository. Run it once, at the start.
+    * **`git add <file>`** (or `git add .` for everything): *Stages* changes — tells git "these are the changes I want to include in the next snapshot."
+    * **`git commit -m "message"`:** Saves a snapshot of everything staged, with a short description of what changed. Commit often, in small chunks — "add viewport meta tag" is a better commit than "stuff."
+    * **GitHub** is not the same thing as git. Git is the tool that tracks history *on your machine*; GitHub is a website that *hosts* a copy of that history remotely, so you have a backup and a shareable URL. `git remote add origin <url>` connects the two; `git push` uploads your commits.
+
+* **In-Depth Example (Terminal):**
+    ```bash
+    cd portfolio
+    git init
+    git add .
+    git commit -m "Initial commit: portfolio homepage skeleton"
+
+    # After creating an empty repository on github.com:
+    git remote add origin https://github.com/yourusername/portfolio.git
+    git branch -M main
+    git push -u origin main
+    ```
+
+* **Class Exercise: Put Your Portfolio Under Version Control**
+    1.  In VS Code, open a terminal (Terminal > New Terminal) inside your `portfolio` folder.
+    2.  Run `git init`.
+    3.  Run `git add .`, then `git commit -m "Initial commit: portfolio homepage skeleton"`.
+    4.  On github.com, create a new **empty** repository named `portfolio` (don't add a README — you already have files).
+    5.  Copy the two commands GitHub shows you under "…or push an existing repository from the command line" and run them.
+    6.  Refresh the repository page on GitHub and confirm `index.html` is there. This is the same repo you'll keep committing to and eventually deploy from, in Week 7.
 
 ---
 
@@ -213,12 +248,13 @@ Build `index.html` inside your `portfolio` project folder.
 
 **Requirements:**
 
-1.  **Valid Boilerplate:** Your file must start with a `<!DOCTYPE html>` and have the correct `<html>`, `<head>`, and `<body>` structure.
-2.  **Head Content:** Your `<head>` must include a `<meta charset="UTF-8">` and a `<title>` (e.g., "Alice Chen — Portfolio").
+1.  **Valid Boilerplate:** Your file must start with a `<!DOCTYPE html>` and have the correct `<html lang="en">`, `<head>`, and `<body>` structure.
+2.  **Head Content:** Your `<head>` must include `<meta charset="UTF-8">`, `<meta name="viewport" content="width=device-width, initial-scale=1.0">`, and a `<title>` (e.g., "Alice Chen — Portfolio").
 3.  **Main Heading:** The `<body>` must have *one* `<h1>` with your name.
-4.  **Profile Photo:** Include an `<img>` of yourself (or a placeholder). It must have a descriptive `alt` attribute.
-5.  **About Me Section:** An `<h2>` "About Me" followed by at least one `<p>` introducing yourself.
-6.  **Links:**
+4.  **Version Control:** Your `portfolio` folder must be a git repository with at least two real commits, pushed to a GitHub repository.
+5.  **Profile Photo:** Include an `<img>` of yourself (or a placeholder). It must have a descriptive `alt` attribute.
+6.  **About Me Section:** An `<h2>` "About Me" followed by at least one `<p>` introducing yourself.
+7.  **Links:**
     * Include one **external (absolute)** link to your Github, LinkedIn, or another site you want visitors to find.
     * Include one **relative link** to a *new page* you'll create called `contact.html`.
-7.  **Bonus Challenge:** Create the `contact.html` file (using the same boilerplate) with just an `<h1>` that says "Contact Me" and a relative link that says "Back to Home" pointing back to `index.html`. You'll build this into a real form in Week 4.
+8.  **Bonus Challenge:** Create the `contact.html` file (using the same boilerplate) with just an `<h1>` that says "Contact Me" and a relative link that says "Back to Home" pointing back to `index.html`. You'll build this into a real form in Week 4.

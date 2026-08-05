@@ -64,6 +64,18 @@ This week is about the "invisible" qualities that separate amateur sites from pr
     2.  Add `aria-hidden="true"` to any decorative icon SVGs inside those links.
     3.  Try tabbing through all three of your pages using only your keyboard — confirm you can reach every link, nav item, and form field in a logical order.
 
+### 5. Automated Accessibility Auditing
+
+* **Lecture & Concepts:**
+    * Manual tabbing catches keyboard-navigation bugs, but it won't catch everything — a missing `alt`, insufficient color contrast, or a skipped heading level. **Automated audits** catch these systematically, in seconds.
+    * **Lighthouse** is built directly into Chrome DevTools (the "Lighthouse" tab). It scores your page on Accessibility, Performance, SEO, and Best Practices out of 100, and lists exactly what's failing and why.
+    * **axe DevTools** is the other industry-standard tool (a free browser extension) — many real engineering teams gate pull requests on an axe scan passing before merge. Knowing the name matters as much as running it once here.
+
+* **⭐️ Class Exercise: Run a Real Audit**
+    1.  Open Chrome DevTools on `index.html`, go to the **Lighthouse** tab, and run an audit for **Accessibility** and **SEO**.
+    2.  Aim for a score of **90+** on Accessibility. Fix whatever it flags — usually things you technically already know (missing `alt`, low contrast) but haven't checked systematically until now.
+    3.  Repeat for `about.html` and `contact.html`. Note your three scores — you'll want them at 90+ before Week 7's deploy.
+
 ---
 
 ## Module 11: SEO & Modern HTML
@@ -104,7 +116,48 @@ This week is about the "invisible" qualities that separate amateur sites from pr
     <meta property="og:type" content="website">
     ```
 
-### 3. Modern HTML5 Features (`<dialog>`)
+### 3. Structured Data (schema.org & JSON-LD)
+
+* **Lecture & Concepts:**
+    * SEO tags and Open Graph tell search engines and social platforms what your page *looks like*. **Structured data** tells them what your page actually *is*, in a format machines can parse directly instead of guessing at from prose.
+    * The vocabulary is **schema.org**; the easiest way to add it is a `<script type="application/ld+json">` block in your `<head>` — no need to sprinkle microdata attributes through your visible markup.
+    * For a personal portfolio, the natural type is `Person`: your name, job title, and links to your other profiles. Search engines can use this to build a richer result for your name.
+
+* **In-Depth Example:**
+    ```html
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Alice Chen",
+      "jobTitle": "Junior Web Developer",
+      "url": "https://alicechen.dev",
+      "sameAs": [
+        "https://github.com/yourusername",
+        "https://www.linkedin.com/in/yourusername"
+      ]
+    }
+    </script>
+    ```
+
+* **⭐️ Class Exercise: Describe Yourself to a Machine**
+    1.  Add this `<script type="application/ld+json">` block to the `<head>` of `index.html`.
+    2.  Fill in your real name, job title, site URL, and your real GitHub/LinkedIn URLs in `sameAs`.
+    3.  Once your site is deployed in Week 7, paste the live URL into Google's Rich Results Test to confirm it parses without errors.
+
+### 4. Validating Your Markup
+
+* **Lecture & Concepts:**
+    * Browsers are extremely forgiving — they'll render broken HTML (a missing closing tag, a duplicate `id`) without complaining, which means real bugs can hide for weeks.
+    * The **W3C Markup Validator** (validator.w3.org) checks your actual HTML against the HTML5 specification and reports every error, browser-independent of what any one browser happens to tolerate.
+    * This isn't optional polish — it's the closest thing HTML has to a compiler. A page with validation errors has structural bugs you haven't found yet.
+
+* **⭐️ Class Exercise: Validate All Three Pages**
+    1.  Go to validator.w3.org and check `index.html`, `about.html`, and `contact.html` one at a time (upload the file, or paste your deployed URL once Week 7 is done).
+    2.  Fix every **error**. Read the **warnings** too — a duplicate `id` is a real bug the validator catches instantly, since two elements sharing an `id` silently breaks anything that looks it up.
+    3.  Re-run the validator after each fix until all three pages pass clean.
+
+### 5. Modern HTML5 Features (`<dialog>`)
 
 * **Lecture & Concepts:**
     * HTML is evolving. We now have native tags for complex UI components.
@@ -124,6 +177,10 @@ This week is about the "invisible" qualities that separate amateur sites from pr
     <button onclick="document.getElementById('hire-me-dialog').showModal()">Hire Me</button>
     ```
 
+### A Quick Note on Printing
+
+Someone will eventually print your About page alongside a resume. `@media print` is its own media query — separate from the responsive breakpoints you'll meet properly in the CSS course — and it's what lets you hide the `<nav>` and footer social icons (useless on paper) when a page is printed instead of viewed on-screen. Nothing to build yet; just know the query exists and what it's for.
+
 ---
 
 ### Week 6 / Final Project: Finish "The Professional Portfolio"
@@ -142,6 +199,8 @@ This week is about the "invisible" qualities that separate amateur sites from pr
 * [ ] Valid HTML5 Boilerplate.
 * [ ] **SEO:** Unique `<title>` and `<meta name="description">` for every page.
 * [ ] **Social:** Open Graph tags (`og:title`, `og:image`) on `index.html`.
+* [ ] **Structured Data:** A `Person` JSON-LD block in `index.html`'s `<head>`.
+* [ ] **Validation:** All three pages pass the W3C Markup Validator with zero errors.
 * [ ] **Layout:** The same `<header>`, `<nav>`, `<main>`, and `<footer>` structure on all three pages.
 
 **2. Homepage (`index.html`):**
@@ -162,6 +221,7 @@ This week is about the "invisible" qualities that separate amateur sites from pr
 * [ ] Every image has real `alt` text (or `aria-hidden="true"` if purely decorative).
 * [ ] Every icon-only social link in your footer has an `aria-label`.
 * [ ] Test that you can tab through every page's nav and form in a logical order.
+* [ ] Chrome Lighthouse Accessibility score of 90+ on all three pages.
 
 **Bonus Challenge:**
 * Add a "Hire Me" button in the header that opens a `<dialog>` modal containing a quick email link.

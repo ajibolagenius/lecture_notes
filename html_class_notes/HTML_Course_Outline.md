@@ -17,6 +17,7 @@ This course is the required starting point for all web development. It takes stu
     * Explain the relationship between HTML, CSS, and JavaScript.
     * Understand the roles of a web browser and a code editor.
     * Set up a development environment (VS Code, browser).
+    * Put a project under version control with Git and push it to GitHub.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -25,9 +26,11 @@ This course is the required starting point for all web development. It takes stu
 | **Tools of the Trade** | 45 mins | 30 mins |
 | Code Editors (VS Code) vs. Text Editors (Notepad). | - Web Browsers (Chrome, Firefox) and Dev Tools. | - Install VS Code and create a `portfolio` project folder with `index.html`. |
 | **Your First Webpage** | 30 mins | 30 mins |
-| The `<!DOCTYPE html>` declaration. | - The `<html>`, `<head>`, and `<body>` tags. | - Write the boilerplate for your portfolio's `index.html`. |
+| The `<!DOCTYPE html>` declaration. | - The `<html lang="en">`, `<head>`, and `<body>` tags. | - Write the boilerplate for your portfolio's `index.html`, including `lang="en"`. |
 | **The `<head>` Element** | 45 mins | 15 mins |
-| The `<title>` tag (for the browser tab). | - The `<meta charset="UTF-8">` tag. | - Add a title (e.g., "[Your Name] — Portfolio") and meta tag to your `index.html`. |
+| The `<title>` tag (for the browser tab). | - `<meta charset="UTF-8">` and `<meta name="viewport">`. | - Add a title, charset, and viewport meta tag to your `index.html`. |
+| **Version Control: Git & GitHub** | 45 mins | 30 mins |
+| `git init`/`add`/`commit`; what a commit actually is. | - Connecting to a remote with `git remote add`/`git push`. | - Initialize git in your `portfolio` folder, commit, and push it to a new GitHub repository. |
 
 ### Module 2: Core Content Tags
 * **Learning Objectives:**
@@ -52,6 +55,7 @@ This course is the required starting point for all web development. It takes stu
 **Week 1 Assignment:** Build "Portfolio Home Page v1" (`index.html`).
 * A main `<h1>` with your name, an `<img>` profile photo (with `alt` text), an `<h2>` "About Me" section with a `<p>` bio.
 * One external link (Github/LinkedIn) and one relative link to `contact.html` (not built yet).
+* A boilerplate with `lang="en"` and a viewport meta tag, committed to a git repository pushed to GitHub.
 * This is the file you'll keep extending every week for the rest of this course.
 
 ---
@@ -207,13 +211,15 @@ This course is the required starting point for all web development. It takes stu
 | Google Maps embedding. | - `width`, `height`, `frameborder`, `allowfullscreen`. | - Embed a Google Map of your city on `contact.html`. |
 | **Responsive Images** | 1.5 hours | 45 mins |
 | The `<picture>` element. | - Using `<source>` with `media` queries. | - Use `<picture>` for your profile photo on `about.html` — a square crop on mobile, wide on desktop. |
-| The `srcset` attribute (for resolution switching). | - Art direction vs. Resolution switching. | |
+| The `srcset` attribute (for resolution switching). | - Art direction vs. Resolution switching. | - Verify both breakpoints in Dev Tools' device toolbar, and spot-check in a second browser. |
+| **Modern Image Formats** | 45 mins | 30 mins |
+| WebP/AVIF vs. JPG/PNG — smaller files, same quality. | - `<picture>` for format fallback, not just art direction. | - Add `.avif`/`.webp` `<source>`s to your profile photo, confirmed via the Network tab. |
 | **Intro to `<svg>`** | 1 hour | 15 mins |
 | Vector vs. Raster (Bitmap) images. | - Why SVG is great for logos and icons. | - Create a simple SVG monogram (your initials) to use as your site's logo in the header. |
 
 **Week 5 Assignment:** Build "About Me" Page (`about.html`).
 * A self-recorded (or placeholder) intro `<video>` with `controls` and fallback text.
-* A responsive `<picture>` of your profile photo (different crop for mobile vs. desktop).
+* A responsive `<picture>` of your profile photo (different crop for mobile vs. desktop), with `.avif`/`.webp` format fallbacks ahead of the `.jpg`.
 * An embedded YouTube demo for one Featured Work project, and a Google Map on `contact.html`.
 * Your SVG monogram in the site header, reused across all three pages.
 
@@ -236,6 +242,8 @@ This course is the required starting point for all web development. It takes stu
 | Landmark Roles: `navigation`, `main`, `banner`, `contentinfo`. | - (Note: HTML5 tags like `<nav>` do this automatically.) | |
 | **ARIA Attributes** | 1 hour | 30 mins |
 | `aria-label` (for "icon-only" buttons). | - `aria-hidden="true"` (to hide decorative icons). | - Add `aria-label`s to any icon-only social links in your footer. |
+| **Automated Auditing** | 45 mins | 30 mins |
+| Chrome Lighthouse (built into Dev Tools). | - axe DevTools, and why real teams gate PRs on it. | - Run a Lighthouse Accessibility + SEO audit on all 3 pages; fix flags until 90+. |
 
 ### Module 11: SEO & Modern HTML
 * **Learning Objectives:**
@@ -249,18 +257,22 @@ This course is the required starting point for all web development. It takes stu
 | `<meta name="description">` | - `<meta name="keywords">` (less important now). | - Add a unique `<title>` and meta description to each of your 3 pages. |
 | **Social Media Tags** | 1 hour | 30 mins |
 | The Open Graph Protocol (og:). | - `og:title`, `og:description`, `og:image`. | - Add Open Graph tags to `index.html` so it looks good when shared. |
+| **Structured Data** | 1 hour | 30 mins |
+| schema.org via JSON-LD (`<script type="application/ld+json">`). | - Why it's separate from Open Graph — machines vs. previews. | - Add a `Person` JSON-LD block to `index.html`; verify with Google's Rich Results Test. |
+| **Validating Your Markup** | 45 mins | 30 mins |
+| The W3C Markup Validator — HTML's closest thing to a compiler. | - Why browsers rendering it fine doesn't mean it's valid. | - Validate all 3 pages at validator.w3.org; fix every error. |
 | **Other HTML5 Features** | 1.5 hours | 30 mins |
 | `<template>` tag (for JS). | - `<canvas>` (for 2D/3D graphics with JS). | - (Lecture-only) High-level overview of these features and how they set the stage for JavaScript. |
-| Microdata and Structured Data (schema.org). | - What these are and why they matter for SEO. | |
 
 **Week 6 / Final Project:** Finish "The Professional Portfolio".
 * **Goal:** Combine and polish everything from Weeks 1-5 into one accessible, three-page site.
 * **Structure:** `index.html`, `about.html`, `contact.html`, an `assets/` folder — all already built, now finished and polished.
 * **Requirements:**
-    * Every page has a unique `<title>` and `<meta name="description">`; `index.html` has Open Graph tags.
+    * Every page has a unique `<title>` and `<meta name="description">`; `index.html` has Open Graph tags and a `Person` JSON-LD block.
     * The "Skills & Experience" table from Week 3 appears on `about.html`.
     * Every image has real `alt` text; every icon-only link has an `aria-label`.
     * The heading outline (`h1` → `h2` → `h3`) is logical on every page, with no skipped levels.
+    * All three pages pass the W3C Markup Validator and score 90+ on Lighthouse Accessibility.
 
 ---
 
@@ -270,7 +282,7 @@ This course is the required starting point for all web development. It takes stu
 * **Learning Objectives:**
     * Use `<details>`/`<summary>` for native, JS-free expand/collapse UI.
     * Use `<meter>` to visualize a bounded value.
-    * Understand `contenteditable` as a modern HTML feature.
+    * Add a web app manifest so the portfolio is installable from a phone's home screen.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -278,8 +290,8 @@ This course is the required starting point for all web development. It takes stu
 | `<details>`/`<summary>` — expand/collapse with zero JavaScript. | - The `open` attribute. | - Add an FAQ-style `<details>` section to `about.html` ("Want to work together?", "What's your stack?"). |
 | **Visualizing Data** | 45 mins | 45 mins |
 | `<meter>` for a bounded value; `<progress>` for task completion. | - `low`/`high`/`optimum` zones. | - Add a `<meter>` proficiency bar next to each skill in your Skills table. |
-| **Editable Content** | 30 mins | 15 mins |
-| `contenteditable="true"` turns any element into an editor. | - How tools like Notion/Google Docs use this. | - (Lecture-only) Not added to the portfolio — just know it exists. |
+| **The Web App Manifest** | 30 mins | 30 mins |
+| `site.webmanifest` — name, icons, background/theme color. | - `<link rel="manifest">`, and how "Add to Home Screen" uses it. | - Create `site.webmanifest`, link it from every page, test "Add to Home Screen" on your phone. |
 
 ### Module 13: Performance, Optimization & Deployment
 * **Learning Objectives:**
@@ -296,9 +308,10 @@ This course is the required starting point for all web development. It takes stu
 | **Lazy Loading** | 30 mins | 30 mins |
 | `loading="lazy"` on images/iframes below the fold. | - `eager` vs. `lazy` — when to use which. | - Add `loading="lazy"` to your project screenshots and embeds. |
 | **Deployment** | 1 hour | 1 hour |
-| Static hosting: Netlify, Vercel, Github Pages. | - Drag-and-drop vs. Git-based deploys. | - Deploy your finished portfolio and get a live URL. |
+| Github Pages, Netlify, Vercel — all deploy off the repo you've had since Week 1. | - `git add`/`commit`/`push`, then enabling Pages (or connecting Netlify/Vercel). | - Push your final changes, go live, and verify the URL in a second browser and on your phone. |
 
 **Week 7 Assignment:** Optimize & Deploy Your Portfolio.
-* Add a favicon, preload your hero/profile image, and lazy-load everything else (project screenshots, embeds).
-* Deploy to Netlify, Vercel, or Github Pages.
+* Add a favicon and web app manifest, preload your hero/profile image, and lazy-load everything else (project screenshots, embeds).
+* Commit, push, and deploy via Github Pages, Netlify, or Vercel.
+* Verify the live site in a second browser and on your phone.
 * **Submit the live URL** — this is the same site the CSS course will style next.

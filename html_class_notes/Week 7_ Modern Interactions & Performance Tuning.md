@@ -44,13 +44,36 @@ HTML5 introduced several tags that provide complex UI behavior natively. Using t
     <meter id="html-skill" value="0.75" min="0" max="1" low="0.3" high="0.8" optimum="1">75%</meter>
     ```
 
-### 3. Editable Content (`contenteditable`)
+### 3. The Web App Manifest
 
 * **Lecture & Concepts:**
-    * You can make *any* HTML element editable by the user, turning a `<div>` into a text editor. This is how tools like Notion or Google Docs start.
-    * **Attribute:** `contenteditable="true"`.
-    * **Spellcheck:** `spellcheck="true/false"` controls red squiggly lines.
-    * This one's lecture-only for our purposes — it's genuinely useful to know it exists, but it doesn't have an obvious place in a personal portfolio site.
+    * A `site.webmanifest` is a small JSON file that tells mobile browsers how your site should behave if someone adds it to their home screen — its name, its icons, its background color. It's what turns "Add to Home Screen" into something that looks like a real app icon instead of a bare bookmark.
+    * Link it from the `<head>` with `<link rel="manifest" href="site.webmanifest">`, right next to the favicon links you're about to add below.
+    * This pairs directly with the favicon work in this same module — you already have the icon artwork; the manifest just describes it properly so mobile OSes know what to do with it.
+
+* **In-Depth Example:**
+    ```json
+    {
+      "name": "Alice Chen — Portfolio",
+      "short_name": "Alice Chen",
+      "icons": [
+        { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+      ],
+      "start_url": "/",
+      "display": "standalone",
+      "background_color": "#ffffff",
+      "theme_color": "#0E7AFE"
+    }
+    ```
+    ```html
+    <link rel="manifest" href="site.webmanifest">
+    ```
+
+* **⭐️ Class Exercise: Make Your Site Installable**
+    1.  Create `site.webmanifest` in your project root, with your own name and the same PNG icons you're about to set up as your favicon below.
+    2.  Link it from the `<head>` of all three pages.
+    3.  Once your site is deployed later this week, open it on your phone and try "Add to Home Screen" — confirm your icon and name show up correctly.
 
 * **⭐️ Class Exercise: Add an FAQ and Skill Meters to `about.html`**
     1.  Add a small "FAQ" section using two or three `<details>`/`<summary>` pairs (e.g., "What's your stack?", "Are you open to work?").
@@ -106,12 +129,25 @@ Writing code is only half the battle. The other half is making sure it loads fas
 ### 4. Deployment (Going Live)
 
 * **Lecture & Concepts:**
-    * Your `index.html` only exists on your computer right now. To share it with the world (or a hiring manager), it must live on a server.
-    * **Static Hosting:** Since your portfolio is pure HTML (no database, no backend), we can use free static hosting.
-    * **Top Providers:**
-        * **Netlify:** Drag and drop your folder to deploy.
-        * **Vercel:** Excellent for Git integration.
-        * **Github Pages:** Hosted directly from your code repository.
+    * Your code has been living in a GitHub repository since Week 1's `git push` — that repo is what actually goes live now, not a raw folder on your computer.
+    * **Static Hosting:** Since your portfolio is pure HTML (no database, no backend), any of these deploy directly off the GitHub repo you already have:
+        * **Github Pages:** Free, built into the repo itself. `Settings → Pages → Branch: main → Folder: / (root) → Save`. GitHub gives you a live URL in about a minute.
+        * **Netlify** / **Vercel:** Connect your GitHub repo once in their dashboard; every future `git push` automatically redeploys — no more drag-and-drop.
+    * Whichever you pick, the workflow is the same one from Week 1: commit, push, then flip one setting to make it public.
+
+* **In-Depth Example (Commit, Push, then Enable Pages):**
+    ```bash
+    git add .
+    git commit -m "Week 7: performance tuning + deploy"
+    git push
+    ```
+    Then on GitHub: **Settings → Pages → Branch: `main` → Folder: `/ (root)` → Save.**
+
+* **⭐️ Class Exercise: Ship It**
+    1.  Commit and push your final Week 7 changes using the commands above.
+    2.  Turn on GitHub Pages for your repo (or connect it to Netlify/Vercel instead, if you'd rather).
+    3.  Once live, open the URL in a **second browser** you haven't used all course long (Firefox if you've lived in Chrome, or vice versa) and on your **phone** — confirm it looks right in both. Same cross-browser habit from Week 5, now applied to the real deployed site.
+    4.  Bookmark the live URL — you'll deploy to this exact same address for the rest of this course.
 
 ---
 
@@ -122,12 +158,14 @@ Writing code is only half the battle. The other half is making sure it loads fas
 **Requirements:**
 
 1.  **Native Interactivity:** An FAQ using `<details>`/`<summary>` on `about.html`, and `<meter>` proficiency bars next to each skill.
-2.  **Favicon:** Your Week 5 SVG monogram, linked as the favicon on all three pages.
-3.  **Preloading:** `rel="preload"` on your homepage's hero/profile image.
-4.  **Lazy Loading:** `loading="lazy"` on every project screenshot and every `<iframe>` embed (YouTube demo, Google Map).
-5.  **Deployment:**
-    * Sign up for a free account on **Netlify**, **Vercel**, or **Github Pages**.
-    * Deploy your `portfolio` folder.
+2.  **Installable:** A `site.webmanifest` linked from every page, tested via "Add to Home Screen" on your phone.
+3.  **Favicon:** Your Week 5 SVG monogram, linked as the favicon on all three pages.
+4.  **Preloading:** `rel="preload"` on your homepage's hero/profile image.
+5.  **Lazy Loading:** `loading="lazy"` on every project screenshot and every `<iframe>` embed (YouTube demo, Google Map).
+6.  **Deployment:**
+    * Commit and push your final changes to the same GitHub repo from Week 1.
+    * Enable GitHub Pages (or connect Netlify/Vercel) so the repo deploys automatically.
+    * Confirm the live URL renders correctly in a second browser and on your phone.
     * **Submit the LIVE URL** — not just the code. This is the exact same live site the CSS course will style next.
 
 **Bonus Challenge:**

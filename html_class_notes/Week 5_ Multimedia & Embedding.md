@@ -139,7 +139,30 @@ Sometimes you don't want to host the file yourself. You want to use Google Maps'
     </picture>
     ```
 
-### 3. Scalable Vector Graphics (`<svg>`)
+* **Testing Across Devices & Browsers:** A media query is only as good as your testing of it. Open Dev Tools (F12), toggle the **device toolbar** (the phone/tablet icon in the top-left of the Dev Tools panel), and manually resize the viewport across the `450px` and `800px` breakpoints above — confirm the right photo actually swaps in at each one. Then open `about.html` in a second browser (if you've been using Chrome, check Firefox, or vice versa). Subtle rendering differences are normal — catching them now is far cheaper than debugging them after Week 7's deploy.
+
+### 3. Modern Image Formats: WebP & AVIF
+
+* **Lecture & Concepts:**
+    * JPG and PNG have been the default for decades, but they're no longer the smallest option. **WebP** (and the newer **AVIF**) compress noticeably smaller than JPG at the same visual quality — a real, measurable performance win, and one of the most common flags in a Lighthouse audit.
+    * You don't have to pick just one format. `<picture>` — the same tag you just used for art direction — has a second job: letting the browser pick the *best format it supports* and fall back to something universal if it can't.
+
+* **In-Depth Example:**
+    ```html
+    <picture>
+      <source srcset="assets/profile-square.avif" type="image/avif">
+      <source srcset="assets/profile-square.webp" type="image/webp">
+      <img src="assets/profile-square.jpg" alt="Alice Chen smiling at her desk.">
+    </picture>
+    ```
+    The browser checks each `<source>`'s `type` top to bottom and uses the first one it understands. Modern browsers pick AVIF; older ones fall all the way through to the plain `<img>`.
+
+* **⭐️ Class Exercise: Add Format Fallbacks**
+    1.  Using an image editor or a free online converter, export your profile photo as `.webp` and `.avif` alongside your existing `.jpg`.
+    2.  Add `<source>` tags for both new formats, in the order shown above, before your existing `<img>` fallback.
+    3.  Open Dev Tools' **Network** tab, reload the page, and find the image request — confirm which file actually downloaded. That's the format your browser picked.
+
+### 4. Scalable Vector Graphics (`<svg>`)
 
 * **Lecture & Concepts:**
     * **Raster (JPG/PNG):** Made of pixels. If you zoom in, they get blurry.
@@ -167,9 +190,10 @@ Sometimes you don't want to host the file yourself. You want to use Google Maps'
 
 1.  **Structure:** Reuses the exact `<header>`/`<nav>`/`<footer>` from `index.html` and `contact.html` — this is one consistent site, not three unrelated pages.
 2.  **Intro Video:** A self-recorded (or placeholder) `<video>` with `controls`, a `poster`, and text fallback for unsupported browsers.
-3.  **Responsive Photo:** A `<picture>` element for your profile photo — a square crop on mobile (default), a wider crop for screens over 800px.
-4.  **Project Demo Embed:** On `index.html`, embed a YouTube demo for one Featured Work project using an `<iframe>` with `loading="lazy"`.
-5.  **Location:** On `contact.html`, embed a Google Map of your city.
-6.  **Logo:** Your SVG monogram appears in the `<header>` of all three pages.
+3.  **Responsive Photo:** A `<picture>` element for your profile photo — a square crop on mobile (default), a wider crop for screens over 800px — verified by resizing through Dev Tools' device toolbar and spot-checked in a second browser.
+4.  **Modern Formats:** That same photo also offers `<source>`s for `.avif` and `.webp`, in that order, before the `.jpg` fallback.
+5.  **Project Demo Embed:** On `index.html`, embed a YouTube demo for one Featured Work project using an `<iframe>` with `loading="lazy"`.
+6.  **Location:** On `contact.html`, embed a Google Map of your city.
+7.  **Logo:** Your SVG monogram appears in the `<header>` of all three pages.
 
 **Bonus Challenge:** Add `<track kind="captions">` to your intro video with a simple `.vtt` captions file.
