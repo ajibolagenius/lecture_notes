@@ -1,0 +1,347 @@
+- generic [active] [ref=f18e1]:
+  - generic [ref=f18e4]:
+    - generic [ref=f18e6]:
+      - link [ref=f18e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f18e12]:
+        - banner [ref=f18e13]:
+          - generic [ref=f18e15]:
+            - generic [ref=f18e16]:
+              - link "Apple Reminders Clone Guide" [ref=f18e18] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f18e26] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "Expo Router" [disabled] [ref=f18e32]
+            - generic [ref=f18e37]:
+              - button "Close panel" [ref=f18e39] [cursor=pointer]
+              - generic [ref=f18e43]:
+                - button [ref=f18e44] [cursor=pointer]
+                - button "Share site to socials" [ref=f18e49] [cursor=pointer]
+                - button [ref=f18e54] [cursor=pointer]
+                - button "More actions" [ref=f18e58] [cursor=pointer]
+                - button "Get Notion free" [ref=f18e61] [cursor=pointer]
+        - main [ref=f18e62]:
+          - group [disabled] [ref=f18e65]:
+            - generic [ref=f18e67]:
+              - generic [ref=f18e109]:
+                - img "Page icon" [ref=f18e114]
+                - heading "Expo Router" [level=1] [ref=f18e119]
+              - table "Page properties" [ref=f18e126]:
+                - row [disabled] [ref=f18e128]:
+                  - cell "Modules" [ref=f18e133]
+                  - cell "FE" [ref=f18e143]
+              - generic [ref=f18e155]:
+                - heading "Setting Up Expo Router" [level=2] [ref=f18e160]
+                - heading "1. Installation" [level=3] [ref=f18e165]
+                - generic [ref=f18e171]:
+                  - text: To install Expo Router, we will follow the
+                  - link "Official Documentation" [disabled] [ref=f18e172] [cursor=pointer]:
+                    - /url: https://docs.expo.dev/router/installation/#manual-installation
+                  - text: .
+                - generic [ref=f18e178]:
+                  - text: Unlike traditional navigation libraries, Expo Router follows a file-based navigation system. This means that we simply need to create files inside
+                  - generic [ref=f18e179]: app
+                  - text: directory and
+                  - generic [ref=f18e180]: expo-router
+                  - text: will create screens for that.
+                - generic [ref=f18e181]: If you're familiar with Next.js, this approach will feel very familiar. If not, I will explain everything step by step.
+                - note [ref=f18e188]:
+                  - generic [ref=f18e189]:
+                    - img "Callout icon" [ref=f18e195]: 💡
+                    - generic [ref=f18e202]:
+                      - generic [ref=f18e203]: expo-router
+                      - text: is built on top of
+                      - generic [ref=f18e204]: react-navigation
+                      - text: ", so if you have experience with that, you will be able to reuse some of your knowledge."
+                - heading "2. Creating Your First Screen" [level=3] [ref=f18e209]
+                - generic [ref=f18e215]:
+                  - text: After restarting the app, you'll see the Expo welcome screen. This screen appears because our
+                  - generic [ref=f18e216]: app
+                  - text: directory doesn’t have any screens yet.
+                - generic [ref=f18e222]:
+                  - text: Expo Router works by scanning the
+                  - generic [ref=f18e223]: app
+                  - text: "directory and making almost every file inside this directory automatically a screen. So let’s create our first screen:"
+                - generic [ref=f18e227]:
+                  - generic [ref=f18e228]: "1."
+                  - generic [ref=f18e230]:
+                    - generic [ref=f18e232]:
+                      - text: Inside the
+                      - generic [ref=f18e233]: app
+                      - text: directory, create a new file named
+                      - generic [ref=f18e234]: index.tsx
+                      - text: .
+                    - figure [ref=f18e237]:
+                      - generic [ref=f18e238]: "import { View, Text } from \"react-native\"; export default function HomeScreen() { return ( <View> <Text>Hello, world!</Text> </View> ); }"
+                - generic [ref=f18e245]:
+                  - generic [ref=f18e246]: "2."
+                  - generic [ref=f18e250]:
+                    - text: Save the file and reload the app.
+                    - generic [ref=f18e251]: expo-router
+                    - text: will detect the
+                    - generic [ref=f18e252]: index.tsx
+                    - text: file and automatically set it as the home screen with the url /.
+                - heading "3. Navigating" [level=3] [ref=f18e257]
+                - generic [ref=f18e258]: "Let's add another screen to see how navigation works:"
+                - generic [ref=f18e267]:
+                  - generic [ref=f18e268]: "1."
+                  - generic [ref=f18e272]:
+                    - text: Inside the
+                    - generic [ref=f18e273]: app
+                    - text: directory, create a new file called
+                    - generic [ref=f18e274]: about.tsx
+                    - text: just like we did in the example above.
+                - generic [ref=f18e278]:
+                  - generic [ref=f18e279]: "2."
+                  - generic [ref=f18e281]:
+                    - generic [ref=f18e283]:
+                      - text: Add Link to the
+                      - generic [ref=f18e284]: HomeScreen
+                      - text: "like below and press on ‘Hello, world!` text in your device."
+                    - figure [ref=f18e287]:
+                      - generic [ref=f18e288]: "import { View, Text } from \"react-native\"; import { Link } from \"expo-router\"; export default function HomeScreen() { return ( <View> <Link href=\"about\"> Hello, world! </Link> </View> ); }"
+                - generic [ref=f18e295]:
+                  - generic [ref=f18e296]: "3."
+                  - generic [ref=f18e298]: And as simple as that, you are navigating between screens in your app!
+                - heading "4. Introducing Layouts" [level=3] [ref=f18e305]
+                - generic [ref=f18e311]:
+                  - text: Now, let’s talk a bit about
+                  - generic [ref=f18e312]: _layout.tsx
+                  - text: . By default, routes fill the entire screen. Moving between them is a full-page transition. In native apps, users expect shared elements like headers and/or bottom menu tab bars to persist between pages. These are created using layout routes.
+                - generic [ref=f18e318]:
+                  - text: Think of
+                  - generic [ref=f18e319]: _layout.tsx
+                  - text: as a wrapper, for example, in a bottom menu tab navigation, screens and their content inside will change when you navigate between tabs, but the tabs on the bottom should persist and stay on the bottom.
+                  - generic [ref=f18e320]: _layout.tsx
+                  - text: ensures that shared components like bottom tabs in this example persists across all those screens.
+                - heading "Creating _layout.tsx" [level=4] [ref=f18e325]:
+                  - text: Creating
+                  - generic [ref=f18e326]: _layout.tsx
+                - generic [ref=f18e332]:
+                  - text: Inside the
+                  - generic [ref=f18e333]: app
+                  - text: directory, create a new file called
+                  - generic [ref=f18e334]: _layout.tsx
+                  - text: "and add the following code:"
+                - figure [ref=f18e337]:
+                  - generic [ref=f18e338]: "import { Stack } from \"expo-router\"; export default function RootLayout() { return <Stack />; }"
+                - generic [ref=f18e342]: This layout will be our root layout because this layout will be wrapping around every screen in our app. So no matter where you are in the app, you will be inside the root layout.
+                - heading "5. How Does expo-router Decide Which Screen to Load?" [level=3] [ref=f18e358]:
+                  - text: 5. How Does
+                  - generic [ref=f18e359]: expo-router
+                  - text: Decide Which Screen to Load?
+                - heading "Basic Rule:" [level=4] [ref=f18e364]
+                - generic [ref=f18e370]:
+                  - generic [ref=f18e371]: expo-router
+                  - text: looks for the first available
+                  - generic [ref=f18e372]: index.tsx
+                  - text: file in the project's directory structure to load it as an initial screen. If it doesn't find one at the root level, it searches deeper inside subdirectories.
+                - 'heading "Step-by-Step: How expo-router Finds the Initial Screen" [level=4] [ref=f18e377]':
+                  - text: "Step-by-Step: How"
+                  - generic [ref=f18e378]: expo-router
+                  - text: Finds the Initial Screen
+                - generic [ref=f18e379]: "Let’s look at a very common example with two subfolders:"
+                - generic [ref=f18e388]:
+                  - generic [ref=f18e389]: •
+                  - generic [ref=f18e393]:
+                    - generic [ref=f18e394]: protected/
+                    - text: – Contains basically all screens of your app that require user authentication and should not be accessible otherwise.
+                - generic [ref=f18e398]:
+                  - generic [ref=f18e399]: •
+                  - generic [ref=f18e403]:
+                    - generic [ref=f18e404]: auth/
+                    - text: – Holds screens like login, register, and forgot password, which should be accessible to unauthenticated users.
+                - heading "1. Root Layout Loads First (app/_layout.tsx)" [level=4] [ref=f18e409]:
+                  - text: 1. Root Layout Loads First (
+                  - generic [ref=f18e410]: app/_layout.tsx
+                  - text: )
+                - generic [ref=f18e414]:
+                  - generic [ref=f18e415]: •
+                  - generic [ref=f18e419]:
+                    - text: This file contains
+                    - generic [ref=f18e420]: <Slot />
+                    - text: or
+                    - generic [ref=f18e421]: <Stack />
+                    - text: ", which acts as a wrapper for all screens, defining the app’s global layout and navigation structure."
+                - generic [ref=f18e425]:
+                  - generic [ref=f18e426]: •
+                  - generic [ref=f18e430]:
+                    - text: Since there is no
+                    - generic [ref=f18e431]: index.tsx
+                    - text: inside
+                    - generic [ref=f18e432]: app/
+                    - text: ","
+                    - generic [ref=f18e433]: expo-router
+                    - text: moves into subdirectories.
+                - heading "2. Searching for the First Valid index.tsx" [level=4] [ref=f18e438]:
+                  - text: 2. Searching for the First Valid
+                  - generic [ref=f18e439]: index.tsx
+                - generic [ref=f18e443]:
+                  - generic [ref=f18e444]: •
+                  - generic [ref=f18e448]:
+                    - generic [ref=f18e449]: expo-router
+                    - text: scans subdirectories in the order they appear in the file system (alphabetically).
+                - generic [ref=f18e453]:
+                  - generic [ref=f18e454]: •
+                  - generic [ref=f18e458]:
+                    - text: The first valid
+                    - generic [ref=f18e459]: index.tsx
+                    - text: found determines the initial screen.
+                - heading "3. Finding the first index.tsx" [level=4] [ref=f18e464]:
+                  - text: 3. Finding the first
+                  - generic [ref=f18e465]: index.tsx
+                - generic [ref=f18e469]:
+                  - generic [ref=f18e470]: •
+                  - generic [ref=f18e474]:
+                    - text: Since
+                    - generic [ref=f18e475]: app/
+                    - text: has no
+                    - generic [ref=f18e476]: index.tsx
+                    - text: ", it moves to subdirectories."
+                - generic [ref=f18e480]:
+                  - generic [ref=f18e481]: •
+                  - generic [ref=f18e485]:
+                    - text: It scans subdirectories in alphabetical order (
+                    - generic [ref=f18e486]: (auth)
+                    - text: first, then
+                    - generic [ref=f18e487]: (protected)
+                    - text: ).
+                - generic [ref=f18e491]:
+                  - generic [ref=f18e492]: •
+                  - generic [ref=f18e496]:
+                    - text: Inside
+                    - generic [ref=f18e497]: (auth)
+                    - text: ", it does not find"
+                    - generic [ref=f18e498]: index.tsx
+                    - text: ", so it moves to the next folder."
+                - generic [ref=f18e502]:
+                  - generic [ref=f18e503]: •
+                  - generic [ref=f18e507]:
+                    - text: It finds
+                    - generic [ref=f18e508]: index.tsx
+                    - text: inside
+                    - generic [ref=f18e509]: (protected)
+                    - text: and immediately loads it.
+                - note [ref=f18e511]:
+                  - generic [ref=f18e512]:
+                    - img "Callout icon" [ref=f18e518]: 💡
+                    - generic [ref=f18e525]:
+                      - text: If
+                      - generic [ref=f18e526]: (protected)
+                      - text: did not have an
+                      - generic [ref=f18e527]: index.tsx
+                      - text: ","
+                      - generic [ref=f18e528]: expo-router
+                      - text: would search even deeper. A common pattern is to have a
+                      - generic [ref=f18e529]: (tabs)
+                      - text: folder inside
+                      - generic [ref=f18e530]: (protected)
+                      - text: . In this case,
+                      - generic [ref=f18e531]: expo-router
+                      - text: would continue searching inside
+                      - generic [ref=f18e532]: (tabs)
+                      - text: and find
+                      - generic [ref=f18e533]: index.tsx
+                      - text: there.
+                - heading "What If Both (auth) and (protected) had index.tsx?" [level=4] [ref=f18e544]:
+                  - text: What If Both
+                  - generic [ref=f18e545]: (auth)
+                  - text: and
+                  - generic [ref=f18e546]: (protected)
+                  - text: had
+                  - generic [ref=f18e547]: index.tsx
+                  - text: "?"
+                - generic [ref=f18e553]:
+                  - text: If both
+                  - generic [ref=f18e554]: (auth)/index.tsx
+                  - text: and
+                  - generic [ref=f18e555]: (protected)/index.tsx
+                  - text: existed,
+                  - generic [ref=f18e556]: expo-router
+                  - text: "would determine the initial screen as follows:"
+                - heading "1. Root Layout Loads First (app/_layout.tsx)" [level=4] [ref=f18e561]:
+                  - text: 1. Root Layout Loads First (
+                  - generic [ref=f18e562]: app/_layout.tsx
+                  - text: )
+                - generic [ref=f18e566]:
+                  - generic [ref=f18e567]: •
+                  - generic [ref=f18e571]:
+                    - text: This file contains
+                    - generic [ref=f18e572]: <Slot />
+                    - text: or
+                    - generic [ref=f18e573]: <Stack />
+                    - text: ", which acts as a wrapper for all screens, defining the app’s global layout and navigation structure."
+                - generic [ref=f18e577]:
+                  - generic [ref=f18e578]: •
+                  - generic [ref=f18e582]:
+                    - text: Since there is no
+                    - generic [ref=f18e583]: index.tsx
+                    - text: inside
+                    - generic [ref=f18e584]: app/
+                    - text: ","
+                    - generic [ref=f18e585]: expo-router
+                    - text: moves into subdirectories.
+                - heading "2. Searching for index.tsx Inside Subdirectories" [level=4] [ref=f18e590]:
+                  - text: 2. Searching for
+                  - generic [ref=f18e591]: index.tsx
+                  - text: Inside Subdirectories
+                - generic [ref=f18e595]:
+                  - generic [ref=f18e596]: •
+                  - generic [ref=f18e600]:
+                    - text: Since
+                    - generic [ref=f18e601]: (auth)
+                    - text: and
+                    - generic [ref=f18e602]: (protected)
+                    - text: are at the same level,
+                    - generic [ref=f18e603]: expo-router
+                    - text: picks the first one alphabetically.
+                - generic [ref=f18e607]:
+                  - generic [ref=f18e608]: •
+                  - generic [ref=f18e612]:
+                    - generic [ref=f18e613]: (auth)
+                    - text: is checked first because "auth" comes before "protected" alphabetically.
+                - generic [ref=f18e617]:
+                  - generic [ref=f18e618]: •
+                  - generic [ref=f18e622]:
+                    - generic [ref=f18e623]: expo-router
+                    - text: finds
+                    - generic [ref=f18e624]: index.tsx
+                    - text: in there and immediately loads
+                    - generic [ref=f18e625]: (auth)/index.tsx
+                    - text: .
+                - note [ref=f18e627]:
+                  - generic [ref=f18e628]:
+                    - img "Callout icon" [ref=f18e634]: 💡
+                    - generic [ref=f18e641]:
+                      - text: If
+                      - generic [ref=f18e642]: (auth)
+                      - text: didn’t have
+                      - generic [ref=f18e643]: index.tsx
+                      - text: ", it would continue searching in"
+                      - generic [ref=f18e644]: (protected)
+                      - text: .
+                - heading "6. Cleanup" [level=3] [ref=f18e649]
+                - generic [ref=f18e655]:
+                  - text: Now we can remove the
+                  - generic [ref=f18e656]: index.tsx
+                  - text: and
+                  - generic [ref=f18e657]: about.tsx
+                  - text: files that we created in the
+                  - generic [ref=f18e658]: app
+                  - text: directory as examples. As well as
+                  - generic [ref=f18e659]: App.tsx
+                  - text: in the root directory. We will not need them anymore.
+                - separator [disabled] [ref=f18e668]
+                - heading "Final code of all _layout.tsx files" [level=2] [ref=f18e673]:
+                  - text: Final code of all
+                  - generic [ref=f18e674]: _layout.tsx
+                  - text: files
+                - generic [ref=f18e675]: "Below I will provide the code for all layout files that we will use in the tutorial. Keep in mind that we will cover most of them during the live stream, but if you ever need to go back and look at examples, here are they:"
+                - generic [ref=f18e685]:
+                  - button "Open" [disabled] [ref=f18e687] [cursor=pointer]
+                  - heading "src/app/_layout.tsx" [level=3] [ref=f18e692]
+        - region [ref=f18e695]
+    - status [ref=f18e696]
+    - alert [ref=f18e697]
+  - iframe [ref=f18e698]:
+    

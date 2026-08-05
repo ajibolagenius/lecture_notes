@@ -1,0 +1,202 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e4]:
+    - generic [ref=f10e6]:
+      - link [ref=f10e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f10e12]:
+        - banner [ref=f10e13]:
+          - generic [ref=f10e15]:
+            - generic [ref=f10e16]:
+              - link "Apple Reminders Clone Guide" [ref=f10e18] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f10e26] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "📂 MVC + Service" [disabled] [ref=f10e32]:
+                - generic [ref=f10e33]: 📂
+                - generic [ref=f10e36]: MVC + Service
+            - generic [ref=f10e37]:
+              - button "Close panel" [ref=f10e39] [cursor=pointer]
+              - generic [ref=f10e43]:
+                - button [ref=f10e44] [cursor=pointer]
+                - button "Share site to socials" [ref=f10e49] [cursor=pointer]
+                - button [ref=f10e54] [cursor=pointer]
+                - button "More actions" [ref=f10e58] [cursor=pointer]
+                - button "Get Notion free" [ref=f10e61] [cursor=pointer]
+        - main [ref=f10e62]:
+          - group [disabled] [ref=f10e65]:
+            - generic [ref=f10e67]:
+              - generic [ref=f10e113]:
+                - img "Page icon" [ref=f10e118]: 📂
+                - heading "MVC + Service" [level=1] [ref=f10e123]
+              - table "Page properties" [ref=f10e130]:
+                - row [disabled] [ref=f10e132]:
+                  - cell "Modules" [ref=f10e137]
+                  - cell "BE" [ref=f10e147]
+              - generic [ref=f10e159]:
+                - generic [ref=f10e160]: In this lesson, we’ll learn how big companies structure their projects for scalability and maintainability using the MVC (Model-View-Controller) pattern along with a Service Layer. This structure helps keep the project organized, making it easier to manage as it grows.
+                - generic [ref=f10e166]: We’ll break down the responsibilities of each layer in simple terms.
+                - heading "Understanding MVC + Service Layer" [level=2] [ref=f10e176]
+                - generic [ref=f10e177]: Below I will try to simplify what each layer is responsible for giving an analogy based on restaurant.
+                - heading "Controllers – Handle requests and send responses." [level=4] [ref=f10e187]
+                - generic [ref=f10e188]: The controller is the one that takes the user’s order (requests), passes it to the kitchen (service layer), and brings back the prepared dish (response). It doesn't process the data or prepare anything, it acts only as the intermediary.
+                - heading "Services – Responsible for the logic and the actual processing of the data." [level=4] [ref=f10e198]
+                - generic [ref=f10e199]: The kitchen (service layer) takes the order, processes it, prepares the food based on the ingredients (model), possibly combines multiple ingredients (data from model), and adds specific processes like cooking, mixing, or garnishing.
+                - heading "Models – Communicate with the database." [level=4] [ref=f10e209]
+                - generic [ref=f10e210]: You can think of it like the ingredients used to make the dishes. It doesn’t care about how the food is prepared or served, it simply provides the essential components (data) to the kitchen (service layer) so the dish can be created.
+                - separator [disabled] [ref=f10e218]
+                - heading "Controller Layer" [level=2] [ref=f10e223]
+                - heading "What is a Controller?" [level=3] [ref=f10e228]
+                - generic [ref=f10e229]: The controller acts as the intermediary between the client (or user) and the application's core logic (service layer and model). It’s responsible for receiving HTTP requests from the client, processing them (often by interacting with the service layer), and sending back an appropriate HTTP response.
+                - generic [ref=f10e235]: "Responsibilities:"
+                - generic [ref=f10e244]:
+                  - generic [ref=f10e245]: •
+                  - generic [ref=f10e247]: Handle incoming HTTP requests (GET, POST, PUT, DELETE, etc.).
+                - generic [ref=f10e253]:
+                  - generic [ref=f10e254]: •
+                  - generic [ref=f10e256]: Call functions from the service layer to process the request.
+                - generic [ref=f10e262]:
+                  - generic [ref=f10e263]: •
+                  - generic [ref=f10e265]: Format the response (e.g., JSON, HTML) and send it back to the client.
+                - generic [ref=f10e271]:
+                  - generic [ref=f10e272]: •
+                  - generic [ref=f10e274]: Handle errors and return appropriate status codes (like 404, 500, etc.).
+                - heading "Creating reminderController.js" [level=3] [ref=f10e281]:
+                  - text: Creating
+                  - generic [ref=f10e282]: reminderController.js
+                - generic [ref=f10e288]:
+                  - text: First, let’s create a
+                  - generic [ref=f10e289]: controllers
+                  - text: folder inside the
+                  - generic [ref=f10e290]: src
+                  - text: directory. Inside this folder, create a file named
+                  - generic [ref=f10e291]: reminderController.js
+                  - text: . Lastly, let’s move the logic from your routes files into the newly created controller file.
+                - figure [ref=f10e294]:
+                  - generic [ref=f10e295]: "export const ReminderController = { async getAllReminders(req, res) { res.send('Get all reminders'); }, async getReminderById(req, res) { res.send('Get single reminder by id'); }, async createReminder(req, res) { res.send('Create a new reminder'); }, async updateReminder(req, res) { res.send('Update some fields for existing reminder'); }, async deleteReminder(req, res) { res.send('Delete a reminder'); }, };"
+                - heading "Using Controllers in Routes" [level=3] [ref=f10e303]
+                - generic [ref=f10e309]:
+                  - text: Once the controller functions are in place, we can clean up the
+                  - generic [ref=f10e310]: routes/reminderRoutes.js
+                  - text: file. This will make the routes file more concise and focused by delegating the business logic to the controller functions.
+                - figure [ref=f10e313]:
+                  - generic [ref=f10e314]: "import { Router } from 'express'; import { ReminderController } from '../controllers/reminderController.js'; const router = Router(); router.get('/', ReminderController.getAllReminders) router.get('/:id', ReminderController.getReminderById) router.post('/', ReminderController.createReminder) router.patch('/:id', ReminderController.updateReminder) router.delete('/:id', ReminderController.deleteReminder) export default router;"
+                - note [ref=f10e319]:
+                  - generic [ref=f10e320]:
+                    - img "Callout icon" [ref=f10e326]: 💡
+                    - generic [ref=f10e333]:
+                      - text: Now we say to our routes, when a user makes a request to one of these routes, call the appropriate function inside
+                      - generic [ref=f10e334]: reminderController.js
+                      - text: .
+                - heading "Handling Data from Requests" [level=3] [ref=f10e339]
+                - generic [ref=f10e340]: In many scenarios, we need to extract data from user requests. For instance, when creating a new reminder, we need information such as the reminder details and any associated notes.
+                - generic [ref=f10e346]: Similarly, when a user tries to update a reminder, we need to know which specific reminder they want to modify. To achieve this, we need to access data from the request.
+                - heading "Extracting URL Parameters" [level=4] [ref=f10e356]
+                - generic [ref=f10e362]:
+                  - text: Let’s first see how to retrieve parameters such as
+                  - generic [ref=f10e363]: :id
+                  - text: from the URL. Gettind the id is most commonly used for operations like deleting, updating, or fetching a specific record.
+                - figure [ref=f10e366]:
+                  - generic [ref=f10e367]: "async getReminderById(req, res) { const reminderId = parseInt(req.params.id, 10); res.send(`Reminder ID: ${reminderId}`); }"
+                - note [ref=f10e372]:
+                  - generic [ref=f10e373]:
+                    - img "Callout icon" [ref=f10e379]: 💡
+                    - generic [ref=f10e386]:
+                      - text: Just as simple as that, we can get the parameter passed inside
+                      - generic [ref=f10e387]: req.params.NAME_OF_THE_PARAMETER_PASSED
+                      - text: .
+                - heading "Extracting Request Body Data" [level=4] [ref=f10e392]
+                - generic [ref=f10e393]: For POST or PUT requests where users send data (like the reminder details), you can extract the JSON data from the request body.
+                - figure [ref=f10e401]:
+                  - generic [ref=f10e402]: "async createReminder(req, res) { const { reminder, notes } = req.body; res.send(`Reminder: ${reminder}`); }"
+                - heading "Adding Middleware" [level=4] [ref=f10e410]
+                - generic [ref=f10e411]: Express doesn't parse incoming JSON data by default, so you need to enable JSON processing middleware.
+                - figure [ref=f10e419]:
+                  - generic [ref=f10e420]: "import express from 'express'; import reminderRoutes from './routes/reminderRoutes.js'; const app = express(); const PORT = process.env.PORT || 3000; app.use(express.json()) // Middleware to parse JSON app.use('/reminders', reminderRoutes) app.listen(PORT, () => { console.log(`Example app listening on port ${PORT}`) })"
+                - note [ref=f10e425]:
+                  - generic [ref=f10e426]:
+                    - img "Callout icon" [ref=f10e432]: ❗
+                    - generic [ref=f10e439]:
+                      - text: The middleware should be added early in the setup, specifically, as the first
+                      - generic [ref=f10e440]: app.use()
+                      - text: .
+                - generic [ref=f10e447]: What is Middleware?
+                - generic [ref=f10e453]: Middleware is a helper function that processes requests before they reach routes. It can modify requests, perform checks, or handle errors.
+                - generic [ref=f10e462]:
+                  - generic [ref=f10e463]: •
+                  - generic [ref=f10e467]:
+                    - generic [ref=f10e468]: express.json()
+                    - text: – This middleware allows Express to parse incoming JSON data.
+                - generic [ref=f10e472]:
+                  - generic [ref=f10e473]: •
+                  - generic [ref=f10e475]: Express also provides many other built-in middleware functions, and we can even create our own custom middleware functions, like for error handling.
+                - separator [disabled] [ref=f10e480]
+                - heading "Service Layer" [level=2] [ref=f10e485]
+                - heading "What is a Service Layer?" [level=3] [ref=f10e490]
+                - generic [ref=f10e491]: The service layer contains the logic of the request. It is responsible for performing operations on the data and coordinating interactions between the model (data) and the controller. It sits between the controller and the model, processing data and applying rules.
+                - generic [ref=f10e497]: "Responsibilities:"
+                - generic [ref=f10e506]:
+                  - generic [ref=f10e507]: •
+                  - generic [ref=f10e509]: Perform core logic, such as calculations, transformations, or validations.
+                - generic [ref=f10e515]:
+                  - generic [ref=f10e516]: •
+                  - generic [ref=f10e518]: Coordinate and aggregate data from multiple models if needed.
+                - generic [ref=f10e524]:
+                  - generic [ref=f10e525]: •
+                  - generic [ref=f10e527]: Handle complex operations like interacting with third-party services or APIs.
+                - generic [ref=f10e533]:
+                  - generic [ref=f10e534]: •
+                  - generic [ref=f10e536]: Return processed data or results to the controller for response formation.
+                - heading "Creating reminderService.js" [level=3] [ref=f10e543]:
+                  - text: Creating
+                  - generic [ref=f10e544]: reminderService.js
+                - generic [ref=f10e550]:
+                  - text: Let’s create a
+                  - generic [ref=f10e551]: services
+                  - text: folder inside the
+                  - generic [ref=f10e552]: src
+                  - text: directory. Then, create a file named
+                  - generic [ref=f10e553]: reminderService.js
+                  - text: . This file will contain the business logic for managing reminders.
+                - figure [ref=f10e556]:
+                  - generic [ref=f10e557]: "export const ReminderService = { async getAllReminders() { // Fetch All Reminders return []; }, async getReminderById(reminderId) { // Fetch Reminder By Id return {}; }, async createReminder(newReminder) { // Create Reminder return {}; }, async updateReminder(reminderId, newValues) { // Update Reminder return {}; }, async deleteReminder(reminderId) { // Delete Reminder return { message: 'Reminder deleted successfully' }; } };"
+                - heading "Using Service Functions in the Controller" [level=4] [ref=f10e565]
+                - generic [ref=f10e566]: Now that we have the service functions ready, we need to update our controller to use these functions. This separation allows controller to focus on handling requests, while the service layer handles the business logic.
+                - figure [ref=f10e574]:
+                  - generic [ref=f10e575]: "import { ReminderService } from '../services/reminderService.js'; export const ReminderController = { async getAllReminders(req, res) { try { const reminders = await ReminderService.getAllReminders(); res.status(200).json(reminders); } catch (error) { res.status(500).send({ message: 'Internal Server Error' }); } }, async getReminderById(req, res) { try { const reminderId = parseInt(req.params.id, 10); const reminder = await ReminderService.getReminderById(reminderId); res.status(200).json(reminder); } catch (error) { res.status(500).send({ message: 'Internal Server Error' }); } }, async createReminder(req, res) { try { const newReminder = await ReminderService.createReminder(req.body); res.status(200).json(newReminder); } catch (error) { res.status(500).send({ message: 'Internal Server Error' }); } }, async updateReminder(req, res) { try { const reminderId = parseInt(req.params.id, 10); const updatedReminder = await ReminderService.updateReminder(reminderId, req.body); res.status(200).json(updatedReminder); } catch (error) { res.status(500).send({ message: 'Internal Server Error' }); } }, async deleteReminder(req, res) { try { const reminderId = parseInt(req.params.id, 10); const reminder = await ReminderService.deleteReminder(reminderId); res.status(200).json(reminder); } catch (error) { res.status(500).send({ message: 'Internal Server Error' }); } }, };"
+                - note [ref=f10e580]:
+                  - generic [ref=f10e581]:
+                    - img "Callout icon" [ref=f10e587]: 💡
+                    - generic [ref=f10e588]: Now, controllers don’t handle logic - they only call services.
+                - separator [disabled] [ref=f10e597]
+                - heading "Model Layer" [level=2] [ref=f10e602]
+                - heading "What is a Model?" [level=3] [ref=f10e607]
+                - generic [ref=f10e608]: The model represents the data layer. It is responsible for interacting with the database to store, retrieve, update, and delete data. Here we write our SQL queries.
+                - generic [ref=f10e614]: "Responsibilities:"
+                - generic [ref=f10e623]:
+                  - generic [ref=f10e624]: •
+                  - generic [ref=f10e626]: Handle interactions with the database, such as querying or updating records.
+                - generic [ref=f10e632]:
+                  - generic [ref=f10e633]: •
+                  - generic [ref=f10e635]: Provide an abstraction layer to simplify access to data and avoid direct interactions with the database in other layers.
+                - heading "Creating reminderModel.js" [level=3] [ref=f10e642]:
+                  - text: Creating
+                  - generic [ref=f10e643]: reminderModel.js
+                - generic [ref=f10e649]:
+                  - text: Let’s create a
+                  - generic [ref=f10e650]: models
+                  - text: folder inside the
+                  - generic [ref=f10e651]: src
+                  - text: directory. Inside this folder, create a file named
+                  - generic [ref=f10e652]: reminderModel.js
+                  - text: . This file will be responsible for database queries related to reminders.
+                - figure [ref=f10e655]:
+                  - generic [ref=f10e656]: "import db from '../config/db.js'; export const ReminderModel = { async getAll() { const result = await db.query('SELECT * FROM reminders ORDER BY created_at DESC'); return result.rows; }, async findById(id) { const result = await db.query('SELECT * FROM reminders WHERE id = $1', [id]); return result.rows[0]; }, async create({ reminder, notes, userId }) { const result = await db.query(` INSERT INTO reminders (reminder, notes, user_id) VALUES ($1, $2, $3) RETURNING *`, [reminder, notes, userId] ); return result.rows[0]; }, async update(query, values) { const result = await db.query( query, values ); return result.rows[0]; }, async delete(reminderId) { const result = await db.query('DELETE FROM reminders WHERE id = $1', [reminderId]); return result.rowCount; } };"
+                - heading "Using Model Functions in the Service Layer" [level=4] [ref=f10e664]
+                - generic [ref=f10e665]: "Let's update our service layer to interact with the model functions. This creates a clean separation of concerns: the model handles database interactions, and the service layer encapsulates business logic."
+                - figure [ref=f10e673]:
+                  - generic [ref=f10e674]: "import { ReminderModel } from \"../models/reminderModel.js\"; export const ReminderService = { async getAllReminders() { return ReminderModel.getAll(); }, async getReminderById(reminderId) { const reminder = await ReminderModel.findById(reminderId); if (!reminder) throw new Error('Reminder not found'); return reminder; }, async createReminder(newReminder) { const { reminder, notes, userId } = newReminder; const sanitizedReminder = { reminder: reminder?.trim(), notes: notes?.trim(), userId, }; const createdReminder = await ReminderModel.create(sanitizedReminder); return createdReminder; }, async updateReminder(reminderId, newValues) { const { reminder, notes, completed } = newValues; // Build SQL dynamically const fields = Object.keys(newValues); const setClauses = fields.map((key, index) => `${key} = $${index + 1}`); const values = Object.values(newValues); values.push(reminderId); // Add ID at the end for WHERE clause const query = ` UPDATE reminders SET ${setClauses.join(\", \")} WHERE id = $${values.length} RETURNING *; `; const updatedReminder = await ReminderModel.update(query, values); if (!updatedReminder) throw new Error('Reminder not found'); return updatedReminder; }, async deleteReminder(reminderId) { const authenticatedUserId = 3; const reminder = await ReminderModel.findById(reminderId); if (!reminder) { throw new Error('Reminder not found'); } if (reminder.user_id !== authenticatedUserId) { throw new Error('You are not authorized to delete this reminder'); } const rowCount = await ReminderModel.delete(reminderId); if (rowCount === 0) { throw new Error('Failed to delete the reminder'); } return { message: 'Reminder deleted successfully' }; } };"
+        - region [ref=f10e679]
+    - status [ref=f10e680]
+    - alert [ref=f10e681]
+  - iframe [ref=f10e682]:
+    

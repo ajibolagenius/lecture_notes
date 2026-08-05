@@ -1,0 +1,245 @@
+- generic [active] [ref=f4e1]:
+  - generic [ref=f4e4]:
+    - generic [ref=f4e6]:
+      - link [ref=f4e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f4e12]:
+        - banner [ref=f4e13]:
+          - generic [ref=f4e15]:
+            - generic [ref=f4e16]:
+              - link "Apple Reminders Clone Guide" [ref=f4e18] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f4e26] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "🗄️ Database" [disabled] [ref=f4e32]:
+                - generic [ref=f4e33]: 🗄️
+                - generic [ref=f4e36]: Database
+            - generic [ref=f4e37]:
+              - button "Close panel" [ref=f4e39] [cursor=pointer]
+              - generic [ref=f4e43]:
+                - button [ref=f4e44] [cursor=pointer]
+                - button "Share site to socials" [ref=f4e49] [cursor=pointer]
+                - button [ref=f4e54] [cursor=pointer]
+                - button "More actions" [ref=f4e58] [cursor=pointer]
+                - button "Get Notion free" [ref=f4e61] [cursor=pointer]
+        - main [ref=f4e62]:
+          - group [disabled] [ref=f4e65]:
+            - generic [ref=f4e67]:
+              - generic [ref=f4e97]:
+                - img "Page icon" [ref=f4e102]: 🗄️
+                - heading "Database" [level=1] [ref=f4e107]
+              - table "Page properties" [ref=f4e114]:
+                - row [disabled] [ref=f4e116]:
+                  - cell "Modules" [ref=f4e121]
+                  - cell "BE" [ref=f4e131]
+              - generic [ref=f4e143]:
+                - generic [ref=f4e144]: To store and manage reminders, we need a database. For this project, we will use Neon, a serverless PostgreSQL database that is easy to set up, scalable, and well-suited for modern web applications.
+                - heading "Understanding Different Types of Databases" [level=2] [ref=f4e154]
+                - generic [ref=f4e155]: "Before jumping into the setup, let’s briefly go over the three main types of databases you might encounter:"
+                - table [ref=f4e171]:
+                  - rowgroup [ref=f4e172]:
+                    - row [disabled] [ref=f4e173]:
+                      - cell "Database Type" [ref=f4e174]
+                      - cell "Description" [ref=f4e177]
+                      - cell "Pros" [ref=f4e180]
+                      - cell "Cons" [ref=f4e183]
+                    - row [disabled] [ref=f4e186]:
+                      - cell "Self-Hosted Database" [ref=f4e187]
+                      - cell "You install, configure, and maintain the database on your own." [ref=f4e190]
+                      - cell "- Full control over configuration - Can be optimized for specific workloads" [ref=f4e193]
+                      - cell "- Requires extensive expertise in DB management - Manual backups & scaling - Higher maintenance overhead" [ref=f4e196]
+                    - row [disabled] [ref=f4e199]:
+                      - cell "Managed Database (AWS RDS)" [ref=f4e200]
+                      - cell "A cloud provider manages the database, including backups, scaling, and maintenance." [ref=f4e203]
+                      - cell "- Automated backups & failover - Less maintenance work - Well suited for high-traffic apps with proper scaling" [ref=f4e206]
+                      - cell "- Can be expensive when not optimized properly - Requires fine tuning for cost & performance" [ref=f4e209]
+                    - row [disabled] [ref=f4e212]:
+                      - cell "Serverless Database (Neon)" [ref=f4e213]
+                      - cell "Fully cloud-managed, auto-scales based on demand and you only pay for what you use." [ref=f4e216]
+                      - cell "- No need to manage servers - Cost efficient for unpredictable workloads - Easy to deploy and start using" [ref=f4e219]
+                      - cell "- Less control over tuning and optimizations - Potentially more expensive for consistently high-traffic applications" [ref=f4e222]
+                - heading "Why Serverless?" [level=4] [ref=f4e229]
+                - generic [ref=f4e230]: "For us, serverless PostgreSQL is the best choice because:"
+                - generic [ref=f4e239]:
+                  - generic [ref=f4e240]: •
+                  - generic [ref=f4e242]: It is easy to set up and start using.
+                - generic [ref=f4e248]:
+                  - generic [ref=f4e249]: •
+                  - generic [ref=f4e251]: It eliminates unnecessary maintenance tasks.
+                - generic [ref=f4e257]:
+                  - generic [ref=f4e258]: •
+                  - generic [ref=f4e260]: It scales automatically without manual intervention.
+                - generic [ref=f4e266]:
+                  - generic [ref=f4e267]: •
+                  - generic [ref=f4e269]: It has a generous free tier.
+                - note [ref=f4e279]:
+                  - generic [ref=f4e280]:
+                    - img "Callout icon" [ref=f4e286]: 💡
+                    - generic [ref=f4e287]: However, if you're running a consistently high-traffic application or need deep performance optimizations, a managed database like AWS RDS might be a better fit - but only if you optimize it correctly.
+                - separator [disabled] [ref=f4e296]
+                - heading "Setting Up a Neon Database" [level=2] [ref=f4e301]
+                - generic [ref=f4e302]: "Follow the steps below to create and configure your database:"
+                - generic [ref=f4e311]:
+                  - generic [ref=f4e312]: "1."
+                  - generic [ref=f4e316]:
+                    - text: Go to
+                    - link "Neon’s official website" [disabled] [ref=f4e317] [cursor=pointer]:
+                      - /url: https://neon.tech/
+                    - text: and create a new account.
+                - generic [ref=f4e321]:
+                  - generic [ref=f4e322]: "2."
+                  - generic [ref=f4e324]: Once logged in, click New Project.
+                - generic [ref=f4e330]:
+                  - generic [ref=f4e331]: "3."
+                  - generic [ref=f4e333]: Provide a name for your database.
+                - generic [ref=f4e339]:
+                  - generic [ref=f4e340]: "4."
+                  - generic [ref=f4e342]: Select a region that is closest to your target users (this improves performance).
+                - generic [ref=f4e348]:
+                  - generic [ref=f4e349]: "5."
+                  - generic [ref=f4e351]: Click Create and just like that you have a running PostgreSQL database!
+                - separator [disabled] [ref=f4e356]
+                - heading "Using Raw SQL vs. ORM" [level=2] [ref=f4e361]
+                - heading "What is an ORM?" [level=4] [ref=f4e366]
+                - generic [ref=f4e367]: At a high level, an ORM is a tool that allows developers to interact with a database using object-oriented code instead of writing raw SQL queries. This makes database operations easier to read and write.
+                - generic [ref=f4e373]: "Raw SQL:"
+                - figure [ref=f4e381]:
+                  - generic [ref=f4e382]: SELECT id, name, email FROM users WHERE name = 'Lukas'
+                - generic [ref=f4e384]: "Drizzle ORM:"
+                - figure [ref=f4e392]:
+                  - generic [ref=f4e393]: const result = await db .select() .from(users) .where(eq(users.name, "Lukas"));
+                - note [ref=f4e396]:
+                  - generic [ref=f4e397]:
+                    - img "Callout icon" [ref=f4e403]: 💡
+                    - generic [ref=f4e404]: While ORMs provide additional benefits, we're focusing on the key difference here. It's also worth noting that many ORMs allow developers to write raw SQL queries when needed.
+                - heading "ORMs vs. Raw SQL" [level=4] [ref=f4e415]
+                - table [ref=f4e426]:
+                  - rowgroup [ref=f4e427]:
+                    - row [disabled] [ref=f4e428]:
+                      - cell "Feature" [ref=f4e429]
+                      - cell "ORM" [ref=f4e432]
+                      - cell "Raw SQL" [ref=f4e435]
+                    - row [disabled] [ref=f4e438]:
+                      - cell "Ease of Use" [ref=f4e439]
+                      - cell "Easier for simple CRUD operations" [ref=f4e442]
+                      - cell "More complex but offers deep control" [ref=f4e445]
+                    - row [disabled] [ref=f4e448]:
+                      - cell "Performance" [ref=f4e449]
+                      - cell "Can be slower for complex queries due to abstraction" [ref=f4e452]
+                      - cell "Often faster, but depends on query optimization" [ref=f4e455]
+                    - row [disabled] [ref=f4e458]:
+                      - cell "Flexibility" [ref=f4e459]
+                      - cell "Limited to ORM's capabilities" [ref=f4e462]
+                      - cell "Full control over queries and optimizations" [ref=f4e465]
+                    - row [disabled] [ref=f4e468]:
+                      - cell "Learning Curve" [ref=f4e469]
+                      - cell "Easier for beginners with no or minimal SQL knowledge" [ref=f4e472]
+                      - cell "Requires deeper understanding of SQL" [ref=f4e475]
+                - generic [ref=f4e478]: Why Are We Using Raw SQL?
+                - generic [ref=f4e484]: Since this is a learning project, understanding SQL is more valuable than simply relying on an ORM. By working directly with raw SQL, you'll gain a strong foundation in database interactions, which will help you in the long run.
+                - note [ref=f4e491]:
+                  - generic [ref=f4e492]:
+                    - img "Callout icon" [ref=f4e498]: 💡
+                    - generic [ref=f4e499]: It’s not uncommon for companies to use a mix of both - ORMs for simple operations and raw SQL for performance critical queries.
+                - separator [disabled] [ref=f4e508]
+                - heading "Connecting To Our Database" [level=2] [ref=f4e513]
+                - heading "Install pg Library" [level=3] [ref=f4e518]:
+                  - text: Install
+                  - generic [ref=f4e519]: pg
+                  - text: Library
+                - generic [ref=f4e520]: We need a PostgreSQL client for Node.js. The most commonly used library is pg (node-postgres), which allows us to execute SQL queries.
+                - generic [ref=f4e526]: "To install it, run the following command:"
+                - figure [ref=f4e534]:
+                  - generic [ref=f4e535]: npm install pg
+                - note [ref=f4e538]:
+                  - generic [ref=f4e539]:
+                    - img "Callout icon" [ref=f4e545]: 💡
+                    - generic [ref=f4e546]:
+                      - generic [ref=f4e552]:
+                        - text: Why
+                        - generic [ref=f4e553]: pg
+                        - text: "?"
+                      - generic [ref=f4e557]:
+                        - generic [ref=f4e558]: •
+                        - generic [ref=f4e560]: The most widely used PostgreSQL client for Node.js.
+                      - generic [ref=f4e566]:
+                        - generic [ref=f4e567]: •
+                        - generic [ref=f4e569]: Supports connection pooling for better performance.
+                      - generic [ref=f4e575]:
+                        - generic [ref=f4e576]: •
+                        - generic [ref=f4e578]: Easily adaptable to other PostgreSQL services.
+                - heading "Get Your Database Connection String" [level=3] [ref=f4e585]
+                - generic [ref=f4e589]:
+                  - generic [ref=f4e590]: "1."
+                  - generic [ref=f4e592]: Open Neon’s dashboard.
+                - generic [ref=f4e598]:
+                  - generic [ref=f4e599]: "2."
+                  - generic [ref=f4e601]: Click "Connect to your database".
+                - generic [ref=f4e607]:
+                  - generic [ref=f4e608]: "3."
+                  - generic [ref=f4e610]: "Copy the connection string, it will look something like this:"
+                - figure [ref=f4e615]:
+                  - generic [ref=f4e616]: postgres://user:password@your-db-host.compute.neon.tech/dbname
+                - generic [ref=f4e621]:
+                  - generic [ref=f4e622]: "4."
+                  - generic [ref=f4e626]:
+                    - text: Add this connection string to your project's
+                    - generic [ref=f4e627]: .env
+                    - text: "file:"
+                - figure [ref=f4e630]:
+                  - generic [ref=f4e631]: DATABASE_URL=postgres://user:password@your-db-host.compute.neon.tech/dbname
+                - note [ref=f4e634]:
+                  - generic [ref=f4e635]:
+                    - img "Callout icon" [ref=f4e641]: ❗
+                    - generic [ref=f4e642]: Never expose your database credentials. Always use environment variables to store sensitive information.
+                - separator [disabled] [ref=f4e651]
+                - heading "Create the Database Connection" [level=3] [ref=f4e656]
+                - generic [ref=f4e662]:
+                  - text: To keep things organized, let's create a new folder called
+                  - generic [ref=f4e663]: config
+                  - text: inside our
+                  - generic [ref=f4e664]: src
+                  - text: folder and add a file called
+                  - generic [ref=f4e665]: db.js
+                  - text: ". Inside it add the following code:"
+                - figure [ref=f4e668]:
+                  - generic [ref=f4e669]: "import pg from 'pg'; const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, }); // Function to test the database connection async function getPgVersion() { const client = await pool.connect(); try { const result = await client.query('SELECT version()'); console.log(result.rows[0]); } finally { client.release(); } } getPgVersion(); // Run the function to verify connection export default pool;"
+                - heading "Explanation of The Code" [level=4] [ref=f4e675]
+                - generic [ref=f4e679]:
+                  - generic [ref=f4e680]: "1."
+                  - generic [ref=f4e684]:
+                    - text: We import the
+                    - generic [ref=f4e685]: pg
+                    - text: package.
+                - generic [ref=f4e689]:
+                  - generic [ref=f4e690]: "2."
+                  - generic [ref=f4e694]:
+                    - text: We create a connection pool using the connection string from
+                    - generic [ref=f4e695]: .env
+                    - text: .
+                - generic [ref=f4e699]:
+                  - generic [ref=f4e700]: "3."
+                  - generic [ref=f4e704]:
+                    - text: We define a function
+                    - generic [ref=f4e705]: getPgVersion()
+                    - text: to test the database connection.
+                - generic [ref=f4e709]:
+                  - generic [ref=f4e710]: "4."
+                  - generic [ref=f4e712]: "We execute a simple query:"
+                - figure [ref=f4e717]:
+                  - generic [ref=f4e718]: SELECT version();
+                - generic [ref=f4e723]:
+                  - generic [ref=f4e724]: "5."
+                  - generic [ref=f4e726]: It should return the PostgreSQL version to confirm that everything is working.
+                - heading "Test the Connection" [level=3] [ref=f4e733]
+                - generic [ref=f4e734]: "To test the connection, in the terminal run:"
+                - figure [ref=f4e742]:
+                  - generic [ref=f4e743]: node --env-file=.env config/db.js
+                - generic [ref=f4e745]: "If everything is set up correctly, you should see an output similar to this:"
+                - figure [ref=f4e753]:
+                  - generic [ref=f4e754]: "{ \"version\": \"PostgreSQL 16.0 on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit\" }"
+        - region [ref=f4e757]
+    - status [ref=f4e758]
+    - alert [ref=f4e759]
+  - iframe [ref=f4e760]:
+    

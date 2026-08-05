@@ -1,0 +1,97 @@
+- generic [active] [ref=f14e1]:
+  - generic [ref=f14e4]:
+    - generic [ref=f14e6]:
+      - link [ref=f14e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f14e12]:
+        - banner [ref=f14e13]:
+          - generic [ref=f14e15]:
+            - generic [ref=f14e16]:
+              - link "Apple Reminders Clone Guide" [ref=f14e18] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f14e26] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "⚙️ Configure Your Environment" [disabled] [ref=f14e32]:
+                - generic [ref=f14e33]: ⚙️
+                - generic [ref=f14e36]: Configure Your Environment
+            - generic [ref=f14e37]:
+              - button "Close panel" [ref=f14e39] [cursor=pointer]
+              - generic [ref=f14e43]:
+                - button [ref=f14e44] [cursor=pointer]
+                - button "Share site to socials" [ref=f14e49] [cursor=pointer]
+                - button [ref=f14e54] [cursor=pointer]
+                - button "More actions" [ref=f14e58] [cursor=pointer]
+                - button "Get Notion free" [ref=f14e61] [cursor=pointer]
+        - main [ref=f14e62]:
+          - group [disabled] [ref=f14e65]:
+            - generic [ref=f14e67]:
+              - generic [ref=f14e83]:
+                - img "Page icon" [ref=f14e88]: ⚙️
+                - heading "Configure Your Environment" [level=1] [ref=f14e93]
+              - table "Page properties" [ref=f14e100]:
+                - row [disabled] [ref=f14e102]:
+                  - cell "Modules" [ref=f14e107]
+                  - cell "FE" [ref=f14e117]
+              - generic [ref=f14e129]:
+                - heading "Expo requirements" [level=2] [ref=f14e134]
+                - generic [ref=f14e138]:
+                  - generic [ref=f14e139]: •
+                  - generic [ref=f14e143]:
+                    - text: Install
+                    - link "Node.js (LTS)" [disabled] [ref=f14e144] [cursor=pointer]:
+                      - /url: https://nodejs.org/en/
+                - generic [ref=f14e148]:
+                  - generic [ref=f14e149]: •
+                  - generic [ref=f14e153]:
+                    - text: If running the app on a physical device, simply download the
+                    - link "Expo Go" [disabled] [ref=f14e154] [cursor=pointer]:
+                      - /url: https://docs.expo.dev/get-started/set-up-your-environment/?platform=ios&device=physical#set-up-an-ios-device-with-expo-go
+                    - text: app on your device.
+                - heading "(Optional) Running the App on Simulator/Emulator" [level=2] [ref=f14e159]
+                - generic [ref=f14e160]: To run the app on an iOS Simulator or Android Emulator, you'll need to set up Xcode and/or Android Studio.
+                - note [ref=f14e167]:
+                  - generic [ref=f14e168]:
+                    - img "Callout icon" [ref=f14e174]: 💡
+                    - generic [ref=f14e175]:
+                      - generic [ref=f14e179]:
+                        - generic [ref=f14e180]: •
+                        - generic [ref=f14e182]: Android Studio is available for all operating systems.
+                      - generic [ref=f14e188]:
+                        - generic [ref=f14e189]: •
+                        - generic [ref=f14e191]: Xcode is only available on macOS.
+                      - generic [ref=f14e197]:
+                        - generic [ref=f14e198]: •
+                        - generic [ref=f14e200]: If you're using Windows or Linux, you can still build and release your app to the Apple App Store using cloud builds with EAS but we will not cover it in this tutorial.
+                - heading "Setting Up iOS Simulator" [level=4] [ref=f14e207]
+                - generic [ref=f14e208]: "Follow the official guide to install Xcode and run the app on an iOS Simulator:"
+                - note [ref=f14e215]:
+                  - generic [ref=f14e216]:
+                    - img "Callout icon" [ref=f14e222]: 📖
+                    - link "Expo DocumentationSet up your environment" [disabled] [ref=f14e230] [cursor=pointer]:
+                      - /url: https://docs.expo.dev/get-started/set-up-your-environment/?platform=ios&device=simulated
+                - heading "Setting Up Android Emulator" [level=4] [ref=f14e236]
+                - generic [ref=f14e237]: "Follow the official guide to install Android Studio and run the app on an Android Emulator:"
+                - note [ref=f14e244]:
+                  - generic [ref=f14e245]:
+                    - img "Callout icon" [ref=f14e251]: 📖
+                    - link "Expo DocumentationSet up your environment" [disabled] [ref=f14e259] [cursor=pointer]:
+                      - /url: https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=simulated
+                - note [ref=f14e262]:
+                  - generic [ref=f14e263]:
+                    - img "Callout icon" [ref=f14e269]: 💡
+                    - generic [ref=f14e276]:
+                      - text: Another case when we need to install Xcode and/or Android Studio is if you're working with custom native modules. We will not cover it in this tutorial, but you can follow to the
+                      - link "Development Build" [disabled] [ref=f14e277] [cursor=pointer]:
+                        - /url: https://docs.expo.dev/get-started/set-up-your-environment/?platform=ios&device=simulated&mode=development-build&buildEnv=local#how-would-you-like-to-develop
+                      - text: setup flow in the official documentation.
+                - heading "Code Editor" [level=2] [ref=f14e282]
+                - generic [ref=f14e288]:
+                  - text: You can use any code editor or IDE of your choice. For this tutorial, I'll be using
+                  - link "VSCode" [disabled] [ref=f14e289] [cursor=pointer]:
+                    - /url: https://code.visualstudio.com/
+                  - text: .
+        - region [ref=f14e303]
+    - status [ref=f14e304]
+    - alert [ref=f14e305]
+  - iframe [ref=f14e306]:
+    

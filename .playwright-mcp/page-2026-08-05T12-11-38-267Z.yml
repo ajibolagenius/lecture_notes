@@ -1,0 +1,226 @@
+- generic [active] [ref=f6e1]:
+  - generic [ref=f6e4]:
+    - generic [ref=f6e6]:
+      - link [ref=f6e8] [cursor=pointer]:
+        - /url: "#main"
+      - generic [ref=f6e12]:
+        - banner [ref=f6e13]:
+          - generic [ref=f6e15]:
+            - generic [ref=f6e16]:
+              - link "Apple Reminders Clone Guide" [ref=f6e18] [cursor=pointer]:
+                - /url: /Apple-Reminders-Clone-Guide-1c9b0ec93c5a805a8b7cdb2692d431be?pvs=18
+              - link "Task Board" [ref=f6e26] [cursor=pointer]:
+                - /url: /1c9b0ec93c5a803f9d7cc5f2da76c9e3?v=1c9b0ec93c5a8187b74d000c6d82622c&pvs=18
+              - button "🔃 Migrations" [disabled] [ref=f6e32]:
+                - generic [ref=f6e33]: 🔃
+                - generic [ref=f6e36]: Migrations
+            - generic [ref=f6e37]:
+              - button "Close panel" [ref=f6e39] [cursor=pointer]
+              - generic [ref=f6e43]:
+                - button [ref=f6e44] [cursor=pointer]
+                - button "Share site to socials" [ref=f6e49] [cursor=pointer]
+                - button [ref=f6e54] [cursor=pointer]
+                - button "More actions" [ref=f6e58] [cursor=pointer]
+                - button "Get Notion free" [ref=f6e61] [cursor=pointer]
+        - main [ref=f6e62]:
+          - group [disabled] [ref=f6e65]:
+            - generic [ref=f6e67]:
+              - generic [ref=f6e91]:
+                - img "Page icon" [ref=f6e96]: 🔃
+                - heading "Migrations" [level=1] [ref=f6e101]
+              - table "Page properties" [ref=f6e108]:
+                - row [disabled] [ref=f6e110]:
+                  - cell "Modules" [ref=f6e115]
+                  - cell "BE" [ref=f6e125]
+              - generic [ref=f6e137]:
+                - heading "What Are Database Migrations?" [level=2] [ref=f6e142]
+                - generic [ref=f6e143]: Database migrations are changes to a database schema that are version controlled and applied in a structured manner. They allow developers to change the database structure over time while maintaining consistency across different environments (development, testing, and production).
+                - generic [ref=f6e149]: Typically, companies use migration tools like Knex.js, Sequelize, TypeORM, or Prisma to automate this process. These tools generate migration files and handle applying (migrating up) and rolling back (migrating down) changes to the database. However, in this lesson, we’ll manually create and run migration scripts to simulate what these tools do under the hood.
+                - heading "Setting Up the Migrations Folder" [level=2] [ref=f6e159]
+                - generic [ref=f6e165]:
+                  - text: First, we’ll create a
+                  - generic [ref=f6e166]: migrations
+                  - text: folder inside our
+                  - generic [ref=f6e167]: src
+                  - text: "directory. Inside this folder, we’ll create two migration files:"
+                - generic [ref=f6e171]:
+                  - generic [ref=f6e172]: •
+                  - generic [ref=f6e174]: 20250404_create_users_table.js
+                - generic [ref=f6e181]:
+                  - generic [ref=f6e182]: •
+                  - generic [ref=f6e184]: 20250404_create_reminders_table.js
+                - note [ref=f6e189]:
+                  - generic [ref=f6e190]:
+                    - img "Callout icon" [ref=f6e196]: 💡
+                    - generic [ref=f6e197]:
+                      - generic [ref=f6e198]: This naming convention follows a pattern often used by migration tools, where the timestamp ensures migrations run in the correct order.
+                      - generic [ref=f6e204]: If we were using a tool, these files would be generated automatically.
+                - heading "Writing the Migration Scripts" [level=2] [ref=f6e214]
+                - heading "Creating the Users Table (20250404_create_users_table.js)" [level=3] [ref=f6e219]:
+                  - text: Creating the Users Table (
+                  - generic [ref=f6e220]: 20250404_create_users_table.js
+                  - text: )
+                - figure [ref=f6e223]:
+                  - generic [ref=f6e224]: "import db from '../config/db.js'; export async function up() { try { await db.query(` CREATE TABLE IF NOT EXISTS users ( id SERIAL PRIMARY KEY, name VARCHAR(100) UNIQUE NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) `); } catch (error) { console.log(error) } } export async function down() { try { await db.query('DROP TABLE IF EXISTS users'); } catch (error) { console.log(error) } } up()"
+                - heading "Code Explanation:" [level=4] [ref=f6e232]
+                - generic [ref=f6e236]:
+                  - generic [ref=f6e237]: •
+                  - generic [ref=f6e241]:
+                    - generic [ref=f6e242]: import db from '../config/db.js';
+                    - text: – Import the database connection.
+                - generic [ref=f6e246]:
+                  - generic [ref=f6e247]: •
+                  - generic [ref=f6e251]:
+                    - generic [ref=f6e252]: export async function up()
+                    - text: – The
+                    - generic [ref=f6e253]: up
+                    - text: function applies the migration by creating the
+                    - generic [ref=f6e254]: users
+                    - text: table.
+                - generic [ref=f6e258]:
+                  - generic [ref=f6e259]: •
+                  - generic [ref=f6e261]:
+                    - generic [ref=f6e263]:
+                      - generic [ref=f6e264]: CREATE TABLE IF NOT EXISTS users (...)
+                      - text: – SQL statement to create the
+                      - generic [ref=f6e265]: users
+                      - text: table if it does not already exist.
+                    - generic [ref=f6e269]:
+                      - generic [ref=f6e270]: ◦
+                      - generic [ref=f6e274]:
+                        - generic [ref=f6e275]: id SERIAL PRIMARY KEY
+                        - text: – Creates an auto-incrementing primary key.
+                    - generic [ref=f6e279]:
+                      - generic [ref=f6e280]: ◦
+                      - generic [ref=f6e284]:
+                        - generic [ref=f6e285]: name VARCHAR(100) UNIQUE NOT NULL
+                        - text: – A unique name field with a maximum of 100 characters that cannot be null.
+                    - generic [ref=f6e289]:
+                      - generic [ref=f6e290]: ◦
+                      - generic [ref=f6e294]:
+                        - generic [ref=f6e295]: created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        - text: – A timestamp field that defaults to the current time.
+                - generic [ref=f6e299]:
+                  - generic [ref=f6e300]: •
+                  - generic [ref=f6e304]:
+                    - generic [ref=f6e305]: export async function down()
+                    - text: – The
+                    - generic [ref=f6e306]: down
+                    - text: function reverses the migration by dropping the
+                    - generic [ref=f6e307]: users
+                    - text: table if it exists.
+                - generic [ref=f6e311]:
+                  - generic [ref=f6e312]: •
+                  - generic [ref=f6e316]:
+                    - generic [ref=f6e317]: up();
+                    - text: – Calls the
+                    - generic [ref=f6e318]: up
+                    - text: function when the file runs.
+                - heading "Creating the Reminders Table (20250404_create_reminders_table.js)" [level=3] [ref=f6e323]:
+                  - text: Creating the Reminders Table (
+                  - generic [ref=f6e324]: 20250404_create_reminders_table.js
+                  - text: )
+                - figure [ref=f6e327]:
+                  - generic [ref=f6e328]: "import db from '../config/db.js'; export async function up() { try { await db.query(` CREATE TABLE IF NOT EXISTS reminders ( id SERIAL PRIMARY KEY, reminder VARCHAR(255) NOT NULL, notes TEXT, completed BOOLEAN DEFAULT FALSE, user_id INT REFERENCES users(id) ON DELETE CASCADE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) `); } catch (error) { console.log(error); } } export async function down() { try { await db.query('DROP TABLE IF EXISTS reminders'); } catch (error) { console.log(error); } } up();"
+                - heading "Code Explanation:" [level=4] [ref=f6e336]
+                - generic [ref=f6e340]:
+                  - generic [ref=f6e341]: •
+                  - generic [ref=f6e345]:
+                    - generic [ref=f6e346]: import db from '../config/db.js';
+                    - text: – Import the database connection.
+                - generic [ref=f6e350]:
+                  - generic [ref=f6e351]: •
+                  - generic [ref=f6e355]:
+                    - generic [ref=f6e356]: export async function up()
+                    - text: – The
+                    - generic [ref=f6e357]: up
+                    - text: function applies the migration by creating the
+                    - generic [ref=f6e358]: reminders
+                    - text: table.
+                - generic [ref=f6e362]:
+                  - generic [ref=f6e363]: •
+                  - generic [ref=f6e365]:
+                    - generic [ref=f6e367]:
+                      - generic [ref=f6e368]: CREATE TABLE IF NOT EXISTS reminders (...)
+                      - text: – SQL statement to create the
+                      - generic [ref=f6e369]: reminders
+                      - text: table if it does not already exist.
+                    - generic [ref=f6e373]:
+                      - generic [ref=f6e374]: ◦
+                      - generic [ref=f6e378]:
+                        - generic [ref=f6e379]: id SERIAL PRIMARY KEY
+                        - text: – Creates an auto-incrementing primary key.
+                    - generic [ref=f6e383]:
+                      - generic [ref=f6e384]: ◦
+                      - generic [ref=f6e388]:
+                        - generic [ref=f6e389]: reminder VARCHAR(255) NOT NULL
+                        - text: – A text field for storing the reminder content, limited to 255 characters.
+                    - generic [ref=f6e393]:
+                      - generic [ref=f6e394]: ◦
+                      - generic [ref=f6e398]:
+                        - generic [ref=f6e399]: notes TEXT
+                        - text: – A field for additional notes with no character limit.
+                    - generic [ref=f6e403]:
+                      - generic [ref=f6e404]: ◦
+                      - generic [ref=f6e408]:
+                        - generic [ref=f6e409]: completed BOOLEAN DEFAULT FALSE
+                        - text: – A boolean field with a default value of
+                        - generic [ref=f6e410]: "FALSE"
+                        - text: .
+                    - generic [ref=f6e414]:
+                      - generic [ref=f6e415]: ◦
+                      - generic [ref=f6e419]:
+                        - generic [ref=f6e420]: user_id INT REFERENCES users(id) ON DELETE CASCADE
+                        - text: – A foreign key referencing the
+                        - generic [ref=f6e421]: users
+                        - text: table. If the associated user is deleted, all their reminders are deleted as well.
+                    - generic [ref=f6e425]:
+                      - generic [ref=f6e426]: ◦
+                      - generic [ref=f6e430]:
+                        - generic [ref=f6e431]: created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        - text: – A timestamp field that defaults to the current time.
+                - generic [ref=f6e435]:
+                  - generic [ref=f6e436]: •
+                  - generic [ref=f6e440]:
+                    - generic [ref=f6e441]: export async function down()
+                    - text: – The
+                    - generic [ref=f6e442]: down
+                    - text: function reverses the migration by dropping the
+                    - generic [ref=f6e443]: reminders
+                    - text: table if it exists.
+                - generic [ref=f6e447]:
+                  - generic [ref=f6e448]: •
+                  - generic [ref=f6e452]:
+                    - generic [ref=f6e453]: up();
+                    - text: – Calls the
+                    - generic [ref=f6e454]: up
+                    - text: function when the file runs.
+                - heading "Running the Migrations" [level=2] [ref=f6e459]
+                - generic [ref=f6e460]: "To run a migration, execute the corresponding script using:"
+                - figure [ref=f6e468]:
+                  - generic [ref=f6e469]: node --env-file=.env src/migrations/20250404_create_users_table.js node --env-file=.env src/migrations/20250404_create_reminders_table.js
+                - note [ref=f6e474]:
+                  - generic [ref=f6e475]:
+                    - img "Callout icon" [ref=f6e481]: 💡
+                    - generic [ref=f6e488]:
+                      - text: This will create the
+                      - generic [ref=f6e489]: users
+                      - text: and
+                      - generic [ref=f6e490]: reminders
+                      - text: tables in the database. The
+                      - generic [ref=f6e491]: "--env-file=.env"
+                      - text: option ensures that environment variables (such as database credentials) are loaded before running the script.
+                - heading "Rolling Back Migrations" [level=2] [ref=f6e496]
+                - generic [ref=f6e502]:
+                  - text: If you need to revert a migration, manually run the
+                  - generic [ref=f6e503]: down
+                  - text: function by modifying a migration file to call
+                  - generic [ref=f6e504]: down()
+                  - text: instead of
+                  - generic [ref=f6e505]: up()
+                  - text: and rerun the script from above
+        - region [ref=f6e507]
+    - status [ref=f6e508]
+    - alert [ref=f6e509]
+  - iframe [ref=f6e510]:
+    
