@@ -1,6 +1,6 @@
 # Week 4: HTML Forms
 
-This week, we turn our static websites into dynamic, two-way conversations. Forms are the primary way users interact with websites—whether it's logging in, searching Google, buying a product, or signing up for a newsletter. Building them correctly is essential for usability and accessibility.
+This week, we turn our static portfolio into a dynamic, two-way conversation. Forms are the primary way users interact with websites — and your portfolio needs a real way for people to reach you. This week you'll build `contact.html`, the third page of your site.
 
 ---
 
@@ -15,20 +15,17 @@ This week, we turn our static websites into dynamic, two-way conversations. Form
         2.  User hits "Submit".
         3.  The browser bundles the data up and sends it to a **Server**.
     * **Key Attributes:**
-        * **`action`**: The URL *where* the data is sent (e.g., `/login.php`). If left empty, it submits to the current page.
+        * **`action`**: The URL *where* the data is sent (e.g., `/send-message`). If left empty, it submits to the current page.
         * **`method`**: *How* the data is sent.
-            * **`GET`**: Data is appended to the URL (e.g., `search?q=cats`). Use this for **search bars** or retrieving data. Never use for passwords!
-            * **`POST`**: Data is sent invisibly in the request body. Use this for **passwords**, credit cards, or changing data.
+            * **`GET`**: Data is appended to the URL. Use this for **search bars** or retrieving data. Never use for passwords!
+            * **`POST`**: Data is sent invisibly in the request body. Use this for **contact form messages**, passwords, or changing data.
 
 * **In-Depth Example:**
     ```html
-    <form action="/api/login" method="POST">
-      </form>
-
-    <form action="/search" method="GET">
-       </form>
+    <form action="#" method="POST">
+      <!-- inputs go here -->
+    </form>
     ```
-
 
 ---
 
@@ -43,15 +40,16 @@ This week, we turn our static websites into dynamic, two-way conversations. Form
         * *Analogy:* If you mail a letter without writing what's inside on the form, the receiver just gets a blank envelope.
     * **Common Types:**
         * `type="text"`: Standard one-line text.
-        * `type="password"`: Hides characters with dots (•••••).
         * `type="email"`: Validates that the text looks like an email.
 
 * **In-Depth Example:**
     ```html
-    <input type="text" name="username" placeholder="Enter your username">
+    <input type="text" name="visitor_name" placeholder="Your name">
 
-    <input type="password" name="user_pass">
+    <input type="email" name="visitor_email" placeholder="you@example.com">
     ```
+
+* Create `contact.html` in your `portfolio` folder now (reuse the boilerplate + header/nav/footer from Week 3), and start the `<form>` with a `name` and `email` input.
 
 ---
 
@@ -67,17 +65,13 @@ This week, we turn our static websites into dynamic, two-way conversations. Form
 
 * **In-Depth Example (Explicit Association):**
     ```html
-    <label for="user-email">Email Address:</label>
-    <input type="email" id="user-email" name="email">
+    <label for="visitor-email">Email Address:</label>
+    <input type="email" id="visitor-email" name="visitor_email">
     ```
 
-* **⭐️ Class Exercise: Build a Newsletter Sign-up**
-    1.  Create a `<form>`.
-    2.  Add a `<label>` that says "Subscribe to our news:".
-    3.  Add an `<input>` for email.
-    4.  **Crucial Step:** Link them using `for` and `id`.
-    5.  Add a `name="newsletter_email"` to the input.
-    6.  Add a placeholder like "you@example.com".
+* **⭐️ Class Exercise: Label Your Contact Fields**
+    1.  In `contact.html`, add `<label>`s for both your `name` and `email` inputs.
+    2.  **Crucial Step:** Link each one using `for` and a matching `id`.
 
 ---
 ---
@@ -95,11 +89,7 @@ This week, we turn our static websites into dynamic, two-way conversations. Form
 
 * **In-Depth Example:**
     ```html
-    <form>
-      <button type="submit">Log In</button>
-
-      <button type="button">Show Password</button>
-    </form>
+    <button type="submit">Send Message</button>
     ```
 
 ### 2. Choice Elements: Radio vs. Checkbox
@@ -114,26 +104,16 @@ This week, we turn our static websites into dynamic, two-way conversations. Form
 
 * **In-Depth Example:**
     ```html
-    <p>Choose your shipping method (Pick ONE):</p>
+    <p>Preferred contact method (pick ONE):</p>
 
     <label>
-      <input type="radio" name="shipping" value="standard" checked>
-      Standard (3-5 days)
+      <input type="radio" name="contact_method" value="email" checked>
+      Email
     </label>
 
     <label>
-      <input type="radio" name="shipping" value="express">
-      Express (1 day)
-    </label>
-
-    <hr>
-
-    <p>Extras (Pick ANY):</p>
-    <label>
-      <input type="checkbox" name="gift_wrap"> Gift Wrap
-    </label>
-    <label>
-      <input type="checkbox" name="insurance"> Shipping Insurance
+      <input type="radio" name="contact_method" value="phone">
+      Phone
     </label>
     ```
 
@@ -142,81 +122,79 @@ This week, we turn our static websites into dynamic, two-way conversations. Form
 * **Lecture & Concepts:**
     * **`<select>`**: Creates a dropdown menu. Great for saving space.
         * **`<option>`**: The items inside the list.
-        * **`value` attribute**: The data sent to the server (e.g., `value="US"`). The text inside the tag is what the user sees (e.g., "United States").
-    * **`<textarea>`**: A multi-line text input (for bios, comments).
+        * **`value` attribute**: The data sent to the server (e.g., `value="job"`). The text inside the tag is what the user sees.
+    * **`<textarea>`**: A multi-line text input (for messages, comments).
         * It is **not** self-closing. `<textarea>Default text here</textarea>`.
 
 * **In-Depth Example:**
     ```html
-    <label for="country">Country:</label>
-    <select id="country" name="country">
+    <label for="reason">Reason for contact:</label>
+    <select id="reason" name="reason">
       <option value="">--Please choose an option--</option>
-      <option value="US">United States</option>
-      <option value="CA">Canada</option>
-      <option value="UK">United Kingdom</option>
+      <option value="job">Job Opportunity</option>
+      <option value="collab">Collaboration</option>
+      <option value="hi">Just Saying Hi</option>
     </select>
 
-    <label for="bio">Biography:</label>
-    <textarea id="bio" name="bio" rows="5"></textarea>
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" rows="5"></textarea>
     ```
 
 ### 4. Structure (`<fieldset>`) & Validation
 
 * **Lecture & Concepts:**
-    * **`<fieldset>`**: Used to group related inputs (like "Billing Address" vs "Shipping Address").
+    * **`<fieldset>`**: Used to group related inputs.
     * **`<legend>`**: The title for the fieldset.
     * **HTML5 Validation**: The browser can check your data *before* sending it.
         * **`required`**: Prevents submission if empty.
-        * **`minlength="8"`**: Requires at least 8 characters.
+        * **`minlength="8"`**: Requires at least N characters.
         * **`pattern`**: Allows regex checks (advanced).
 
 * **In-Depth Example:**
     ```html
-    <form action="/register" method="POST">
+    <form action="#" method="POST">
       <fieldset>
-        <legend>Account Security</legend>
+        <legend>Get In Touch</legend>
 
-        <label for="pass">Password:</label>
-        <input type="password" id="pass" name="password" required minlength="8">
+        <label for="visitor-name">Name:</label>
+        <input type="text" id="visitor-name" name="visitor_name" required>
 
+        <label for="visitor-email">Email:</label>
+        <input type="email" id="visitor-email" name="visitor_email" required>
       </fieldset>
 
-      <button type="submit">Create Account</button>
+      <button type="submit">Send Message</button>
     </form>
     ```
 
-* **⭐️ Class Exercise: Pizza Order**
-    1.  Create a `<fieldset>` with a `<legend>` of "Build Your Pizza".
-    2.  Add Radio buttons for Size (Small, Medium, Large). Remember to share the `name`!
-    3.  Add Checkboxes for Toppings (Pepperoni, Mushrooms).
-    4.  Add a `<button>` to "Place Order".
+* **⭐️ Class Exercise: Build the Rest of the Contact Form**
+    1.  Wrap your `name`/`email` inputs in a `<fieldset>` with a `<legend>` of "Get In Touch".
+    2.  Add a radio group for "Preferred Contact Method" (Email/Phone). Remember to share the `name`!
+    3.  Add a `<select>` for "Reason for Contact" (Job Opportunity/Collaboration/Just Saying Hi).
+    4.  Add a `<textarea>` for the message, and a `<button type="submit">` to "Send Message".
 
 ---
 
 ### Week 4: Comprehensive Assignment
 
-**Objective:** Build a complete "Conference Registration Form".
+**Objective:** Build "Portfolio Contact Form" — the third and final page of your portfolio's core structure.
 
 **Project:**
-Create a single `index.html` file containing a robust registration form. This form should collect personal details, preferences, and payment info (mockup).
+Finish `contact.html`, started earlier this week, with a robust, accessible contact form.
 
 **Requirements:**
 
 1.  **Form Setup:** Use `<form>` with `method="POST"`.
-2.  **Personal Info (Fieldset 1):**
-    * Inputs for `First Name`, `Last Name`, and `Email`.
-    * Make them all **required**.
-    * Use proper `<label>` tags linked with `for`/`id`.
-3.  **Ticket Options (Fieldset 2):**
-    * A `<select>` dropdown for "Ticket Type" (options: General Admission, VIP, Student).
-    * Radio buttons for "T-Shirt Size" (S, M, L, XL).
-    * Checkboxes for "Dietary Restrictions" (Vegetarian, Gluten-Free, Nut Allergy).
-4.  **Bio:**
-    * A `<textarea>` for "Why do you want to attend?"
+2.  **Contact Details (Fieldset):**
+    * Inputs for `Name` and `Email`, both **required**, with `type="email"` on the email field.
+    * Proper `<label>` tags linked with `for`/`id`.
+3.  **Preferences:**
+    * A `<select>` dropdown for "Reason for Contact" (Job Opportunity, Collaboration, Just Saying Hi).
+    * Radio buttons for "Preferred Contact Method" (Email/Phone).
+4.  **Message:**
+    * A `<textarea>` for "Your Message", with a `minlength` of 20 characters.
 5.  **Submission:**
-    * A styled `<button type="submit">`.
-6.  **Validation:**
-    * The email must have `type="email"`.
-    * The bio must have a `minlength` of 20 characters.
+    * A `<button type="submit">` labeled "Send Message".
+6.  **Navigation:** Update your `<nav>` on all 3 pages (`index.html`, `contact.html`, and the placeholder `about.html` from Week 1's bonus) so every page links to every other page.
 
-**Semantic Bonus:** Wrap the form in a `<main>` tag and give the page a `<header>` with an `<h1>` title.
+**Semantic Bonus:** Confirm `contact.html` reuses the exact same `<header>`/`<nav>`/`<footer>` structure you built in Week 3 — a portfolio's pages should feel like one consistent site, not three unrelated documents.

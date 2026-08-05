@@ -1,8 +1,8 @@
 # Week 7: Modern Interactions & Performance Tuning
 
-We have built the structure, styled it (mentally), and made it accessible. Now, we take a step into the "Expert" territory. This week focuses on two things:
+We have built the structure, made it accessible, and optimized it for search engines. Now, we take a step into the "Expert" territory. This week focuses on two things:
 1.  **Native HTML Interactivity:** Using powerful tags that behave like JavaScript components without writing a single line of script.
-2.  **Performance & Launch:** Optimizing how browsers load your site and finally putting it on the internet.
+2.  **Performance & Launch:** Optimizing how the browser loads your portfolio and finally putting it on the internet, live.
 
 ---
 
@@ -21,30 +21,27 @@ HTML5 introduced several tags that provide complex UI behavior natively. Using t
 * **In-Depth Example:**
     ```html
     <details>
-      <summary>What is the refund policy?</summary>
-      <p>You can return any item within 30 days for a full refund.</p>
+      <summary>What's your tech stack?</summary>
+      <p>HTML, CSS, JavaScript, and I'm currently learning React and React Native.</p>
     </details>
 
-    <details open>
-      <summary>How do I contact support?</summary>
-      <p>Email us at support@example.com.</p>
+    <details>
+      <summary>Are you open to work?</summary>
+      <p>Yes! Reach out via the contact form on this site.</p>
     </details>
     ```
-    *Note: You can style these heavily with CSS (e.g., removing the default marker).*
+    *Note: You can style these heavily with CSS (e.g., removing the default marker) — that's a CSS course topic.*
 
 ### 2. Visualizing Data (`<progress>` & `<meter>`)
 
 * **Lecture & Concepts:**
     * **`<progress>`**: Represents the completion progress of a task (like a download or file upload). It is "indeterminate" (unknown duration) or "determinate" (specific value).
-    * **`<meter>`**: Represents a scalar measurement within a known range (like disk usage, battery level, or a review score). It allows for "low", "high", and "optimum" zones.
+    * **`<meter>`**: Represents a scalar measurement within a known range (like disk usage, battery level, or a skill proficiency). It allows for "low", "high", and "optimum" zones.
 
-* **In-Depth Example:**
+* **In-Depth Example (A Skill Proficiency Bar):**
     ```html
-    <label for="file-upload">Upload Progress:</label>
-    <progress id="file-upload" value="70" max="100">70%</progress>
-
-    <label for="disk-usage">Disk Usage (Critical):</label>
-    <meter id="disk-usage" value="0.9" min="0" max="1" low="0.3" high="0.8" optimum="0.2">90%</meter>
+    <label for="html-skill">HTML</label>
+    <meter id="html-skill" value="0.75" min="0" max="1" low="0.3" high="0.8" optimum="1">75%</meter>
     ```
 
 ### 3. Editable Content (`contenteditable`)
@@ -53,21 +50,11 @@ HTML5 introduced several tags that provide complex UI behavior natively. Using t
     * You can make *any* HTML element editable by the user, turning a `<div>` into a text editor. This is how tools like Notion or Google Docs start.
     * **Attribute:** `contenteditable="true"`.
     * **Spellcheck:** `spellcheck="true/false"` controls red squiggly lines.
+    * This one's lecture-only for our purposes — it's genuinely useful to know it exists, but it doesn't have an obvious place in a personal portfolio site.
 
-* **In-Depth Example:**
-    ```html
-    <div contenteditable="true" spellcheck="true">
-      <h3>My Notes</h3>
-      <p>Click here and start typing to edit this text!</p>
-    </div>
-    ```
-
-* **⭐️ Class Exercise: Build a Native Dashboard**
-    1.  Create an HTML file.
-    2.  Create a "System Status" section using `<details open>`.
-    3.  Inside, add a `<meter>` for "Server Load" (make it look critical/high).
-    4.  Add a `<progress>` bar for "Backup Status".
-    5.  Below that, add a "Personal Notes" section using a `<div>` with `contenteditable="true"`.
+* **⭐️ Class Exercise: Add an FAQ and Skill Meters to `about.html`**
+    1.  Add a small "FAQ" section using two or three `<details>`/`<summary>` pairs (e.g., "What's your stack?", "Are you open to work?").
+    2.  Next to each skill in your "Skills & Experience" table (from Week 3/6), add a `<meter>` showing rough proficiency.
 
 ---
 
@@ -87,9 +74,11 @@ Writing code is only half the battle. The other half is making sure it loads fas
 
 * **In-Depth Example:**
     ```html
-    <link rel="icon" href="icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json"> ```
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    ```
+
+* Reuse your Week 5 SVG monogram as this favicon — you already have the artwork, no need to make something new.
 
 ### 2. Resource Hints (Preloading)
 
@@ -101,57 +90,45 @@ Writing code is only half the battle. The other half is making sure it loads fas
 * **In-Depth Example:**
     ```html
     <head>
-      <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-
-      <link rel="preload" as="image" href="images/hero-banner.jpg">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="preload" as="image" href="assets/profile-wide.jpg">
     </head>
     ```
 
 ### 3. The `loading` Attribute (Lazy Loading)
 
 * **Lecture & Concepts:**
-    * Images and Iframes are heavy. By default, the browser downloads *all* of them immediately, slowing down the page load.
+    * Images and iframes are heavy. By default, the browser downloads *all* of them immediately, slowing down the page load.
     * **`loading="lazy"`**: Tells the browser, "Don't download this image until the user scrolls near it."
     * **`loading="eager"`**: The default. Download immediately.
-    * **Best Practice:** Use `eager` (or default) for the "above the fold" content (header/hero). Use `lazy` for *everything else*.
+    * **Best Practice:** Use `eager` (or default) for the "above the fold" content (your profile photo/hero). Use `lazy` for *everything else* — your project screenshots, embeds.
 
 ### 4. Deployment (Going Live)
 
 * **Lecture & Concepts:**
-    * Your `index.html` only exists on your computer. To share it, it must live on a server.
-    * **Static Hosting:** Since HTML/CSS/JS doesn't need a database (backend), we can use free static hosting.
+    * Your `index.html` only exists on your computer right now. To share it with the world (or a hiring manager), it must live on a server.
+    * **Static Hosting:** Since your portfolio is pure HTML (no database, no backend), we can use free static hosting.
     * **Top Providers:**
-        * **Netlify:** Drag and drop a folder to deploy.
+        * **Netlify:** Drag and drop your folder to deploy.
         * **Vercel:** Excellent for Git integration.
-        * **GitHub Pages:** Hosted directly from your code repository.
+        * **Github Pages:** Hosted directly from your code repository.
 
 ---
 
-### Week 7: Comprehensive Assignment
+### Week 7: Comprehensive Assignment — Optimize & Deploy Your Portfolio
 
-**Objective:** Optimize and Deploy a "Live Documentation Site".
-
-**Project:**
-You will build a documentation page for a fictional software tool, optimize its assets, use native interactive elements for the UI, and deploy it to a live URL.
+**Objective:** Take the same three-page portfolio you've built since Week 1, tune its performance, and put it on a live URL.
 
 **Requirements:**
 
-1.  **Structure:**
-    * Standard HTML5 Boilerplate with correct `meta` tags.
-    * A `<header>` with a logo (SVG) and title.
-2.  **Interactive Sidebar (`<aside>`):**
-    * Use `<details>` and `<summary>` tags to create a collapsible navigation menu (e.g., "Getting Started", "Advanced Features", "API Reference").
-3.  **Main Content:**
-    * Use `<section>` tags for content.
-    * Include a "System Requirements" section using `<meter>` tags (e.g., "RAM Required: Low", "CPU Usage: Medium").
-4.  **Optimization:**
-    * Include a large "Hero Screenshot" of the software at the top. Use `rel="preload"` in the head to load this image instantly.
-    * Include 3-4 other screenshots further down the page. Add `loading="lazy"` to all of them.
-    * Add a modern SVG favicon link.
+1.  **Native Interactivity:** An FAQ using `<details>`/`<summary>` on `about.html`, and `<meter>` proficiency bars next to each skill.
+2.  **Favicon:** Your Week 5 SVG monogram, linked as the favicon on all three pages.
+3.  **Preloading:** `rel="preload"` on your homepage's hero/profile image.
+4.  **Lazy Loading:** `loading="lazy"` on every project screenshot and every `<iframe>` embed (YouTube demo, Google Map).
 5.  **Deployment:**
-    * Sign up for a free account on **Netlify** (or GitHub Pages).
-    * Drag and drop your project folder.
-    * **Submit the LIVE URL** (e.g., `https://my-html-project.netlify.app`), not just the code.
+    * Sign up for a free account on **Netlify**, **Vercel**, or **Github Pages**.
+    * Deploy your `portfolio` folder.
+    * **Submit the LIVE URL** — not just the code. This is the exact same live site the CSS course will style next.
 
 **Bonus Challenge:**
-Add a `<link rel="canonical" href="...">` tag to the head (research what this does for SEO!) and a `theme-color` meta tag to change the browser bar color on mobile.
+Add a `<link rel="canonical" href="...">` tag to the head of each page (research what this does for SEO!) and a `theme-color` meta tag to change the browser bar color on mobile.

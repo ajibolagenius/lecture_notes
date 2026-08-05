@@ -1,6 +1,6 @@
 # Week 3: Semantic Layout & Tables
 
-Welcome to Week 3! Now that you know how to structure individual pieces of content, it's time to build the *layout* of a full webpage. This week, we'll learn the "right" way to structure a page using modern, semantic HTML5 tags. We'll also cover how to properly display tabular data.
+Welcome to Week 3! Now that you know how to structure individual pieces of content, it's time to build the *layout* of your portfolio's homepage properly. This week, we'll learn the "right" way to structure a page using modern, semantic HTML5 tags, refactor `index.html` to use them, and add its first real data table.
 
 ---
 
@@ -22,8 +22,13 @@ This module is about moving *away* from "divitis" (using `<div>` for everything)
         ```
     * **The Problem:** A `<div>` has **no semantic meaning**. It's just a generic box. This is bad for:
         1.  **Accessibility (a11y):** A screen reader for a visually impaired user just hears "div, div, div." It has no way to know which part is the main content or the navigation. It can't provide a "skip to main content" link.
-        2.  **SEO (Search Engine Optimization):** A search engine like Google has a harder time understanding your page's structure. It can't easily tell which content is a blog post and which is a footer.
+        2.  **SEO (Search Engine Optimization):** A search engine like Google has a harder time understanding your page's structure.
     * **The Solution (HTML5):** Modern HTML5 introduced "landmark" tags that replace these generic `<div>`s. Using `<nav>` instead of `<div id="nav">` tells both browsers and screen readers, "This is the main navigation."
+
+* **⭐️ Class Exercise: Audit a Real Portfolio**
+    1.  Open a real developer portfolio site and "Inspect" it.
+    2.  Try to find its `<header>`, `<nav>`, `<main>`, and `<footer>` in the DOM.
+    3.  Note anywhere it still relies on unlabeled `<div>`s where a semantic tag would have been clearer.
 
 ### 2. The Main Layout Tags
 
@@ -33,11 +38,10 @@ This module is about moving *away* from "divitis" (using `<div>` for everything)
     * **`<header>`:**
         * Represents the introductory content for a page (or a section).
         * This is where you put your logo, the main `<h1>`, a tagline, and often the main `<nav>`.
-        * You can have *multiple* `<header>`s (e.g., one for the whole page and one for an `<article>`).
 
     * **`<nav>`:**
         * Represents a section of **major navigation links**.
-        * Use this for your main site menu. Don't use it for *every* group of links (e.g., a list of links in a footer is fine in a `<footer>`).
+        * Use this for your main site menu.
 
     * **`<main>`:**
         * This is one of the most important tags. It represents the **main, unique content** of your page.
@@ -46,31 +50,38 @@ This module is about moving *away* from "divitis" (using `<div>` for everything)
 
     * **`<footer>`:**
         * Represents the "footer" for a page (or a section).
-        * This is where you put copyright info, contact links, sitemaps, and "back to top" links.
+        * This is where you put copyright info, contact links, and social links.
 
 * **In-Depth Example (A full-page layout):**
     ```html
     <body>
       <header>
-        <h1>My Awesome Website</h1>
+        <h1>Alice Chen</h1>
         <nav>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about.html">About</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
       </header>
 
       <main>
-        <h2>Welcome to the Home Page</h2>
-        <p>This is the main content...</p>
+        <h2>About Me</h2>
+        <p>Bio goes here...</p>
       </main>
 
       <footer>
-        <p>&copy; 2025 My Awesome Website. All rights reserved.</p>
+        <p>&copy; 2026 Alice Chen. All rights reserved.</p>
       </footer>
     </body>
     ```
+
+* **⭐️ Class Exercise: Refactor Your Homepage's Layout**
+    1.  Open your `index.html` from Weeks 1-2.
+    2.  Wrap your `<h1>` in a `<header>`, along with a real `<nav>` containing links to `index.html`, `about.html`, and `contact.html`.
+    3.  Wrap everything else (About Me, Skills, Journey, Tools) in a single `<main>`.
+    4.  Add a `<footer>` with a copyright line and your external profile link.
 
 ---
 
@@ -82,54 +93,58 @@ This module is about moving *away* from "divitis" (using `<div>` for everything)
     * **`<section>`:**
         * This is the most generic sectioning tag. It represents a **thematic group of content** that *doesn't* make sense on its own.
         * It almost *always* needs a heading (`<h2>` - `<h6>`) to explain what the section is.
-        * **Use Case:** "About Me," "Our Team," "Contact Form," "Features." These are all "sections" of a larger page.
+        * **Use Case:** "About Me," "Featured Work," "Skills." These are all "sections" of a larger page.
 
     * **`<article>`:**
         * This represents a **complete, self-contained, and distributable** piece of content.
         * **The "RSS Feed" Test:** Ask yourself, "If I took this content out of my site and put it in an RSS feed or on another person's blog, would it make sense on its own?"
-        * **Use Case:** A blog post, a news article, a forum post, a single product in a list, a single comment.
+        * **Use Case:** A single project in a "Featured Work" list is a perfect fit — each one is self-contained.
 
     * **`<aside>`:**
         * Represents content that is **tangentially related** to the main content.
         * It's a "sidebar" or a "pull quote."
-        * **Use Case:** A list of related links, an author bio at the end of a post, an advertisement.
+        * **Use Case:** A "Fun Facts" box next to your bio, a list of related links.
 
     * **`<div>` (The "Box of Last Resort"):**
         * If you need a box *just for styling* (e.g., to create a "card" or a "flex container") and the content doesn't have a shared semantic meaning, **then** you use a `<div>`.
 
-* **In-Depth Example (A blog layout):**
+* **In-Depth Example (A Featured Work section):**
     ```html
     <main>
-      <article>
-        <header>
-          <h2>My First Blog Post</h2>
-          <p>Posted on Nov 16, 2025</p>
-        </header>
-        <p>This is the main content of my blog post...</p>
-        <section class="comments">
-          <h3>Comments</h3>
-          <p>This is a comment...</p>
-        </section>
-      </article>
+      <section>
+        <h2>Featured Work</h2>
+
+        <article>
+          <h3>Weather App</h3>
+          <img src="assets/weather-app.png" alt="Screenshot of the weather app showing a 5-day forecast">
+          <p>A React Native app that fetches live weather data.</p>
+          <ul>
+            <li>React Native</li>
+            <li>Expo</li>
+          </ul>
+        </article>
+
+        <article>
+          <h3>Task Tracker</h3>
+          <img src="assets/task-tracker.png" alt="Screenshot of the task tracker's list view">
+          <p>A Python CLI tool for tracking daily tasks.</p>
+        </article>
+      </section>
 
       <aside>
-        <h3>Related Posts</h3>
+        <h3>Fun Facts</h3>
         <ul>
-          <li>Another Post</li>
-          <li>A Third Post</li>
+          <li>Started coding in 2025</li>
+          <li>Favorite language: JavaScript</li>
         </ul>
       </aside>
     </main>
     ```
 
-* **⭐️ Class Exercise: Structure a Page**
-    1.  Create a new HTML file.
-    2.  Add the basic boilerplate (head, body, etc.).
-    3.  Create a "landmark" structure: `<header>`, `<nav>`, `<main>`, and `<footer>`.
-    4.  Inside `<main>`, add an `<h1>` (e.g., "My Services").
-    5.  Below the `<h1>`, add *two* `<section>` blocks.
-    6.  Give the first `<section>` an `<h2>` of "Web Design" and a `<p>`.
-    7.  Give the second `<section>` an `<h2>` of "SEO" and a `<p>`.
+* **⭐️ Class Exercise: Add Your Featured Work**
+    1.  Inside `<main>`, add a `<section>` with an `<h2>` "Featured Work".
+    2.  Add an `<article>` for 2-3 projects (real or planned) — each with an `<h3>` title, an `<img>` (placeholder is fine for now), a `<p>` description, and a `<ul>` of technologies used.
+    3.  Add an `<aside>` next to your "About Me" section with an `<h3>` "Fun Facts" and a short `<ul>`.
 
 ---
 
@@ -150,18 +165,12 @@ This module is about one thing: **displaying tabular data** (like a spreadsheet)
     ```html
     <table>
       <tr>
-        <th>Name</th>
-        <th>Email</th>
+        <th>Skill</th>
+        <th>Level</th>
       </tr>
-
       <tr>
-        <td>Alice Smith</td>
-        <td>alice@example.com</td>
-      </tr>
-
-      <tr>
-        <td>Bob Johnson</td>
-        <td>bob@example.com</td>
+        <td>HTML</td>
+        <td>Intermediate</td>
       </tr>
     </table>
     ```
@@ -177,32 +186,29 @@ This module is about one thing: **displaying tabular data** (like a spreadsheet)
     * **`<tfoot>`:** Wraps the footer row(s) (e.g., a "Total" row).
     * **`<caption>`:** The *title* of the table. It should be the *first* child of the `<table>` and is critical for accessibility.
 
-* **In-Depth Example (A full, semantic table):**
+* **In-Depth Example (Skills & Experience):**
     ```html
     <table>
-      <caption>Monthly Expenses</caption>
+      <caption>Skills & Experience</caption>
       <thead>
         <tr>
-          <th>Item</th>
-          <th>Cost</th>
+          <th>Skill</th>
+          <th>Years</th>
+          <th>Level</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Rent</td>
-          <td>$1000</td>
+          <td>HTML</td>
+          <td>1</td>
+          <td>Intermediate</td>
         </tr>
         <tr>
-          <td>Groceries</td>
-          <td>$400</td>
+          <td>CSS</td>
+          <td>1</td>
+          <td>Beginner</td>
         </tr>
       </tbody>
-      <tfoot>
-        <tr>
-          <td>Total</td>
-          <td>$1400</td>
-        </tr>
-      </tfoot>
     </table>
     ```
 
@@ -212,38 +218,36 @@ This module is about one thing: **displaying tabular data** (like a spreadsheet)
 
 * **Lecture & Concepts:**
     * What if you want a cell to take up multiple columns or rows?
-    * **`colspan="2"`:** An attribute you add to a `<td>` or `<th>` to make it "span" across **2 columns**.
-    * **`rowspan="2"`:** An attribute you add to a `<td>` or `<th>` to make it "span" down across **2 rows**.
+    * **`colspan="3"`:** An attribute you add to a `<td>` or `<th>` to make it "span" across multiple columns — useful for a section-divider row.
+    * **`rowspan="2"`:** An attribute you add to a `<td>` or `<th>` to make it "span" down across multiple rows.
 
-* **In-Depth Example (A schedule):**
+* **In-Depth Example (Grouping Skills by Category):**
     ```html
     <table>
-      <caption>Class Schedule</caption>
+      <caption>Skills & Experience</caption>
       <thead>
         <tr>
-          <th>Time</th>
-          <th>Monday</th>
-          <th>Tuesday</th>
+          <th>Skill</th>
+          <th>Years</th>
+          <th>Level</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th>9:00 AM</th>
-          <td>Math</td>
-          <td>English</td>
+          <td colspan="3"><strong>Languages</strong></td>
         </tr>
         <tr>
-          <th>10:00 AM</th>
-          <td colspan="2">Study Hall</td>
+          <td>HTML</td>
+          <td>1</td>
+          <td>Intermediate</td>
         </tr>
         <tr>
-          <th>11:00 AM</th>
-          <td rowspan="2">Gym</td>
-          <td>History</td>
+          <td colspan="3"><strong>Tools</strong></td>
         </tr>
         <tr>
-          <th>12:00 PM</th>
-          <td>Art</td>
+          <td>Git</td>
+          <td>1</td>
+          <td>Beginner</td>
         </tr>
       </tbody>
     </table>
@@ -257,74 +261,51 @@ This module is about one thing: **displaying tabular data** (like a spreadsheet)
     * The `scope` attribute is crucial for screen readers. It explicitly tells them what a header cell is the "header for."
     * **`scope="col"`:** Add this to all `<th>`s that are headers for a **column**.
     * **`scope="row"`:** Add this to all `<th>`s that are headers for a **row**.
-    * This allows a screen reader user to navigate a cell (e.g., "$1000") and have the browser tell them, "Row: Rent, Column: Cost."
+    * This allows a screen reader user to navigate a cell (e.g., "Intermediate") and have the browser tell them, "Row: HTML, Column: Level."
 
-* **In-Depth Example (The *best* way to write a table):**
+* **In-Depth Example (The *best* way to write the table):**
     ```html
     <table>
-      <caption>Monthly Expenses</caption>
+      <caption>Skills & Experience</caption>
       <thead>
         <tr>
-          <th scope="col">Item</th>
-          <th scope="col">Cost</th>
+          <th scope="col">Skill</th>
+          <th scope="col">Years</th>
+          <th scope="col">Level</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row">Rent</th>
-          <td>$1000</td>
+          <th scope="row">HTML</th>
+          <td>1</td>
+          <td>Intermediate</td>
         </tr>
         <tr>
-          <th scope="row">Groceries</th>
-          <td>$400</td>
+          <th scope="row">CSS</th>
+          <td>1</td>
+          <td>Beginner</td>
         </tr>
       </tbody>
     </table>
     ```
 
-* **⭐️ Class Exercise: Create a "User List" Table**
-    1.  Create a `<table>` with a `<caption>` of "Active Users".
-    2.  Create a `<thead>` with a row (`<tr>`) containing three `<th>`s: "First Name", "Last Name", and "Email".
-    3.  Add `scope="col"` to each `<th>`.
-    4.  Create a `<tbody>` with two data rows (`<tr>`) for two fictional users.
-    5.  Make sure each row has the correct number of `<td>` cells.
+* **⭐️ Class Exercise: Build Your "Skills & Experience" Table**
+    1.  Add a `<table>` with a `<caption>` of "Skills & Experience" somewhere on your homepage (you'll move it to `about.html` in Week 6).
+    2.  Create a `<thead>` with a row containing three `<th>`s: "Skill", "Years", "Level" — each with `scope="col"`.
+    3.  Create a `<tbody>` with at least 3 rows, one per skill, using `<th scope="row">` for the skill name.
 
 ---
 
 ### Week 3: Comprehensive Assignment
 
-**Objective:** Build the semantic HTML structure for a "Company Homepage" layout.
+**Objective:** Give your portfolio homepage a real semantic layout and its first data table.
 
 **Project:**
-Create a single `index.html` file. **You are not allowed to use any CSS.** The *only* goal is to create a perfect, logical, and semantic HTML structure that is ready for styling.
+Continue working in the same `index.html` from Weeks 1-2.
 
 **Requirements:**
 
-1.  **Boilerplate:** Your file must be a valid HTML5 document.
-2.  **Landmarks:** Your `<body>` must be organized with:
-    * A `<header>` at the top.
-    * A `<nav>` element *inside* the `<header>`.
-    * A `<main>` element to wrap the page's unique content.
-    * A `<footer>` at the bottom.
-3.  **Header & Nav:**
-    * The `<header>` should contain an `<h1>` (e.g., "MegaCorp Inc.").
-    * The `<nav>` should contain an **unordered list** (`<ul>`) of links (e.g., "Home," "About," "Services").
-4.  **Main Content:** Inside your `<main>` tag, you must have:
-    * A "Hero" section. A `<section>` tag is appropriate. Give it an `<h2>` (e.g., "Welcome to MegaCorp") and a `<p>`.
-    * A "Services" section. Use a `<section>` tag with an `<h2>` (e.g., "Our Services").
-    * Inside the "Services" section, create three "service" blocks.
-        * **Challenge:** Should these be `<article>`s or `<div>`s? (A `<div>` is fine, as "Web Design" isn't a self-contained article. You could also use `<section>`s).
-        * Each block should have an `<h3>` (e.g., "Web Design," "Marketing") and a `<p>`.
-    * A "Latest News" section. Use a `<section>` with an `<h2>`.
-    * Inside "Latest News," include one `<article>` for a blog post snippet. It should have an `<h3>` (the post title) and a `<p>` (the snippet).
-5.  **Aside (Bonus):**
-    * Add an `<aside>` element next to your "Latest News" article.
-    * Inside the `<aside>`, add an `<h2>` ("Related Links") and a `<ul>` of links.
-6.  **Table:**
-    * Inside your `<main>` content, add a "Pricing" section (`<section>`).
-    * Include a "Pricing Tiers" `<table>`.
-    * The table **must** have a `<caption>`, a `<thead>`, and a `<tbody>`.
-    * The `<thead>` should have headers (`<th>`) for "Plan," "Features," and "Price." (Don't forget the `scope` attribute!).
-    * The `<tbody>` should have at least two rows (`<tr>`) for "Basic Plan" and "Pro Plan."
-7.  **Footer:**
-    * The `<footer>` should contain a `<p>` with a copyright notice.
+1.  **Landmarks:** Your `<body>` must be organized with a `<header>` (containing a real `<nav>` with links to all 3 planned pages), a `<main>`, and a `<footer>`.
+2.  **Featured Work:** Inside `<main>`, a "Featured Work" `<section>` with an `<article>` per project (image, `<h3>` title, `<p>` description, `<ul>` of tech used).
+3.  **Aside:** A "Fun Facts" `<aside>` alongside your About Me content.
+4.  **Skills & Experience Table:** A `<table>` with `<caption>`, `<thead>`/`<tbody>`, and `scope` attributes on every `<th>`. Keep this table's content — you'll move it to `about.html` in Week 6.

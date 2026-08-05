@@ -1,6 +1,6 @@
 # Week 1: The Absolute Fundamentals
 
-Welcome to HTML! This week is all about building a solid foundation. We'll go from a blank file to a complete, structured webpage. We'll focus on *what* HTML is, why it's the "skeleton" of all websites, and how to write the most essential "content" tags.
+Welcome to HTML! This week is all about building a solid foundation — and starting the one project you'll keep building all course long: **your own personal portfolio site**. We'll go from a blank file to a real, structured webpage that is genuinely the first version of `index.html` you'll ship in Week 7. We'll focus on *what* HTML is, why it's the "skeleton" of all websites, and how to write the most essential "content" tags.
 
 ---
 
@@ -14,13 +14,13 @@ Welcome to HTML! This week is all about building a solid foundation. We'll go fr
         1.  **HTML (HyperText Markup Language):** This is the **Blueprint** or **Skeleton**. It defines the *structure* and *content* of a page. It says "This is a heading," "This is a paragraph," "This is an image." It provides the raw materials and meaning.
         2.  **CSS (Cascading Style Sheets):** This is the **Interior Design** or **Appearance**. It defines the *presentation* and *style*. It says "Make that heading blue and use a 'Roboto' font," "Put that image on the right," "Give this box a red border."
         3.  **JavaScript (JS):** This is the **Plumbing & Electricity** or **Behavior**. It defines the *interactivity* and *functionality*. It says "When the user clicks this button, show a popup," "Fetch new data from a server," "Change this image every 5 seconds."
-    * **Our Focus:** We *always* start with HTML. You must have a skeleton before you can put clothes on it or make it move.
+    * **Our Focus:** We *always* start with HTML. You must have a skeleton before you can put clothes on it or make it move. This course builds the skeleton of a real portfolio site; the CSS course puts clothes on that exact same skeleton; the JavaScript course wires up its behavior.
 
 * **Class Exercise: Analyze the "Big 3"**
-    1.  Open any major website (e.g., a news site, a shopping site).
-    2.  Identify the **HTML:** Look at the text, the headings, the images. This is all the *content*.
-    3.  Identify the **CSS:** Look at the colors, the fonts, the layout (e.g., the 3-column grid).
-    4.  Identify the **JS:** Click a "like" button, open a mobile menu, or see an image slider. The *reaction* is JavaScript.
+    1.  Open a real developer's portfolio site (search "web developer portfolio example" if you don't know one).
+    2.  Identify the **HTML:** Look at the text, the headings, the images, the project list. This is all the *content*.
+    3.  Identify the **CSS:** Look at the colors, the fonts, the layout.
+    4.  Identify the **JS:** Click a project filter or a "dark mode" toggle if there is one. The *reaction* is JavaScript.
 
 ---
 
@@ -35,11 +35,11 @@ Welcome to HTML! This week is all about building a solid foundation. We'll go fr
         * **"View Page Source":** Right-click on any website and select "View Page Source." This shows you the raw HTML file the server sent. It's often messy!
         * **"Inspect":** Right-click on any element and select "Inspect." This shows you the *live DOM* (what the browser built) and the CSS that applies to it.
 
-* **Class Exercise: Setup & View Source**
+* **Class Exercise: Set Up Your Portfolio Project**
     1.  Install VS Code from `code.visualstudio.com`.
-    2.  Create a new folder on your computer named `html-course`.
+    2.  Create a new folder on your computer named `portfolio`. This is the project you'll keep working in for the rest of this course — and the CSS/JS/React courses after it.
     3.  Open this *folder* in VS Code (File > Open Folder).
-    4.  Go to `wikipedia.org`, right-click, and "View Page Source." Just look at the raw HTML. Don't worry about understanding it, just see that it's all text and tags.
+    4.  Go to a real portfolio site, right-click, and "View Page Source." Just look at the raw HTML. Don't worry about understanding it yet — just see that it's all text and tags.
 
 ---
 
@@ -65,11 +65,11 @@ Welcome to HTML! This week is all about building a solid foundation. We'll go fr
     </html>
     ```
 
-* **Class Exercise: Create the Boilerplate**
-    1.  In VS Code, in your `html-course` folder, create a new file named `index.html`.
+* **Class Exercise: Create `index.html`**
+    1.  In VS Code, inside your `portfolio` folder, create a new file named `index.html`. This is your portfolio's homepage, and it's the file this entire course builds on.
     2.  Type (don't copy-paste!) the full 5-line boilerplate above.
-    3.  Inside the `<body>` tags, write `Hello, World!`.
-    4.  Save the file. Find it in your computer's file explorer and double-click it to open it in Chrome. You've made your first webpage!
+    3.  Inside the `<body>` tags, temporarily write `Hello, World!`.
+    4.  Save the file. Find it in your computer's file explorer and double-click it to open it in Chrome. You've made the first version of your portfolio!
 
 ---
 
@@ -88,10 +88,10 @@ Welcome to HTML! This week is all about building a solid foundation. We'll go fr
     </head>
     ```
 
-* **Class Exercise: Title Your Page**
+* **Class Exercise: Title Your Portfolio**
     1.  Go back to your `index.html` file.
     2.  Inside the `<head>` tags, add the `<meta charset="UTF-8">` tag.
-    3.  Add a `<title>` tag with your name in it (e.g., `<title>Alice's Portfolio</title>`).
+    3.  Add a `<title>` tag with your name in it (e.g., `<title>Alice Chen — Portfolio</title>`).
     4.  Save and refresh the page in your browser. Look at the browser tab. It should now show your title!
 
 ---
@@ -104,20 +104,18 @@ These are the tags that give your content *meaning* (semantics).
 
 * **Lecture & Concepts:**
     * **Headings (`<h1>` to `<h6>`):** These define the *hierarchy* of your content. They are **NOT** for making text big or small (that's CSS's job).
-        * `<h1>`: The main title of the *entire page*. You should **only have ONE `<h1>` per page** for accessibility and SEO. (e.g., "The New York Times").
-        * `<h2>`: A main section heading (e.g., "World News," "Sports").
-        * `<h3>`: A sub-section heading (e.g., "Final Scores").
+        * `<h1>`: The main title of the *entire page*. You should **only have ONE `<h1>` per page** for accessibility and SEO. (e.g., your name).
+        * `<h2>`: A main section heading (e.g., "About Me," "Featured Work").
+        * `<h3>`: A sub-section heading (e.g., a specific project's title).
         * `<h4>` - `<h6>`: Sub-sub-sections.
     * **Paragraphs (`<p>`):** The most common tag. This wraps a block of text. The browser automatically adds a bit of space (a `margin`) before and after each `<p>` tag.
 
-* **Class Exercise: Structure a Blog Post**
+* **Class Exercise: Write Your Portfolio's Intro**
     1.  Inside your `<body>`, delete "Hello, World!".
-    2.  Add an `<h1>` that says "My First Blog Post".
-    3.  Add an `<h2>` that says "Chapter 1: The Beginning".
-    4.  Add a `<p>` tag and write two or three sentences.
-    5.  Add another `<h2>` that says "Chapter 2: What I've Learned".
-    6.  Add another `<p>` tag with more text.
-    7.  Save and refresh. Notice the structure and default spacing.
+    2.  Add an `<h1>` with your name (e.g., "Alice Chen").
+    3.  Add an `<h2>` that says "About Me".
+    4.  Add a `<p>` tag with two or three sentences introducing yourself — who you are, what you're learning, what you're building toward.
+    5.  Save and refresh. Notice the structure and default spacing.
 
 ---
 
@@ -131,24 +129,24 @@ These are the tags that give your content *meaning* (semantics).
 * **In-Depth Example:**
     ```html
     <!-- 'id' is unique -->
-    <h1 id="main-title">My Blog</h1>
+    <h1 id="page-title">Alice Chen</h1>
 
     <!-- 'class' is reusable -->
-    <div class="post-container">
-      <h2 class="post-title">Post 1</h2>
-      <p class="post-content">...</p>
+    <div class="project-card">
+      <h3 class="project-title">Project One</h3>
+      <p class="project-description">...</p>
     </div>
-    <div class="post-container">
-      <h2 class="post-title">Post 2</h2>
-      <p class="post-content">...</p>
+    <div class="project-card">
+      <h3 class="project-title">Project Two</h3>
+      <p class="project-description">...</p>
     </div>
     ```
 
 * **Class Exercise: Label Your Content**
     1.  In your `index.html`, add `id="page-title"` to your `<h1>`.
-    2.  Add `class="chapter-heading"` to both of your `<h2>` tags.
-    3.  Add `class="post-content"` to both of your `<p>` tags.
-    4.  Save and refresh. You will see **no visual change**. `id` and `class` are invisible labels *for the code*.
+    2.  Add `class="section-heading"` to your `<h2>`.
+    3.  Add `class="bio"` to your bio `<p>`.
+    4.  Save and refresh. You will see **no visual change**. `id` and `class` are invisible labels *for the code* — the CSS course is where they start paying off.
 
 ---
 
@@ -166,16 +164,16 @@ These are the tags that give your content *meaning* (semantics).
 * **In-Depth Example:**
     ```html
     <!-- 1. Absolute Link (to an external site) -->
-    <p>Visit <a href="[https://www.google.com](https://www.google.com)">Google</a>.</p>
+    <p>Find me on <a href="https://github.com/yourusername">Github</a>.</p>
 
     <!-- 2. Relative Link (to another page on your site) -->
-    <p>Go to our <a href="contact.html">Contact Page</a>.</p>
+    <p>Want to work together? <a href="contact.html">Contact me</a>.</p>
     ```
 
-* **Class Exercise: Add Links**
+* **Class Exercise: Add Real Links**
     1.  At the bottom of your `index.html` (before the `</body>`), add a new `<p>`.
-    2.  Inside it, add an **absolute link** to your favorite website.
-    3.  Add another **relative link** to a file named `about.html` (even though this file doesn't exist yet).
+    2.  Inside it, add an **absolute link** to your Github or LinkedIn profile.
+    3.  Add another **relative link** to a file named `contact.html` (even though this file doesn't exist yet — you'll build it in Week 4).
 
 ---
 
@@ -194,43 +192,33 @@ These are the tags that give your content *meaning* (semantics).
 * **In-Depth Example:**
     ```html
     <!-- 1. Relative image from a sub-folder -->
-    <img src="images/my-cat.png" alt="A photo of my orange cat, Cheeto, sleeping on a blue couch.">
-
-    <!-- 2. Absolute (hot-linked) image -->
-    <img src="[https://via.placeholder.com/150](https://via.placeholder.com/150)" alt="A 150x150 gray placeholder image.">
+    <img src="assets/profile-photo.jpg" alt="Alice Chen smiling, standing in front of a laptop.">
     ```
 
-* **Class Exercise: Add an Image**
-    1.  Under your `<h1>`, add an `<img>` tag.
-    2.  Find an image online. Right-click it and select "Copy Image Address."
-    3.  Paste this URL into the `src` attribute.
-    4.  Write descriptive `alt` text for the image.
-    5.  Save and refresh. You should now have an image on your page!
-    6.  **Bonus:** Create an `images` folder in your project, save an image there, and change the `src` to be a relative path.
+* **Class Exercise: Add Your Profile Photo**
+    1.  Create an `assets` folder inside your `portfolio` project.
+    2.  Add a photo of yourself (or a placeholder) into it.
+    3.  Under your `<h1>`, add an `<img>` tag with a relative `src` pointing to it.
+    4.  Write descriptive `alt` text for the photo.
+    5.  Save and refresh. You should now have your profile photo on your portfolio homepage!
 
 ---
 
 ### Week 1: Comprehensive Assignment
 
-**Objective:** Build a "Simple Bio Page" that combines all concepts from Modules 1 & 2.
+**Objective:** Build "Portfolio Home Page v1" — the file you'll keep extending every week for the rest of this course.
 
 **Project:**
-Build a single `index.html` file that serves as your personal bio page.
+Build `index.html` inside your `portfolio` project folder.
 
 **Requirements:**
 
 1.  **Valid Boilerplate:** Your file must start with a `<!DOCTYPE html>` and have the correct `<html>`, `<head>`, and `<body>` structure.
-2.  **Head Content:** Your `<head>` must include a `<meta charset="UTF-8">` and a `<title>` (e.g., "About [Your Name]").
-3.  **Main Heading:** The `<body>` must have *one* `<h1>` as the main title (e.g., "Hi, I'm [Your Name]").
-4.  **Profile Image:** Include an `<img>` of yourself or a hobby. It must have a descriptive `alt` attribute.
-5.  **Sections:** Include at least two `<h2>` sections.
-    * Example: `<h2>About Me</h2>` and `<h2>My Hobbies</h2>`.
-6.  **Content:** Under each `<h2>`, write at least one `<p>` tag with text about that section.
-7.  **Links:**
-    * Include one **external (absolute)** link to one of your social media profiles (like LinkedIn or GitHub) or a favorite website.
+2.  **Head Content:** Your `<head>` must include a `<meta charset="UTF-8">` and a `<title>` (e.g., "Alice Chen — Portfolio").
+3.  **Main Heading:** The `<body>` must have *one* `<h1>` with your name.
+4.  **Profile Photo:** Include an `<img>` of yourself (or a placeholder). It must have a descriptive `alt` attribute.
+5.  **About Me Section:** An `<h2>` "About Me" followed by at least one `<p>` introducing yourself.
+6.  **Links:**
+    * Include one **external (absolute)** link to your Github, LinkedIn, or another site you want visitors to find.
     * Include one **relative link** to a *new page* you'll create called `contact.html`.
-8.  **Bonus Challenge:** Create the `contact.html` file (using the same boilerplate) with just an `<h1>` that says "Contact Me" and a relative link that says "Go back home" pointing back to `index.html`.
-
-
-
-
+7.  **Bonus Challenge:** Create the `contact.html` file (using the same boilerplate) with just an `<h1>` that says "Contact Me" and a relative link that says "Back to Home" pointing back to `index.html`. You'll build this into a real form in Week 4.

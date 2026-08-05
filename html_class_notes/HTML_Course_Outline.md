@@ -2,7 +2,11 @@
 
 ## Course Overview
 
-This course is the required starting point for all web development. It takes students with zero prior knowledge and teaches them how to build the structure of modern, accessible, and search-engine-optimized (SEO) websites. This course provides the essential "skeleton" (HTML) upon which all CSS and JavaScript code is built.
+* **Target Audience:** Complete beginners to web development — no prior coding experience assumed.
+* **Tools:** VS Code, a modern browser (Chrome or Firefox) with Dev Tools, and a free Github/Netlify account for Week 7's deployment.
+* **Goal:** Build the structure of modern, accessible, and search-engine-optimized websites — and finish with your own live, deployed personal portfolio site.
+
+This course is the required starting point for all web development. It takes students with zero prior knowledge and teaches them how to build the structure of modern, accessible websites. This course provides the essential "skeleton" (HTML) upon which all CSS and JavaScript code is built. **You will build one continuous project all course long: your own personal portfolio site** — starting from a single unstyled page in Week 1, and finishing with a deployed, accessible, three-page site in Week 7. The Portfolio you build here is the exact same one you'll style in the CSS course, make interactive in the JavaScript course, and rebuild as an app in the React course.
 
 ---
 
@@ -19,11 +23,11 @@ This course is the required starting point for all web development. It takes stu
 | **What is a Website?** | 30 mins | 15 mins |
 | The "Skeleton, Clothes, Brain" analogy (HTML, CSS, JS). | - Why HTML is the first step. | - Tour a few websites and "View Source". |
 | **Tools of the Trade** | 45 mins | 30 mins |
-| Code Editors (VS Code) vs. Text Editors (Notepad). | - Web Browsers (Chrome, Firefox) and Dev Tools. | - Install VS Code and create `index.html`. |
+| Code Editors (VS Code) vs. Text Editors (Notepad). | - Web Browsers (Chrome, Firefox) and Dev Tools. | - Install VS Code and create a `portfolio` project folder with `index.html`. |
 | **Your First Webpage** | 30 mins | 30 mins |
-| The `<!DOCTYPE html>` declaration. | - The `<html>`, `<head>`, and `<body>` tags. | - Write a "Hello, World!" page with the basic structure. |
+| The `<!DOCTYPE html>` declaration. | - The `<html>`, `<head>`, and `<body>` tags. | - Write the boilerplate for your portfolio's `index.html`. |
 | **The `<head>` Element** | 45 mins | 15 mins |
-| The `<title>` tag (for the browser tab). | - The `<meta charset="UTF-8">` tag. | - Add a title and meta tag to your `index.html`. |
+| The `<title>` tag (for the browser tab). | - The `<meta charset="UTF-8">` tag. | - Add a title (e.g., "[Your Name] — Portfolio") and meta tag to your `index.html`. |
 
 ### Module 2: Core Content Tags
 * **Learning Objectives:**
@@ -35,20 +39,20 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Headings & Paragraphs** | 45 mins | 30 mins |
-| `<h1>` through `<h6>` (Hierarchical importance). | - The `<p>` tag. | - Create a simple blog post structure with one `h1` and several `h2`s and `p` tags. |
+| `<h1>` through `<h6>` (Hierarchical importance). | - The `<p>` tag. | - Write your portfolio's intro: one `<h1>` with your name, an `<h2>` "About Me", and a `<p>` bio. |
 | **Attributes** | 30 mins | 15 mins |
-| What is an attribute? (`name="value"`). | - `id` (unique) vs. `class` (reusable). | - Add `id` and `class` attributes to your elements. |
+| What is an attribute? (`name="value"`). | - `id` (unique) vs. `class` (reusable). | - Add `id`/`class` attributes to your portfolio's headings. |
 | **Links (Anchor Tags)** | 45 mins | 30 mins |
-| The `<a>` tag and `href` attribute. | - Linking to external sites (with `http://`). | - Add a link to Google. |
-| Relative vs. Absolute paths. | - Linking to other pages (`/about.html`). | - Add a link to a "contact.html" page (even if it doesn't exist yet). |
+| The `<a>` tag and `href` attribute. | - Linking to external sites (with `http://`). | - Add a link to your Github or LinkedIn profile. |
+| Relative vs. Absolute paths. | - Linking to other pages (`/about.html`). | - Add a relative link to a `contact.html` page (even though it doesn't exist yet). |
 | **Images** | 45 mins | 30 mins |
-| The `<img>` tag (self-closing). | - The `src` and `alt` attributes. | - Find an image and add it to your page. |
-| Importance of `alt` text for accessibility. | - Image paths (relative vs. absolute). | - Write meaningful `alt` text for your image. |
+| The `<img>` tag (self-closing). | - The `src` and `alt` attributes. | - Add your profile photo to your portfolio's homepage. |
+| Importance of `alt` text for accessibility. | - Image paths (relative vs. absolute). | - Write meaningful `alt` text for your photo. |
 
-**Week 1 Assignment:** Build a "Simple Bio Page".
-* A single `index.html` file.
-* Must contain: A main `<h1>`, an `<img>` of yourself or a hobby (with `alt` text), a few `<h2>` sections (e.g., "About Me," "Hobbies"), and `<p>` tags with text.
-* Must include one `<a>` link to an external website (like your LinkedIn or favorite site).
+**Week 1 Assignment:** Build "Portfolio Home Page v1" (`index.html`).
+* A main `<h1>` with your name, an `<img>` profile photo (with `alt` text), an `<h2>` "About Me" section with a `<p>` bio.
+* One external link (Github/LinkedIn) and one relative link to `contact.html` (not built yet).
+* This is the file you'll keep extending every week for the rest of this course.
 
 ---
 
@@ -63,24 +67,22 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Unordered Lists** | 45 mins | 30 mins |
-| The `<ul>` and `<li>` (list item) tags. | - Use for navigation, feature lists, etc. | - Create a bulleted list of your hobbies. |
+| The `<ul>` and `<li>` (list item) tags. | - Use for navigation, feature lists, etc. | - Add a "Skills" section to your portfolio with a bulleted `<ul>` of your skills/technologies. |
 | **Ordered Lists** | 45 mins | 30 mins |
-| The `<ol>` and `<li>` tags. | - Use for "Top 10" lists, recipes, steps. | - Create a numbered list of steps for making coffee. |
+| The `<ol>` and `<li>` tags. | - Use for "Top 10" lists, recipes, steps. | - Add a numbered `<ol>` of milestones in your learning journey so far. |
 | **Description Lists** | 30 mins | 30 mins |
-| The `<dl>`, `<dt>` (term), and `<dd>` (description) tags. | - Use for glossaries, key/value pairs. | - Create a list of 2-3 new HTML tags and their descriptions. |
+| The `<dl>`, `<dt>` (term), and `<dd>` (description) tags. | - Use for glossaries, key/value pairs. | - Add a "Tools I Use" `<dl>` pairing 2-3 tools with a one-line description each. |
 | **Inline Semantics** | 45 mins | 30 mins |
-| `<strong>` (importance) vs. `<b>` (bold). | - `<em>` (stress/emphasis) vs. `<i>` (italic). | - Write a paragraph and correctly use `<strong>` and `<em>`. |
-| Other tags: `<br>`, `<hr>`, `<sub>`, `<sup>` | - `<code>`, `<pre>` | - Write a "code" block using `<pre>` and `<code>`. |
+| `<strong>` (importance) vs. `<b>` (bold). | - `<em>` (stress/emphasis) vs. `<i>` (italic). | - Go back to your bio paragraph and correctly use `<strong>` and `<em>`. |
+| Other tags: `<br>`, `<hr>`, `<sub>`, `<sup>` | - `<code>`, `<pre>` | - If you mention a technology by name, mark it up with `<code>`. |
 | **Generic Containers** | 45 mins | 15 mins |
-| `<div>` (a "division" or block-level box). | - `<span>` (an inline container). | - Wrap your hobbies list in a `<div>` with a class of "hobbies". |
-| When to use `div` vs. a semantic tag. | - Use `<span>` to style part of a paragraph. | - Use `<span>` to make one word in a `<p>` tag a different color (using an inline `style` attribute for now). |
+| `<div>` (a "division" or block-level box). | - `<span>` (an inline container). | - Wrap your Skills list in a `<div class="skills">`. |
+| When to use `div` vs. a semantic tag. | - Use `<span>` to style part of a paragraph. | - Use `<span>` to mark up one skill mentioned inline in your bio. |
 
-**Week 2 Assignment:** Build a "Recipe Page".
-* Use `<h1>` for the recipe name.
-* Use an `<img>` for a picture of the food.
-* Use an `<h2>` for "Ingredients" followed by a `<ul>`.
-* Use an `<h2>` for "Instructions" followed by an `<ol>`.
-* Use `<strong>` to highlight important parts of an instruction (e.t., "**Preheat oven to 350°F**").
+**Week 2 Assignment:** Expand "Portfolio Home Page" with structured content.
+* Add the "Skills" `<ul>`, the "Journey" `<ol>`, and the "Tools I Use" `<dl>` to your existing `index.html` from Week 1.
+* Correctly apply `<strong>`/`<em>` somewhere in your bio paragraph.
+* Wrap the Skills section in a `<div class="skills">`.
 
 ---
 
@@ -95,15 +97,15 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **The "Why" of Semantics** | 45 mins | 15 mins |
-| "Divitis" and the problem with `<div>`. | - How screen readers navigate a page. | - Analyze a website (like a news site) and identify its semantic regions. |
+| "Divitis" and the problem with `<div>`. | - How screen readers navigate a page. | - Analyze a real portfolio site online and identify its semantic regions. |
 | Accessibility (a11y) and SEO. | - The Document Outline. | |
 | **Layout Tags** | 1.5 hours | 45 mins |
-| `<header>` (the top of the page/section). | - `<footer>` (the bottom of the page/section). | - Refactor your Week 1 Bio Page to use these tags. |
-| `<nav>` (for main navigation links). | - Wrap your `<ul>` of links in a `<nav>` tag. |
-| `<main>` (for the *one* main content area). | - The `<main>` tag must be unique. |
+| `<header>` (the top of the page/section). | - `<footer>` (the bottom of the page/section). | - Refactor your `index.html` to wrap its content in `<header>`, `<main>`, and `<footer>`. |
+| `<nav>` (for main navigation links). | - Wrap your `<ul>` of links in a `<nav>` tag. | - Build a real `<nav>` linking to Home/About/Contact. |
+| `<main>` (for the *one* main content area). | - The `<main>` tag must be unique. | |
 | **Content Sectioning** | 1.5 hours | 30 mins |
-| `<section>` (a thematic group of content). | - `<article>` (a self-contained, distributable piece). | - Create a blog layout with `<article>` tags for each post. |
-| `<aside>` (for sidebars, callouts). | - When to use `section` vs. `article` vs. `div`. | - Add an `<aside>` to your blog layout. |
+| `<section>` (a thematic group of content). | - `<article>` (a self-contained, distributable piece). | - Add a "Featured Work" `<section>` with an `<article>` for each of 2-3 projects. |
+| `<aside>` (for sidebars, callouts). | - When to use `section` vs. `article` vs. `div`. | - Add an `<aside>` with a "Fun Facts" list next to your bio. |
 
 ### Module 5: Tables for Data
 * **Learning Objectives:**
@@ -114,21 +116,17 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Basic Table Structure** | 45 mins | 30 mins |
-| `<table>`, `<tr>` (row), `<td>` (data cell). | - `<th>` (header cell). | - Create a simple 2x2 table. |
+| `<table>`, `<tr>` (row), `<td>` (data cell). | - `<th>` (header cell). | - Create a simple 2-column table. |
 | **Advanced Table Structure** | 1 hour | 45 mins |
-| `<thead>`, `<tbody>`, `<tfoot>`. | - `<caption>` (for the table's title). | - Create a table of "User Data" (Name, Email, Role) using a proper header and body. |
-| Merging Cells | - `colspan` (merge columns). | - Add a row that spans all columns. |
-| | - `rowspan` (merge rows). | - Create a "schedule" table that uses `rowspan`. |
-| Accessibility (`scope` attribute) | - `scope="col"` and `scope="row"`. | - Add the `scope` attribute to your `<th>` elements. |
+| `<thead>`, `<tbody>`, `<tfoot>`. | - `<caption>` (for the table's title). | - Build a "Skills & Experience" table (Skill, Years, Level) for your portfolio, with a proper header and body. |
+| Merging Cells | - `colspan` (merge columns). | - Add a row that spans both columns for a section divider (e.g., "Languages" vs. "Tools"). |
+| | - `rowspan` (merge rows). | |
+| Accessibility (`scope` attribute) | - `scope="col"` and `scope="row"`. | - Add the `scope` attribute to your table's `<th>` elements. |
 
-**Week 3 Assignment:** Build a "Company Homepage" Layout.
-* Build the *semantic structure* of a homepage. **No CSS is required**, the goal is perfect structure.
-* Use `<header>` for the top, containing a `<nav>`.
-* Use `<main>` to wrap the content.
-* Inside `<main>`, use a `<section>` for "About Us."
-* Use another `<section>` for "Our Team" (with `div`s for team members).
-* Use an `<article>` for a recent "Blog Post" snippet.
-* Use `<footer>` for the copyright info.
+**Week 3 Assignment:** Give your portfolio a real semantic layout.
+* Refactor `index.html` to use `<header>` (with `<nav>`), `<main>`, and `<footer>` — no more unstructured content.
+* Add a "Featured Work" section with an `<article>` per project (image, title, description, tech-used list).
+* Add the "Skills & Experience" `<table>` with `<thead>`/`<tbody>`/`<caption>` and `scope` attributes — you'll reuse this table on the About page in Week 6.
 
 ---
 
@@ -143,12 +141,12 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **The `<form>` Element** | 45 mins | 30 mins |
-| The `action` and `method` (GET vs. POST) attributes. | - How forms "submit" data. | - Create a basic `<form>` tag. |
+| The `action` and `method` (GET vs. POST) attributes. | - How forms "submit" data. | - Create `contact.html` with a basic `<form>` tag. |
 | **The `<input>` Element** | 1 hour | 30 mins |
-| The `type` attribute (`text`, `password`, `email`). | - The `name` attribute (essential for data). | - Create a "Login" form with email, password, and a button. |
+| The `type` attribute (`text`, `password`, `email`). | - The `name` attribute (essential for data). | - Add `name`/`email` inputs to your contact form. |
 | The `placeholder` attribute. | - The `value` attribute. | |
 | **Labels (Accessibility)** | 1 hour | 45 mins |
-| The `<label>` tag. | - Why labels are critical for screen readers. | - Add `<label>`s to your login form. |
+| The `<label>` tag. | - Why labels are critical for screen readers. | - Add `<label>`s to your contact form's inputs. |
 | The `for` attribute (links to `id`). | - Implicit vs. Explicit labels. | - Ensure every input has a linked label. |
 
 ### Module 7: Advanced Form Controls
@@ -160,27 +158,21 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Buttons** | 45 mins | 30 mins |
-| `<input type="submit">` (the old way). | - `<button type="submit">` (the modern way). | - Change your login button to a `<button>` element. |
+| `<input type="submit">` (the old way). | - `<button type="submit">` (the modern way). | - Use a `<button>` element for your contact form's submit button. |
 | `<button type="button">` vs. `type="submit"`. | |
 | **Choice Elements** | 1.5 hours | 1 hour |
-| `<input type="radio">` (for single choice). | - Using `name` to group radio buttons. | - Add a radio button group for "Account Type" (Personal/Business). |
-| `<input type="checkbox">` (for multiple choice). | - `<textarea>` for multi-line text. | - Add a checkbox for "Remember Me" and a "Comments" textarea. |
+| `<input type="radio">` (for single choice). | - Using `name` to group radio buttons. | - Add a radio group for "Preferred Contact Method" (Email/Phone). |
+| `<input type="checkbox">` (for multiple choice). | - `<textarea>` for multi-line text. | - Add a `<textarea>` for the message body. |
 | **Dropdowns** | 1 hour | 30 mins |
-| The `<select>` and `<option>` tags. | - The `value` attribute on `<option>`. | - Add a `<select>` dropdown for "Country". |
+| The `<select>` and `<option>` tags. | - The `value` attribute on `<option>`. | - Add a `<select>` dropdown for "Reason for Contact" (Job Opportunity, Collaboration, Just Saying Hi). |
 | **Form Structure & Validation** | 1 hour | 30 mins |
-| `<fieldset>` (grouping related fields). | - `<legend>` (a title for the fieldset). | - Wrap your login fields in a `<fieldset>`. |
-| HTML5 Validation: `required`, `minlength`. | - `type="number"`, `type="date"`. | - Make the email and password fields `required`. |
+| `<fieldset>` (grouping related fields). | - `<legend>` (a title for the fieldset). | - Wrap your contact fields in a `<fieldset>`. |
+| HTML5 Validation: `required`, `minlength`. | - `type="number"`, `type="date"`. | - Make the email and message fields `required`. |
 
-**Week 4 Assignment:** Build a "Registration Form".
-* A complete `<form>` that includes:
-* A "User Details" `<fieldset>` with inputs for `name`, `email`, and `password`.
-* A "Preferences" `<fieldset>` with:
-    * Radio buttons for "Preferred Contact Method" (Email/Phone).
-    * Checkboxes for "Interests" (e.g., "Tech," "Music," "Art").
-    * A `<select>` dropdown for "Experience Level" (Beginner, Intermediate, Expert).
-* A `<textarea>` for "Bio."
-* A `<button type="submit">` to submit the form.
-* **Crucially:** Every single input must have a correctly linked `<label>`.
+**Week 4 Assignment:** Build "Portfolio Contact Form" (`contact.html`).
+* A complete `<form>` with `name`, `email`, a "Reason for Contact" `<select>`, a "Preferred Contact Method" radio group, and a `<textarea>` for the message.
+* Every input has a correctly linked `<label>`; email and message are `required`.
+* Link your homepage's `<nav>` to this new `contact.html`.
 
 ---
 
@@ -195,11 +187,11 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **The `<video>` Element** | 1.5 hours | 45 mins |
-| The `src` attribute. | - The `controls`, `autoplay` (muted), `loop`, `poster`. | - Find a sample `.mp4` video and embed it. |
+| The `src` attribute. | - `controls`, `autoplay` (muted), `loop`, `poster`. | - Create `about.html` and embed a short self-recorded intro video (or a placeholder sample). |
 | The `<source>` Element | - Providing multiple formats (mp4, webm, ogg). | - Add `<source>` tags for different video types. |
 | Fallback content. | - Add fallback text for old browsers. |
 | **The `<audio>` Element** | 1 hour | 30 mins |
-| The `src` attribute. | - `controls`, `autoplay`, `loop`. | - Find a sample `.mp3` file and embed it. |
+| The `src` attribute. | - `controls`, `autoplay`, `loop`. | - (Optional) Add a short audio intro instead of/alongside video. |
 | Using `<source>` for audio (mp3, ogg, wav). | - Add `<source>` tags and fallback text. |
 
 ### Module 9: Advanced Media & Embedding
@@ -211,24 +203,23 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Embedding with `<iframe>`** | 1 hour | 30 mins |
-| What is an `iframe`? (Security implications). | - How to get the "embed" code from YouTube. | - Embed a YouTube video on your page. |
-| Google Maps embedding. | - `width`, `height`, `frameborder`, `allowfullscreen`. | - Embed a Google Map of your city. |
+| What is an `iframe`? (Security implications). | - How to get the "embed" code from YouTube. | - Embed a YouTube demo video for one of your Featured Work projects. |
+| Google Maps embedding. | - `width`, `height`, `frameborder`, `allowfullscreen`. | - Embed a Google Map of your city on `contact.html`. |
 | **Responsive Images** | 1.5 hours | 45 mins |
-| The `<picture>` element. | - Using `<source>` with `media` queries. | - Create a `<picture>` element that loads a "wide.jpg" on desktop and a "tall.jpg" on mobile. |
+| The `<picture>` element. | - Using `<source>` with `media` queries. | - Use `<picture>` for your profile photo on `about.html` — a square crop on mobile, wide on desktop. |
 | The `srcset` attribute (for resolution switching). | - Art direction vs. Resolution switching. | |
 | **Intro to `<svg>`** | 1 hour | 15 mins |
-| Vector vs. Raster (Bitmap) images. | - Why SVG is great for logos and icons. | - Find a simple SVG logo online and paste it directly into your HTML. |
+| Vector vs. Raster (Bitmap) images. | - Why SVG is great for logos and icons. | - Create a simple SVG monogram (your initials) to use as your site's logo in the header. |
 
-**Week 5 Assignment:** Create a "Media Showcase" page.
-* The page should feature your "Top 3 Favorite Songs/Videos."
-* For one, use the `<video>` element to self-host a video (you can find free samples online).
-* For another, use the `<audio>` element to self-host a song (find free samples).
-* For the third, use an `<iframe>` to embed a YouTube video.
-* Use the `<picture>` element for the page's header image, providing different images for mobile and desktop.
+**Week 5 Assignment:** Build "About Me" Page (`about.html`).
+* A self-recorded (or placeholder) intro `<video>` with `controls` and fallback text.
+* A responsive `<picture>` of your profile photo (different crop for mobile vs. desktop).
+* An embedded YouTube demo for one Featured Work project, and a Google Map on `contact.html`.
+* Your SVG monogram in the site header, reused across all three pages.
 
 ---
 
-## Week 6: Advanced HTML & Best Practices
+## Week 6 / Final Project: Advanced HTML & Best Practices
 
 ### Module 10: Accessibility (a11y)
 * **Learning Objectives:**
@@ -239,12 +230,12 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is A11y?** | 1 hour | 30 mins |
-| Who benefits? (Visual, motor, auditory, cognitive). | - Screen readers (VoiceOver, NVDA). | - Install a screen reader extension (like ChromeVox) and try to navigate your site. |
+| Who benefits? (Visual, motor, auditory, cognitive). | - Screen readers (VoiceOver, NVDA). | - Install a screen reader extension and try to navigate your own portfolio. |
 | **ARIA Roles (Basics)** | 1.5 hours | 45 mins |
-| What is ARIA? (Accessible Rich Internet Applications). | - When to use it (only when HTML isn't enough). | - Go back to your Week 3 layout. Add `role="navigation"` to your `<nav>`, `role="main"` to `<main>`, etc. |
-| Landmark Roles: `navigation`, `main`, `banner`, `contentinfo`. | - (Note: HTML5 tags like `<nav>` do this automatically, but it's good to know). | |
+| What is ARIA? (Accessible Rich Internet Applications). | - When to use it (only when HTML isn't enough). | - Audit your Week 3 layout: confirm `<nav>`/`<main>` are doing their job without needing extra roles. |
+| Landmark Roles: `navigation`, `main`, `banner`, `contentinfo`. | - (Note: HTML5 tags like `<nav>` do this automatically.) | |
 | **ARIA Attributes** | 1 hour | 30 mins |
-| `aria-label` (for "icon-only" buttons). | - `aria-hidden="true"` (to hide decorative icons). | - Create a `<button>` with just an "X" icon. Add an `aria-label="Close"`. |
+| `aria-label` (for "icon-only" buttons). | - `aria-hidden="true"` (to hide decorative icons). | - Add `aria-label`s to any icon-only social links in your footer. |
 
 ### Module 11: SEO & Modern HTML
 * **Learning Objectives:**
@@ -255,24 +246,59 @@ This course is the required starting point for all web development. It takes stu
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **SEO Meta Tags** | 1 hour | 30 mins |
-| `<meta name="description">` | - `<meta name="keywords">` (less important now). | - Add a meta description to your Week 3 project. |
+| `<meta name="description">` | - `<meta name="keywords">` (less important now). | - Add a unique `<title>` and meta description to each of your 3 pages. |
 | **Social Media Tags** | 1 hour | 30 mins |
-| The Open Graph Protocol (og:). | - `og:title`, `og:description`, `og:image`. | - Add Open Graph tags to your Week 3 project so it looks good when shared on Facebook/Twitter. |
+| The Open Graph Protocol (og:). | - `og:title`, `og:description`, `og:image`. | - Add Open Graph tags to `index.html` so it looks good when shared. |
 | **Other HTML5 Features** | 1.5 hours | 30 mins |
 | `<template>` tag (for JS). | - `<canvas>` (for 2D/3D graphics with JS). | - (Lecture-only) High-level overview of these features and how they set the stage for JavaScript. |
 | Microdata and Structured Data (schema.org). | - What these are and why they matter for SEO. | |
 
-**Week 6 / Final Project:** Build a "Professional Portfolio Website".
-* **Goal:** Combine *everything* from all 6 weeks.
-* **Structure:**
-    * A main `index.html` (Homepage), an `about.html`, and a `contact.html` page.
-    * Use all semantic layout tags (`<header>`, `<nav>`, `<main>`, `<footer>`).
-    * Your `<nav>` should link to all 3 pages.
-* **Content:**
-    * **Homepage:** A `<section>` for your bio, an `<article>` for a "Featured Project" (using `<img>` and `<ul>` for tech used).
-    * **About Page:** Use `<video>` to embed a personal intro, use `<aside>` for a "Fun Facts" box.
-    * **Contact Page:** A full-fledge, accessible `<form>` (from Week 4) with `<label>`s and `<fieldset>`s.
-* **Best Practices (The "Expert" part):**
-    * The entire site must be **fully accessible**. All images must have `alt` text. All form inputs must have `<label>`s.
-    * All pages must have a unique `<title>` and a `<meta name="description">`.
-    * Add ARIA labels to any ambiguous links (e.g., a "Read More" link should have `aria-label="Read more about Project X"`).
+**Week 6 / Final Project:** Finish "The Professional Portfolio".
+* **Goal:** Combine and polish everything from Weeks 1-5 into one accessible, three-page site.
+* **Structure:** `index.html`, `about.html`, `contact.html`, an `assets/` folder — all already built, now finished and polished.
+* **Requirements:**
+    * Every page has a unique `<title>` and `<meta name="description">`; `index.html` has Open Graph tags.
+    * The "Skills & Experience" table from Week 3 appears on `about.html`.
+    * Every image has real `alt` text; every icon-only link has an `aria-label`.
+    * The heading outline (`h1` → `h2` → `h3`) is logical on every page, with no skipped levels.
+
+---
+
+## Week 7: Modern Interactions & Performance Tuning
+
+### Module 12: Native Interactive Elements
+* **Learning Objectives:**
+    * Use `<details>`/`<summary>` for native, JS-free expand/collapse UI.
+    * Use `<meter>` to visualize a bounded value.
+    * Understand `contenteditable` as a modern HTML feature.
+
+| Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
+| :--- | :--- | :--- |
+| **The Native Accordion** | 1 hour | 45 mins |
+| `<details>`/`<summary>` — expand/collapse with zero JavaScript. | - The `open` attribute. | - Add an FAQ-style `<details>` section to `about.html` ("Want to work together?", "What's your stack?"). |
+| **Visualizing Data** | 45 mins | 45 mins |
+| `<meter>` for a bounded value; `<progress>` for task completion. | - `low`/`high`/`optimum` zones. | - Add a `<meter>` proficiency bar next to each skill in your Skills table. |
+| **Editable Content** | 30 mins | 15 mins |
+| `contenteditable="true"` turns any element into an editor. | - How tools like Notion/Google Docs use this. | - (Lecture-only) Not added to the portfolio — just know it exists. |
+
+### Module 13: Performance, Optimization & Deployment
+* **Learning Objectives:**
+    * Set up a modern favicon.
+    * Use resource hints (`preload`/`preconnect`) and lazy loading.
+    * Deploy a static site to a live URL.
+
+| Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
+| :--- | :--- | :--- |
+| **Modern Favicons** | 45 mins | 30 mins |
+| SVG favicon + PNG/Apple Touch Icon fallbacks. | - Why SVG favicons support light/dark mode. | - Add a favicon (reuse your Week 5 SVG monogram) to all 3 pages. |
+| **Resource Hints** | 45 mins | 30 mins |
+| `rel="preload"` for critical assets; `rel="preconnect"` for 3rd-party domains. | - When each one actually helps. | - Preload your homepage's profile photo. |
+| **Lazy Loading** | 30 mins | 30 mins |
+| `loading="lazy"` on images/iframes below the fold. | - `eager` vs. `lazy` — when to use which. | - Add `loading="lazy"` to your project screenshots and embeds. |
+| **Deployment** | 1 hour | 1 hour |
+| Static hosting: Netlify, Vercel, Github Pages. | - Drag-and-drop vs. Git-based deploys. | - Deploy your finished portfolio and get a live URL. |
+
+**Week 7 Assignment:** Optimize & Deploy Your Portfolio.
+* Add a favicon, preload your hero/profile image, and lazy-load everything else (project screenshots, embeds).
+* Deploy to Netlify, Vercel, or Github Pages.
+* **Submit the live URL** — this is the same site the CSS course will style next.

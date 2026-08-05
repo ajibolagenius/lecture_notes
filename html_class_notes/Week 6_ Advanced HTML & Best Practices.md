@@ -1,8 +1,8 @@
 # Week 6: Advanced HTML & Best Practices
 
-Congratulations on reaching the final week of the HTML course! You now know how to structure content, build forms, and embed media.
+Congratulations on reaching the final structural week of the HTML course! By now you have three real pages — `index.html`, `about.html`, and `contact.html` — with semantic layout, forms, and media all built in. You know how to structure content, build forms, and embed media.
 
-This week is about the "invisible" qualities that separate amateur sites from professional ones: **Accessibility (a11y)** and **Search Engine Optimization (SEO)**. We will also look at the bleeding edge of HTML features.
+This week is about the "invisible" qualities that separate amateur sites from professional ones: **Accessibility (a11y)** and **Search Engine Optimization (SEO)**. We'll polish the three pages you already have rather than build anything new from scratch.
 
 ---
 
@@ -18,12 +18,12 @@ This week is about the "invisible" qualities that separate amateur sites from pr
         * **Visual impairments:** Blind users (using screen readers like NVDA or VoiceOver), color blind users, or those with low vision.
         * **Motor impairments:** Users who cannot use a mouse and rely on a keyboard or voice commands.
         * **Cognitive impairments:** Users who need clear, consistent layouts and simple instructions.
-    * **Legal Requirement:** In many countries, accessible websites are required by law (ADA in the US, EAA in Europe).
+    * **Legal Requirement:** In many countries, accessible websites are required by law (ADA in the US, EAA in Europe). For a portfolio specifically, an inaccessible site is also a bad first impression on any employer who checks.
 
 ### 2. Semantic HTML is the Foundation
 
 * **Lecture & Concepts:**
-    * The best way to be accessible is to write **valid, semantic HTML**.
+    * The best way to be accessible is to write **valid, semantic HTML** — which is exactly what Weeks 1-5 already did.
     * If you use `<button>` for a button, the browser automatically handles keyboard focus (`Tab` key) and screen reader announcements ("Button, click me").
     * If you use `<div class="button">`, you have to rebuild all that functionality yourself (which is hard and error-prone).
 
@@ -39,31 +39,30 @@ This week is about the "invisible" qualities that separate amateur sites from pr
     * **`aria-hidden="true"`**: Tells screen readers to **ignore** an element. Used for decorative icons that add no meaning.
     * **`role="..."`**: Defines what an element *is* (e.g., `role="alert"` for an error message).
 
-* **In-Depth Example (The "Hamburger" Menu):**
-    A visual user sees three lines (≡). A blind user sees nothing unless we label it.
+* **In-Depth Example (An Icon-Only Social Link):**
+    A visual user sees a Github logo. A blind user hears nothing useful unless we label it.
 
     ```html
-    <button> <img src="menu-icon.svg"> </button>
+    <!-- Bad: no label -->
+    <a href="https://github.com/yourusername"><svg>...</svg></a>
 
-    <button aria-label="Main Menu">
-      <img src="menu-icon.svg" alt="" aria-hidden="true">
-    </button>
+    <!-- Good: labeled -->
+    <a href="https://github.com/yourusername" aria-label="My Github profile">
+      <svg aria-hidden="true">...</svg>
+    </a>
     ```
 
 ### 4. Visual Focus & Navigation
 
 * **Lecture & Concepts:**
     * **Keyboard Navigation:** You must be able to navigate your entire site using only the `Tab` key.
-    * **Focus States:** Never remove the blue outline outline (`outline: none`) on buttons/inputs unless you replace it with a custom style. Keyboard users rely on this to know where they are.
-    * **Skip Links:** A hidden link at the very top of the page that lets keyboard users "Skip to Main Content," avoiding the need to tab through 50 navigation links on every page.
+    * **Focus States:** Never remove the blue outline (`outline: none`) on buttons/inputs unless you replace it with a custom style. Keyboard users rely on this to know where they are.
+    * **Skip Links:** A hidden link at the very top of the page that lets keyboard users "Skip to Main Content."
 
-* **⭐️ Class Exercise: Audit a Button**
-    1.  Create an HTML file.
-    2.  Add a "Search" button that contains *only* a magnifying glass emoji (🔍) and no text.
-    3.  Use a screen reader (or your imagination) to realize this is inaccessible.
-    4.  Fix it by adding `aria-label="Search"`.
-    5.  Add a second button using a `<div>` with an `onclick` attribute. Try to `Tab` to it. (You can't!).
-    6.  Fix the second button by changing it to a `<button>` tag.
+* **⭐️ Class Exercise: Audit Your Own Footer**
+    1.  Go to your `<footer>` (built in Week 3). If you have any icon-only social links (Github, LinkedIn icons instead of text), add `aria-label`s to each one describing where they go (e.g., `aria-label="My Github profile"`).
+    2.  Add `aria-hidden="true"` to any decorative icon SVGs inside those links.
+    3.  Try tabbing through all three of your pages using only your keyboard — confirm you can reach every link, nav item, and form field in a logical order.
 
 ---
 
@@ -74,17 +73,16 @@ This week is about the "invisible" qualities that separate amateur sites from pr
 * **Lecture & Concepts:**
     * **SEO (Search Engine Optimization)** is the practice of formatting your site so Google ranks it higher.
     * The `<head>` is the battleground for SEO.
-    * **`<title>`**: The most important factor. It should be unique for every page. `Page Name | Company Name`.
+    * **`<title>`**: The most important factor. It should be unique for every page. `Page Name | Your Name`.
     * **`<meta name="description" content="...">`**: The short paragraph that appears under the blue link in Google results. It doesn't directly affect ranking, but it affects **Click Through Rate (CTR)**.
 
 * **In-Depth Example:**
     ```html
     <head>
-      <title>Best Coffee in Seattle | The Bean Hive</title>
-      <meta name="description" content="The Bean Hive serves organic, fair-trade coffee in downtown Seattle. Open daily 6am-8pm. Check out our new cold brew menu!">
+      <title>About | Alice Chen</title>
+      <meta name="description" content="Alice Chen is a junior web developer building projects in HTML, CSS, JavaScript, and React. See her work and get in touch.">
     </head>
     ```
-
 
 ### 2. The Open Graph Protocol (Social Media Cards)
 
@@ -99,10 +97,10 @@ This week is about the "invisible" qualities that separate amateur sites from pr
 
 * **In-Depth Example:**
     ```html
-    <meta property="og:title" content="Best Coffee in Seattle">
-    <meta property="og:description" content="Come taste our award-winning espresso.">
-    <meta property="og:image" content="[https://mysite.com/images/coffee-social-card.jpg](https://mysite.com/images/coffee-social-card.jpg)">
-    <meta property="og:url" content="[https://mysite.com](https://mysite.com)">
+    <meta property="og:title" content="Alice Chen — Web Developer Portfolio">
+    <meta property="og:description" content="See my projects and get in touch.">
+    <meta property="og:image" content="https://alicechen.dev/assets/social-card.jpg">
+    <meta property="og:url" content="https://alicechen.dev">
     <meta property="og:type" content="website">
     ```
 
@@ -113,60 +111,57 @@ This week is about the "invisible" qualities that separate amateur sites from pr
     * **`<dialog>`**: A native popup modal / dialog box.
     * In the past, modals required complex DIV structures and lots of ARIA. Now, the browser handles it, including "trapping focus" (accessibility requirement) and closing with the `Esc` key.
 
-* **In-Depth Example (Native Modal):**
+* **In-Depth Example (A "Hire Me" Modal):**
     ```html
-    <dialog id="myDialog">
-      <h2>Newsletter</h2>
-      <p>Subscribe for updates!</p>
+    <dialog id="hire-me-dialog">
+      <h2>Let's Work Together</h2>
+      <p>Email me at <a href="mailto:alice@example.com">alice@example.com</a>.</p>
       <form method="dialog">
         <button>Close</button>
       </form>
     </dialog>
 
-    <button onclick="document.getElementById('myDialog').showModal()">Open Modal</button>
+    <button onclick="document.getElementById('hire-me-dialog').showModal()">Hire Me</button>
     ```
 
 ---
 
-### Week 6 / Final Project: The Professional Portfolio
+### Week 6 / Final Project: Finish "The Professional Portfolio"
 
-**Objective:** Build a complete, multi-page personal portfolio website. This project serves as the "Final Exam" for the HTML course. It must demonstrate Semantic Structure, Forms, Multimedia, SEO, and Accessibility.
+**Objective:** Combine and polish everything from Weeks 1-5 into one accessible, SEO-ready, three-page site. This project is the "Final Exam" for the HTML course — it must demonstrate Semantic Structure, Forms, Multimedia, SEO, and Accessibility, all in the same site you've been building since Week 1.
 
-**Project Structure:**
-* `index.html` (Homepage)
-* `about.html` (About Me)
-* `contact.html` (Contact Form)
-* `assets/` (Folder for images/media)
+**Existing Project Structure (nothing new to scaffold):**
+* `index.html` (Homepage — Weeks 1-3)
+* `about.html` (About Me — Week 5)
+* `contact.html` (Contact Form — Week 4)
+* `assets/` (images, video, SVG logo)
 
 #### Requirements Checklist:
 
 **1. Global Structure (All Pages):**
 * [ ] Valid HTML5 Boilerplate.
 * [ ] **SEO:** Unique `<title>` and `<meta name="description">` for every page.
-* [ ] **Social:** Open Graph tags (`og:title`, `og:image`) pointing to a thumbnail of your site.
-* [ ] **Layout:** Use `<header>`, `<nav>`, `<main>`, and `<footer>`.
-* [ ] **Navigation:** The `<nav>` must link to all three pages using relative links.
+* [ ] **Social:** Open Graph tags (`og:title`, `og:image`) on `index.html`.
+* [ ] **Layout:** The same `<header>`, `<nav>`, `<main>`, and `<footer>` structure on all three pages.
 
 **2. Homepage (`index.html`):**
-* [ ] **Hero Section:** A `<section>` introducing yourself with an `<h1>`.
-* [ ] **Featured Work:** Use `<article>` tags to display 2-3 projects. Each project should have an image (`alt` text required), a title (`<h3>`), and a description.
-* [ ] **Semantic Outline:** Ensure the headings (`h1` -> `h2` -> `h3`) follow a logical order without skipping levels.
+* [ ] **Hero Section:** Your `<h1>` and bio, from Week 1-2.
+* [ ] **Featured Work:** `<article>` tags for 2-3 projects (from Week 3), each with an image (`alt` text required), a title (`<h3>`), and a description.
+* [ ] **Semantic Outline:** Ensure the headings (`h1` → `h2` → `h3`) follow a logical order without skipping levels.
 
 **3. About Page (`about.html`):**
-* [ ] **Media:** Embed a video (self-hosted `<video>` OR YouTube `iframe`) introducing yourself or showing a skill.
-* [ ] **Responsive Image:** Use a `<picture>` element for your profile photo (different crops for mobile vs desktop).
-* [ ] **Table:** Create a "Skills & Experience" table using `<thead>`, `<tbody>`, and `scope` attributes for accessibility.
+* [ ] Your intro `<video>` from Week 5.
+* [ ] Your responsive `<picture>` profile photo from Week 5.
+* [ ] **Move your "Skills & Experience" `<table>` here from Week 3** — this is its permanent home. Keep the `<thead>`/`<tbody>`/`scope` attributes.
 
 **4. Contact Page (`contact.html`):**
-* [ ] **Form:** A complete form submitting to a mock URL (or just `#`).
-* [ ] **Inputs:** Name, Email, Subject, Message (`textarea`).
-* [ ] **Accessibility:** Every input must have an explicitly linked `<label>` (`for`/`id`).
-* [ ] **Validation:** Email must be `type="email"`. Required fields must use the `required` attribute.
+* [ ] Your complete form from Week 4, with every input correctly labeled.
+* [ ] Your embedded Google Map from Week 5.
 
 **5. Accessibility Audit (The "Expert" Polish):**
-* [ ] Ensure all images have `alt` attributes (or `aria-hidden="true"` if decorative).
-* [ ] Ensure any "Read More" links have `aria-label`s describing *what* they are reading (e.g., `aria-label="Read more about Project One"`).
-* [ ] Test that you can tab through your form and navigation in a logical order.
+* [ ] Every image has real `alt` text (or `aria-hidden="true"` if purely decorative).
+* [ ] Every icon-only social link in your footer has an `aria-label`.
+* [ ] Test that you can tab through every page's nav and form in a logical order.
 
 **Bonus Challenge:**
 * Add a "Hire Me" button in the header that opens a `<dialog>` modal containing a quick email link.
