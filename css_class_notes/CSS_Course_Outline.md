@@ -2,7 +2,11 @@
 
 ## Course Overview
 
-This course is designed to take absolute beginners with basic HTML knowledge to a level where they can confidently style modern, responsive websites. The course covers fundamental concepts, layout techniques (including Flexbox and Grid), and advanced best practices.
+This course is designed to take absolute beginners with basic HTML knowledge to a level where they can confidently style modern, responsive websites. Every week you'll style more of **the exact same personal portfolio site** you built the semantic skeleton for in the HTML course — the same `index.html`, `about.html`, and `contact.html`, growing from plain black-and-white text into a fully responsive, animated, professional site. By Week 6, you'll deploy the finished, styled version to the same live URL.
+
+* **Target Audience:** Students who have completed the HTML course (or have equivalent knowledge of semantic HTML, forms, and basic accessibility).
+* **Tools:** A code editor (VS Code recommended), a modern browser with dev tools (Chrome/Firefox), Google Fonts.
+* **Goal:** By the end of this course, students will be able to independently style any semantic HTML page — using the Box Model, Flexbox, Grid, responsive media queries, and modern polish techniques (variables, transitions, animations, BEM) — and will have a fully styled, deployed portfolio site to show for it.
 
 ---
 
@@ -19,14 +23,14 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is CSS?** | 30 mins | 15 mins |
-| Role of CSS (Structure vs. Presentation). | - Lecture: Relationship between HTML & CSS. | - "Before & After" analysis of a simple HTML page. |
+| Role of CSS (Structure vs. Presentation). | - Lecture: Relationship between HTML & CSS. | - "Before & After" look at your own unstyled `index.html`. |
 | **How to Add CSS** | 45 mins | 30 mins |
-| Inline (`style` attribute) | - Pros and cons of each method. | - Create an HTML file. |
-| Internal (`<style>` tag) | - Setting up the file structure. | - Style elements using all three methods. |
-| External (`<link>` tag) | - The clear winner: External sheets. | - Refactor all styles into one external `.css` file. |
+| Inline (`style` attribute) | - Pros and cons of each method. | - Create `portfolio/style.css`. |
+| Internal (`<style>` tag) | - Setting up the file structure. | - Link it from all 3 of your portfolio pages. |
+| External (`<link>` tag) | - The clear winner: External sheets. | - Confirm one shared stylesheet controls all 3 pages. |
 | **Basic CSS Syntax** | 30 mins | 30 mins |
-| The "Rule": Selector { Property: Value; } | - Anatomy of a CSS rule. | - Write your first 5 CSS rules (e.g., change color, font size of `h1`, `p`). |
-| Comments `/* ... */` | - How to comment. | - Add comments to the stylesheet. |
+| The "Rule": Selector { Property: Value; } | - Anatomy of a CSS rule. | - Write your first rules: style `body`, `#page-title`, `.section-heading`. |
+| Comments `/* ... */` | - How to comment. | - Add comments labeling each section of your stylesheet. |
 
 ### Module 2: Selectors and The Cascade (The "How")
 
@@ -40,23 +44,23 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Basic Selectors** | 45 mins | 30 mins |
-| Type (`p`, `h2`, `div`) | - When to use each selector. | - Style all paragraphs, a specific `h2`, and a main wrapper `div`. |
-| Class (`.button`) | - The power of classes. | - Create a "button" class and apply it to an `<a>` tag and a `<button>` tag. |
-| ID (`#main-header`) | - Class vs. ID. | - Give your header an ID and style it uniquely. |
+| Type (`p`, `h2`, `div`) | - When to use each selector. | - Style all `<p>` tags site-wide, then override `.bio` specifically. |
+| Class (`.section-heading`) | - The power of classes. | - Style every `.section-heading` (the class already on your `<h2>`s from HTML Week 1) with one rule. |
+| ID (`#page-title`) | - Class vs. ID. | - Style your `<h1 id="page-title">` uniquely. |
 | **Grouping & Chaining** | 30 mins | 15 mins |
-| Grouping (`h1, h2, h3`) | - How to be efficient. | - Group all heading elements to have the same font. |
-| Chaining (`p.intro`) | - How to be specific. | - Chain a tag and class selector. |
+| Grouping (`h1, h2, h3`) | - How to be efficient. | - Group all heading elements to share a font. |
+| Chaining (`p.bio`) | - How to be specific. | - Chain a tag and class selector on your bio paragraph. |
 | **The Cascade & Specificity** | 45 mins | 30 mins |
-| How browsers read CSS. | - Lecture: The "tie-breaking" rules. | - Create conflicting CSS rules (e.g., an ID vs. a class targeting the same element). |
+| How browsers read CSS. | - Lecture: The "tie-breaking" rules. | - Add `project-card`/`project-title`/`project-description` classes to your real Featured Work `<article>`s (foreshadowed back in HTML Week 1) and create a specificity conflict to resolve. |
 | Specificity hierarchy (ID > Class > Type) | - Calculating specificity. | - Predict which rule will "win." |
-| `!important` | - Why and when (not) to use it. | - (Briefly) Use `!important` to override a style. |
+| `!important` | - Why and when (not) to use it. | - (Briefly) Use `!important` to override a style, then remove it. |
 | **Inheritance** | 30 mins | 15 mins |
-| What is inherited (e.g., `font-family`). | - Properties that inherit vs. those that don't. | - Set a `font-family` on the `<body>` and watch all text elements inherit it. |
+| What is inherited (e.g., `font-family`). | - Properties that inherit vs. those that don't. | - Set a `font-family` on `<body>` and watch all 3 pages inherit it. |
 
-**Week 1 Assignment:** Build a simple "About Me" page.
-* Create a single HTML file and a single CSS file.
-* Use `h1`, `h2`, `p`, and `ul` elements.
-* Apply styles using Type, Class, and ID selectors.
+**Week 1 Assignment:** Wire up your portfolio's stylesheet.
+* Create `portfolio/style.css` and link it from `index.html`, `about.html`, and `contact.html`.
+* Style `body`, `#page-title`, and every `.section-heading` and `.bio`.
+* Add `project-card` / `project-title` / `project-description` classes to your real Featured Work articles.
 * Use comments to label sections of your CSS.
 
 ---
@@ -76,30 +80,27 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Visualizing the Box Model** | 45 mins | 30 mins |
-| Every element is a box. | - Using browser dev tools to inspect the box model. | - Use dev tools to inspect the `h1` and `p` tags from last week's homework. |
+| Every element is a box. | - Using browser dev tools to inspect the box model. | - Inspect your own `.project-card` and `#page-title` in dev tools. |
 | **The Four Layers** | 1 hour | 45 mins |
-| `padding` | - Space *inside* the border. | - Create a `div` "box". Add content. |
-| `border` | - `border-width`, `border-style`, `border-color`. | - Add a `10px` `padding` and a `2px solid red` `border`. |
-| `margin` | - Space *outside* the border. | - Add a `20px` `margin`. |
+| `padding` | - Space *inside* the border. | - Add `padding` inside each `.project-card`. |
+| `border` | - `border-width`, `border-style`, `border-color`. | - Add a subtle `border` and `border-radius` to each card. |
+| `margin` | - Space *outside* the border. | - Add `margin` between stacked project cards. |
 | Shorthand properties | - `padding: 10px 20px;` | - Refactor styles to use shorthand. |
 | **Controlling Dimensions** | 45 mins | 30 mins |
-| `width` and `height` | - Fixed vs. percentage-based widths. | - Set a `width` and `height` on your box. See what happens when the content overflows. |
-| `max-width` | - A key for responsive design. | - Change `width` to `max-width` and resize the browser. |
+| `width` and `height` | - Fixed vs. percentage-based widths. | - Give `.project-card` a `width`, then see what overflow does to the image inside it. |
+| `max-width` | - A key for responsive design. | - Use `max-width: 100%` on every project image (the fluid image trick). |
 | **`box-sizing: border-box`** | 30 mins | 30 mins |
-| The "old" way vs. the "new" way. | - Why `border-box` is essential. | - Create two boxes with identical `width`, `padding`, and `border`. Apply `box-sizing: border-box` to one and observe the difference. |
+| The "old" way vs. the "new" way. | - Why `border-box` is essential. | - Apply the universal `border-box` reset to your whole stylesheet. |
 | **The `display` Property** | 1 hour | 45 mins |
-| `display: block` | - Takes up its own line. | - Observe `div` and `p` (block). |
-| `display: inline` | - Flows with text. | - Observe `span` and `a` (inline). Test `width`/`height` (won't work). |
-| `display: inline-block` | - Best of both worlds. | - Create three `div`s. Set them to `inline-block` to create a row of items. |
+| `display: block` | - Takes up its own line. | - Observe your `<article>` and `<p>` (block). |
+| `display: inline` | - Flows with text. | - Observe your nav `<a>` links and footer `<span>`s (inline). |
+| `display: inline-block` | - Best of both worlds. | - Use it if you need a project tag/pill to sit inline but take padding. |
 
-**Week 2 Assignment:** Build a "Recipe Card".
-* Create a single card `div` (`.recipe-card`).
-* Inside, add an `img`, an `h2` (title), and a `p` (description).
-* Use `padding` to give the content space *inside* the card.
-* Use `margin` to center the card on the page (`margin: 20px auto;`).
-* Add a `border` and a `border-radius` to the card.
-* Give the `img` a `max-width: 100%` so it fits in the card.
-* Set the card to `width: 400px` and apply `box-sizing: border-box`.
+**Week 2 Assignment:** Give your project cards real shape.
+* Apply `box-sizing: border-box` globally.
+* Style every `.project-card` with `padding`, `border`, `border-radius`, and `margin` between cards.
+* Ensure every project image uses `max-width: 100%; height: auto;` so it never overflows its card.
+* Center any single-card sections with `margin: 0 auto`.
 
 ---
 
@@ -116,15 +117,15 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Basic Font Styling** | 45 mins | 30 mins |
-| `color` | - `font-family` and "font stacks". | - Style all text on your recipe card. |
+| `color` | - `font-family` and "font stacks". | - Style all text across your 3 pages. |
 | `font-size` (px vs. em vs. rem) | - `font-weight` and `font-style`. | - Set a base `font-size` on `html` in `rem`. |
-| `rem` vs `em` | - The benefits of relative units. | - Set `h2` and `p` sizes using `rem`. |
+| `rem` vs `em` | - The benefits of relative units. | - Size your headings and body text using `rem`. |
 | **Text Formatting** | 30 mins | 30 mins |
-| `text-align` | - `text-decoration` | - Center the `h2` text. |
-| `line-height` | - `letter-spacing` / `word-spacing` | - Increase the `line-height` of the `p` for readability. |
+| `text-align` | - `text-decoration` | - Remove the underline from your nav links; center your `#page-title`. |
+| `line-height` | - `letter-spacing` / `word-spacing` | - Increase `line-height` on your `.bio` and project descriptions for readability. |
 | **Using Web Fonts** | 30 mins | 30 mins |
-| `@import` / `<link>` from Google Fonts. | - How to find and embed fonts. | - Go to Google Fonts, select two fonts (a heading font and a body font). |
-| Applying `font-family` | - Setting fallback fonts. | - Implement them in your stylesheet. |
+| `@import` / `<link>` from Google Fonts. | - How to find and embed fonts. | - Go to Google Fonts, select a heading font and a body font. |
+| Applying `font-family` | - Setting fallback fonts. | - Implement them across `index.html`, `about.html`, and `contact.html`. |
 
 ### Module 5: Colors and Backgrounds
 
@@ -137,19 +138,18 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | :--- | :--- | :--- |
 | **Color Definitions** | 45 mins | 30 mins |
 | Keywords (e.g., `red`) | - HEX (`#FF0000`) | - Change all your colors to use HEX codes. |
-| RGB (`rgb(255, 0, 0)`) | - RGBA (`rgba(255, 0, 0, 0.5)`) | - Add a semi-transparent RGBA color overlay to an image. |
+| RGB (`rgb(255, 0, 0)`) | - RGBA (`rgba(255, 0, 0, 0.5)`) | - Add a semi-transparent RGBA overlay behind your `#page-title`. |
 | **Background Properties** | 1 hour | 45 mins |
-| `background-color` | - `background-image` | - Set a `background-color` for the `<body>`. |
-| `background-size` (`cover`, `contain`) | - `background-position` | - Add a large `background-image` to the `body`. |
-| `background-repeat` | - `background-attachment` (`fixed`) | - Make the image `cover` the whole page and not repeat. |
-| Shorthand | - The `background` shorthand. | - Experiment with `background-size: cover` vs. `contain`. |
+| `background-color` | - `background-image` | - Set a `background-color` for `<body>`. |
+| `background-size` (`cover`, `contain`) | - `background-position` | - Give your `<header>` a subtle background. |
+| `background-repeat` | - `background-attachment` (`fixed`) | - Experiment with `background-size: cover` vs. `contain`. |
+| Shorthand | - The `background` shorthand. | - Add a "Featured" `<span class="badge">` to one project's title and style it with a background color. |
 
-**Week 3 Assignment:** Enhance the "Recipe Card".
-* Integrate two new fonts from Google Fonts.
-* Set a `line-height` on the description text.
-* Give the `<body>` a subtle `background-color` or a full-page `background-image` (using `background-size: cover`).
-* Change all colors to use HEX or RGB.
-* Create a "badge" `span` inside the `h2` (e.g., "New!") and style it with a `background-color`, `color`, `padding`, and `border-radius`.
+**Week 3 Assignment:** Style your content.
+* Load two Google Fonts (a heading font, a body font) and apply them site-wide.
+* Set a readable `line-height` and `rem`-based type scale.
+* Change every color in your stylesheet to HEX or RGB(A).
+* Add a "Featured" badge `<span>` to one project card's title, styled with `background-color`, `color`, `padding`, and `border-radius`.
 
 ---
 
@@ -159,7 +159,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 
 * **Learning Objectives:**
     * Explain the "document flow".
-    * Use the `position` property (`relative`, `absolute`, `fixed`) to place elements.
+    * Use the `position` property (`relative`, `absolute`, `fixed`, `sticky`) to place elements.
     * Understand the "nearest positioned ancestor" concept for `absolute` positioning.
     * Use `float` to wrap text around an image.
     * Use the "clearfix" hack to contain floats.
@@ -167,14 +167,14 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **The `position` Property** | 1.5 hours | 1 hour |
-| `static` (default) | - How `position` breaks document flow. | - Create a "parent" `div` and three "child" `div`s. |
-| `relative` | - `relative` vs. `absolute`. | - Set parent to `position: relative`. |
-| `absolute` | - "Nearest positioned ancestor". | - Set one child to `position: absolute` and position it in the top-right corner *of the parent*. |
-| `fixed` | - `fixed` vs. `absolute`. | - Create a "cookie banner" at the bottom of the page using `position: fixed`. |
-| `sticky` | - The modern "sticky" nav. | - (Briefly) Make a navigation bar `position: sticky`. |
+| `static` (default) | - How `position` breaks document flow. | - Inspect your `<header>` and `.project-card` — both are currently `static`. |
+| `relative` | - `relative` vs. `absolute`. | - Set `.project-card` to `position: relative`. |
+| `absolute` | - "Nearest positioned ancestor". | - Position your Week 3 "Featured" badge `absolute`, in the top-right corner *of its card*. |
+| `fixed` | - `fixed` vs. `absolute`. | - (Briefly) Discuss when you'd use `position: fixed` (e.g., a cookie banner). |
+| `sticky` | - The modern "sticky" nav. | - Make your `<header>` `position: sticky` so it stays visible while scrolling. |
 | **Floating Elements** | 45 mins | 45 mins |
-| `float: left` / `right` | - How floats were used for columns. | - Create an article with an `img` and `p`. Use `float: left` on the image to make text wrap around it. |
-| The `clear` property | - The "clearfix" hack. | - Add a "footer" after the article. See how it wraps incorrectly. Apply `clear: both` to fix it. |
+| `float: left` / `right` | - How floats were used for columns. | - (Lecture only) See how `float: left` wraps text around an image. |
+| The `clear` property | - The "clearfix" hack. | - (Lecture only) Understand why modern layout uses Flexbox/Grid instead. |
 
 ### Module 7 (Partial): Modern Layout with Flexbox
 
@@ -188,20 +188,19 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Intro to Flexbox** | 45 mins | 30 mins |
-| Main Axis & Cross Axis | - 1-dimensional layout. | - Create a container with 3 boxes. |
-| `display: flex` | - The Flex Container vs. Flex Items. | - Apply `display: flex` and watch them form a row. |
+| Main Axis & Cross Axis | - 1-dimensional layout. | - Turn your `<header>` into a flex container. |
+| `display: flex` | - The Flex Container vs. Flex Items. | - Watch your logo/`#page-title` and `<nav>` line up in a row. |
 | **Flex Container Properties** | 1 hour | 45 mins |
-| `flex-direction` (`row`, `column`) | - Changing the Main Axis. | - Switch between `row` and `column`. |
-| `justify-content` | - `flex-start`, `center`, `flex-end`, `space-between`, `space-around`. | - Try all 5 `justify-content` properties. |
-| `align-items` | - `flex-start`, `center`, `flex-end`, `stretch`. | - Give the boxes different heights. Try all 4 `align-items` properties. |
-| `flex-wrap` (`wrap`) | - How to handle overflowing items. | - Add 10 boxes to the container. Apply `flex-wrap: wrap`. |
+| `flex-direction` (`row`, `column`) | - Changing the Main Axis. | - Keep `row` for the header. |
+| `justify-content` | - `flex-start`, `center`, `flex-end`, `space-between`, `space-around`. | - Use `space-between` to push your title left and nav right. |
+| `align-items` | - `flex-start`, `center`, `flex-end`, `stretch`. | - Use `center` to vertically align them. |
+| `flex-wrap` (`wrap`) | - How to handle overflowing items. | - Turn your nav `<ul>` into a flex row too, and add `flex-wrap: wrap` for small screens. |
 
-**Week 4 Assignment:** Build a Website Header.
-* Create a `<header>` element.
-* Inside, add a logo (can be text or an `img`) and a `<nav>` with a `ul` of links.
-* Use **Flexbox** (`display: flex`, `justify-content: space-between`, `align-items: center`) on the `<header>` to space out the logo and the nav.
-* Use **Flexbox** on the `ul` to turn the list items into a horizontal navigation bar.
-* Use `position: absolute` to add a "Sale" badge to one of the nav links.
+**Week 4 Assignment:** Style the site header and position the Featured badge.
+* Turn your `<header>` into a Flex container: `justify-content: space-between`, `align-items: center`, so your name/logo sits left and nav sits right.
+* Make the `<header>` `position: sticky` so it stays at the top while scrolling.
+* Turn your `<nav>`'s `<ul>` into a flex row using Flexbox.
+* Position your "Featured" badge `absolute`, relative to its `.project-card` (which you set to `position: relative`).
 
 ---
 
@@ -220,43 +219,40 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Flex Items** | 45 mins | 30 mins |
-| `flex-grow` | - How items can "grow" to fill space. | - In your 3-box container, give the middle box `flex-grow: 1`. |
-| `flex-shrink` | - How items shrink. | - Give one box `flex-shrink: 0`. |
+| `flex-grow` | - How items can "grow" to fill space. | - Let your `#page-title` grow to fill space between a logo and nav, if you have both. |
+| `flex-shrink` | - How items shrink. | - Keep your nav "rigid" with `flex-shrink: 0`. |
 | `flex-basis` | - The default size. | - (Briefly) `flex` shorthand. |
 | **Intro to CSS Grid** | 1 hour | 45 mins |
-| 2-dimensional layout | - Grid vs. Flexbox. | - Create a container with 6 items. |
-| `display: grid` | - Grid Container vs. Grid Items. | - Apply `display: grid`. (Won't look like much yet). |
+| 2-dimensional layout | - Grid vs. Flexbox. | - Turn your Featured Work `<section>`'s container into a grid. |
+| `display: grid` | - Grid Container vs. Grid Items. | - Apply `display: grid` to the Featured Work wrapper. |
 | **Defining the Grid** | 1 hour | 45 mins |
-| `grid-template-columns` | - Using `px`, `%`, `auto`, and `fr`. | - Set `grid-template-columns: 1fr 1fr 1fr;`. (Instant 3-column layout). |
-| `grid-template-rows` | - The `repeat()` function. | - Refactor: `repeat(3, 1fr)`. |
-| `gap` (`grid-gap`) | - `column-gap`, `row-gap`. | - Add a `gap: 20px;` between items. |
+| `grid-template-columns` | - Using `px`, `%`, `auto`, and `fr`. | - Set `1fr` columns for your project cards. |
+| `grid-template-rows` | - The `repeat()` function. | - Refactor with `repeat()`. |
+| `gap` (`grid-gap`) | - `column-gap`, `row-gap`. | - Add a `gap` between your project cards, replacing the Week 2 margin hack. |
 | **Placing Items** | 45 mins | 30 mins |
-| `grid-column` | - `grid-row` | - Make the first item span all 3 columns (`grid-column: 1 / -1;`). |
-| `grid-area` | - Naming areas (briefly). | - Re-create the same layout by placing items by line number. |
+| `grid-column` | - `grid-row` | - (Briefly) Make your "Featured" project's card span 2 columns on desktop. |
 
 ### Module 8 (Partial): Responsive Design
 
 * **Learning Objectives:**
     * Explain "Responsive Design" and the "Mobile-First" approach.
-    * Implement the viewport meta tag.
+    * Confirm the viewport meta tag is present.
     * Write a basic media query to change styles based on screen width.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Responsive Concepts** | 45 mins | 30 mins |
-| Mobile-First vs. Desktop-First | - Why "Mobile-First" is the standard. | - Set up an HTML file with the viewport meta tag. |
-| The Viewport Meta Tag | - `max-width: 100%` for images. | - Add an image and ensure it's fluid. |
+| Mobile-First vs. Desktop-First | - Why "Mobile-First" is the standard. | - Confirm the viewport meta tag from HTML Week 1 is on all 3 pages. |
+| The Viewport Meta Tag | - `max-width: 100%` for images. | - Re-check every image uses the fluid image trick. |
 | **Media Queries** | 1 hour | 45 mins |
-| `@media` rule syntax | - `min-width` (Mobile-First) | - Create a box. Default `background-color: blue;`. |
-| Breakpoints | - `max-width` (Desktop-First) | - Write a media query: `@media (min-width: 768px) { ... }` |
-| | | - Inside the query, change the box's `background-color: red;`. Resize the browser to test. |
+| `@media` rule syntax | - `min-width` (Mobile-First) | - Default: 1-column grid for Featured Work. |
+| Breakpoints | - `max-width` (Desktop-First) | - `@media (min-width: 600px)`: 2 columns. |
+| | | - `@media (min-width: 900px)`: 3 columns. |
 
-**Week 5 Assignment:** Build a Responsive Grid Gallery.
-* Create a photo gallery with 9 items.
-* By default (mobile), make it a **single-column** layout (Hint: `grid-template-columns: 1fr;`).
-* Use a media query (`min-width: 600px`) to change it to a **2-column** layout (`grid-template-columns: 1fr 1fr;`).
-* Use a second media query (`min-width: 900px`) to change it to a **3-column** layout (`grid-template-columns: 1fr 1fr 1fr;`).
-* Combine this with your header from last week.
+**Week 5 Assignment:** Make your portfolio responsive.
+* Turn your Featured Work section into a CSS Grid: single column by default, 2 columns at `min-width: 600px`, 3 columns at `min-width: 900px`.
+* Confirm your contact form and about page also read comfortably on a narrow (mobile) viewport — adjust padding/font-size inside a media query if needed.
+* Submit screenshots of all 3 pages at mobile, tablet, and desktop widths.
 
 ---
 
@@ -269,21 +265,21 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
     * Use pseudo-elements (`::before`, `::after`) to add decorative content.
     * Use `transform` to move, scale, and rotate elements.
     * Create smooth, animated effects using the `transition` property.
-    * **(New)** Build complex, multi-step animations using `@keyframes`.
+    * Build complex, multi-step animations using `@keyframes`.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Pseudo-Classes** | 45 mins | 30 mins |
-| `:hover`, `:active`, `:focus` | - Responding to user state. | - Create a button. Change its `background-color` on `:hover`. |
-| `:nth-child` | - Targeting specific children. | - Style all `odd` list items ("zebra striping"). |
+| `:hover`, `:active`, `:focus` | - Responding to user state. | - Add a `:hover` effect to your `.project-card`s and nav links. |
+| `:nth-child` | - Targeting specific children. | - Zebra-stripe the rows of your "Skills & Experience" table. |
 | **Pseudo-Elements** | 30 mins | 30 mins |
-| `::before` & `::after` | - The `content: ""` property. | - Use `::before` on a blockquote to add a decorative quotation mark. |
+| `::before` & `::after` | - The `content: ""` property. | - Use `::before` to add a decorative mark to your `.bio` or a blockquote. |
 | **CSS Transitions & Transforms** | 45 mins | 30 mins |
-| `transition` property | - `transform`: `scale()`, `rotate()`, `translate()` | - Add a `transition` to your button. |
-| The `transition` shorthand | - `ease-in-out` | - Make the button `scale(1.05)` on `:hover`. |
+| `transition` property | - `transform`: `scale()`, `rotate()`, `translate()` | - Add a `transition` to every `.project-card` and nav link. |
+| The `transition` shorthand | - `ease-in-out` | - Make cards lift (`transform: scale(1.03)`) on `:hover`. |
 | **CSS Animations** | 45 mins | 30 mins |
-| `animation` property | - Defining `@keyframes` (the "story") | - Create a pulsing "glow" effect on a "featured" badge. |
-| `animation-duration` | - `animation-iteration-count` | - Make a heading fade in on page load. |
+| `animation` property | - Defining `@keyframes` (the "story") | - Add a pulsing glow `@keyframes` animation to your "Featured" badge. |
+| `animation-duration` | - `animation-iteration-count` | - Fade in `#page-title` on page load. |
 
 ### Module 10: Advanced Selectors & Best Practices
 
@@ -295,15 +291,15 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **CSS Variables** | 30 mins | 30 mins |
-| Declaring (`:root { --main-color: ... }`) | - Why they are essential for large projects. | - Refactor your project's main colors into CSS variables. |
-| Using (`var(--main-color)`) | - Global vs. Local scope. | - Change the theme of your site by changing one variable. |
+| Declaring (`:root { --main-color: ... }`) | - Why they are essential for large projects. | - Refactor your entire site's colors, fonts, and spacing into CSS variables. |
+| Using (`var(--main-color)`) | - Global vs. Local scope. | - Change your whole site's theme by editing one variable. |
 | **Advanced Selectors** | 45 mins | 30 mins |
-| Attribute Selectors `[href$=".pdf"]` | - `[data-state="active"]` | - Style all links that go to a PDF file differently. |
-| Sibling Combinators `+` and `~` | - `h2 + p` (Adjacent Sibling) | - Select *only* the first paragraph after a heading. |
-| `:not()` and `:focus-within` | - `:not(.special)` | - Style a form when *any* of its inputs are focused. |
+| Attribute Selectors `[type="email"]` | - `[data-state="active"]` | - Style your contact form's `input[type="email"]` differently from `input[type="text"]`. |
+| Sibling Combinators `+` and `~` | - `h2 + p` (Adjacent Sibling) | - Select the first `<p>` after each `.section-heading`. |
+| `:not()` and `:focus-within` | - `:not(.project-card--featured)` | - Highlight your contact form's `<fieldset>` with `:focus-within`. |
 | **Best Practices (BEM)** | 30 mins | 15 mins |
-| Naming conventions | - Block (`.card`), Element (`.card__title`) | - Review a BEM example. |
-| Browser Dev Tools (Computed) | - Modifier (`.card--featured`) | - Debug a specificity problem using the "Computed" tab. |
+| Naming conventions | - Block (`.project-card`), Element (`.project-card__title`) | - Refactor `.project-card`/`.project-title`/`.project-description` into BEM: `.project-card__title`, `.project-card__description`, `.project-card--featured`. |
+| Browser Dev Tools (Computed) | - Modifier (`.project-card--featured`) | - Debug a specificity problem using the "Computed" tab. |
 
 ### Module 11: Beyond CSS: Intro to Sass/SCSS
 
@@ -315,27 +311,21 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is Sass/SCSS?** | 30 mins | 15 mins |
-| "CSS with superpowers" | - The "compilation" step. | - (Lecture) Show a `style.scss` file compiling to `style.css`. |
+| "CSS with superpowers" | - The "compilation" step. | - (Lecture) See your `style.css` rewritten as `.scss`. |
 | **Sass Variables** | 15 mins | 15 mins |
-| `$primary-color: #333` | - Sass variables vs. CSS variables. | - Convert `:root` variables to Sass variables. |
+| `$primary-color: #333` | - Sass variables vs. CSS variables. | - (Bonus, optional) Convert your `:root` variables to Sass variables. |
 | **Nesting Selectors** | 30 mins | 30 mins |
-| How nesting keeps code DRY. | - The `&` (parent) selector. | - Rewrite a BEM component (`.card`, `.card__title`) using Sass nesting. |
+| How nesting keeps code DRY. | - The `&` (parent) selector. | - (Bonus, optional) Rewrite `.project-card` in Sass nesting. |
 | **Basic Mixins** | 30 mins | 15 mins |
-| `@mixin` and `@include` | - Reusing blocks of styles (e.g., flex-center). | - Create a `@mixin` for a button style. |
+| `@mixin` and `@include` | - Reusing blocks of styles (e.g., flex-center). | - (Bonus, optional) Create a `@mixin` for your button style. |
 
-**Week 6 / Final Project (Updated):** Build a Responsive Portfolio Homepage.
-* **Goal:** Combine everything you have learned.
-* **Sections:**
-    1.  **Header:** A responsive navigation bar (use Flexbox). Make it `sticky`.
-    2.  **Hero Section:** A full-width section with a title, a short bio, and a "Contact Me" button.
-    3.  **"My Work" Section:** A 3-column grid of your "projects" (use CSS Grid).
-    4.  **About Section:** A 2-column layout (use Flexbox or Grid) with an image and text.
-    5.  **Footer:** A simple footer with social media links.
+**Week 6 / Final Project:** Finish and deploy your fully styled portfolio.
+* **Goal:** Combine everything you've learned into one polished, responsive, three-page site — the same `index.html`, `about.html`, and `contact.html` from the HTML course, now fully styled.
 * **Requirements:**
-    * Must be **Mobile-First**. The layout should be a single column on mobile and expand on larger screens.
-    * Must use at least **two media queries**.
-    * Must use **Google Fonts**.
-    * **(New)** Must use **CSS Variables** for all main colors, fonts, and spacing.
-    * **(New)** Must include **`:hover` transitions** on buttons, links, and project cards.
-    * **(New)** Must include at least one **`@keyframes` animation** (e.g., a fade-in on the hero `h1` or a pulse on a "featured" project).
-    * **(New)** Must use **Advanced Selectors** (e.g., `h2 + p`) to style at least one element.
+    * Must be **Mobile-First**, with your Week 5 grid and breakpoints intact.
+    * Must use **CSS Variables** for all colors, fonts, and spacing.
+    * Must use **BEM** naming for your project cards.
+    * Must include **`:hover` transitions** on cards, buttons, and links.
+    * Must include at least one **`@keyframes` animation**.
+    * Must use at least one **advanced selector** (e.g., `h2 + p`, `:focus-within`).
+    * Redeploy the updated, now fully-styled site to the same live URL from HTML Week 7.
