@@ -179,6 +179,62 @@ Functions are the single most important concept in programming — and this week
 
 ---
 
+### 5. Testing Your Validators (Beyond `console.log`)
+
+* **Lecture & Concepts:**
+    * Calling a function and reading its output "by eye" isn't really testing — it leaves no record, no pass/fail signal, and nothing stops you from quietly breaking `isValidEmail` next week without noticing. A real **test** makes an assertion — "I expect exactly this" — and tells you clearly when it's wrong.
+    * **Vitest** is a fast, modern JavaScript test runner. It runs in Node (not the browser), reads almost like plain English, and is the same tool you'll meet again in the React course.
+    * **The browser-vs-Node wrinkle:** your validator functions live in `script.js`, loaded in the browser with a plain `<script defer>` tag — not as an ES module (that's a bigger change, coming properly in Week 6). But Vitest, running in Node, needs a way to pull a function *out* of `script.js` to test it. The fix is one small, honest guard: `module` only exists in Node, never in a browser, so checking for it first lets the same file work in both places without breaking either one.
+
+* **In-Depth Example:**
+    ```javascript
+    // script.js
+    function isValidEmail(email) {
+      return email.includes("@") && email.includes(".");
+    }
+
+    function isMessageLongEnough(message) {
+      const minLength = 20;
+      return message.trim().length >= minLength;
+    }
+
+    // This block does nothing in the browser (module is undefined there),
+    // but lets Node/Vitest pull these two functions out for testing.
+    if (typeof module !== "undefined") {
+      module.exports = { isValidEmail, isMessageLongEnough };
+    }
+    ```
+    ```javascript
+    // validators.test.js
+    const { test, expect } = require('vitest');
+    const { isValidEmail, isMessageLongEnough } = require('./script.js');
+
+    test('isValidEmail accepts a real-looking email', () => {
+      expect(isValidEmail('alice@example.com')).toBe(true);
+    });
+
+    test('isValidEmail rejects a string with no "@"', () => {
+      expect(isValidEmail('not-an-email')).toBe(false);
+    });
+
+    test('isMessageLongEnough rejects a message under 20 characters', () => {
+      expect(isMessageLongEnough('Too short')).toBe(false);
+    });
+
+    test('isMessageLongEnough accepts a message at least 20 characters long', () => {
+      expect(isMessageLongEnough('This message is definitely long enough')).toBe(true);
+    });
+    ```
+
+* **⭐️ Class Exercise: Write Your First Real Tests**
+    1.  Run `npm init -y`, then `npm install -D vitest` inside your `portfolio` folder.
+    2.  Add `"test": "vitest run"` to the `"scripts"` section of the generated `package.json`.
+    3.  Add the `if (typeof module !== "undefined") { ... }` guard to the bottom of `script.js`, exporting `isValidEmail` and `isMessageLongEnough`.
+    4.  Create `validators.test.js` with the four tests above, then run `npm test`. Confirm all four pass.
+    5.  Break `isValidEmail` on purpose (delete the `.includes(".")` check), rerun `npm test`, and watch a test actually fail and explain why. That failure message is the entire point of writing tests — reload `index.html` in the browser too, and confirm the guard didn't break the page.
+
+---
+
 ### Week 2: Comprehensive Assignment
 
 **Objective:** Write the real validation logic your contact form will use — as plain functions you test with sample data. You'll connect them to the actual `submit` event once you learn events in Week 4.
@@ -191,7 +247,7 @@ Functions are the single most important concept in programming — and this week
 1.  **`isValidEmail(email)`:** Returns `true`/`false` for a basic `"@"` + `"."` check.
 2.  **`isMessageLongEnough(message)`:** Returns `true`/`false` based on your real form's `minlength="20"`.
 3.  **`isContactMethodChosen(method)`:** Returns `true`/`false` for `"email"` or `"phone"`.
-4.  **Testing:** Call each function with at least 2 sample inputs (one valid, one invalid) and `console.log()` the results.
+4.  **Real Tests:** A `validators.test.js` with at least one passing test per function (valid input) and one failing-case test (invalid input), run via `npm test` (Vitest) — not just a `console.log()` you read by eye.
 5.  **Comments:** Explain, in a comment, why each function returns a boolean instead of logging directly — think ahead to how Week 4 will *use* that return value.
 
 **Bonus Challenge:** Write `createFieldValidator(minLength)` as a closure, and use it to generate `isMessageLongEnough`. Explain in a comment what the "backpack" is in your version.

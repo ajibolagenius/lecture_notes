@@ -165,7 +165,39 @@ Once you've selected an element, you can change it — or build entirely new one
     ```
     *Notice `isValidEmail` and `isMessageLongEnough` are the exact functions you wrote in Week 2 — they finally get called for real.*
 
-### 2. Event Delegation
+### 2. Live Validation with Debounce
+
+* **Lecture & Concepts:**
+    * Right now your validators only run on `submit` — a visitor gets no feedback until they've already tried to send the form. Real forms often validate live, as you type.
+    * The naive version — running `isValidEmail` on *every single* `input` event — technically works, but fires on every keystroke. That's wasteful, and it would be a real problem if the check were something heavier than a cheap string comparison (an API call, for instance).
+    * **Debounce** is the standard fix: wait until the user *stops* typing for a short pause (e.g., 300ms) before actually running the check, resetting the timer on every new keystroke.
+
+* **In-Depth Example:**
+    ```javascript
+    function debounce(fn, delay) {
+      let timeoutId;
+      return function() {
+        clearTimeout(timeoutId); // cancel the previous pending check
+        timeoutId = setTimeout(fn, delay); // schedule a new one
+      };
+    }
+
+    const debouncedEmailCheck = debounce(function() {
+      errorMessage.textContent = isValidEmail(emailInput.value)
+        ? ""
+        : "Please enter a valid email address.";
+    }, 300);
+
+    emailInput.addEventListener('input', debouncedEmailCheck);
+    ```
+
+* **⭐️ Class Exercise: Validate As You Type**
+    1.  Write `debounce(fn, delay)` exactly as above.
+    2.  Wrap your email check in `debounce(..., 300)` and attach it to the email input's `input` event.
+    3.  Type quickly into the email field and confirm the check only runs once you pause — add a temporary `console.log` inside the debounced function to see exactly when it fires.
+    4.  Confirm your `submit` handler from section 1 still runs too — debounce is a live-feedback nicety, not a replacement for validating on submit.
+
+### 3. Event Delegation
 
 * **Lecture & Concepts:**
     * Adding a separate `click` listener to every single `.project-card` doesn't scale — especially since `renderProjects()` can *recreate* those cards at any time (you'll do this again in Week 5 and Week 6).
@@ -207,7 +239,8 @@ Once you've selected an element, you can change it — or build entirely new one
 1.  **`renderProjects(projectList)`:** Clears `.work-grid` and builds one `.project-card` per object in your Week 3 `projects` array, using `createElement`/`textContent`/`.append()` — matching the exact BEM classes your CSS already styles.
 2.  **Call It:** Run `renderProjects(projects)` once when the script loads.
 3.  **Contact Form Validation:** Wire the real `submit` event: `event.preventDefault()`, then call your Week 2 validator functions (`isValidEmail`, `isMessageLongEnough`, `isContactMethodChosen`) and show the first failing message in an `#error-message` element (or a success message if all pass).
-4.  **Event Delegation:** Add exactly ONE click listener on `.work-grid` (not on individual cards) that logs the clicked project's title using `event.target.closest('.project-card')`.
-5.  **Nav Toggle Check:** Confirm your Week 1 nav toggle still works now that you understand *why* `classList.toggle` was the right call.
+4.  **Live Validation:** A debounced `input` listener on the email field that re-checks `isValidEmail` 300ms after the user stops typing.
+5.  **Event Delegation:** Add exactly ONE click listener on `.work-grid` (not on individual cards) that logs the clicked project's title using `event.target.closest('.project-card')`.
+6.  **Nav Toggle Check:** Confirm your Week 1 nav toggle still works now that you understand *why* `classList.toggle` was the right call.
 
 **Bonus Challenge:** Add a "Featured" badge conditionally (only for `project.featured === true`) using the pattern shown in the `renderProjects` example — confirm it renders on exactly one card.

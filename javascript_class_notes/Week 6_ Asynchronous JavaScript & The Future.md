@@ -114,6 +114,7 @@ This week, we tackle one of the most essential parts of JavaScript: **Asynchrony
 
 * **Lecture & Concepts:**
     * Real network requests take time and can fail (offline, rate-limited, typo'd username). Always show the user *something* while waiting, and a friendly message if it goes wrong — never leave them staring at a blank section.
+    * **Debugging With the Network Tab:** Beyond `console.log`, Chrome DevTools' **Network** tab shows every real request your page makes. Click the `repos` request after it loads to see the exact URL, status code, and raw JSON GitHub actually sent back — often faster than guessing why a field is missing, since you're looking at the real response instead of just what your code did with it.
 
 * **In-Depth Example (Fetching Real Repos Into Your Real Grid):**
     ```javascript
@@ -158,6 +159,98 @@ This week, we tackle one of the most essential parts of JavaScript: **Asynchrony
     2.  Show a loading message while the request is in flight.
     3.  On success, map the response into your existing `projects` shape and call `renderProjects()`.
     4.  On failure (try changing the username to something invalid to test this), show a friendly error message instead of a crash.
+    5.  Open DevTools' **Network** tab, reload, and click the `repos` request — confirm you can see the real status code and JSON response GitHub sent.
+
+### 4. Cancelling Stale Requests with `AbortController`
+
+* **Lecture & Concepts:**
+    * Right now, if `loadGitHubRepos()` ever got called twice in a row — say, from a future "Refresh" button, or a fast page reload — the *first* request keeps running in the background and can still resolve *after* the second one, silently overwriting fresh data with stale data. This is a real, common bug once a page does more than one fetch over its lifetime.
+    * `AbortController` lets you cancel a fetch that's no longer needed. Create one, pass its `.signal` to `fetch()`, and call `.abort()` the moment the request becomes stale.
+
+* **In-Depth Example:**
+    ```javascript
+    let currentRequest = null;
+
+    async function loadGitHubRepos(username) {
+      // Cancel any previous request that's still in flight
+      if (currentRequest) currentRequest.abort();
+      currentRequest = new AbortController();
+
+      try {
+        const res = await fetch(
+          `https://api.github.com/users/${username}/repos?sort=updated`,
+          { signal: currentRequest.signal }
+        );
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+
+        const repos = await res.json();
+        // ...map and renderProjects() exactly as before
+      } catch (error) {
+        if (error.name === "AbortError") return; // cancelled on purpose — not a real failure
+        console.error(error);
+      }
+    }
+    ```
+
+* **⭐️ Class Exercise: Cancel a Real Request**
+    1.  Add the `currentRequest` + `AbortController` pattern above to your `loadGitHubRepos()`.
+    2.  Add a temporary "Refresh" `<button>` that calls `loadGitHubRepos()` again.
+    3.  Click it twice quickly and confirm — via a `console.log` in the `catch` block — that the first request gets cleanly aborted instead of both racing to finish and update the page.
+
+### 5. From One File to Real ES Modules
+
+* **Lecture & Concepts:**
+    * `script.js` now holds everything: your validators, `renderProjects()`, `loadGitHubRepos()`, the dark-mode toggle, the nav toggle. That's normal at this size, but it's exactly why real projects split code across files — one giant file gets hard to navigate, and nothing stops one part from silently depending on another in a tangled way.
+    * **ES Modules** are the browser's native way to split code across files, with explicit `export`/`import` instead of everything just floating around as a global. A file only shares what it explicitly `export`s, and only pulls in what it explicitly `import`s.
+    * **The catch:** module scripts (`<script type="module">`) refuse to load over `file://` — the same double-click-to-open workflow you've used since HTML Week 1 stops working, because browsers require modules to be served over `http(s)`. This is exactly why this course waited until now: you're deploying for real this week, and Netlify/Vercel/GitHub Pages all serve over `https` automatically. For local testing before that, VS Code's **Live Server** extension serves your folder over `http://localhost` with one click — no build tooling needed.
+
+* **In-Depth Example (Splitting `script.js` Into Real Modules):**
+    ```javascript
+    // validators.js
+    export function isValidEmail(email) {
+      return email.includes("@") && email.includes(".");
+    }
+
+    export function isMessageLongEnough(message) {
+      return message.trim().length >= 20;
+    }
+    ```
+    ```javascript
+    // render.js
+    export function renderProjects(projectList) {
+      const workGrid = document.querySelector('.work-grid');
+      workGrid.textContent = "";
+      projectList.forEach(({ title, description, featured }) => {
+        // ...exactly the same body you already wrote in Week 4/5
+      });
+    }
+    ```
+    ```javascript
+    // api.js
+    export async function loadGitHubRepos(username) {
+      // ...exactly the same body you already wrote above, returning the mapped projects
+    }
+    ```
+    ```javascript
+    // script.js — now the "entry point," importing what it needs from each file
+    import { isValidEmail, isMessageLongEnough } from './validators.js';
+    import { renderProjects } from './render.js';
+    import { loadGitHubRepos } from './api.js';
+
+    // ...your nav toggle, dark-mode toggle, and event-wiring code stays here
+    ```
+    ```html
+    <!-- in every HTML page's <head> -->
+    <script type="module" src="script.js"></script>
+    ```
+    *Notice `defer` is gone from the tag — module scripts are deferred automatically, always.*
+
+* **⭐️ Class Exercise: Split Your Real `script.js`**
+    1.  Create `validators.js`, `render.js`, and `api.js`, moving the matching functions out of `script.js` into each one, with `export` in front of each.
+    2.  In `script.js`, `import` everything back in from the three new files, and change every HTML page's `<script>` tag to `<script type="module" src="script.js">` (dropping `defer`).
+    3.  Install the VS Code "Live Server" extension, right-click `index.html`, and choose "Open with Live Server" — confirm the site works exactly as before, now served over `http://localhost` instead of `file://`.
+    4.  Try double-clicking `index.html` to open it the old way, and confirm it now fails — open the console to see the actual error module scripts produce over `file://`. This is *why* Live Server (or a real deploy) is required from here on.
+    5.  **Close the loop on Week 2's testing guard:** now that `validators.js` is a real ES module, the `if (typeof module !== "undefined")` hack you added back in Week 2 is no longer needed — delete it, and update `validators.test.js` to `import { isValidEmail, isMessageLongEnough } from './validators.js'` instead of `require(...)`. This is exactly the problem real modules solve.
 
 ---
 
@@ -167,16 +260,19 @@ This week, we tackle one of the most essential parts of JavaScript: **Asynchrony
 
 **Files to Use:**
 1.  `index.html`, `about.html`, `contact.html`
-2.  `script.js`
+2.  `script.js`, `validators.js`, `render.js`, `api.js`
+3.  `validators.test.js`
 
 **Requirements:**
 
 1.  **Real GitHub Data:** `loadGitHubRepos(username)` fetches your real repos via `async`/`await`, with `try...catch` error handling and Optional Chaining for any field that might be missing (`description`, `language`).
 2.  **Loading & Error States:** A visible loading message while fetching, and a friendly error message on failure — never a blank or broken section.
 3.  **Reuse, Don't Duplicate:** The fetched data must flow through your *existing* `renderProjects()` function — don't write a second rendering function.
-4.  **Async Contact Form:** Turn your Week 4 submit handler into an `async` function. After your Week 2 validators pass, simulate a network submission — either a fake `Promise` that resolves after ~1 second, or a real request to a mock endpoint (e.g., a service like Formspree). Show a "Sending..." state, then a success or error message.
-5.  **Deployment:** Redeploy your finished, fully-interactive portfolio to the same live URL from HTML Week 7 / CSS Week 6. This is the site the React course will rebuild as a component-based SPA next.
+4.  **Cancellation:** `loadGitHubRepos()` uses `AbortController` to cancel a stale in-flight request if called again before the first one finishes.
+5.  **Real ES Modules:** `script.js` split into `validators.js`, `render.js`, and `api.js`, wired together with real `export`/`import`; all 3 HTML pages load it via `<script type="module">`; the site works when served through Live Server (or your live deploy), and visibly fails to load over plain `file://`.
+6.  **Async Contact Form:** Turn your Week 4 submit handler into an `async` function. After your Week 2 validators pass, simulate a network submission — either a fake `Promise` that resolves after ~1 second, or a real request to a mock endpoint (e.g., a service like Formspree). Show a "Sending..." state, then a success or error message. **Remember:** this client-side validation is for user experience, not security — a real backend must always re-validate the same fields itself, since anyone can bypass JavaScript entirely and submit directly to whatever endpoint receives this form.
+7.  **Deployment:** Redeploy your finished, fully-interactive portfolio to the same live URL from HTML Week 7 / CSS Week 6. This is the site the React course will rebuild as a component-based SPA next.
 
 **Bonus Challenge:** Combine your static `projects` array (Week 3) with your live GitHub repos using the spread operator (`[...projects, ...githubProjects]`), so your hand-picked "Featured" project always appears alongside your real, live repo data.
 
-**What's Next:** You've now written a real, working vanilla-JS application spread across a global `script.js`. The React course picks up right here — but instead of one script manipulating the DOM by hand, you'll learn to describe your UI *declaratively* as components, and let a library handle the DOM updates for you.
+**What's Next:** You've now written a real, working vanilla-JS application, split across real ES modules instead of one giant global file. The React course picks up right here — but instead of hand-writing `validators.js`/`render.js`/`api.js` and wiring `import`/`export` yourself, a bundler (Vite) handles that structure for you, and instead of imperatively building DOM elements in `render.js`, you'll learn to describe your UI *declaratively* as components, letting a library handle the DOM updates.

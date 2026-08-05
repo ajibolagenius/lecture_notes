@@ -75,6 +75,8 @@ An **Object** is an "un-ordered" collection of related data, stored as **key-val
     // "Weather App: A React Native app that fetches live weather data. (React Native, Expo)"
     ```
 
+* **A Heads-Up for Week 5:** `this` works the way you just learned *only* for regular functions like `describe()` above. Arrow functions (`=>`, coming in Week 5) handle `this` completely differently — using one as an object method silently breaks it. Nothing to do about that yet; just don't be surprised when Week 5 revisits `this` and gives you a different answer.
+
 * **⭐️ Class Exercise: Model Your First Real Project**
     1.  Create an object for ONE of your real Featured Work projects, with `title`, `description`, `tags` (array), and `imageSrc`.
     2.  Log the `title` alone using dot notation.

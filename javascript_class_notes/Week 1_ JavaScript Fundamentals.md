@@ -98,6 +98,13 @@ Welcome to JavaScript! Your portfolio site has a real structure (HTML) and real 
     console.error("This is an error message."); // Red
     ```
 
+* **Beyond `console.log`: Breakpoints.** `console.log` is fast, but for a real bug you often want to *pause* execution entirely and inspect everything at that exact moment. In Chrome DevTools' **Sources** tab, click the line number next to any line of your code to set a breakpoint — the browser pauses there the next time that line runs, and you can hover any variable to see its live value, or step through line-by-line with the controls at the top of the panel. This is the same skill you'll use to inspect a real API response in Week 6.
+
+* **⭐️ Class Exercise: Set Your First Breakpoint**
+    1.  In the Sources tab, open `script.js` and click the line number inside your nav-toggle's `click` callback (from section 1's example) to set a breakpoint.
+    2.  Click the real nav-toggle button on the page and confirm execution pauses on that line.
+    3.  Hover over `navLinks` in the paused code to confirm it shows a real DOM element, not just its name.
+
 ---
 
 ### 4. Comments
@@ -108,6 +115,26 @@ Welcome to JavaScript! Your portfolio site has a real structure (HTML) and real 
     * Comments should explain the **"why,"** not the **"what."**
         * Bad: `// select the nav toggle button` (the code already says that).
         * Good: `// we toggle a class instead of setting styles directly, so CSS stays in charge of the look`
+
+---
+
+### 5. Linting & Formatting: Your Safety Net
+
+* **Lecture & Concepts:**
+    * Every professional JavaScript codebase runs two tools before code reaches a teammate: **ESLint**, which catches likely bugs and enforces consistent patterns (it flags `==` instead of `===`, an unused variable, a missing `break` in a `switch`), and **Prettier**, which auto-formats your code so nobody argues about spacing, quotes, or semicolons.
+    * Turning these on *now*, before you've written much code, matters more than any lecture about them — the habit of writing with a linter watching is what actually sticks.
+    * **Format on Save:** Enable VS Code's "Format on Save" setting so Prettier reformats `script.js` automatically every time you save.
+
+* **In-Depth Example (What ESLint Actually Catches):**
+    ```javascript
+    // ESLint warning: "Expected '===' and instead saw '=='."
+    if (username == "") { ... }
+    ```
+
+* **⭐️ Class Exercise: Turn On Your Safety Net**
+    1.  Install the **ESLint** and **Prettier** extensions in VS Code.
+    2.  Turn on "Format on Save" in VS Code's settings.
+    3.  In `script.js`, deliberately write `if (1 == 1) { console.log("test"); }` and confirm ESLint underlines the `==`. Fix it to `===` and confirm the warning disappears.
 
 ---
 
@@ -208,6 +235,7 @@ Welcome to JavaScript! Your portfolio site has a real structure (HTML) and real 
 3.  **Variables:** Select your real `#nav-toggle` and `.nav-links` using `const`.
 4.  **The Toggle:** Add a `click` event listener that toggles a `.nav-open` class on `.nav-links`.
 5.  **Comments:** Add at least one comment explaining *why* you used `classList.toggle` instead of `element.style`.
+6.  **Tooling:** ESLint and Prettier installed and running (Format on Save enabled) on `script.js`.
 
 **Bonus (Console-Only Practice):** Build a "Temperature Converter" to drill the fundamentals before Week 4's deep DOM dive:
 * Create a `const celsius = 25;`.

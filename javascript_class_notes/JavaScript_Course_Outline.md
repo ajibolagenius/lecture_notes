@@ -17,8 +17,9 @@ This course is designed for beginners who want to learn JavaScript from the grou
 * **Learning Objectives:**
     * Explain what JavaScript is and its role in web development.
     * Add JavaScript to an HTML page (inline, internal, and external), using modern `defer` loading.
-    * Use the browser console to run code and log messages.
+    * Use the browser console to run code and log messages, and set a breakpoint to pause and inspect execution.
     * Write JavaScript comments that explain "why," not "what."
+    * Set up ESLint and Prettier so a linter and formatter run on every save.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -28,7 +29,10 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | External (`<script src="..." defer>`) | - Why `defer` beats a bottom-of-body script tag. | - Create `portfolio/script.js` and link it from all 3 of your real HTML pages. |
 | **The Browser Console & Strict Mode** | 30 mins | 30 mins |
 | Using `console.log()` | - `'use strict';` as a modern default. | - Log a message confirming your script loaded, on all 3 pages. |
+| Breakpoints (Sources tab) | - Pausing execution to inspect live variables. | - Set a breakpoint inside your nav-toggle's click handler. |
 | Comments `//` and `/* ... */` | - Writing effective, "why"-focused comments. | - Comment your code from the previous exercise. |
+| **Linting & Formatting** | 30 mins | 30 mins |
+| ESLint (catches likely bugs). | - Prettier (auto-formatting) + Format on Save. | - Install both; confirm ESLint flags a deliberate `==` mistake. |
 
 ### Module 2: Variables, Data Types & Operators
 
@@ -84,6 +88,7 @@ This course is designed for beginners who want to learn JavaScript from the grou
     * Pass data to functions using parameters and arguments; get data back with `return`.
     * Understand variable scope (Global, Function/Local, Block).
     * Understand closures well enough to use them for simple, private state.
+    * Write real, automated tests for pure functions using Vitest.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -95,10 +100,12 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | Global, Function, Block Scope. | - Why minimizing globals matters. | - Confirm a variable declared inside your validator function isn't visible outside it. |
 | **Closures (a first look)** | 1 hour | 45 mins |
 | Functions that "remember" their outer variables. | - Why this matters for private state. | - Write `createFieldValidator(minLength)` that returns a function checking a string's length — a closure "remembering" `minLength`. |
+| **Testing Your Validators** | 1 hour | 45 mins |
+| Vitest — a real test runner, not `console.log` by eye. | - The `module.exports` guard that lets `script.js` work in both the browser and Node. | - Write and run real Vitest tests for `isValidEmail`/`isMessageLongEnough`. |
 
 **Week 2 Assignment:** Write your real contact form's validation logic.
 * Write `isValidEmail(email)`, `isMessageLongEnough(message)` (using your form's real `minlength` of 20), and `isContactMethodChosen(method)` functions.
-* Test each by calling it with a few sample strings and logging the `true`/`false` result — you'll wire these to the real form's `submit` event in Week 4.
+* Write real Vitest tests for each — not just sample calls read by eye — you'll wire these to the real form's `submit` event in Week 4.
 * **Bonus:** Write `createFieldValidator(minLength)` (a closure) and use it to build both your message-length validator and a second, differently-sized validator, proving the same function factory works for both.
 
 ---
@@ -185,6 +192,7 @@ This course is designed for beginners who want to learn JavaScript from the grou
     * Attach event listeners to DOM elements.
     * Respond to common events like `click` and `submit`.
     * Use the `event` object, including `preventDefault()`.
+    * Debounce a live `input` event to avoid running a check on every keystroke.
     * Understand event delegation and why it matters for dynamically-created elements.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
@@ -193,12 +201,15 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | `element.addEventListener()` | - `event.target`, `event.preventDefault()` | - Wire your real contact `<form>`'s `submit` event, calling `event.preventDefault()`. |
 | **Wiring Up Your Validators** | 1 hour | 45 mins |
 | Calling Week 2's functions from an event. | - Showing/hiding an error message. | - Call `isValidEmail`/`isMessageLongEnough`/`isContactMethodChosen` inside the submit handler; show an error `<p>` if any fail. |
+| **Live Validation with Debounce** | 45 mins | 30 mins |
+| Validating on `input`, not just `submit`. | - Why `debounce()` beats running a check on every keystroke. | - Add a debounced live email check, firing 300ms after typing stops. |
 | **Event Delegation** | 45 mins | 30 mins |
 | The "One Listener" pattern. | - Why it matters for elements created by `renderProjects()`. | - Add ONE click listener on `.work-grid` (not on each card) that logs which project was clicked, using `event.target`. |
 
 **Week 4 Assignment:** Render your real projects from data, and make the contact form actually validate.
 * Replace the hardcoded Featured Work `<article>`s in `index.html` with `renderProjects(projects)`, generating them from your Week 3 array via `createElement`/`textContent`/`.append()`.
 * Wire the real contact form's `submit` event: call your Week 2 validator functions, `event.preventDefault()`, and show an inline error message for the first failing field (or a success message if all pass).
+* Add a debounced `input` listener on the email field for live validation feedback.
 * Add ONE delegated click listener on `.work-grid` that logs the clicked project's title (using `event.target.closest('.project-card')`).
 * Finish and verify your Week 1 nav toggle now that you understand events fully.
 
@@ -210,22 +221,25 @@ This course is designed for beginners who want to learn JavaScript from the grou
 
 * **Learning Objectives:**
     * Iterate over arrays using `forEach`, `map`, and `filter` instead of manual `for` loops.
-    * Write and use Arrow Functions (`=>`).
+    * Use `.find()`, `.some()`, `.every()`, and `.reduce()` for lookups, checks, and aggregation.
+    * Write and use Arrow Functions (`=>`), and recognize where lexical `this` breaks an object method.
     * Refactor existing DOM-rendering code to modern syntax.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Arrow Functions (`=>`)** | 1 hour | 45 mins |
-| Concise syntax, implicit return. | - Lexical `this` (briefly). | - Rewrite your Week 2 validator functions as arrow functions. |
+| Concise syntax, implicit return. | - Lexical `this` — and the gotcha where it breaks object methods. | - Rewrite your Week 2 validator functions as arrow functions; try (and watch fail) converting `describe()`. |
 | **Array Method: `.map()`** | 1 hour | 45 mins |
 | Creates a *new* array. | - Perfect for turning data into DOM elements. | - Refactor `renderProjects()`'s `for` loop into a `.map()` (or `.forEach()` if appending directly). |
 | **Array Method: `.filter()`** | 1 hour | 45 mins |
 | Creates a *new*, smaller array. | - Selecting a subset of data. | - Add a "Show Featured Only" button that re-renders using `projects.filter(p => p.featured)`. |
+| **More Array Methods** | 1 hour | 45 mins |
+| `.find()`, `.some()`, `.every()` | - `.reduce()` — collapsing an array to one value. | - Use `.find()` in your click handler; build `tagCounts` with `.reduce()`. |
 
 ### Module 11: More ES6+ Features & Persistence
 
 * **Learning Objectives:**
-    * Write cleaner code using Template Literals and Destructuring.
+    * Write cleaner code using Template Literals and Destructuring — both object *and* array forms.
     * Use the Spread operator to copy/merge data.
     * Persist user preferences with `localStorage`.
 
@@ -233,14 +247,15 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | :--- | :--- | :--- |
 | **Destructuring** | 1 hour | 45 mins |
 | `const { title, tags } = project;` | - Cleaner function parameters. | - Destructure each project's fields inside `renderProjects()`. |
+| Array destructuring `const [a, b] = arr;` | - Why this is exactly React's `useState()` pattern. | - Array-destructure a real project's `tags` into named variables. |
 | **Spread (`...`)** | 30 mins | 30 mins |
 | Copying and merging arrays/objects. | - `const featured = { ...project, badge: 'New' };` | - Use spread to create a modified copy of one project without mutating the original. |
 | **`localStorage` & Dark Mode** | 1.5 hours | 1 hour |
 | `localStorage.setItem/getItem` | - `JSON.stringify`/`JSON.parse` for non-string data. | - Build a real dark-mode toggle button that adds/removes a `.dark-mode` class on `<body>` and saves the preference. |
 
 **Week 5 Assignment:** Refactor to modern syntax and add real dark mode.
-* Refactor `renderProjects()` to use `.map()`/`.forEach()`, arrow functions, and destructuring instead of a manual `for` loop.
-* Add a "Show Featured Only" toggle using `.filter()`.
+* Refactor `renderProjects()` to use `.map()`/`.forEach()`, arrow functions, and object + array destructuring instead of a manual `for` loop.
+* Add a "Show Featured Only" toggle using `.filter()`, a `.find()`-based project lookup in your click handler, and a `tagCounts` built with `.reduce()`.
 * Add a dark-mode toggle button (present on all 3 pages) that adds/removes a `.dark-mode` class on `<body>`, persists the choice to `localStorage`, and re-applies it on page load so the preference survives a refresh and carries across pages.
 
 ---
@@ -282,6 +297,8 @@ This course is designed for beginners who want to learn JavaScript from the grou
     * Process the `Response` object and parse JSON data.
     * Safely access optionally-missing nested data with Optional Chaining (`?.`).
     * Render fetched data to the DOM, with loading and error states.
+    * Debug a real request in DevTools' Network tab, and cancel a stale one with `AbortController`.
+    * Split `script.js` into real ES modules (`validators.js`/`render.js`/`api.js`) with `export`/`import`.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -290,11 +307,16 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | **Optional Chaining (`?.`)** | 30 mins | 30 mins |
 | Safely reading nested API fields. | - `repo.license?.name ?? 'No license'` | - Log each repo's name and (possibly missing) license safely. |
 | **Loading & Error States** | 45 mins | 45 mins |
-| Showing a "Loading..." message. | - `try...catch` around the fetch. | - Show a loading message while fetching, and a friendly error message on failure. |
+| Showing a "Loading..." message. | - `try...catch` around the fetch; debugging the real response in the Network tab. | - Show a loading message while fetching, and a friendly error message on failure. |
+| **`AbortController`** | 30 mins | 30 mins |
+| Cancelling a stale in-flight request. | - Why this matters once a page fetches more than once. | - Add cancellation to `loadGitHubRepos()`; prove it with a "Refresh" button. |
+| **Real ES Modules** | 1 hour | 1 hour |
+| `export`/`import` across real files. | - Why `type="module"` needs a server, not `file://`. | - Split into `validators.js`/`render.js`/`api.js`; run via Live Server. |
 
 **Week 6 / Final Project:** Fetch real project data, and make the contact form submission feel real.
 * **Goal:** Combine everything — data modeling, DOM rendering, events, and async JavaScript — into the finished, live portfolio.
-* Write an `async function loadGitHubRepos(username)` that fetches your real public repos from the GitHub REST API and merges or replaces your Week 3 `projects` array with real repo data (name, description, URL), using Optional Chaining for any field that might be missing.
+* Write an `async function loadGitHubRepos(username)` that fetches your real public repos from the GitHub REST API and merges or replaces your Week 3 `projects` array with real repo data (name, description, URL), using Optional Chaining for any field that might be missing, and `AbortController` to cancel a stale request.
 * Show a loading state while fetching and a friendly error message if the request fails (e.g., rate-limited or offline).
-* Turn your contact form's submission into an `async` function that simulates a network request (e.g., a fake `Promise` that resolves after a short delay, or a real request to a mock endpoint), showing a loading state and a success/error message instead of just an inline validation message.
+* Split `script.js` into real ES modules (`validators.js`, `render.js`, `api.js`), loaded via `<script type="module">` and served through Live Server or your live deploy.
+* Turn your contact form's submission into an `async` function that simulates a network request (e.g., a fake `Promise` that resolves after a short delay, or a real request to a mock endpoint), showing a loading state and a success/error message instead of just an inline validation message — and remember this is a UX layer, not security; a real backend must re-validate everything itself.
 * Redeploy the finished, fully-interactive portfolio to the same live URL from HTML Week 7 / CSS Week 6.

@@ -13,9 +13,32 @@ Welcome to Week 5! You already have a real, working `renderProjects()` function 
     * **Old:** `const isValidEmail = function(email) { return email.includes("@"); };`
     * **New:** `const isValidEmail = (email) => email.includes("@");` (implicit return — no `{}`/`return` needed for a one-liner).
     * **Parentheses rule:** exactly one parameter can drop its `()`: `email => email.includes("@")`.
+    * **The `this` Gotcha:** Back in Week 3, you were promised this moment. Arrow functions don't get their *own* `this` — they use whatever `this` meant in the surrounding scope where they were *written* ("lexical `this`"). That's exactly why they're great for callbacks like `.forEach()` or `addEventListener` (no `this` surprises there) — but it also means using one as an **object method silently breaks it**, since there's no enclosing function for `this` to borrow from.
+
+* **In-Depth Example (Where It Actually Breaks):**
+    ```javascript
+    const project = {
+      title: "Weather App",
+
+      // BROKEN: an arrow function has no "own" this — it looks outward and finds nothing useful here
+      describeArrow: () => {
+        console.log(this.title); // undefined — NOT "Weather App"
+      },
+
+      // CORRECT: a regular function's `this` is whatever object it's called on
+      describeRegular() {
+        console.log(this.title); // "Weather App"
+      }
+    };
+
+    project.describeArrow();   // undefined
+    project.describeRegular(); // "Weather App"
+    ```
+    *This is exactly why Week 3's `describe()` method used regular method syntax, not an arrow function. Going forward: reach for arrow functions everywhere **except** when writing an object method that needs `this`.*
 
 * **⭐️ Class Exercise: Convert Your Validators**
-    * Rewrite your Week 2 `isValidEmail`, `isMessageLongEnough`, and `isContactMethodChosen` as arrow functions.
+    1.  Rewrite your Week 2 `isValidEmail`, `isMessageLongEnough`, and `isContactMethodChosen` as arrow functions.
+    2.  Try converting your Week 3 project object's `describe()` method to an arrow function too — confirm `this.title` really does become `undefined` — then revert it back to regular method syntax, now that you've seen why it has to stay that way.
 
 ---
 
@@ -96,12 +119,70 @@ Welcome to Week 5! You already have a real, working `renderProjects()` function 
 
 ---
 
+### 5. More Array Methods: `.find()`, `.some()`, `.every()`, `.reduce()`
+
+* **Lecture & Concepts:**
+    * `.map()` and `.filter()` cover a lot, but four more methods show up constantly in real code — including the list-rendering code you'll write in the React course right after this one.
+    * **`.find(callback)`**: Returns the **first** element where the callback is `true` — or `undefined` if none match. Use it when you want *one specific item*, not a filtered list.
+    * **`.some(callback)`**: Returns `true` if **at least one** element matches. Good for a yes/no question about the whole array.
+    * **`.every(callback)`**: Returns `true` only if **all** elements match.
+    * **`.reduce(callback, startingValue)`**: The most flexible one — "reduces" an entire array down to a single value (a number, a string, even a new object), by running a callback that carries an **accumulator** forward through each item.
+
+* **In-Depth Example (Using Your Real `projects` Data):**
+    ```javascript
+    // .find() — get the one project a user clicked on, by title
+    function findProjectByTitle(title) {
+      return projects.find(project => project.title === title);
+    }
+
+    // .some() — is there at least one featured project?
+    const hasFeaturedProject = projects.some(project => project.featured);
+
+    // .every() — does every project have at least one tag?
+    const allProjectsTagged = projects.every(project => project.tags.length > 0);
+
+    // .reduce() — count how many times each tag appears, across every project
+    const tagCounts = projects.reduce((counts, project) => {
+      project.tags.forEach(tag => {
+        counts[tag] = (counts[tag] || 0) + 1;
+      });
+      return counts;
+    }, {}); // {} is the starting value — an empty object to build up
+
+    console.log(tagCounts); // e.g. { "React Native": 1, "Expo": 1, "Python": 1, "HTML": 1, ... }
+    ```
+
+* **⭐️ Class Exercise: Put Them to Work on Your Real Data**
+    1.  Rewrite your Week 4 event-delegation click handler to use `projects.find(p => p.title === titleEl.textContent)` instead of just logging the title — confirm you can now log the *whole matching project object*, not just its name.
+    2.  Write `hasFeaturedProject` using `.some()` and log it.
+    3.  Write `tagCounts` using `.reduce()` exactly as shown above, and log it to confirm every tag across all your real projects is counted correctly.
+
+---
+
 ## Module 11: More ES6+ Features & Persistence
 
 ### 1. Destructuring
 
 * **Lecture & Concepts:**
     * A shortcut for "unpacking" values from objects (or arrays) into their own variables.
+    * **Object destructuring** (below) unpacks by *key name* — order doesn't matter. **Array destructuring** unpacks by *position* — order is everything, since arrays don't have named keys.
+    * **Why array destructuring matters here:** it's exactly the syntax the React course uses for `useState()`, which returns a two-item array: `const [count, setCount] = useState(0);`. If this pattern feels unfamiliar there, it's worth being comfortable with it now.
+
+* **In-Depth Example (Array Destructuring, on Your Real Tags):**
+    ```javascript
+    const tags = ["React Native", "Expo", "TypeScript"];
+
+    // Unpacked by POSITION — first tag, second tag, and "the rest" via ...
+    const [primaryTag, secondaryTag, ...otherTags] = tags;
+
+    console.log(primaryTag);   // "React Native"
+    console.log(secondaryTag); // "Expo"
+    console.log(otherTags);    // ["TypeScript"]
+    ```
+
+* **⭐️ Class Exercise: Destructure a Real Project's Tags**
+    1.  Pick one of your real projects with at least 2 tags, and array-destructure its `tags` into `primaryTag`/`secondaryTag` (plus `...otherTags` if it has more than two).
+    2.  Log all three and confirm they match the array's actual order — swap the project used and confirm the values change accordingly.
 
 * **In-Depth Example (Cleaning Up `renderProjects`):**
     ```javascript
@@ -196,10 +277,11 @@ Welcome to Week 5! You already have a real, working `renderProjects()` function 
 
 **Requirements:**
 
-1.  **Arrow Functions:** Convert your Week 2 validators and Week 4 `renderProjects` callback to arrow functions.
+1.  **Arrow Functions:** Convert your Week 2 validators and Week 4 `renderProjects` callback to arrow functions (object methods like `describe()` stay as regular methods — you'll know why).
 2.  **`.forEach()`/`.map()`:** Refactor `renderProjects`'s manual `for` loop to use `.forEach()`.
-3.  **Destructuring:** Destructure `{ title, description, featured }` directly in the `renderProjects` callback parameter.
+3.  **Destructuring:** Destructure `{ title, description, featured }` directly in the `renderProjects` callback parameter, and array-destructure at least one real project's `tags`.
 4.  **`.filter()`:** Keep (or add) the "Show Featured Only" toggle from Module 10.
-5.  **Dark Mode:** A real `#theme-toggle` button, present on all 3 pages, that adds/removes `.dark-mode` on `<body>`, persists the choice via `localStorage`, and re-applies it correctly on every page load.
+5.  **`.find()`/`.some()`/`.reduce()`:** Your Week 4 click handler now looks up the full project object with `.find()`; a `hasFeaturedProject` using `.some()`; a `tagCounts` object built with `.reduce()`.
+6.  **Dark Mode:** A real `#theme-toggle` button, present on all 3 pages, that adds/removes `.dark-mode` on `<body>`, persists the choice via `localStorage`, and re-applies it correctly on every page load.
 
 **Bonus Challenge:** Use the spread operator to build a `projectsWithLiveBadge` array where every project gets an extra `"Live"` tag appended, without mutating the original `projects` array — verify the original is untouched by logging both.
