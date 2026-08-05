@@ -1,19 +1,15 @@
 /*
-Loops (for and while)
- */
+    Functions (The Building Blocks)
+*/
 
-//  for
+// 1. Defining (creating) the funtion
 
-    console.log(`--- for loop ---`)
-    for (let i = 1; i <= 5; i++) {
-        console.log(`for loop: ${i}`)
-    }
+function sumOf(a, b) {
+    return a + b;
+}
 
+// 2. Calling (executing) the function
 
-// while
-    console.log(`--- while loop ---`)
-    let j = 1
-    while (j <= 5) {
-        console.log(`while loop: ${j}`)
-        j++
-    }
+console.log(sumOf(5, 10))
+console.log(sumOf(542, 10))
+console.log(sumOf(5, 1073))
