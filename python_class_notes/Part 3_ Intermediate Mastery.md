@@ -111,26 +111,68 @@ class Task:
         return f"{status} {self.description}"
 ```
 
+**A Modern Equivalent — `@dataclass`:** `Task` is a small class that's really just three lines of `__init__` boilerplate wrapped around two plain fields. The `dataclasses` module (built into Python) generates that boilerplate for you:
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Task:
+    description: str
+    completed: bool = False
+
+    def mark_done(self):
+        self.completed = True
+
+    def __str__(self) -> str:
+        status = "✅" if self.completed else "⬜️"
+        return f"{status} {self.description}"
+```
+*Same behavior, no hand-written `__init__` — `@dataclass` generates it (and a few other things, like a useful default `__repr__`) from the type-hinted fields alone. Worth knowing as the modern default for classes that are mostly just data with a couple of methods attached; `Expense` is written the "manual" way in this course specifically so you see what `@dataclass` is actually doing under the hood before reaching for the shortcut.*
+
 ```python
 # tracker.py (continued) — now genuinely an Expense AND Task tracker
+import json
+from pathlib import Path
 from models import Expense, Task
 
-expenses = []  # list of Expense objects, not dicts, from here on
-tasks = []     # a brand-new list — the app's first Task feature
+TASKS_FILE = Path("tasks.json")
 
-def add_task(description):
+def load_tasks() -> list[Task]:
+    """Reads tasks.json into a list of Task objects. Returns [] if the file doesn't exist yet."""
+    if not TASKS_FILE.exists():
+        return []
+    with TASKS_FILE.open("r", encoding="utf-8") as f:
+        raw_tasks = json.load(f)
+    return [Task(t["description"], completed=t["completed"]) for t in raw_tasks]
+
+def save_tasks(tasks: list[Task]) -> None:
+    """Overwrites tasks.json with the current in-memory task list."""
+    with TASKS_FILE.open("w", encoding="utf-8") as f:
+        json.dump(
+            [{"description": t.description, "completed": t.completed} for t in tasks],
+            f,
+            indent=2
+        )
+
+expenses = []        # list of Expense objects, not dicts, from here on
+tasks = load_tasks()  # tasks now survive closing the program, exactly like expenses do
+
+def add_task(description: str) -> Task:
     task = Task(description)
     tasks.append(task)
+    save_tasks(tasks)  # persist immediately — same pattern as Module 6's save_expense()
     return task
 
 # Example usage inside run():
 # expenses.append(Expense(category, amount))
 # add_task("Submit October expense report")
 ```
+*This is the fix for a gap that would otherwise follow this app all the way to the GUI in Part 4: without `load_tasks()`/`save_tasks()`, "Task" would be a feature that only ever exists in memory — every task would silently vanish the moment the program closes, while expenses correctly survive. JSON (not CSV) is the natural format here since a task is a simple flat object, not tabular data with many rows of the same shape needing a header row.*
 
 **Checkpoint tasks**
 * Add a method `Expense.as_dict()` that returns a plain dictionary version of an expense — useful anywhere you still need dict-shaped data (like your Module 6 CSV code).
 * Create three `Task` objects, mark one as done with `.mark_done()`, and print all three using their `__str__` method to confirm the ✅/⬜️ status shows correctly.
+* Add a few tasks, close and reopen the program, and confirm they're still there — open `tasks.json` directly in a text editor to confirm the completed/incomplete state was saved correctly too.
 * Explain, in a comment, why bundling `is_over_budget()` as a *method* on `Expense` is more reliable than a separate function that takes an amount — what could go wrong with the separate-function version that can't happen with the method?
 
 ---
@@ -145,12 +187,17 @@ Every number in your tracker so far has come from the keyboard. This module conn
 * **`requests`:** the standard third-party library for making HTTP requests in Python (installed via pip last module).
 * **Parsing JSON:** `response.json()` turns the API's response straight into a Python dictionary.
 * **Handling failure:** networks fail, APIs go down, or you might be offline — always handle this, never assume success.
+* **Don't hardcode config, even when it "just works":** it's tempting to type the API's URL directly into the function that uses it. That's fine for this specific API — it's free and needs no key — but the same habit applied to almost any *other* API (nearly all of which require a secret key) means that key sits in plain text in your source code, visible to anyone who opens the file or looks through your git history. The fix is the same either way: read config from an environment variable with `os.environ.get(...)`, so the real value lives outside your code entirely.
 
 ### Project Milestone: Live Currency Conversion
 
 ```python
 # tracker.py (continued)
+import os
+import logging
 import requests
+
+API_URL = os.environ.get("EXCHANGE_RATE_API_URL", "https://open.er-api.com/v6/latest/USD")
 
 def get_usd_to_ngn_rate() -> float:
     """
@@ -159,17 +206,20 @@ def get_usd_to_ngn_rate() -> float:
     app still works offline instead of crashing.
     """
     try:
-        response = requests.get("https://open.er-api.com/v6/latest/USD", timeout=5)
+        response = requests.get(API_URL, timeout=5)
         response.raise_for_status()
         data = response.json()
         return data["rates"]["NGN"]
     except (requests.RequestException, KeyError) as error:
+        logging.error("Could not fetch live exchange rate: %s", error)
         print(f"Could not fetch live rate ({error}). Using fallback rate.")
         return 1600.0  # a rough fallback so the app keeps working offline
 
 def convert_to_ngn(amount_usd: float, rate: float) -> float:
     return amount_usd * rate
 ```
+
+*Notice `API_URL` now has a sensible default (this API needs no key, so a hardcoded fallback is genuinely fine here) but can be overridden with an environment variable without touching the code. If a future API you use **does** need a secret key, the same `os.environ.get()` pattern applies — you'd load it from a `.env` file (via `pip install python-dotenv`) instead of retyping it every session, and that `.env` file goes straight into `.gitignore`, never committed.*
 
 Wire it into your summary:
 
@@ -181,5 +231,6 @@ print(f"\nTotal spent: ${total_usd:.2f} USD (~₦{convert_to_ngn(total_usd, rate
 
 **Checkpoint tasks**
 * Run the app with an active internet connection and confirm you get a real, current exchange rate (compare it against a quick web search).
-* Temporarily disconnect from the internet (or mistype the URL) and confirm the app prints the fallback message and keeps running — it should never crash just because the network failed.
+* Temporarily disconnect from the internet (or mistype the URL) and confirm the app prints the fallback message, logs the same failure to `tracker.log`, and keeps running — it should never crash just because the network failed.
+* Set `EXCHANGE_RATE_API_URL` to a deliberately broken URL as an environment variable (not in the code) and confirm the app picks it up and falls back gracefully — then unset it and confirm the real API is used again.
 * Explain, in a comment, why the `except` clause catches `requests.RequestException` specifically instead of a bare `except:` — what's the risk of catching *everything*?

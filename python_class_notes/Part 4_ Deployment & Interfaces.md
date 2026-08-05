@@ -19,10 +19,14 @@ This reuses every function and class you already built in Parts 2 and 3 — `Exp
 import tkinter as tk
 from tkinter import messagebox
 from models import Expense, Task
-from tracker import save_expense, load_expenses, category_totals, get_usd_to_ngn_rate, convert_to_ngn
+from tracker import (
+    save_expense, load_expenses,
+    save_tasks, load_tasks,
+    category_totals, get_usd_to_ngn_rate, convert_to_ngn
+)
 
 expenses = load_expenses()
-tasks = []
+tasks = load_tasks()  # tasks persist across launches now too, same as expenses
 
 def handle_add_expense():
     category = category_entry.get().strip().title()
@@ -54,6 +58,7 @@ def handle_add_task():
 
     task = Task(description)
     tasks.append(task)
+    save_tasks(tasks)  # without this line, every task vanishes the moment the window closes
     output.insert(tk.END, f"{task}\n")
     task_entry.delete(0, tk.END)
 
@@ -90,11 +95,12 @@ output.pack(pady=10, fill="both", expand=True)
 window.mainloop()
 ```
 
-*Notice `gui.py` doesn't reimplement any logic — it imports and reuses `Expense`, `Task`, `save_expense()`, and `category_totals()` straight from the modules you already built. The GUI is a new *front end*; the app's actual brain hasn't changed.*
+*Notice `gui.py` doesn't reimplement any logic — it imports and reuses `Expense`, `Task`, `save_expense()`, `save_tasks()`, and `category_totals()` straight from the modules you already built. The GUI is a new *front end*; the app's actual brain hasn't changed.*
 
 **Checkpoint tasks**
 * Add expenses and tasks through the window and confirm they appear in the output box.
 * Confirm `expenses.csv` is still being written to correctly — open it after adding a few entries through the GUI.
+* Add a task, **close the window entirely, and reopen the app** — confirm the task is still there. (This is the one persistence check that's easy to skip and the one bug that's easy to ship: forgetting `save_tasks()` here means tasks quietly work in the demo and then vanish for a real user.)
 * Add a "Convert to NGN" button that calls `get_usd_to_ngn_rate()` and displays the converted total in the output box.
 
 ---
@@ -131,6 +137,21 @@ Real-world examples
 * Regenerate `requirements.txt` from inside the activated `.venv`.
 * Package `gui.py` into a standalone `.exe` using `auto-py-to-exe`, and confirm it launches on double-click without needing `python` installed.
 
+### Linting: Catching Issues Before They Ship
+
+* **`ruff`** is a fast, modern Python linter — it checks your code for likely bugs and style issues (an unused import, an undefined name, a PEP 8 violation) without running it.
+* Install it inside your `.venv`: `pip install ruff`
+* Run it from your project folder: `ruff check .`
+
+**Checkpoint tasks**
+* Install `ruff` inside your `.venv` and run `ruff check .` on your whole project.
+* Fix whatever it flags (an unused import is the most likely one at this stage).
+* Re-run `ruff check .` and confirm a clean pass before you package the `.exe`.
+
+### Beyond a Flat Folder: Real Package Layout
+
+Right now, `expense_tracker` is four files sitting loose in one folder: `tracker.py`, `models.py`, `gui.py`, `requirements.txt`. That's completely fine at this size, and nothing here needs to change for your `.exe` to work. But it's worth knowing the next step: a larger real Python project is usually organized as an actual **package** — a folder with an `__init__.py`, installed via a `pyproject.toml` instead of a loose `requirements.txt`. That structure is what lets a project be `pip install`-ed by someone else, versioned properly, and published if you ever wanted to. Nothing to build here — just know the flat-folder layout you've used all course is a starting point, not where a bigger project ends up.
+
 ---
 
 ## Final Capstone: The Expense & Task Tracker
@@ -139,15 +160,19 @@ Real-world examples
 
 **Requirements checklist:**
 
+* [ ] **Version control (Module 1):** A real git history in your `expense_tracker` repo, with a sensible `.gitignore`.
 * [ ] **Data model (Module 8):** Real `Expense` and `Task` classes, not raw dictionaries.
-* [ ] **Persistence (Module 6):** Expenses saved to and loaded from `expenses.csv`; the app remembers everything between runs.
+* [ ] **Persistence (Modules 6 & 8):** Expenses saved to `expenses.csv` *and* tasks saved to `tasks.json` — both survive closing the program, including through the GUI.
 * [ ] **Reporting (Module 7):** Category totals and duplicate-category detection both working correctly.
-* [ ] **Live data (Module 9):** A real, live USD→NGN exchange rate fetched via `requests`, with a graceful offline fallback.
+* [ ] **Tested (Module 5):** A `test_tracker.py` with real `pytest` tests for `calculate_total()` and `is_over_budget()`, all passing.
+* [ ] **Error handling (Module 6):** A custom `BudgetExceededError` for extreme entries, alongside the built-in `ValueError` handling — both logged via the `logging` module, not just `print()`.
+* [ ] **Live data (Module 9):** A real, live USD→NGN exchange rate fetched via `requests`, with a graceful offline fallback and the API URL read from an environment variable, not hardcoded.
 * [ ] **Interface (Module 10):** A real Tkinter window — no more `input()`/`print()` for end users.
+* [ ] **Linted (Module 11):** A clean `ruff check .` pass.
 * [ ] **Packaging (Module 11):** A working `requirements.txt` and a standalone `.exe` built with `auto-py-to-exe`.
 
 **Submission:**
-1.  **Code it:** Your finished `models.py`, `tracker.py`, and `gui.py`.
+1.  **Code it:** Your finished `models.py`, `tracker.py`, `gui.py`, and `test_tracker.py`.
 2.  **Document it:** Comments explaining what each function/class does — focus on *why*, not *what*.
 3.  **Debug it:** Use the F5 debugger to trace at least one real logic path (e.g., what happens when the budget limit is exceeded, or when the exchange-rate API fails).
 4.  **Package it:** The final `.exe`, plus `requirements.txt`.

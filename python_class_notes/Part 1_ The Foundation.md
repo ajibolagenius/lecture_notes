@@ -59,6 +59,21 @@ Run it: open the terminal in that folder and type `python tracker.py`.
 Mini extension (real world)
 * Add a second `print()` line that shows today's date using the `datetime` module — you'll use `datetime` for real, on every logged expense, starting next module.
 
+### 5. Version Control: Your First Commit
+
+Right now, your only backup is your own hard drive. Git turns `expense_tracker` into a project with a real history — every commit is a checkpoint you can return to, and it's how you'd actually share this code or move it to a new machine.
+
+Quick practice
+* Inside `expense_tracker`, open a terminal and run `git init`.
+* Create a `.gitignore` file with these three lines (you'll add to it as the course goes — a virtual environment and your own logged data don't belong in version control):
+    ```
+    .venv/
+    expenses.csv
+    tasks.json
+    ```
+* Run `git add .`, then `git commit -m "Initial commit: tracker.py v0.1"`.
+* From here on, commit after every module's Project Milestone — a real habit, not a one-time setup step.
+
 ---
 
 ## Module 2: The Building Blocks (Data, Input, Math, Strings)
