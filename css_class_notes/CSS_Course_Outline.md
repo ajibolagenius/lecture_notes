@@ -89,6 +89,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | **Controlling Dimensions** | 45 mins | 30 mins |
 | `width` and `height` | - Fixed vs. percentage-based widths. | - Give `.project-card` a `width`, then see what overflow does to the image inside it. |
 | `max-width` | - A key for responsive design. | - Use `max-width: 100%` on every project image (the fluid image trick). |
+| `aspect-ratio` | - Preventing layout shift while images load. | - Add `aspect-ratio` + `object-fit: cover` to every project image. |
 | **`box-sizing: border-box`** | 30 mins | 30 mins |
 | The "old" way vs. the "new" way. | - Why `border-box` is essential. | - Apply the universal `border-box` reset to your whole stylesheet. |
 | **The `display` Property** | 1 hour | 45 mins |
@@ -99,7 +100,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 **Week 2 Assignment:** Give your project cards real shape.
 * Apply `box-sizing: border-box` globally.
 * Style every `.project-card` with `padding`, `border`, `border-radius`, and `margin` between cards.
-* Ensure every project image uses `max-width: 100%; height: auto;` so it never overflows its card.
+* Ensure every project image uses `max-width: 100%; height: auto;` plus `aspect-ratio` so it never overflows its card or shifts layout while loading.
 * Center any single-card sections with `margin: 0 auto`.
 
 ---
@@ -120,6 +121,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | `color` | - `font-family` and "font stacks". | - Style all text across your 3 pages. |
 | `font-size` (px vs. em vs. rem) | - `font-weight` and `font-style`. | - Set a base `font-size` on `html` in `rem`. |
 | `rem` vs `em` | - The benefits of relative units. | - Size your headings and body text using `rem`. |
+| `clamp()` for fluid type | - Min/preferred/max in one line, no media queries. | - Make `#page-title` fluid with `clamp()`. |
 | **Text Formatting** | 30 mins | 30 mins |
 | `text-align` | - `text-decoration` | - Remove the underline from your nav links; center your `#page-title`. |
 | `line-height` | - `letter-spacing` / `word-spacing` | - Increase `line-height` on your `.bio` and project descriptions for readability. |
@@ -139,6 +141,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | **Color Definitions** | 45 mins | 30 mins |
 | Keywords (e.g., `red`) | - HEX (`#FF0000`) | - Change all your colors to use HEX codes. |
 | RGB (`rgb(255, 0, 0)`) | - RGBA (`rgba(255, 0, 0, 0.5)`) | - Add a semi-transparent RGBA overlay behind your `#page-title`. |
+| Contrast Checking | - WCAG's 4.5:1 minimum for body text. | - Run every text/background pair through a contrast checker before locking it in. |
 | **Background Properties** | 1 hour | 45 mins |
 | `background-color` | - `background-image` | - Set a `background-color` for `<body>`. |
 | `background-size` (`cover`, `contain`) | - `background-position` | - Give your `<header>` a subtle background. |
@@ -147,8 +150,8 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 
 **Week 3 Assignment:** Style your content.
 * Load two Google Fonts (a heading font, a body font) and apply them site-wide.
-* Set a readable `line-height` and `rem`-based type scale.
-* Change every color in your stylesheet to HEX or RGB(A).
+* Set a readable `line-height` and `rem`-based type scale, with `#page-title` made fluid via `clamp()`.
+* Change every color in your stylesheet to HEX or RGB(A), each pair checked against a 4.5:1 contrast minimum.
 * Add a "Featured" badge `<span>` to one project card's title, styled with `background-color`, `color`, `padding`, and `border-radius`.
 
 ---
@@ -231,6 +234,8 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | `gap` (`grid-gap`) | - `column-gap`, `row-gap`. | - Add a `gap` between your project cards, replacing the Week 2 margin hack. |
 | **Placing Items** | 45 mins | 30 mins |
 | `grid-column` | - `grid-row` | - (Briefly) Make your "Featured" project's card span 2 columns on desktop. |
+| **A Fluid Alternative** | 30 mins | 30 mins |
+| `repeat(auto-fit, minmax(250px, 1fr))`. | - Why real teams often reach for this over fixed breakpoints. | - Compare it against your breakpoint version at an in-between width. |
 
 ### Module 8 (Partial): Responsive Design
 
@@ -248,10 +253,13 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | `@media` rule syntax | - `min-width` (Mobile-First) | - Default: 1-column grid for Featured Work. |
 | Breakpoints | - `max-width` (Desktop-First) | - `@media (min-width: 600px)`: 2 columns. |
 | | | - `@media (min-width: 900px)`: 3 columns. |
+| **Container Queries** | 45 mins | 30 mins |
+| `container-type: inline-size` + `@container`. | - Responding to a container's width, not the viewport's. | - Make `.project-card`'s internal layout respond to `.work-grid`'s width via `@container`. |
 
 **Week 5 Assignment:** Make your portfolio responsive.
 * Turn your Featured Work section into a CSS Grid: single column by default, 2 columns at `min-width: 600px`, 3 columns at `min-width: 900px`.
 * Confirm your contact form and about page also read comfortably on a narrow (mobile) viewport — adjust padding/font-size inside a media query if needed.
+* Bonus: compare against an `auto-fit`/`minmax()` version, and add one `@container` query on `.project-card`.
 * Submit screenshots of all 3 pages at mobile, tablet, and desktop widths.
 
 ---
@@ -270,7 +278,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Pseudo-Classes** | 45 mins | 30 mins |
-| `:hover`, `:active`, `:focus` | - Responding to user state. | - Add a `:hover` effect to your `.project-card`s and nav links. |
+| `:hover`, `:active`, `:focus`, `:focus-visible` | - Responding to user state; why `:focus-visible` beats `:focus` for click vs. keyboard. | - Add a `:hover` effect and a `:focus-visible` outline to your `.project-card`s and nav links. |
 | `:nth-child` | - Targeting specific children. | - Zebra-stripe the rows of your "Skills & Experience" table. |
 | **Pseudo-Elements** | 30 mins | 30 mins |
 | `::before` & `::after` | - The `content: ""` property. | - Use `::before` to add a decorative mark to your `.bio` or a blockquote. |
@@ -280,6 +288,7 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | **CSS Animations** | 45 mins | 30 mins |
 | `animation` property | - Defining `@keyframes` (the "story") | - Add a pulsing glow `@keyframes` animation to your "Featured" badge. |
 | `animation-duration` | - `animation-iteration-count` | - Fade in `#page-title` on page load. |
+| `prefers-reduced-motion` | - Respecting an OS-level accessibility preference. | - Wrap both animations in `@media (prefers-reduced-motion: reduce)`. |
 
 ### Module 10: Advanced Selectors & Best Practices
 
@@ -293,13 +302,17 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | **CSS Variables** | 30 mins | 30 mins |
 | Declaring (`:root { --main-color: ... }`) | - Why they are essential for large projects. | - Refactor your entire site's colors, fonts, and spacing into CSS variables. |
 | Using (`var(--main-color)`) | - Global vs. Local scope. | - Change your whole site's theme by editing one variable. |
+| **Dark Mode** | 30 mins | 30 mins |
+| `@media (prefers-color-scheme: dark)`. | - Why CSS variables (not Sass variables) make this possible. | - Ship a real dark mode by overriding your `:root` variables; re-check contrast. |
 | **Advanced Selectors** | 45 mins | 30 mins |
 | Attribute Selectors `[type="email"]` | - `[data-state="active"]` | - Style your contact form's `input[type="email"]` differently from `input[type="text"]`. |
 | Sibling Combinators `+` and `~` | - `h2 + p` (Adjacent Sibling) | - Select the first `<p>` after each `.section-heading`. |
-| `:not()` and `:focus-within` | - `:not(.project-card--featured)` | - Highlight your contact form's `<fieldset>` with `:focus-within`. |
+| `:not()`, `:focus-within`, and `:has()` | - `:not(.project-card--featured)`; `:has()` as a "parent selector". | - Highlight your contact form's `<fieldset>` with `:focus-within`; select a card via `:has()`. |
 | **Best Practices (BEM)** | 30 mins | 15 mins |
 | Naming conventions | - Block (`.project-card`), Element (`.project-card__title`) | - Refactor `.project-card`/`.project-title`/`.project-description` into BEM: `.project-card__title`, `.project-card__description`, `.project-card--featured`. |
 | Browser Dev Tools (Computed) | - Modifier (`.project-card--featured`) | - Debug a specificity problem using the "Computed" tab. |
+| **Native CSS Nesting** | 30 mins | 30 mins |
+| Nesting selectors with `&`, no compiler needed. | - How it pairs with BEM to mirror your HTML structure. | - Rewrite your `.project-card` rules nested, using `&`. |
 
 ### Module 11: Beyond CSS: Intro to Sass/SCSS
 
@@ -311,21 +324,23 @@ This course is designed to take absolute beginners with basic HTML knowledge to 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is Sass/SCSS?** | 30 mins | 15 mins |
-| "CSS with superpowers" | - The "compilation" step. | - (Lecture) See your `style.css` rewritten as `.scss`. |
+| "CSS with superpowers" | - How it actually compiles in a real project (Dart Sass CLI, Vite/webpack, or a framework) — and checking caniuse.com before using any new feature. | - (Lecture) See your `style.css` rewritten as `.scss`. |
 | **Sass Variables** | 15 mins | 15 mins |
 | `$primary-color: #333` | - Sass variables vs. CSS variables. | - (Bonus, optional) Convert your `:root` variables to Sass variables. |
 | **Nesting Selectors** | 30 mins | 30 mins |
-| How nesting keeps code DRY. | - The `&` (parent) selector. | - (Bonus, optional) Rewrite `.project-card` in Sass nesting. |
+| How nesting keeps code DRY. | - The `&` (parent) selector; why native nesting (Module 10) is now the default choice for new projects. | - (Bonus, optional) Rewrite `.project-card` in Sass nesting. |
 | **Basic Mixins** | 30 mins | 15 mins |
 | `@mixin` and `@include` | - Reusing blocks of styles (e.g., flex-center). | - (Bonus, optional) Create a `@mixin` for your button style. |
+| **Scaling CSS & Utility Frameworks** | 30 mins | — |
+| Splitting one stylesheet into partials/scoped components. | - Utility-first frameworks (Tailwind) as an alternative way to apply the same Box Model/Flexbox/Grid knowledge. | - (Lecture-only) No exercise — awareness for your next project. |
 
 **Week 6 / Final Project:** Finish and deploy your fully styled portfolio.
 * **Goal:** Combine everything you've learned into one polished, responsive, three-page site — the same `index.html`, `about.html`, and `contact.html` from the HTML course, now fully styled.
 * **Requirements:**
     * Must be **Mobile-First**, with your Week 5 grid and breakpoints intact.
-    * Must use **CSS Variables** for all colors, fonts, and spacing.
+    * Must use **CSS Variables** for all colors, fonts, and spacing — including a working **dark mode** via `prefers-color-scheme`.
     * Must use **BEM** naming for your project cards.
-    * Must include **`:hover` transitions** on cards, buttons, and links.
-    * Must include at least one **`@keyframes` animation**.
-    * Must use at least one **advanced selector** (e.g., `h2 + p`, `:focus-within`).
+    * Must include **`:hover` transitions** on cards, buttons, and links, plus **`:focus-visible`** (not `:focus`) styling.
+    * Must include at least one **`@keyframes` animation**, wrapped in `prefers-reduced-motion`.
+    * Must use at least one **advanced selector** (e.g., `h2 + p`, `:focus-within`, `:has()`).
     * Redeploy the updated, now fully-styled site to the same live URL from HTML Week 7.

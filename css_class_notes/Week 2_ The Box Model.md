@@ -80,6 +80,9 @@ This module is the most important foundation in all of CSS. Every single element
         * `max-width: 800px;` means "Be as wide as your content needs, *until* you hit 800px. Then, stop growing."
         * **The Fluid Image Trick:** To make your project screenshots scale down on mobile but never distort:
             * `img { max-width: 100%; height: auto; }`
+        * **The Problem the Fluid Image Trick Doesn't Solve:** With `height: auto`, the image's height is unknown *until it finishes downloading*. On a slow connection, everything below it — the project title, the description — visibly jumps down the moment the image pops in. This is called **layout shift**, and it's a real, measurable metric (Cumulative Layout Shift) that search engines and users both notice.
+        * **`aspect-ratio` (The Fix):** Tells the browser the image's width-to-height ratio *before* it downloads, so it can reserve the correct space immediately — no jump, no shift.
+            * `img { aspect-ratio: 16 / 9; }` (or whatever ratio your actual screenshots are).
 
 * **In-Depth Example (Sizing Your Project Card):**
     ```css
@@ -95,6 +98,8 @@ This module is the most important foundation in all of CSS. Every single element
     img {
       max-width: 100%;
       height: auto;
+      aspect-ratio: 16 / 9; /* reserves the space before the image even loads */
+      object-fit: cover;    /* crops instead of distorting if the real image doesn't match 16:9 */
     }
     ```
 
@@ -162,7 +167,7 @@ This module is the most important foundation in all of CSS. Every single element
 
 1.  **Modern Reset:** Add the universal `box-sizing: border-box` reset to the top of your stylesheet.
 2.  **Card Shape:** Style `.project-card` with `padding`, `border`, `border-radius`, and `margin-bottom` (to space cards apart).
-3.  **Sizing:** Give `.project-card` a sensible `width`, and apply the fluid image trick (`max-width: 100%; height: auto;`) to every image site-wide.
+3.  **Sizing:** Give `.project-card` a sensible `width`, and apply the fluid image trick (`max-width: 100%; height: auto;`) plus `aspect-ratio` to every image site-wide, so nothing jumps around as images load.
 4.  **Display Check:** Confirm in dev tools that your `<article>` (block), nav `<a>` (inline), and any pill/tag you add (inline-block) all behave as expected.
 
 **Bonus Challenge:** Add a `box-shadow` to `.project-card` (e.g., `box-shadow: 0 4px 8px rgba(0,0,0,0.1);`) to make it feel "lifted" off the page.

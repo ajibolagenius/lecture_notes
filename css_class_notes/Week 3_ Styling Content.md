@@ -69,6 +69,17 @@ This week, we move from the "boxes" (Box Model) to the "paint and wallpaper." Yo
     }
     ```
 
+* **Fluid Type with `clamp()`:** A fixed `2.5rem` heading is either too big on a phone or too small on a wide desktop monitor — you'd need a media query (Week 5) just to fix font sizes at every breakpoint. `clamp(min, preferred, max)` bakes all three into one line: the browser picks the `preferred` value, but never goes below `min` or above `max`, scaling smoothly in between with zero media queries.
+
+* **In-Depth Example (`#page-title`, Fluid):**
+    ```css
+    #page-title {
+      /* Never smaller than 1.75rem, never larger than 2.5rem,
+         and scales smoothly with viewport width in between */
+      font-size: clamp(1.75rem, 4vw + 1rem, 2.5rem);
+    }
+    ```
+
 ---
 
 ### 3. Text Formatting for Readability
@@ -140,6 +151,7 @@ This week, we move from the "boxes" (Box Model) to the "paint and wallpaper." Yo
     * **HEX (Hexadecimal):** The most common. A `#` followed by 6 characters (RRGGBB). `#336699`, `#ffffff`, `#333333`.
     * **RGB (Red, Green, Blue):** Uses numbers from 0-255. `rgb(51, 102, 153)`.
     * **RGBA (Red, Green, Blue, Alpha):** **The most powerful.** Adds a transparency channel from `0` to `1`. `rgba(0, 0, 0, 0.6)` is a 60% transparent black — perfect for text-readability overlays.
+    * **Check Contrast Before You Commit:** A color that looks fine to you might not be readable to everyone — and "looks fine to me" isn't a real test. Before a text/background color pair goes into your stylesheet for good, run it through a contrast checker (e.g., WebAIM's Contrast Checker). WCAG's minimum is a **4.5:1** ratio for normal body text — below that, real users with low vision genuinely can't read it comfortably.
 
 * **In-Depth Example (An Overlay Behind Your Name):**
     ```css
@@ -212,9 +224,9 @@ This week, we move from the "boxes" (Box Model) to the "paint and wallpaper." Yo
 **Requirements:**
 
 1.  **Google Fonts:** Load one heading font and one body font, linked on all 3 pages.
-2.  **Type Scale:** Set a `rem`-based `font-size` for `#page-title`, `.section-heading`, and `.project-title`.
+2.  **Type Scale:** Set a `rem`-based `font-size` for `#page-title`, `.section-heading`, and `.project-title`; make `#page-title` fluid with `clamp()`.
 3.  **Readability:** Set a `line-height` of at least `1.6` on body text, and remove the default underline from nav links (adding it back on `:hover`).
-4.  **Color System:** Convert every color in your stylesheet to HEX or RGB(A) — no color keywords.
-5.  **Featured Badge:** Add a `<span class="badge">Featured</span>` to one project's title, styled with `background-color`, `color`, `padding`, and `border-radius`.
+4.  **Color System:** Convert every color in your stylesheet to HEX or RGB(A) — no color keywords. Every text/background pair checked against a contrast checker and passing WCAG's 4.5:1 minimum.
+5.  **Featured Badge:** Add a `<span class="badge">Featured</span>` to one project's title, styled with `background-color`, `color`, `padding`, and `border-radius` — contrast-checked like everything else.
 
 **Bonus Challenge:** Add a subtle `rgba()` background tint behind your `#page-title` to make it stand out from the page background.

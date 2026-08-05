@@ -149,6 +149,56 @@ Your layout looks great on your desktop, but a 3-column grid is a disaster on a 
     3.  Add a `@media (min-width: 900px)` query switching it to 3 columns.
     4.  Resize your browser window from narrow to wide and watch it adapt live.
 
+### 4. A Fluid Alternative: `auto-fit` and `minmax()`
+
+* **Lecture & Concepts:**
+    * The three-breakpoint grid above works, but it hard-codes *exactly* 1/2/3 columns at *exactly* 600px/900px. Resize to an odd width in between, or add a 4th project, and it doesn't adapt any further than the breakpoint already chose.
+    * `repeat(auto-fit, minmax(250px, 1fr))` is the pattern most real teams reach for instead: "fit as many columns as will comfortably hold at least 250px each, and stretch them to fill the row." No breakpoints, no media query needed for the grid itself, at any width.
+    * `auto-fit` collapses empty tracks so a short last row doesn't leave gaps; its sibling `auto-fill` leaves them instead. `auto-fit` is almost always what you want for a card gallery like this one.
+
+* **In-Depth Example:**
+    ```css
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    ```
+
+* **⭐️ Class Exercise: Compare Both Approaches**
+    1.  Temporarily swap your `.work-grid`'s media-query version for the one-line `auto-fit`/`minmax()` version above.
+    2.  Resize the browser continuously — not just past 600px/900px — and compare the two approaches around, say, 750px.
+    3.  Switch back to the explicit breakpoints version for your actual assignment submission (that's what's graded below), but keep this pattern in mind — it's the one you'll reach for by default on your next project.
+
+### 5. Container Queries: Responding to the Card, Not the Screen
+
+* **Lecture & Concepts:**
+    * Media queries respond to the **viewport's** width. But what if `.project-card` needs to look different depending on how much space *it* has, regardless of the overall screen size? That happens the moment a card ends up somewhere narrower than the full page — like your Bonus Challenge's 2-column "Featured" card sitting next to normal 1-column ones.
+    * **Container queries** solve exactly this: an element can query the width of *its own containing element* instead of the viewport. Media queries never had this capability.
+    * Two-step setup: mark the parent as a container with `container-type: inline-size` (this opts it into being measured), then query it with `@container (condition) { ... }` instead of `@media`.
+
+* **In-Depth Example:**
+    ```css
+    .work-grid {
+      container-type: inline-size;
+      container-name: work-grid;
+    }
+
+    /* When the grid itself has at least 500px to work with,
+       lay each card's image and text side-by-side instead of stacked */
+    @container work-grid (min-width: 500px) {
+      .project-card {
+        display: flex;
+        gap: 16px;
+      }
+    }
+    ```
+
+* **⭐️ Class Exercise: Make a Card Container-Aware**
+    1.  Add `container-type: inline-size` and a `container-name` to `.work-grid`.
+    2.  Wrap your `.project-card`'s image+text layout in an `@container` query that switches it to a horizontal flex layout once the container is at least `500px` wide.
+    3.  Resize the browser and confirm the card's *internal* layout changes based on the grid's available width — independent of any `@media` breakpoint.
+
 ---
 
 ### Week 5: Comprehensive Assignment
@@ -167,4 +217,4 @@ Your layout looks great on your desktop, but a 3-column grid is a disaster on a 
 4.  **Full-Site Check:** Resize your browser (or use dev tools' device toolbar) to confirm `index.html`, `about.html`, and `contact.html` — including your Week 4 header and your contact form — all remain usable on a narrow, phone-width screen.
 5.  **Screenshots:** Submit screenshots of all 3 pages at mobile, tablet, and desktop widths.
 
-**Bonus Challenge:** Use `grid-column: span 2;` on your "Featured" project card so it visually stands out by taking up two columns on desktop.
+**Bonus Challenge:** Use `grid-column: span 2;` on your "Featured" project card so it visually stands out by taking up two columns on desktop. For extra practice, try an `auto-fit`/`minmax()` version of `.work-grid` alongside your breakpoint version, and add one `@container` query so `.project-card`'s internal layout responds to the grid's available width, not just the viewport's.
