@@ -1,139 +1,83 @@
-This curriculum is designed to take students from zero knowledge to an intermediate level, utilizing **Visual Studio Code (VS Code)** on **Windows**. It aligns with the topics found in the W3Schools Python Tutorial.# **Course Overview**
+# Comprehensive Python for Windows: Beginner to Intermediate
+
+This course takes you from a fresh installation to a packaged, distributable Windows desktop app. Every module builds one continuous project: a **Personal Expense & Task Tracker** that grows from a single console script into a GUI application you can hand to someone who has never installed Python. It aligns with the topics found in the W3Schools Python Tutorial, taught with **Visual Studio Code (VS Code)** on **Windows**.
+
+## Course Overview
 
 * **Target Audience:** Beginners with basic computer literacy.
 * **Tools:** Windows 10/11, Python 3.x, Visual Studio Code.
-* **Goal:** Build a solid foundation in Python syntax, data structures, and functional programming, culminating in basic intermediate concepts like OOP and File I/O.
+* **Goal:** Build a solid foundation in Python syntax, data structures, and functional programming, culminating in OOP, real API consumption, GUI development, and packaging — by building and shipping one real, continuously-growing application: the Expense & Task Tracker.
 
 ---
 
-### **Phase 1: Environment Setup (The "Day 0" Prerequisites)**
+## Part 1: The Foundation
 
-*Before the first lecture, or as the first workshop.*
+### Module 1: The Launchpad (Setup & Environment)
+* Install Python (with PATH), install VS Code, configure the Python extension, learn the essential Windows terminal commands.
+* **Real-world outcome:** You can open any folder in the terminal and run a Python script confidently.
 
-**1. Install Python on Windows**
-
-* Download the latest version from `python.org` (not the Microsoft Store, to avoid permission quirks).
-* **Crucial Step:** During installation, check the box **"Add Python to PATH"**. This allows students to run python from the Command Prompt/Terminal.
-
-**2. Install Visual Studio Code (VS Code)**
-
-* Download from `code.visualstudio.com`.
-
-**3. Configure VS Code for Python**
-
-* Open VS Code.
-* Go to the **Extensions View** (Ctrl+Shift+X).
-* Search for and install the **"Python"** extension by Microsoft (IntelliSense, Linting, Debugging).
-* *Optional but recommended:* Install the **"Prettier"** extension for code formatting.
+### Module 2: The Building Blocks (Data, Input, Math, Strings)
+* Variables and data types, `input()` and type casting, basic math, f-strings and string methods.
+* **Project milestone:** Build `tracker.py` — a single-expense-entry CLI tool. It asks for a category and amount, and prints a clean, formatted confirmation. This one file is what every later module edits and grows.
 
 ---
 
-### **Phase 2: The Beginner Curriculum (Weeks 1-4)**
+## Part 2: Automation & Structure
 
-#### **Module 1: First Steps & Syntax**
+### Module 3: Control Flow (Logic)
+* `if`/`elif`/`else`, `while` loops, `for` loops and `range()`, using the VS Code debugger (F5).
+* **Project milestone:** Add a `budget_limit` check to `tracker.py` — if a new expense pushes the running total over the limit, print a warning.
 
-* **VS Code Skill:** Creating a folder, opening it in VS Code (`File > Open Folder`), and creating a `.py` file.
-* **VS Code Skill:** Using the Integrated Terminal (Ctrl+`) to run scripts (`python hello.py`).
-* **Topics:**
-* Python Syntax & Indentation (The whitespace rule).
-* Comments (`#`).
-* Variables & Naming Conventions (snake_case).
-* **Output:** `print()` function.
-* **Input:** `input()` function (Interactivity).
+### Module 4: Loops & Lists (Efficiency)
+* Lists, `for`/`while` loops over collections, batch operations.
+* **Project milestone:** Refactor `tracker.py` to hold expenses in a list and support *batch-importing* several expenses in one run, instead of only ever handling one.
 
+### Module 5: Functions & Modules
+* `def`, parameters/arguments, return values, default/keyword arguments, `import`ing built-in modules (`datetime`, `pathlib`).
+* **Project milestone:** Refactor every piece of `tracker.py`'s logic into named, reusable functions: `add_expense()`, `calculate_total()`, `is_over_budget()`.
 
-
-#### **Module 2: Data Types & Operators**
-
-* **Topics:**
-* Primitive Types: Strings (`str`), Integers (`int`), Floats (`float`), Booleans (`bool`).
-* Type Casting (`int()`, `str()`, `float()`).
-* Operators: Arithmetic (`+`, `-`, `*`, `/`, `%`), Comparison (`==`, `!=`, `>`), Logical (`and`, `or`, `not`).
-* String Operations: Slicing (`text[0:5]`), Methods (`.upper()`, `.strip()`, `.replace()`), and f-strings (e.g., `f"Hello {name}"`).
-
-
-
-#### **Module 3: Control Flow (Logic)**
-
-* **VS Code Skill:** Using the Debugger (F5) to step through `if` statements.
-* **Topics:**
-* `if`, `elif`, `else` statements.
-* `while` loops (and `break`/`continue`).
-* `for` loops (iterating over sequences and `range()`).
-
-
-
-#### **Module 4: Data Structures (Collections)**
-
-* **Topics:**
-* **Lists:** Creation, Indexing, Mutable methods (`.append()`, `.remove()`, `.pop()`, `.sort()`).
-* **Tuples:** Immutable sequences (Difference from lists).
-* **Sets:** Unordered, unique elements (basic Set math: union/intersection).
-* **Dictionaries:** Key-Value pairs, accessing data (`data['key']`), methods (`.keys()`, `.values()`, `.items()`).
-
-
+### Module 6: File I/O & Error Handling
+* Reading/writing files, `with open()` as a context manager, CSV files, `try`/`except`.
+* **Project milestone:** `tracker.py` now saves expenses to `expenses.csv` and loads them back on startup — your data survives closing the program for the first time.
 
 ---
 
-### **Phase 3: The Intermediate Curriculum (Weeks 5-8)**
+## Part 3: Intermediate Mastery
 
-#### **Module 5: Functions & Modular Code**
+### Module 7: Advanced Data Handling (Dictionaries, Sets, Comprehensions, Pip)
+* Dictionaries for fast lookups, sets for deduplication, list comprehensions, `pip install`.
+* **Project milestone:** Add `category_totals()` (a dictionary comprehension summing expenses per category) and use a set to detect/warn about duplicate entries.
 
-* **Topics:**
-* Defining Functions (`def`).
-* Parameters vs. Arguments.
-* Return Values.
-* Default Parameters & Keyword Arguments (`key=value`).
-* *Arbitrary Arguments (`*args`, `**kwargs`) - Optional/Advanced.*
-* **Scope:** Local vs. Global variables.
-* **Modules:** Importing built-in modules (`math`, `random`, `datetime`).
+### Module 8: Object-Oriented Programming (OOP)
+* Classes vs. objects, `__init__`/`self`, methods, inheritance.
+* **Project milestone:** Refactor the plain-dictionary expenses into a real `Expense` class — and introduce a brand-new `Task` class, turning `tracker.py` into a genuine *Expense & Task* Tracker for the first time.
 
-
-
-#### **Module 6: Error Handling & File I/O**
-
-* **VS Code Skill:** handling file paths (absolute vs relative paths in the Windows terminal).
-* **Topics:**
-* **Try...Except:** Handling crashes gracefully (`ZeroDivisionError`, `ValueError`).
-* **File Handling:**
-* Opening files (`open()`).
-* Modes: Read (`'r'`), Write (`'w'`), Append (`'a'`).
-* The `with` statement (Context Managers for safe file closing).
-* Reading/Writing basic text files.
-
-
-
-
-
-#### **Module 7: Object-Oriented Programming (OOP) Basics**
-
-* **Topics:**
-* Classes vs. Objects.
-* The `__init__()` function (Constructors).
-* Object Methods and the `self` parameter.
-* Inheritance (Parent and Child classes).
-
-
-
-#### **Module 8: Python Package Manager (PIP) & Virtual Environments**
-
-* **VS Code Skill:** Selecting the Interpreter (`Ctrl+Shift+P` > `Python: Select Interpreter`).
-* **Topics:**
-* What is PIP?
-* Installing external packages (e.g., `pip install requests` or `pandas`).
-* Creating a Virtual Environment (`python -m venv venv`).
-* *Brief Intro to:* JSON handling (import `json`) or RegEx (import `re`) as practical applications of modules.
-
-
+### Module 9: Consuming a Real API
+* What an API is, the `requests` library, parsing JSON responses, handling network errors.
+* **Project milestone:** Add live currency conversion — fetch a real USD→NGN exchange rate from a free public API so expenses logged in either currency can be compared on one dashboard.
 
 ---
 
-### **Recommended "Capstone" Projects**
+## Part 4: Deployment & Interfaces
 
-1. **Number Guessing Game:** Uses `random`, loops, and `if/else`.
-2. **To-Do List CLI:** Uses Lists/Dictionaries and functions.
-3. **Contact Book:** Uses File I/O to save/load contacts to a text or JSON file.
+### Module 10: GUI Development (Windows Apps with Tkinter)
+* Tkinter basics, widgets (Label, Entry, Button, Text), event handling.
+* **Project milestone:** Wrap the entire tracker — expenses *and* tasks, category totals, currency conversion — in a real Tkinter window, so it's no longer a console-only tool.
 
-This video from the official Visual Studio Code channel provides a perfect walkthrough for the exact setup your students will need on Windows.
+### Module 11: Virtual Environments & Distribution
+* `venv`, `requirements.txt`, packaging to a standalone `.exe` with `auto-py-to-exe`.
+* **Project milestone:** Package the finished app as `ExpenseTaskTracker.exe` — something you could hand to a friend with no Python installed.
 
-[Getting Started with Python in VS Code (Official Video)](https://www.youtube.com/watch?v=D2cwvpJSBX4)
+---
+
+## Final Capstone: The Expense & Task Tracker
+
+**One deliverable, not a menu of options.** By Module 11 you will have a single, packaged, installable Windows desktop application that:
+* Logs expenses with categories, running totals, and a budget-limit warning (Modules 2-4).
+* Persists everything to CSV, survives restarts (Module 6).
+* Reports category totals and flags duplicates (Module 7).
+* Models expenses and tasks as real classes (Module 8).
+* Converts between currencies using a live exchange-rate API (Module 9).
+* Runs as a real Windows GUI app (Module 10), packaged as a standalone `.exe` (Module 11).
+
+This is your portfolio piece — the same file you started in Module 2, grown module by module into something real.
