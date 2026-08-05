@@ -1,471 +1,197 @@
 # Week 2: Control Flow & Functions
 
-This week is all about making your code smart. You'll learn how to make it make decisions (Control Flow) and how to package it into reusable blocks (Functions).
+This week is all about making your code smart. You'll learn how to make it make decisions (Control Flow) and how to package logic into reusable blocks (Functions) — specifically, the real validation logic your contact form will need before it can safely accept a submission.
 
 ## Module 3: Control Flow
 
-Control flow is how you make your program "decide" what to do next. Instead of just running from top to bottom, it can take different paths based on different conditions.
+Control flow is how you make your program "decide" what to do next, instead of just running top to bottom.
 
 ### 1. Conditional Statements (`if`, `else if`, `else`)
 
 * **Lecture & Concepts:**
-    * This is the most common way to make a decision. The analogy is a fork in the road: "IF a condition is true, THEN go this way, ELSE go that way."
-    * **`if`:** The block that runs *only if* the condition is `true`.
-    * **`else if`:** An *optional* second check if the first `if` was `false`. You can chain as many as you want.
-    * **`else`:** An *optional* "catch-all" block that runs if *all* previous `if` and `else if` conditions were `false`.
-
-* **In-Depth Example (Grading):**
-    ```javascript
-    let score = 82;
-
-    if (score >= 90) {
-      console.log("You get an A!");
-    } else if (score >= 80) {
-      // The score is not >= 90, but is it >= 80?
-      // 82 is, so this block runs.
-      console.log("You get a B.");
-    } else if (score >= 70) {
-      console.log("You get a C.");
-    } else {
-      // Runs if score is 69 or less
-      console.log("You need to study more.");
-    }
-    // Output: "You get a B."
-    ```
-[Image of a simple if-else flowchart]
+    * The analogy is a fork in the road: "IF a condition is true, THEN go this way, ELSE go that way."
+    * **`if`:** Runs *only if* the condition is `true`.
+    * **`else if`:** An optional additional check. Chain as many as you need.
+    * **`else`:** An optional "catch-all" if every previous check failed.
 
 * **Crucial Concept: Truthy & Falsy**
-    * JavaScript's `if` statement doesn't just check for `true`. It checks if a value is **"truthy"** or **"falsy"**.
-    * **Falsy Values:** There are only 6 values that are "falsy." You must memorize them!
-        * `false`
-        * `0` (the number zero)
-        * `""` (an empty string)
-        * `null`
-        * `undefined`
-        * `NaN` (Not a Number)
-    * **Truthy Values:** *Everything else.* Any string with content ("hello", "0"), any number (1, -10), objects, and arrays are all **truthy**.
-    * **Modern Example (Checking for input):**
-        ```javascript
-        let username = ""; // This is a falsy value
+    * JavaScript's `if` doesn't just check `true`/`false` — it checks if a value is **"truthy"** or **"falsy"**.
+    * **The 6 Falsy Values (memorize these):** `false`, `0`, `""` (empty string), `null`, `undefined`, `NaN`.
+    * **Truthy Values:** *Everything else* — including a non-empty string, any nonzero number, arrays, and objects.
 
-        if (username) { // This is the same as (username === true)
-          console.log(\`Welcome, ${username}\`);
-        } else {
-          console.log("Please enter your username!");
-        }
-        // Output: "Please enter your username!"
-        ```
-
----
-
-### 2. `switch` Statement
-
-* **Lecture & Concepts:**
-    * A `switch` statement is a *cleaner alternative* to a long `if...else if...else` chain, but *only* when you are checking a **single variable** against **multiple exact values**.
-    * **`case`:** Defines one of the values to check for.
-    * **`break`:** This is **CRITICAL**. It tells JS to "break out" of the `switch` block. If you forget it, the code will "fall through" and run the next `case`'s code, which is almost always a bug.
-    * **`default`:** This is the same as the `else` block. It runs if no other `case` matches.
-
-* **In-Depth Example (Day of the Week):**
+* **In-Depth Example (Checking Your Real Contact Form's Message Field):**
     ```javascript
-    // new Date().getDay() returns a number: 0 = Sunday, 1 = Monday, etc.
-    let dayNumber = 3; // Let's pretend it's Wednesday
-    let dayName;
+    let message = ""; // Imagine this came from your form's textarea
 
-    switch (dayNumber) {
-      case 0:
-        dayName = "Sunday";
-        break; // Stop!
-      case 1:
-        dayName = "Monday";
-        break;
-      case 2:
-        dayName = "Tuesday";
-        break;
-      case 3:
-        dayName = "Wednesday";
-        break; // This one matches
-      case 4:
-        dayName = "Thursday";
-        break;
-      case 5:
-        dayName = "Friday";
-        break;
-      case 6:
-        dayName = "Saturday";
-        break;
-      default:
-        dayName = "Invalid day number";
+    if (message) { // falsy, because "" is one of the 6 falsy values
+      console.log(`Message received: ${message}`);
+    } else {
+      console.log("Please write a message before submitting.");
     }
-
-    console.log(\`Today is ${dayName}.\`);
-    // Output: "Today is Wednesday."
+    // Output: "Please write a message before submitting."
     ```
 
 ---
 
-### 3. Ternary Operator
+### 2. Ternary Operator
 
 * **Lecture & Concepts:**
-    * A clean, one-line "shorthand" for a simple `if/else` statement. It's an "operator" because it returns a value.
-    * **Syntax:** `condition ? valueIfTrue : valueIfFalse;`
+    * A clean, one-line shorthand for a simple `if/else`. `condition ? valueIfTrue : valueIfFalse;`
 
-* **In-Depth Example (Access Control):**
-    * **The `if/else` way (5 lines):**
-        ```javascript
-        let age = 20;
-        let message;
-        if (age >= 18) {
-          message = "Access Granted";
-        } else {
-          message = "Access Denied";
-        }
-        ```
-    * **The Ternary way (1 line):**
-        ```javascript
-        let age = 20;
-        let message = (age >= 18) ? "Access Granted" : "Access Denied";
+* **In-Depth Example:**
+    ```javascript
+    let message = "Hello there!";
 
-        console.log(message);
-        // Output: "Access Granted"
-        ```
+    // The if/else way
+    let status;
+    if (message) {
+      status = "ready to send";
+    } else {
+      status = "empty";
+    }
+
+    // The ternary way (same result, one line)
+    let statusTernary = message ? "ready to send" : "empty";
+    ```
 
 ---
 
-### 4. Loops (`for`, `while`)
+### 3. Loops (`for`, `while`)
 
 * **Lecture & Concepts:**
-    * Loops are for repeating a block of code multiple times. This is a core part of the **DRY (Don't Repeat Yourself)** principle.
+    * Loops repeat a block of code — core to the **DRY (Don't Repeat Yourself)** principle.
+    * **`for` Loop:** Use when you know *how many times* to loop.
+    * **`while` Loop:** Use when you *don't* know how many times, only the condition to stop.
+    * **WARNING:** A `while` loop **must** have a way for its condition to become `false`, or it becomes an infinite loop that crashes the browser tab.
 
-    * **`for` Loop:**
-        * **When to use:** When you know exactly *how many times* you want to loop. (e.g., "count from 1 to 10," "check all 50 items in this list").
-        * **Syntax Breakdown:** `for ( [initialization]; [condition]; [increment] ) { ... }`
-            1.  **`let i = 0`:** The *initialization*. Runs *once* at the very beginning. Creates a counter variable `i`.
-            2.  **`i < 10`:** The *condition*. Checked *before* every loop. If `true`, the loop runs. If `false`, the loop stops.
-            3.  **`i++`:** The *increment*. Runs *after* every loop. (`i++` is shorthand for `i = i + 1`).
-[Image of a for loop flowchart]
+* **In-Depth Example (Looping Your Form's Field Names):**
+    ```javascript
+    const fieldNames = ["name", "email", "message"];
 
-    * **`while` Loop:**
-        * **When to use:** When you *don't* know how many times, but you know the *condition to stop*. (e.g., "keep rolling the dice *while* you don't get a 6," "keep asking for a password *while* it's incorrect").
-        * **WARNING:** You **must** include a way for the condition to become `false`. If you forget (e.g., you forget `count++`), you will create an **infinite loop** that crashes the browser!
+    for (let i = 0; i < fieldNames.length; i++) {
+      console.log(`Checking field: ${fieldNames[i]}`);
+    }
+    ```
 
-* **In-Depth Example (`for` vs. `while`):**
-    * **`for` loop (counting 1 to 5):**
-        ```javascript
-        for (let i = 1; i <= 5; i++) {
-          console.log(\`[for loop] Counting... ${i}\`);
-        }
-        // Output:
-        // [for loop] Counting... 1
-        // [for loop] Counting... 2
-        // ...
-        // [for loop] Counting... 5
-        ```
-    * **`while` loop (same task):**
-        ```javascript
-        let count = 1; // 1. Initialization
-        while (count <= 5) { // 2. Condition
-          console.log(\`[while loop] Counting... ${count}\`);
-          count++; // 3. Increment (CRITICAL!)
-        }
-        ```
-* **`break` and `continue` (Controlling Loops):**
-    * **`break`:** Jumps *out* of the loop entirely.
-    * **`continue`:** Skips the *rest of the current iteration* and jumps to the next one.
-    * **Example (Skipping 13):**
-        ```javascript
-        for (let i = 10; i <= 15; i++) {
-          if (i === 13) {
-            console.log("Skipping 13...");
-            continue; // Stop this loop, go to i=14
-          }
-          console.log(\`Number is ${i}\`);
-        }
-        // Output:
-        // Number is 10
-        // Number is 11
-        // Number is 12
-        // Skipping 13...
-        // Number is 14
-        // Number is 15
-        ```
+* **⭐️ Class Exercise: Validate a Sample Message**
+    1.  Create `let message = "";`.
+    2.  Write an `if/else` that logs `"Please write a message before submitting."` if it's empty, or the message itself if not.
+    3.  Refactor it into a ternary that logs the same result.
 
----
 ---
 
 ## Module 4: Functions (The Building Blocks)
 
-Functions are the single most important concept in programming. A function is a **reusable, named block of code** that performs a specific task.
+Functions are the single most important concept in programming — and this week, you'll write the real ones your contact form depends on.
 
 ### 1. Function Basics (DRY)
 
 * **Lecture & Concepts:**
-    * The **DRY (Don't Repeat Yourself)** principle is key. If you find yourself copying and pasting the same code, you should put it in a function.
-    * **Analogy:** A function is like a **recipe** in a cookbook.
-        * **Defining the function:** Writing the recipe down (e.g., `function makeSandwich() { ... }`).
-        * **Calling the function:** Actually *making* the sandwich (e.g., `makeSandwich();`). You can "call" it as many times as you want.
+    * A function is a **reusable, named block of code** that performs a specific task.
+    * **Analogy:** A function is a **recipe**. Defining it writes the recipe down; calling it actually makes the dish.
 
-* **In-Depth Example (Function Declaration):**
+* **In-Depth Example (Your First Real Validator):**
     ```javascript
-    // 1. DEFINING the function (the "recipe")
-    // This code does NOT run yet. It's just being stored.
-    function greet() {
-      console.log("Hello!");
-      console.log("Welcome to the program.");
+    function isNotEmpty(value) {
+      // .trim() removes leading/trailing whitespace, so "   " counts as empty too
+      return value.trim().length > 0;
     }
 
-    // 2. CALLING the function (running the code)
-    greet(); // Output: "Hello!" "Welcome to the program."
-    greet(); // Output: "Hello!" "Welcome to the program."
+    console.log(isNotEmpty("Hello"));  // true
+    console.log(isNotEmpty(""));       // false
+    console.log(isNotEmpty("   "));    // false
     ```
 
 ---
 
-### 2. Parameters & Arguments
+### 2. Parameters, Arguments & the `return` Keyword
 
 * **Lecture & Concepts:**
-    * Right now, our `greet()` function is static. It does the same thing every time. How do we make it dynamic? With **parameters**.
-    * **Parameter:** The variable name *inside the function's parentheses* (the recipe's "ingredient" placeholder, e.g., `breadType`).
-    * **Argument:** The *actual value* you "pass in" when you *call* the function (the specific "ingredient" you use, e.g., `"wheat"`).
+    * **Parameter:** The variable name inside the function's parentheses (the "ingredient" placeholder).
+    * **Argument:** The actual value you pass in when calling the function.
+    * **`return`:** Sends a value back out of the function so you can store or use it. It also **immediately exits** the function — code after `return` never runs.
+    * **Default Parameters (ES6):** Give a parameter a fallback value if none is passed: `function greet(name = "Guest") { ... }`.
 
-* **In-Depth Example (Parameters):**
+* **In-Depth Example (Your Real Email Validator):**
     ```javascript
-    // 'name' is a PARAMETER
-    function greetUser(name) {
-      console.log(\`Hello, ${name}!\`);
+    function isValidEmail(email) {
+      // A simple (not perfect, but good enough for a contact form) check
+      return email.includes("@") && email.includes(".");
     }
 
-    // "Alice" is the ARGUMENT
-    greetUser("Alice"); // Output: "Hello, Alice!"
-
-    // "Bob" is the ARGUMENT
-    greetUser("Bob");   // Output: "Hello, Bob!"
-    ```
-* **Modern Feature (ES6 Default Parameters):**
-    * What happens if you call `greetUser()` with no argument?
-    * `greetUser();` // Output: "Hello, undefined!" (Yuck!)
-    * We can set a **default value** for the parameter.
-    ```javascript
-    // 'name = "Guest"' sets a default value
-    function greetUser(name = "Guest") {
-      console.log(\`Hello, ${name}!\`);
-    }
-
-    greetUser("Alice"); // Output: "Hello, Alice!"
-    greetUser();        // Output: "Hello, Guest!" (Much better!)
+    console.log(isValidEmail("alice@example.com")); // true
+    console.log(isValidEmail("not-an-email"));       // false
     ```
 
 ---
 
-### 3. The `return` Keyword
+### 3. Scope (Global, Function, Block)
 
 * **Lecture & Concepts:**
-    * Some functions just *do* things (like `console.log`), but often you want a function to *give you a value back* so you can use it.
-    * **Analogy:** A function is a factory. `console.log` is a sign on the factory wall. `return` is the truck that *ships the product* out of the factory.
-    * When you `return` a value, you can store it in a variable.
-    * `return` also **immediately exits the function**. Any code after `return` is *never* run.
+    * Scope defines *where* a variable is accessible.
+    * **Global Scope:** Declared outside any function — accessible everywhere. Minimize this.
+    * **Function (Local) Scope:** Declared inside a function — only accessible inside it.
+    * **Block Scope:** `let`/`const` declared inside `{}` (an `if` or loop) — only accessible in that block.
 
-* **In-Depth Example (Calculator):**
+* **In-Depth Example:**
     ```javascript
-    function add(num1, num2) {
-      return num1 + num2;
-      // This code is unreachable!
-      console.log("This will never print.");
+    function isMessageLongEnough(message) {
+      const minLength = 20; // local to this function
+      return message.trim().length >= minLength;
     }
 
-    // Call the function AND store the returned value
-    let sum = add(5, 10);
-
-    console.log(sum); // Output: 15
-
-    let total = add(sum, 3); // We can use the variable as an argument!
-    console.log(total); // Output: 18
+    console.log(isMessageLongEnough("Hi!")); // false
+    // console.log(minLength); // ERROR! minLength isn't defined out here.
     ```
 
 ---
 
-### 4. Scope (Global vs. Local)
+### 4. Closures (A First Look)
 
 * **Lecture & Concepts:**
-    * Scope defines *where* your variables are accessible. This is a critical concept for avoiding bugs.
-    * **Analogy:** "What happens in Vegas, stays in Vegas." (Vegas is the function).
-    * **Global Scope:** Variables declared *outside* any function. They are accessible *everywhere*. This can be dangerous and should be minimized.
-    * **Local Scope (or Function Scope):** Variables declared *inside* a function (with `let` or `const`). They are **only** accessible inside that function. They are born when the function is called and "die" when it's over.
-    * **Block Scope (`let`/`const`):** Variables declared inside `{...}` (like an `if` or `for` loop) are *only* accessible inside that block. This is a feature of `let` and `const` and is very helpful.
+    * A **closure** is when a function "remembers" the variables around it, even after the outer function has finished running.
+    * **The "Backpack" Analogy:** Imagine a function that returns a smaller function. That smaller function carries a "backpack" containing the variables it needs — even after it leaves the house (the outer function) it was born in.
+    * **Why this matters for you right now:** it lets you write *one* function that *creates* validators with different rules, instead of writing a near-identical function for every field.
 
-[Image of JavaScript variable scope (global vs local)]
-* **In-Depth Example (Scope):**
+* **In-Depth Example (A Validator Factory):**
     ```javascript
-    let globalMessage = "I am global"; // Global Scope
-
-    function myFunc() {
-      let localMessage = "I am local"; // Local Scope
-
-      console.log(globalMessage); // "I am global" (Functions can see "out")
-      console.log(localMessage);  // "I am local"
+    function createFieldValidator(minLength) {
+      // 'minLength' gets "packed into the backpack" of the function below
+      return function(value) {
+        return value.trim().length >= minLength;
+      };
     }
 
-    myFunc();
+    // Two different validators, built from the SAME factory function
+    const isMessageLongEnough = createFieldValidator(20); // your real form's rule
+    const isNameLongEnough = createFieldValidator(2);
 
-    console.log(globalMessage); // "I am global"
-    // console.log(localMessage); // ERROR! localMessage is not defined
-    // The "outside" cannot see "in" to the function.
+    console.log(isMessageLongEnough("Too short"));                          // false
+    console.log(isMessageLongEnough("This message is definitely long enough")); // true
+    console.log(isNameLongEnough("Al"));                                     // true
     ```
 
----
-
-### 5. Function Expressions
-
-* **Lecture & Concepts:**
-    * So far, we've used **Function Declarations:** `function greet() {}`.
-    * There is another way: a **Function Expression**. This is when you assign an *anonymous (unnamed) function* to a variable.
-    * This is a very common pattern in modern JavaScript, and it's the foundation for arrow functions (which you'll learn in Week 5).
-
-* **In-Depth Example (Declaration vs. Expression):**
-    ```javascript
-    // 1. Function DECLARATION
-    function add(a, b) {
-      return a + b;
-    }
-
-    // 2. Function EXPRESSION
-    //    We assign an anonymous function to a constant.
-    const subtract = function(a, b) {
-      return a - b;
-    }; // Note the semicolon here
-
-    // You call them the same way:
-    console.log( add(10, 5) );      // Output: 15
-    console.log( subtract(10, 5) ); // Output: 5
-    ```
-* **Key Difference (Hoisting):**
-    * Function *Declarations* are "hoisted," meaning the browser mentally moves them to the top of the file. You can call them *before* they are defined.
-    * Function *Expressions* are *not* hoisted. You must define them *before* you can call them, just like any other variable.
+* **⭐️ Class Exercise: Build Your Real Validators**
+    1.  Write `isValidEmail(email)`.
+    2.  Write `isMessageLongEnough(message)` using your real form's `minlength` of 20 (from HTML Week 4).
+    3.  Write `isContactMethodChosen(method)` that returns `true` if `method` is `"email"` or `"phone"`.
+    4.  **Bonus:** Rewrite `isMessageLongEnough` using `createFieldValidator(20)` instead, and confirm it still works.
 
 ---
 
 ### Week 2: Comprehensive Assignment
 
-**Objective:** Refactor your Week 1 "Temperature Converter" into reusable, professional functions.
+**Objective:** Write the real validation logic your contact form will use — as plain functions you test with sample data. You'll connect them to the actual `submit` event once you learn events in Week 4.
 
-**Files to Create:**
-1.  `index.html` (You can reuse your file from Week 1)
-2.  `script.js`
+**Files to Use:**
+1.  `script.js`
 
-#### Part 1: The HTML (`index.html`)
+**Requirements:**
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Week 2 Assignment</title>
-</head>
-<body>
-  <h1>Week 2: Control Flow & Functions</h1>
-  <p>Open the console (F12) to see the assignment results!</p>
+1.  **`isValidEmail(email)`:** Returns `true`/`false` for a basic `"@"` + `"."` check.
+2.  **`isMessageLongEnough(message)`:** Returns `true`/`false` based on your real form's `minlength="20"`.
+3.  **`isContactMethodChosen(method)`:** Returns `true`/`false` for `"email"` or `"phone"`.
+4.  **Testing:** Call each function with at least 2 sample inputs (one valid, one invalid) and `console.log()` the results.
+5.  **Comments:** Explain, in a comment, why each function returns a boolean instead of logging directly — think ahead to how Week 4 will *use* that return value.
 
-  <script src="script.js"></script>
-</body>
-</html>
-```
-
-#### Part 2: The JavaScript (`script.js`)
-
-```javascript
-// --- Week 2 Assignment ---
-
-console.log("--- Starting Week 2 Assignment ---");
-
-// ===================================
-// MODULE 3: CONTROL FLOW
-// ===================================
-
-console.log("--- Module 3: Control Flow ---");
-
-let tempC = 15;
-let comfortMessage;
-
-// 1. IF/ELSE IF/ELSE STATEMENT
-//    Write an if-statement to check the `tempC`.
-//    - If tempC is less than 0, set comfortMessage to "It's freezing! 🥶"
-//    - If tempC is between 0 and 15, set comfortMessage to "It's cold. 🧣"
-//    - If tempC is between 16 and 25, set comfortMessage to "It's pleasant. 😊"
-//    - Otherwise, set comfortMessage to "It's hot! 🥵"
-
-if (tempC < 0) {
-  comfortMessage = "It's freezing! 🥶";
-} else if (tempC <= 15) { // We already know it's not < 0
-  comfortMessage = "It's cold. 🧣";
-} else if (tempC <= 25) { // We already know it's not <= 15
-  comfortMessage = "It's pleasant. 😊";
-} else {
-  comfortMessage = "It's hot! 🥵";
-}
-
-console.log(comfortMessage);
-
-
-// ===================================
-// MODULE 4: FUNCTIONS
-// ===================================
-
-console.log("--- Module 4: Functions ---");
-
-// 1. FUNCTION DECLARATION
-//    Create a function named `celsiusToFahrenheit`.
-//    It should take one PARAMETER: `celsius`
-//    It should RETURN the temperature in Fahrenheit.
-//    (Formula: F = (C * 9/5) + 32)
-
-function celsiusToFahrenheit(celsius) {
-  return (celsius * 9 / 5) + 32;
-}
-
-
-// 2. FUNCTION EXPRESSION
-//    Create a function expression named `fahrenheitToCelsius`.
-//    It should take one PARAMETER: `fahrenheit`
-//    It should RETURN the temperature in Celsius.
-//    (Formula: C = (F - 32) * 5/9)
-
-const fahrenheitToCelsius = function(fahrenheit) {
-  return (fahrenheit - 32) * 5 / 9;
-};
-
-
-// 3. CALLING FUNCTIONS & USING RETURN VALUES
-//    - Call `celsiusToFahrenheit` with an argument of 25.
-//    - Store the result in a `const` named `f1`.
-//    - Call `fahrenheitToCelsius` with an argument of 68.
-//    - Store the result in a `const` named `c1`.
-
-const f1 = celsiusToFahrenheit(25);
-const c1 = fahrenheitToCelsius(68);
-
-console.log(`25°C is ${f1}°F`);
-console.log(`68°F is ${c1}°C`);
-
-
-// ===================================
-// BONUS: COMBINING MODULES
-// ===================================
-
-console.log("--- Bonus: Conversion Table ---");
-
-// 1. FOR LOOP + FUNCTION
-//    Write a `for` loop that counts from 0 to 20 (inclusive).
-//    - Inside the loop, call your `celsiusToFahrenheit` function
-//      with the loop's counter variable (e.g., `i`) as the argument.
-//    - Store the result in a variable.
-//    - Log a message like "0°C = 32°F", "1°C = 33.8°F", etc.
-//    - (Bonus challenge: Use a `while` loop to do the same thing!)
-
-for (let i = 0; i <= 20; i++) {
-  let fahrenheit = celsiusToFahrenheit(i);
-  // .toFixed(1) rounds the number to 1 decimal place for a cleaner log
-  console.log(`${i}°C = ${fahrenheit.toFixed(1)}°F`);
-}
-
-console.log("--- End of Week 2 Assignment ---");
-```
+**Bonus Challenge:** Write `createFieldValidator(minLength)` as a closure, and use it to generate `isMessageLongEnough`. Explain in a comment what the "backpack" is in your version.

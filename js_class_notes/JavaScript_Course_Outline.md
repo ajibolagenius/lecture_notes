@@ -2,7 +2,11 @@
 
 ## Course Overview
 
-This course is designed for beginners who want to learn JavaScript from the ground up. It covers core programming concepts, modern ES6+ syntax, DOM manipulation, and asynchronous JavaScript. Each week includes practical exercises and builds toward hands-on projects to solidify your learning.
+This course is designed for beginners who want to learn JavaScript from the ground up. It covers core programming concepts, modern ES6+ syntax, DOM manipulation, and asynchronous JavaScript. Every week, you add real interactivity to **the same personal portfolio site** you built in HTML and styled in CSS — the same `index.html`, `about.html`, and `contact.html` — turning it from a static page into a dynamic, data-driven, API-connected application.
+
+* **Target Audience:** Students who have completed the HTML and CSS courses (or have equivalent knowledge of semantic HTML and CSS layout).
+* **Tools:** A code editor (VS Code recommended), a modern browser with dev tools (Chrome/Firefox), the browser console.
+* **Goal:** By the end of this course, students will be able to independently add real interactivity to any site — DOM manipulation, event handling, data modeling, modern ES6+ syntax, and asynchronous API calls — and will have a fully interactive, dark-mode-capable portfolio that renders its own project data and fetches live data from a real API.
 
 ---
 
@@ -12,50 +16,45 @@ This course is designed for beginners who want to learn JavaScript from the grou
 
 * **Learning Objectives:**
     * Explain what JavaScript is and its role in web development.
-    * Add JavaScript to an HTML page (inline, internal, and external).
+    * Add JavaScript to an HTML page (inline, internal, and external), using modern `defer` loading.
     * Use the browser console to run code and log messages.
-    * Write JavaScript comments.
+    * Write JavaScript comments that explain "why," not "what."
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is JavaScript?** | 30 mins | 15 mins |
-| JS vs. HTML vs. CSS | - Client-Side Scripting | - "Hello, World!" with `alert()`. |
+| JS vs. HTML vs. CSS | - Client-Side Scripting | - Open your real `index.html` and note everything that's currently "dead" (the nav, the badge) — JS will bring it to life. |
 | **How to Add JS** | 45 mins | 30 mins |
-| Internal (`<script>` tag) | - `async` and `defer` attributes. | - Create an HTML file and a `.js` file. |
-| External (`<script src="...">`) | - Best Practice: External file at end of `<body>`. | - Link the external JS file and log a message. |
-| **The Browser Console** | 30 mins | 30 mins |
-| Using `console.log()` | - Debugging with the console. | - Use `console.log()` to output text, numbers, and variables. |
-| Comments `//` and `/* ... */` | - Writing effective comments. | - Comment your code from the previous exercise. |
+| External (`<script src="..." defer>`) | - Why `defer` beats a bottom-of-body script tag. | - Create `portfolio/script.js` and link it from all 3 of your real HTML pages. |
+| **The Browser Console & Strict Mode** | 30 mins | 30 mins |
+| Using `console.log()` | - `'use strict';` as a modern default. | - Log a message confirming your script loaded, on all 3 pages. |
+| Comments `//` and `/* ... */` | - Writing effective, "why"-focused comments. | - Comment your code from the previous exercise. |
 
 ### Module 2: Variables, Data Types & Operators
 
 * **Learning Objectives:**
-    * Declare variables using `let` and `const` (and understand `var`).
+    * Declare variables using `let` and `const` (and understand why we avoid `var`).
     * Identify and use common JavaScript data types (String, Number, Boolean, Null, Undefined).
     * Perform operations using arithmetic, assignment, comparison, and logical operators.
-    * Understand type coercion and concatenation.
+    * Understand type coercion, `===` vs. `==`, and the modern nullish coalescing operator (`??`).
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Variables** | 45 mins | 30 mins |
-| `let` (re-assignable) | - `const` (constant) | - Declare variables for a user (e.g., `firstName`, `age`, `isLoggedIn`). |
-| `var` (the old way) | - Scope differences (briefly). | - Try re-assigning a `const` and see the error. |
+| `let` (re-assignable) | - `const` (constant, the default choice) | - Declare `const` variables for your real nav toggle button and header. |
 | **Data Types** | 1 hour | 45 mins |
-| Primitives: String, Number, Boolean | - `null` vs. `undefined` | - Create variables of each type. |
-| `typeof` operator | - Dynamic Typing | - Use `typeof` to check the type of each variable. |
-| **Strings & Concatenation** | 30 mins | 30 mins |
-| String concatenation (`+`) | - Basic string properties/methods (`.length`). | - Create a `fullName` variable by combining `firstName` and `lastName`. |
+| Primitives: String, Number, Boolean | - `null` vs. `undefined` | - Use `typeof` on a few of your own variables. |
+| **Strings & Template Literals** | 30 mins | 30 mins |
+| Template literals (`` `${...}` ``) | - Why they beat `+` concatenation. | - Log a greeting using a template literal. |
 | **Operators** | 1 hour | 45 mins |
-| Arithmetic (`+`, `-`, `*`, `/`, `%`) | - Assignment (`=`, `+=`, `-=`) | - Create a simple calculator: take two numbers, add/subtract/multiply them, and log the result. |
-| Comparison (`==`, `===`, `!=`, `!==`, `>`, `<`) | - `==` vs. `===` (Type Coercion) | - Write expressions that evaluate to `true` or `false` using comparison operators. |
-| Logical (`&&`, `||`, `!`) | - Order of operations. | - Write an expression to check if `age` is over 18 AND `isLoggedIn` is true. |
+| Comparison (`===` vs. `==`) | - `??` (Nullish Coalescing, briefly) | - Write a comparison expression and predict its output before logging it. |
+| Logical (`&&`, `||`, `!`) | - Short-circuiting. | - Use `&&` to only run code if your nav button was actually found. |
 
-**Week 1 Assignment:** Build a "Temperature Converter".
-* Create an HTML file (no JS in it) and a JS file.
-* In your JS file:
-    1.  Create a `const` variable for a temperature in Celsius (e.g., `celsius = 25`).
-    2.  Calculate the temperature in Fahrenheit using the formula: $F = (C \times 9/5) + 32$.
-    3.  Log the result to the console in a human-readable string, e.g., "25°C is 77°F".
+**Week 1 Assignment:** Wire up your real header's mobile nav toggle.
+* Create `portfolio/script.js` and link it (with `defer`) from `index.html`, `about.html`, and `contact.html`.
+* Add a hamburger `<button>` to your real header (next to your nav) and select it with `querySelector`.
+* Add a `click` event listener that toggles an `.nav-open` class on your `<nav>`.
+* **Bonus (console-only practice):** Build a small "Temperature Converter" using `const`, arithmetic operators, and template literals, to drill the fundamentals before we lean fully on the DOM in Week 4.
 
 ---
 
@@ -65,48 +64,42 @@ This course is designed for beginners who want to learn JavaScript from the grou
 
 * **Learning Objectives:**
     * Make decisions in code using `if`/`else if`/`else` statements.
-    * Use the `switch` statement for multi-way branching.
-    * Write a ternary operator for simple conditions.
+    * Understand truthy and falsy values.
+    * Use the `switch` statement and the ternary operator.
     * Repeat tasks using `for` and `while` loops.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Conditional Statements** | 1 hour | 45 mins |
-| `if`, `else`, `else if` | - Truthy and Falsy values. | - Write an `if` statement that checks a user's `age`. Log "Access Granted" if 18 or over, "Access Denied" otherwise. |
-| `switch` statement | - When to use `switch` vs. `if`. | - Write a `switch` statement for `dayOfWeek` (e.g., 1 = "Monday", 2 = "Tuesday"). |
+| `if`, `else`, `else if` | - Truthy and Falsy values. | - Write an `if` statement checking whether a sample "message" string is empty. |
 | **Ternary Operator** | 30 mins | 30 mins |
-| `condition ? exprIfTrue : exprIfFalse` | - A clean shorthand for `if/else`. | - Refactor your "Access Granted" exercise to use a ternary operator. |
+| `condition ? exprIfTrue : exprIfFalse` | - A clean shorthand for `if/else`. | - Refactor your check into a ternary. |
 | **Loops** | 1.5 hours | 1 hour |
-| `for` loop | - `for` vs. `while`. | - Write a `for` loop that counts from 1 to 10 and logs each number. |
-| `while` loop | - `do...while` loop. | - Write a `while` loop that does the same. |
-| `break` and `continue` | - Controlling loop execution. | - Write a `for` loop from 1-20, but use `continue` to skip 13 and `break` to stop at 18. |
+| `for` loop | - `for` vs. `while`. | - Loop over a sample array of contact-form field names and log each one. |
 
 ### Module 4: Functions (The Building Blocks)
 
 * **Learning Objectives:**
-    * Write and call functions using "function declarations" and "function expressions".
-    * Pass data to functions using parameters and arguments.
-    * Get data back from functions using the `return` keyword.
-    * Understand variable scope (Global, Function/Local).
+    * Write and call functions using declarations, expressions, and arrow functions.
+    * Pass data to functions using parameters and arguments; get data back with `return`.
+    * Understand variable scope (Global, Function/Local, Block).
+    * Understand closures well enough to use them for simple, private state.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Function Basics** | 45 mins | 30 mins |
-| What are functions? (DRY principle) | - Declaring a function. | - Write a function `greet()` that logs "Hello, world!". Call it. |
-| **Parameters & Arguments** | 45 mins | 30 mins |
-| Passing data into functions. | - Default parameters (ES6). | - Modify `greet()` to `greetUser(name)` that logs "Hello, [name]!". Call it with your name. |
-| **`return` Keyword** | 45 mins | 30 mins |
-| Getting data out of functions. | - Using returned values in variables. | - Write a function `add(num1, num2)` that `return`s their sum. Log the result of `add(5, 10)`. |
-| **Scope** | 1 hour | 30 mins |
-| Global Scope | - Function (Local) Scope | - Create a global variable and a local variable with the same name. Log both inside and outside the function to see the difference. |
-| **Function Expressions** | 30 mins | 30 mins |
-| Function Declarations vs. Expressions. | - Anonymous functions. | - Rewrite your `add` function as a function expression assigned to a `const`. |
+| Declarations vs. Expressions | - Hoisting differences. | - Write a function `isNotEmpty(value)` that returns `true`/`false`. |
+| **Parameters, Arguments & Return** | 1 hour | 45 mins |
+| Passing data in, getting data out. | - Default parameters (ES6). | - Write `isValidEmail(email)` using a simple check (contains `"@"` and `"."`). |
+| **Scope** | 45 mins | 30 mins |
+| Global, Function, Block Scope. | - Why minimizing globals matters. | - Confirm a variable declared inside your validator function isn't visible outside it. |
+| **Closures (a first look)** | 1 hour | 45 mins |
+| Functions that "remember" their outer variables. | - Why this matters for private state. | - Write `createFieldValidator(minLength)` that returns a function checking a string's length — a closure "remembering" `minLength`. |
 
-**Week 2 Assignment:** Refactor your "Temperature Converter" into functions.
-* Create a function `celsiusToFahrenheit(celsius)` that takes a Celsius value, calculates, and `return`s the Fahrenheit value.
-* Create a function `fahrenheitToCelsius(fahrenheit)` that does the reverse.
-* Log the results of calling both functions with different values.
-* **Bonus:** Use a `for` loop to log a conversion table from 0°C to 20°C.
+**Week 2 Assignment:** Write your real contact form's validation logic.
+* Write `isValidEmail(email)`, `isMessageLongEnough(message)` (using your form's real `minlength` of 20), and `isContactMethodChosen(method)` functions.
+* Test each by calling it with a few sample strings and logging the `true`/`false` result — you'll wire these to the real form's `submit` event in Week 4.
+* **Bonus:** Write `createFieldValidator(minLength)` (a closure) and use it to build both your message-length validator and a second, differently-sized validator, proving the same function factory works for both.
 
 ---
 
@@ -123,15 +116,11 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Object Literals** | 1 hour | 45 mins |
-| Key/Value pairs. | - Creating objects. | - Create a `person` object with properties: `firstName`, `lastName`, `age`, `isStudent`. |
+| Key/Value pairs. | - Creating objects. | - Create ONE real `project` object modeling a single Featured Work project: `title`, `description`, `tags`, `imageSrc`. |
 | **Accessing Properties** | 45 mins | 30 mins |
-| Dot notation (`person.firstName`) | - Bracket notation (`person['firstName']`) | - Log the person's full name. |
-| When to use bracket notation. | - Update the person's `age` and add a new property `location`. |
-| **Object Methods** | 1 hour | 45 mins |
-| Functions as properties. | - What is a method? | - Add a `greet` method to the `person` object that logs "Hello, my name is [firstName]". |
-| The `this` keyword | - How `this` refers to the object itself. | - Modify the `greet` method to use `this.firstName`. |
-| **Nesting Objects** | 30 mins | 30 mins |
-| Objects inside objects. | - Accessing nested properties. | - Add an `address` object inside `person` with `street`, `city`, `country`. Log the city. |
+| Dot notation | - Bracket notation | - Log the project's `title`, then add a new `featured: true` property. |
+| **Object Methods & `this`** | 1 hour | 45 mins |
+| Functions as properties. | - How `this` refers to the object itself. | - Add a `describe()` method to your project object that logs a formatted summary using `this`. |
 
 ### Module 6: Arrays
 
@@ -139,27 +128,22 @@ This course is designed for beginners who want to learn JavaScript from the grou
     * Create and use array literals.
     * Access and modify array elements using bracket notation (index).
     * Use common array properties and methods (`.length`, `push`, `pop`, `shift`, `unshift`).
-    * Loop over arrays using a `for` loop.
+    * Loop over arrays of objects using a `for` loop.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Array Literals** | 45 mins | 30 mins |
-| What are arrays? | - Zero-based indexing. | - Create an array `colors` with "red", "green", "blue". |
-| Accessing/Modifying Elements | - `array[0]`, `array[1] = 'new'`. | - Log the first color. Change "green" to "yellow". |
+| What are arrays? | - Zero-based indexing. | - Turn your single `project` object into the first item of a real `projects` array. |
 | **Common Methods** | 1 hour | 45 mins |
-| `.length` property | - `push()` (add to end) | - Log the length of the `colors` array. |
-| `pop()` (remove from end) | - `unshift()` (add to start) | - Use `push()` to add "orange". Use `pop()` to remove it. |
-| `shift()` (remove from start) | - `indexOf()`, `includes()` | - Use `shift()` and `unshift()` to modify the array. |
-| **Looping Arrays** | 45 mins | 30 mins |
-| Using a `for` loop. | - `for (let i = 0; i < arr.length; i++)` | - Write a `for` loop to iterate over your `colors` array and log each color. |
-| Arrays of Objects | - A common data structure. | - Create an array of `person` objects. Loop through it and log each person's name. |
+| `.length`, `push()`, `pop()` | - `unshift()`, `shift()` | - Add your other real Featured Work projects (from HTML Week 3) as more objects in the array. |
+| **Looping Arrays of Objects** | 45 mins | 30 mins |
+| `for (let i = 0; i < arr.length; i++)` | - A common, critical data structure. | - Write a `for` loop that logs each project's `title` and `tags`. |
 
-**Week 3 Assignment:** Build a "Simple Blog" data structure.
-* Create an array called `posts`.
-* Each element in `posts` should be an object with properties: `title`, `author`, `content`, and `tags` (which should be an array of strings).
-* Create at least 2 post objects.
-* Write a `for` loop that iterates over the `posts` array and logs the `title` and `author` of each post.
-* **Bonus:** Add a method to a post object called `displayPost()` that logs the title, author, and content.
+**Week 3 Assignment:** Build your real Featured Work data model.
+* Create a `projects` array in `script.js` containing one object per real project currently hardcoded in your `index.html`'s Featured Work section — same titles, descriptions, and tech tags.
+* Give each object a `title`, `description`, `tags` (array), `imageSrc`, and `featured` (boolean, `true` for your one Featured project).
+* Write a `for` loop that logs every project's title and description to the console.
+* **Bonus:** Add a `describe()` method to each project object.
 
 ---
 
@@ -175,58 +159,48 @@ This course is designed for beginners who want to learn JavaScript from the grou
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is the DOM?** | 45 mins | 30 mins |
-| The `document` object. | - The DOM as a tree structure. | - Create an HTML file with `h1`, `p`, `ul`, `li`. |
-| **Selecting Elements** | 1.5 hours | 1 hour |
-| `getElementById()` | - `getElementsByClassName()` | - Select the `h1` by its ID. |
-| `getElementsByTagName()` | - `querySelector()` (the modern way) | - Select the `p` using `querySelector`. |
-| `querySelectorAll()` | - `HTMLCollection` vs. `NodeList` | - Select all `li` elements using `querySelectorAll` and loop through them. |
+| The `document` object. | - The DOM as a tree structure. | - Select your real `.work-grid` container with `querySelector`. |
+| **Selecting Elements (Modern)** | 1.5 hours | 1 hour |
+| `querySelector()` (the modern way) | - `querySelectorAll()`, `NodeList` | - Select all your existing `.project-card`s with `querySelectorAll` and log how many there are. |
 
 ### Module 8: Manipulating the DOM
 
 * **Learning Objectives:**
-    * Change the text and HTML content of elements.
-    * Modify element styles using JavaScript.
-    * Add, remove, and modify element attributes.
-    * Create and append new elements to the page.
+    * Change the text and HTML content of elements, safely.
+    * Modify element styles and classes using JavaScript.
+    * Create and append new elements to the page from real data.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Changing Content** | 45 mins | 30 mins |
-| `textContent` vs. `innerText` | - `innerHTML` (and security risks) | - Select your `h1` and change its text content. |
-| **Changing Styles & Attributes** | 45 mins | 30 mins |
-| `element.style.property` | - `setAttribute()`, `getAttribute()` | - Change the `h1`'s `color` to "red". |
-| `classList.add()`, `.remove()`, `.toggle()` | - Working with CSS classes. | - Add a CSS class `.highlight` to your `p` tag. |
-| **Creating & Appending** | 1 hour | 45 mins |
-| `document.createElement()` | - `element.append()` / `appendChild()` | - Create a new `li` element. |
-| `element.remove()` | - `prepend()` | - Set its `textContent` and append it to your `ul`. |
+| **Changing Content Safely** | 45 mins | 30 mins |
+| `textContent` (safe default) | - `innerHTML` and the XSS risk. | - Discuss why your project data (title/description) should go through `textContent`, not raw `innerHTML`. |
+| **Classes** | 30 mins | 30 mins |
+| `classList.add/remove/toggle` | - Working with CSS classes, not inline styles. | - Confirm your Week 1 nav toggle uses `classList.toggle`, not `element.style`. |
+| **Creating & Appending From Data** | 1.5 hours | 1 hour |
+| `document.createElement()` | - `element.append()` | - Write `renderProjects(projects)`: clear `.work-grid`, then create and append one `.project-card` per object in your Week 3 array. |
 
 ### Module 9: Events
 
 * **Learning Objectives:**
     * Attach event listeners to DOM elements.
-    * Respond to common events like `click`, `submit`, and `input`.
-    * Use the `event` object to get information about an event.
+    * Respond to common events like `click` and `submit`.
+    * Use the `event` object, including `preventDefault()`.
+    * Understand event delegation and why it matters for dynamically-created elements.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Event Listeners** | 1 hour | 45 mins |
-| `element.addEventListener('event', func)` | - The "callback" function. | - Add a "click" event listener to a button that logs "Button clicked!". |
-| **Common Events** | 1 hour | 45 mins |
-| `click`, `mouseover`, `mouseout` | - `keydown`, `keyup` | - Change the `h1` text on `mouseover`. |
-| `input` (for form fields) | - `submit` (for forms) | - Add an `input` field. Log its value to the console every time it changes. |
-| **The `event` Object** | 30 mins | 30 mins |
-| `event.target` | - `event.preventDefault()` | - For the form `submit` event, use `event.preventDefault()` to stop the page from reloading. |
+| **Event Listeners & the `event` Object** | 1 hour | 45 mins |
+| `element.addEventListener()` | - `event.target`, `event.preventDefault()` | - Wire your real contact `<form>`'s `submit` event, calling `event.preventDefault()`. |
+| **Wiring Up Your Validators** | 1 hour | 45 mins |
+| Calling Week 2's functions from an event. | - Showing/hiding an error message. | - Call `isValidEmail`/`isMessageLongEnough`/`isContactMethodChosen` inside the submit handler; show an error `<p>` if any fail. |
+| **Event Delegation** | 45 mins | 30 mins |
+| The "One Listener" pattern. | - Why it matters for elements created by `renderProjects()`. | - Add ONE click listener on `.work-grid` (not on each card) that logs which project was clicked, using `event.target`. |
 
-**Week 4 Project:** Build a "Simple To-Do List" application.
-* **HTML:** An `input` field, a "Add" `button`, and an empty `ul`.
-* **JS:**
-    1.  Add a `click` event listener to the "Add" button.
-    2.  When clicked, get the text from the `input` field.
-    3.  If the input is not empty, create a new `li` element.
-    4.  Set the `li`'s `textContent` to the input text.
-    5.  Append the new `li` to the `ul`.
-    6.  Clear the `input` field.
-    7.  **Bonus:** Add a `click` event to the `ul` (event delegation) that removes an `li` when it's clicked.
+**Week 4 Assignment:** Render your real projects from data, and make the contact form actually validate.
+* Replace the hardcoded Featured Work `<article>`s in `index.html` with `renderProjects(projects)`, generating them from your Week 3 array via `createElement`/`textContent`/`.append()`.
+* Wire the real contact form's `submit` event: call your Week 2 validator functions, `event.preventDefault()`, and show an inline error message for the first failing field (or a success message if all pass).
+* Add ONE delegated click listener on `.work-grid` that logs the clicked project's title (using `event.target.closest('.project-card')`).
+* Finish and verify your Week 1 nav toggle now that you understand events fully.
 
 ---
 
@@ -235,51 +209,39 @@ This course is designed for beginners who want to learn JavaScript from the grou
 ### Module 10: Modern Iteration & ES6+ Functions
 
 * **Learning Objectives:**
-    * Iterate over arrays using `forEach`, `map`, `filter`, and `reduce`.
-    * Understand the difference between these methods and when to use each.
+    * Iterate over arrays using `forEach`, `map`, and `filter` instead of manual `for` loops.
     * Write and use Arrow Functions (`=>`).
-    * Understand how `this` behaves differently in arrow functions.
+    * Refactor existing DOM-rendering code to modern syntax.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Arrow Functions (`=>`)** | 1 hour | 45 mins |
-| New, shorter syntax. | - Single-line, implicit return. | - Rewrite all your previous function expressions as arrow functions. |
-| `this` in Arrow Functions | - Lexical `this` (a key difference). | - (Briefly) Show a `this` example that breaks/works. |
-| **Array Method: `forEach`** | 30 mins | 30 mins |
-| A modern `for` loop. | - `arr.forEach(item => ...)` | - Refactor your `for` loop from Week 3 (logging `colors`) to use `forEach`. |
-| **Array Method: `map`** | 1 hour | 45 mins |
-| Creates a *new* array. | - Transforming data. | - Given an array of numbers `[1, 2, 3]`, use `map` to create a new array `[2, 4, 6]`. |
-| **Array Method: `filter`** | 1 hour | 45 mins |
-| Creates a *new* array. | - Selecting a subset of data. | - Given an array of numbers, use `filter` to create a new array with only the even numbers. |
-| **Array Method: `reduce`** | 1 hour | 45 mins |
-| Reduces an array to a single value. | - Accumulator & Current Value. | - Given an array of numbers, use `reduce` to find their sum. |
+| Concise syntax, implicit return. | - Lexical `this` (briefly). | - Rewrite your Week 2 validator functions as arrow functions. |
+| **Array Method: `.map()`** | 1 hour | 45 mins |
+| Creates a *new* array. | - Perfect for turning data into DOM elements. | - Refactor `renderProjects()`'s `for` loop into a `.map()` (or `.forEach()` if appending directly). |
+| **Array Method: `.filter()`** | 1 hour | 45 mins |
+| Creates a *new*, smaller array. | - Selecting a subset of data. | - Add a "Show Featured Only" button that re-renders using `projects.filter(p => p.featured)`. |
 
-### Module 11: More ES6+ Features
+### Module 11: More ES6+ Features & Persistence
 
 * **Learning Objectives:**
-    * Write cleaner strings using Template Literals.
-    * Unpack values from arrays and objects using Destructuring.
-    * Use the Spread (`...`) and Rest (`...`) operators.
+    * Write cleaner code using Template Literals and Destructuring.
+    * Use the Spread operator to copy/merge data.
+    * Persist user preferences with `localStorage`.
 
 | Topic | Lecture/Concept (Est.Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Template Literals** | 30 mins | 30 mins |
-| Backticks (`` ` ``) | - Embedded expressions (`${...}`) | - Refactor all your string concatenations (e.g., "Hello, [name]!") to use template literals. |
 | **Destructuring** | 1 hour | 45 mins |
-| Object Destructuring | - `const { firstName, age } = person;` | - Destructure your `person` object from Week 3 into variables. |
-| Array Destructuring | - `const [first, second] = colors;` | - Destructure your `colors` array. |
-| **Spread & Rest** | 1 hour | 45 mins |
-| Spread (`...`) in Arrays/Objects | - Copying and merging arrays. | - Use Spread to create a *new* array that combines two arrays. |
-| Rest (`...`) in Functions | - `function myFunc(...args)` | - Write a function `sumAll(...numbers)` that uses Rest and `reduce` to sum all arguments. |
+| `const { title, tags } = project;` | - Cleaner function parameters. | - Destructure each project's fields inside `renderProjects()`. |
+| **Spread (`...`)** | 30 mins | 30 mins |
+| Copying and merging arrays/objects. | - `const featured = { ...project, badge: 'New' };` | - Use spread to create a modified copy of one project without mutating the original. |
+| **`localStorage` & Dark Mode** | 1.5 hours | 1 hour |
+| `localStorage.setItem/getItem` | - `JSON.stringify`/`JSON.parse` for non-string data. | - Build a real dark-mode toggle button that adds/removes a `.dark-mode` class on `<body>` and saves the preference. |
 
-**Week 5 Assignment:** Upgrade your "To-Do List" app.
-* Store your to-do items as an **array of objects** (e.g., `[{ text: 'Buy milk', completed: false }, ...]`).
-* Create a function `renderTodos()` that:
-    1.  Clears the current `ul`.
-    2.  Uses `forEach` to loop through the `todos` array.
-    3.  For each todo, creates an `li` and appends it to the `ul`.
-* Call `renderTodos()` every time a new todo is added.
-* **Bonus:** Use `filter` to add "Show All", "Show Active", and "Show Completed" buttons.
+**Week 5 Assignment:** Refactor to modern syntax and add real dark mode.
+* Refactor `renderProjects()` to use `.map()`/`.forEach()`, arrow functions, and destructuring instead of a manual `for` loop.
+* Add a "Show Featured Only" toggle using `.filter()`.
+* Add a dark-mode toggle button (present on all 3 pages) that adds/removes a `.dark-mode` class on `<body>`, persists the choice to `localStorage`, and re-applies it on page load so the preference survives a refresh and carries across pages.
 
 ---
 
@@ -289,72 +251,50 @@ This course is designed for beginners who want to learn JavaScript from the grou
 
 * **Learning Objectives:**
     * Explain the difference between synchronous and asynchronous code.
-    * Understand the concept of the "Event Loop" and "Call Stack" (high-level).
-    * Use `setTimeout` to understand async behavior.
-    * Understand "Callback Hell" and why it's a problem.
+    * Understand the Event Loop (high-level).
+    * Understand "Callback Hell" and why Promises replaced it.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Sync vs. Async** | 45 mins | 30 mins |
-| The Call Stack & Event Loop. | - `setTimeout(func, 0)` demo. | - Write a `console.log('1')`, `setTimeout(() => console.log('2'), 0)`, `console.log('3')`. Predict the order. |
-| **Callbacks** | 30 mins | 30 mins |
-| The "old" way. | - "Callback Hell" (Pyramid of Doom). | - Create nested `setTimeout` functions to see "Callback Hell". |
+| The Call Stack & Event Loop. | - `setTimeout(func, 0)` demo. | - Predict the log order of a sync/async mixed snippet. |
+| **Callbacks & Callback Hell** | 30 mins | 30 mins |
+| The "old" way. | - Why nested callbacks become unreadable. | - (Lecture only) Read a nested-callback example and identify the pyramid. |
 
-### Module 13: Promises
+### Module 13: Promises & Async/Await
 
 * **Learning Objectives:**
-    * Understand what a Promise is (a placeholder for a future value).
-    * Consume Promises using `.then()` for success and `.catch()` for errors.
-    * Use `.finally()` to run code regardless of outcome.
+    * Understand what a Promise is and its 3 states.
+    * Consume Promises using `.then()`/`.catch()`, and the cleaner `async`/`await` syntax.
+    * Handle errors with `try...catch`.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **What are Promises?** | 45 mins | 30 mins |
-| `Pending`, `Fulfilled`, `Rejected` states. | - Chaining `.then()`. | - Create a simple promise that resolves after 2 seconds. |
-| **Consuming Promises** | 1 hour | 45 mins |
-| `.then(onFulfilled, onRejected)` | - `.catch(onRejected)` | - Use `.then()` to log the success message from your promise. |
-| `.finally()` | - The "Promise Chain". | - Modify the promise to `reject()` and use `.catch()` to log the error. |
+| **Promises** | 45 mins | 30 mins |
+| `Pending`, `Fulfilled`, `Rejected`. | - `.then()`, `.catch()`, `.finally()`. | - Create a Promise that resolves after 1 second and consume it with `.then()`. |
+| **Async/Await** | 1.5 hours | 1 hour |
+| `async function` / `await`. | - `try...catch` for errors. | - Rewrite the same Promise-consuming code using `async`/`await`. |
 
-### Module 14: Async/Await (ES7+)
+### Module 14: Making Real API Calls
 
 * **Learning Objectives:**
-    * Write cleaner, more readable async code using `async` and `await`.
-    * Handle errors in `async` functions using `try...catch` blocks.
+    * Use the `fetch()` API to make GET requests to a real, public API.
+    * Process the `Response` object and parse JSON data.
+    * Safely access optionally-missing nested data with Optional Chaining (`?.`).
+    * Render fetched data to the DOM, with loading and error states.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **The `async` Keyword** | 1.5 hours | 1 hour |
-| `async function myFunc() { ... }` | - `await` keyword (pauses execution). | - Rewrite your promise-consuming code from the last exercise using `async/await`. |
-| **Error Handling** | - `try...catch` blocks. | - Use a `try...catch` block to handle the rejected promise. |
-| | - `async/await` vs. `.then()/.catch()` | |
+| **`fetch()` with Async/Await** | 1 hour | 1 hour |
+| `const res = await fetch(...)` | - `const data = await res.json()` | - Fetch your own real repos from the GitHub REST API (`api.github.com/users/<you>/repos`). |
+| **Optional Chaining (`?.`)** | 30 mins | 30 mins |
+| Safely reading nested API fields. | - `repo.license?.name ?? 'No license'` | - Log each repo's name and (possibly missing) license safely. |
+| **Loading & Error States** | 45 mins | 45 mins |
+| Showing a "Loading..." message. | - `try...catch` around the fetch. | - Show a loading message while fetching, and a friendly error message on failure. |
 
-### Module 15: Making API Calls
-
-* **Learning Objectives:**
-    * Understand what an API is.
-    * Use the `fetch()` API to make GET requests.
-    * Process the `Response` object and parse JSON data (`.json()`).
-    * Render data from an API to the DOM.
-
-| Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
-| :--- | :--- | :--- |
-| **Intro to APIs & `fetch()`** | 1 hour | 1 hour |
-| What is a (REST) API? JSON? | - The `fetch()` function. | - Use `fetch()` to make a GET request to a free public API (e.g., JSONPlaceholder). |
-| **Handling Responses** | - `fetch()` returns a Promise. | - Use `.then()` to get the `response`. |
-| - `response.json()` (also returns a Promise) | - Chain another `.then()` to get the JSON data and log it. |
-| **`fetch()` with Async/Await** | 45 mins | 30 mins |
-| The "clean" way. | - `const res = await fetch(...)` | - Refactor your `fetch()` code to use `async/await` inside a `try...catch` block. |
-| | - `const data = await res.json()` | |
-
-**Week 6 / Final Project:** Build a "Weather App" or "Movie Search App".
-* **Goal:** Combine DOM manipulation, events, and asynchronous JavaScript.
-* **HTML:** An `input` field (for city/movie title), a `button`, and a `div` to display results.
-* **JS:**
-    1.  Find a free public API (e.g., [OpenWeatherMap](https://openweathermap.org/api), [OMDb API](http://www.omdbapi.com/)).
-    2.  Add a `click` event listener to the button.
-    3.  When clicked, get the value from the `input`.
-    4.  Create an `async` function to `fetch` data from the API based on the user's input.
-    5.  Handle loading and error states.
-    6.  When the data arrives, parse the JSON.
-    7.  Select the relevant data (e.g., temperature, description, movie poster, plot).
-    8.  Create HTML elements (e.g., `h2`, `p`, `img`) and display this data in the results `div`.
+**Week 6 / Final Project:** Fetch real project data, and make the contact form submission feel real.
+* **Goal:** Combine everything — data modeling, DOM rendering, events, and async JavaScript — into the finished, live portfolio.
+* Write an `async function loadGitHubRepos(username)` that fetches your real public repos from the GitHub REST API and merges or replaces your Week 3 `projects` array with real repo data (name, description, URL), using Optional Chaining for any field that might be missing.
+* Show a loading state while fetching and a friendly error message if the request fails (e.g., rate-limited or offline).
+* Turn your contact form's submission into an `async` function that simulates a network request (e.g., a fake `Promise` that resolves after a short delay, or a real request to a mock endpoint), showing a loading state and a success/error message instead of just an inline validation message.
+* Redeploy the finished, fully-interactive portfolio to the same live URL from HTML Week 7 / CSS Week 6.
