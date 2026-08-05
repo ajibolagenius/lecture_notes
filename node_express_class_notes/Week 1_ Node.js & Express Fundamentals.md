@@ -194,14 +194,16 @@ import reminderRoutes from './routes/reminderRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use('/reminders', reminderRoutes);
+app.use('/api/v1/reminders', reminderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Reminders API listening on port ${PORT}`);
 });
 ```
 
-`app.use('/reminders', reminderRoutes)` mounts the entire router under `/reminders`. Now `GET /reminders`, `POST /reminders`, `PATCH /reminders/:id`, and `DELETE /reminders/:id` are all served from `reminderRoutes.js`, and `index.js` no longer contains any route logic at all — just wiring.
+`app.use('/api/v1/reminders', reminderRoutes)` mounts the entire router under `/api/v1/reminders`. Now `GET /api/v1/reminders`, `POST /api/v1/reminders`, `PATCH /api/v1/reminders/:id`, and `DELETE /api/v1/reminders/:id` are all served from `reminderRoutes.js`, and `index.js` no longer contains any route logic at all — just wiring.
+
+> **Why `/api/v1` and not just `/reminders`?** This is the one moment in the whole course where adding a version prefix is nearly free — one string, in one mount call — versus retrofitting it later once real clients (like the React Native app) have the unversioned URL baked in everywhere. `/v1` costs nothing today and buys you the ability to ship a breaking `/v2` later without touching existing clients at all. Notice `reminderRoutes.js` itself needed zero changes — the version prefix lives entirely at the mount point in `index.js`, not inside the router.
 
 ### 4. What Is Middleware?
 
@@ -218,7 +220,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); // Parses incoming JSON bodies into req.body
-app.use('/reminders', reminderRoutes);
+app.use('/api/v1/reminders', reminderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Reminders API listening on port ${PORT}`);
@@ -251,7 +253,7 @@ From now on, run `npm run dev` while you work.
 **⭐️ Class Exercise: Refactor & Confirm**
 
 1. Move all five reminder routes out of `index.js` and into `reminderRoutes.js` using `Router()`.
-2. Mount the router in `index.js` under `/reminders`.
+2. Mount the router in `index.js` under `/api/v1/reminders`.
 3. Add `express.json()` as the first `app.use()` call.
 4. Run `npm run dev`, change a placeholder message, save, and confirm the server restarts on its own.
 
@@ -273,7 +275,7 @@ From now on, run `npm run dev` while you work.
      package.json
    ```
 2. **Server:** `npm run dev` starts the server on port `3000` (or `process.env.PORT`) using `nodemon`.
-3. **Routes:** All five reminder routes (`GET /reminders`, `GET /reminders/:id`, `POST /reminders`, `PATCH /reminders/:id`, `DELETE /reminders/:id`) live in `routes/reminderRoutes.js` and are mounted in `index.js` via `app.use('/reminders', reminderRoutes)`.
+3. **Routes:** All five reminder routes (`GET /reminders`, `GET /reminders/:id`, `POST /reminders`, `PATCH /reminders/:id`, `DELETE /reminders/:id`) live in `routes/reminderRoutes.js` and are mounted in `index.js` via `app.use('/api/v1/reminders', reminderRoutes)` — so in practice they're reachable at `/api/v1/reminders`, etc.
 4. **Middleware:** `express.json()` is registered before your routes.
 5. **Verification:** Every route responds with its placeholder message when tested in Postman.
 

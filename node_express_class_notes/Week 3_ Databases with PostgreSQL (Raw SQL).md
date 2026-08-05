@@ -206,6 +206,8 @@ node --env-file=.env src/migrations/20260101_create_reminders_table.js
 
 This creates both tables in your Neon database. To reverse one, temporarily change the file to call `down()` instead of `up()` and rerun it.
 
+> **The Gap Between This and a Real Migration Tool:** Notice nothing here tracks *which* migrations have already run. Run `20260101_create_users_table.js` twice and `CREATE TABLE IF NOT EXISTS` quietly no-ops the second time — harmless here, but a real migration tool (Knex, Prisma) keeps a `schema_migrations` table recording every migration's filename and the timestamp it ran, so it knows exactly which ones are still pending on a given database and runs only those, in order. Worth naming as the actual hard problem those tools solve, even though hand-writing that bookkeeping yourself is out of scope for this course.
+
 ### 5. Rewriting the Model Layer
 
 Because the Service layer only ever talks to `ReminderModel` — never the array directly — swapping the storage mechanism only touches this one file.
@@ -215,11 +217,31 @@ Because the Service layer only ever talks to `ReminderModel` — never the array
 import db from '../config/db.js';
 
 export const ReminderModel = {
-  async getAll(userId) {
-    const result = await db.query(
-      'SELECT * FROM reminders WHERE user_id = $1 ORDER BY created_at DESC',
-      [userId]
-    );
+  async getAll(userId, { completed, overdue, sort, limit = 20, offset = 0 } = {}) {
+    const conditions = ['user_id = $1'];
+    const values = [userId];
+
+    if (completed !== undefined) {
+      values.push(completed);
+      conditions.push(`completed = $${values.length}`);
+    }
+
+    if (overdue) {
+      // due_date exists on the table since Module 5 — this is its first real use
+      conditions.push('due_date < NOW() AND completed = FALSE');
+    }
+
+    const orderBy = sort === 'createdAt' ? 'created_at ASC' : 'created_at DESC';
+
+    values.push(limit, offset);
+    const query = `
+      SELECT * FROM reminders
+      WHERE ${conditions.join(' AND ')}
+      ORDER BY ${orderBy}
+      LIMIT $${values.length - 1} OFFSET $${values.length}
+    `;
+
+    const result = await db.query(query, values);
     return result.rows;
   },
 
@@ -265,11 +287,15 @@ export const ReminderModel = {
 
 Notice `update()` builds its `SET` clause **dynamically** from whatever fields were actually sent — a `PATCH` with just `{ "completed": true }` only touches the `completed` column, leaving everything else untouched.
 
+Also notice `getAll()` now runs Week 2's `{ completed, sort, limit, offset }` query-param contract as *real* SQL — `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET` — exactly as promised back then, with zero changes needed to the Controller or Service. The new `overdue` flag is the first thing in the whole course to actually *read* the `due_date` column — it's been sitting on the table since Module 5's migration, created but unused until now.
+
 **⭐️ Class Exercise: Prove Persistence**
 
 1. Create a reminder via Postman.
 2. Restart your server (`Ctrl+C`, then `npm run dev` again).
 3. `GET /reminders` — the reminder you created is still there. That's the whole point of this week.
+4. Create a reminder with a `due_date` in the past and `completed: false`. Test `GET /reminders?overdue=true` and confirm it comes back; confirm a reminder with a future `due_date` does not.
+5. Re-run last week's `?completed=`, `?sort=`, and `?limit=`/`?offset=` checks — same query params, now backed by real SQL instead of an in-memory array.
 
 ---
 
@@ -282,7 +308,8 @@ Notice `update()` builds its `SET` clause **dynamically** from whatever fields w
 1. **Neon database:** a free project created, with a `.env` file (not committed) holding `DATABASE_URL`.
 2. **Migrations:** `migrations/<timestamp>_create_users_table.js` and `..._create_reminders_table.js`, both runnable via `node --env-file=.env`.
 3. **Model layer:** every method in `reminderModel.js` runs real parameterized SQL — no in-memory array left anywhere in the codebase.
-4. **Proof of persistence:** in your PR/commit description, paste a `GET /reminders` response *before* and *after* restarting the server, showing the data survived.
+4. **List endpoint, for real:** `getAll()` runs Week 2's `completed`/`sort`/`limit`/`offset` query params as actual SQL, plus a new `overdue` filter using the `due_date` column.
+5. **Proof of persistence:** in your PR/commit description, paste a `GET /reminders` response *before* and *after* restarting the server, showing the data survived.
 
 ### Git Workflow
 

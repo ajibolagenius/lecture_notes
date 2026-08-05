@@ -46,7 +46,7 @@ This course has one product for its entire duration: **the Reminders API** — t
 | **The `routes/` Folder** | 45 mins | 45 mins |
 | `Router()` creates a mini, mountable Express app. | - One router per resource. | - Create `src/routes/reminderRoutes.js`, move all five reminder routes into it using `router.get/post/patch/delete`. |
 | **Mounting Routers** | 30 mins | 30 mins |
-| `app.use('/reminders', reminderRoutes)`. | - Paths inside the router become relative (`/` instead of `/reminders`). | - Import and mount `reminderRoutes` in `src/index.js`; confirm all 5 routes still work. |
+| `app.use('/api/v1/reminders', reminderRoutes)`. | - Paths inside the router become relative (`/` instead of `/reminders`); why versioning the mount point now is nearly free. | - Import and mount `reminderRoutes` in `src/index.js`; confirm all 5 routes still work under `/api/v1`. |
 | **What Is Middleware?** | 45 mins | 30 mins |
 | A function that runs *before* your route handler: `(req, res, next) => {}`. | - `express.json()` parses a JSON request body into `req.body`. | - Add `app.use(express.json())` as the very first `app.use()` call. |
 | **Dev Workflow** | 30 mins | 30 mins |
@@ -97,14 +97,16 @@ This course has one product for its entire duration: **the Reminders API** — t
 | Only this layer will ever talk to the database. | - `src/models/reminderModel.js` — still backed by the in-memory array this week. | - Create `ReminderModel.getAll/findById/create/update/delete` operating on the shared array. |
 | **Wiring It All Together** | 1 hour | 1 hour |
 | Controller calls Service, Service calls Model. | - `res.status(200).json(data)` on success, `res.status(500).json(...)` in a `catch`. | - Update `ReminderController` to call `ReminderService`, and `ReminderService` to call `ReminderModel`, for all five routes. |
+| **Pagination, Filtering & Sorting** | 1 hour | 45 mins |
+| `?limit=&offset=` for paging; `?completed=` to filter. | - `?sort=-createdAt`; why a list endpoint should never return "everything" unbounded. | - Update Controller → Service → Model to support all three on `GET /reminders`. |
 | **Testing With Postman** | 30 mins | 45 mins |
-| A saved collection is a real deliverable, not busywork. | - One request per route, with example bodies for POST/PATCH. | - Build a Postman collection covering all 5 reminder routes and save it to the repo as `postman/reminders-api.postman_collection.json`. |
+| A saved collection is a real deliverable, not busywork. | - One request per route, with example bodies for POST/PATCH; OpenAPI/Swagger as the more formal, cross-team version of this. | - Build a Postman collection covering all 5 reminder routes and save it to the repo as `postman/reminders-api.postman_collection.json`. |
 
 **Week 2 Assignment:** A fully layered, in-memory Reminders API.
 * `routes/reminderRoutes.js` contains only routing — no logic.
 * `controllers/reminderController.js` handles req/res only, delegating to the service.
 * `services/reminderService.js` holds the business logic, delegating to the model.
-* `models/reminderModel.js` reads/writes an in-memory array of reminders.
+* `models/reminderModel.js` reads/writes an in-memory array of reminders, supporting pagination/filtering/sorting on the list endpoint.
 * A Postman collection in the repo exercises all 5 routes successfully.
 * **Commit your changes**: e.g., "refactor: introduce Controller/Service/Model layers".
 
@@ -142,17 +144,20 @@ This course has one product for its entire duration: **the Reminders API** — t
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What Are Migrations?** | 45 mins | 15 mins |
-| Tools like Knex/Prisma automate this; here we hand-write it to see what they do under the hood. | - Timestamped filenames keep migrations ordered. | - (Lecture) Read through one `up()`/`down()` pair together. |
+| Tools like Knex/Prisma automate this; here we hand-write it to see what they do under the hood. | - Timestamped filenames keep migrations ordered; the `schema_migrations` tracking table real tools maintain, that this hand-rolled version doesn't. | - (Lecture) Read through one `up()`/`down()` pair together. |
 | **Creating the Tables** | 1 hour | 1 hour |
 | `CREATE TABLE IF NOT EXISTS ...`, `SERIAL PRIMARY KEY`, `REFERENCES ... ON DELETE CASCADE`. | - `users(id, email UNIQUE, password_hash, created_at)`. | - Write `migrations/<timestamp>_create_users_table.js` and `..._create_reminders_table.js`; run both with `node --env-file=.env`. |
 | **Parameterized Queries** | 1 hour | 1 hour |
 | `db.query('SELECT * FROM reminders WHERE id = $1', [id])` — never string-concatenate SQL. | - Why `$1`/`$2` placeholders prevent SQL injection. | - Rewrite every `ReminderModel` method to run real SQL against the `reminders` table instead of the in-memory array. |
 | **Dynamic Updates** | 45 mins | 30 mins |
 | Building a `SET col = $1, col2 = $2` clause from whichever fields were sent. | - `Object.keys()`/`Object.values()` over the request body. | - Implement `update()` so a `PATCH` with just `{ completed: true }` only touches that column. |
+| **Real Pagination & `due_date`** | 45 mins | 30 mins |
+| Week 2's query-param contract, now as real `WHERE`/`ORDER BY`/`LIMIT`/`OFFSET` SQL. | - An `overdue` filter — the first real use of the `due_date` column since Module 6's migration. | - Rewrite `getAll()` to run real SQL for `completed`/`sort`/`limit`/`offset`/`overdue`. |
 
 **Week 3 Assignment:** The same layered API, now backed by real PostgreSQL.
 * `users` and `reminders` tables exist in your Neon database, created by your own migration scripts.
 * Every `ReminderModel` method runs parameterized SQL — no in-memory array left.
+* `getAll()` supports pagination/filtering/sorting via real SQL, plus an `overdue` filter using `due_date`.
 * Restarting the server does **not** lose any data — prove it in your PR description with a before/after `GET /reminders`.
 * **Commit your changes**: e.g., "feat: persist reminders to PostgreSQL via raw SQL".
 
@@ -167,8 +172,8 @@ This course has one product for its entire duration: **the Reminders API** — t
 * **Learning Objectives:**
     * Explain the difference between authentication (who are you) and authorization (what can you do).
     * Hash passwords with `bcrypt` — never store plaintext passwords.
-    * Issue a signed JWT on successful signup/login.
-    * Build `POST /auth/signup` and `POST /auth/login` as their own Controller/Service/Model trio.
+    * Issue a short-lived access JWT plus a long-lived, stored, rotating refresh token on successful signup/login.
+    * Build `POST /auth/signup`, `POST /auth/login`, and `POST /auth/refresh` as their own Controller/Service/Model trio.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -178,8 +183,10 @@ This course has one product for its entire duration: **the Reminders API** — t
 | `npm install bcryptjs`; `bcrypt.hash(password, 10)` / `bcrypt.compare(...)`. | - Why hashing (not encrypting) passwords, and why a salt round cost of ~10-12. | - Build `authService.signup(email, password)`: hash the password, insert into `users`. |
 | **Issuing a JWT** | 1 hour | 1 hour |
 | `npm install jsonwebtoken`; `jwt.sign({ sub: user.id, email }, secret, { expiresIn: '1h' })`. | - Store `JWT_SECRET` in `.env`, never hardcode it. | - Build `authService.login(email, password)`: verify the hash, sign and return a token. |
+| **Refresh Tokens & Rotation** | 1.5 hours | 1 hour |
+| A short-lived access token + a long-lived, DB-stored refresh token. | - Rotation: deleting the old refresh token on every use and issuing a new one. | - Add a `refresh_tokens` table and a `POST /auth/refresh` endpoint; prove rotation by rejecting a reused token. |
 | **The Auth Routes** | 45 mins | 45 mins |
-| `routes/authRoutes.js` → `authController.js` → `authService.js` → `userModel.js`. | - Same layering as the reminders resource. | - Wire up `POST /auth/signup` and `POST /auth/login`, test both in Postman. |
+| `routes/authRoutes.js` → `authController.js` → `authService.js` → `userModel.js`. | - Same layering as the reminders resource; mounted under `/api/v1/auth`. | - Wire up `POST /auth/signup`, `POST /auth/login`, and `POST /auth/refresh`; test all three in Postman. |
 
 ### Module 8: Protecting Routes
 
@@ -201,8 +208,9 @@ This course has one product for its entire duration: **the Reminders API** — t
 | Check `reminder.user_id === req.user.id` before mutating; `403 Forbidden` otherwise. | - Never trust a client-supplied user id. | - Add this ownership check to `updateReminder` and `deleteReminder`. |
 
 **Week 4 Assignment:** The same API, now with real accounts.
-* `POST /auth/signup` and `POST /auth/login` work end to end, returning a JWT.
-* Every `/reminders` route requires `Authorization: Bearer <token>` and returns `401` without one.
+* `POST /auth/signup` and `POST /auth/login` work end to end, returning an access token and a refresh token.
+* `POST /auth/refresh` issues a new token pair and rejects a reused refresh token.
+* Every `/reminders` route requires `Authorization: Bearer <access token>` and returns `401` without one.
 * Two different signed-up users only ever see their own reminders — prove it with two Postman requests using two different tokens.
 * **Commit your changes**: e.g., "feat: add JWT authentication and scope reminders to the logged-in user".
 
@@ -227,7 +235,7 @@ This course has one product for its entire duration: **the Reminders API** — t
 | **The Validation Middleware** | 45 mins | 45 mins |
 | `validateData(schema)` returns `(req, res, next) => { schema.parse(req.body); next(); }`. | - On `ZodError`, respond `400` with readable field-level messages. | - Write `middlewares/validationMiddleware.js`; apply it to `POST` and `PATCH` reminder routes. |
 | **Custom Errors + Central Handler** | 1 hour | 1 hour |
-| `class CustomError extends Error { constructor(message, statusCode) {...} }`; one `errorHandlerMiddleware` registered last. | - `constants/errorMessages.js` keeps messages consistent and typo-free. | - Replace every `throw new Error(...)` in the service layer with `throw new CustomError(...)`; forward all controller catches to `next(error)`. |
+| `class CustomError extends Error { constructor(message, statusCode) {...} }`; one `errorHandlerMiddleware` registered last. | - `constants/errorMessages.js` keeps messages consistent and typo-free; every error the handler catches gets logged, not just returned to the client. | - Replace every `throw new Error(...)` in the service layer with `throw new CustomError(...)`; forward all controller catches to `next(error)`. |
 
 ### Module 10: Talking to a Real Mobile Client
 
@@ -242,7 +250,7 @@ This course has one product for its entire duration: **the Reminders API** — t
 | **CORS for Mobile** | 45 mins | 30 mins |
 | `npm install cors`; `app.use(cors())`. | - Why CORS matters less for native apps than browsers, but still needs configuring for Expo's dev tools/web preview. | - Add and configure `cors` middleware. |
 | **Reviewing the Contract** | 45 mins | 45 mins |
-| Cross-check every response shape against the React Native course's expectations (Week 5 there). | - Consistent field naming (`title`, not `reminder`) end to end. | - Walk through each endpoint's JSON response with a partner (or the RN course notes) and fix any mismatches. |
+| Cross-check every response shape against the React Native course's expectations (Week 5 there). | - Consistent field naming (`title`, not `reminder`) end to end; OpenAPI as the formal, tool-generatable version of this table. | - Walk through each endpoint's JSON response with a partner (or the RN course notes) and fix any mismatches. |
 | **Real-Device Testing** | 1 hour | 1.5 hours |
 | `localhost` doesn't exist from a physical phone; use your machine's LAN IP or a tunnel. | - Finding your LAN IP; when to reach for `ngrok`/Expo tunnel instead. | - Point the actual Expo app (from the RN course) at this API and successfully sign up, log in, and load reminders on a real device. |
 | **Fixing Real Integration Bugs** | 45 mins | 1 hour | 
@@ -264,6 +272,7 @@ This course has one product for its entire duration: **the Reminders API** — t
     * Explain why automated tests catch regressions that manual Postman testing won't.
     * Write integration tests with Vitest and Supertest against the real auth + reminders endpoints.
     * Use a disposable test database (or a dedicated Neon branch) so tests don't corrupt real data.
+    * Run those tests automatically on every push with GitHub Actions CI.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
@@ -273,33 +282,37 @@ This course has one product for its entire duration: **the Reminders API** — t
 | `npm install -D vitest supertest`. | - `supertest(app)` sends real HTTP requests to your Express app in-process. | - Configure Vitest, write a smoke test for `GET /health`. |
 | **Testing the Real Endpoints** | 1.5 hours | 1.5 hours |
 | Cover signup/login, and full reminders CRUD for an authenticated user. | - A Neon database branch as an isolated, disposable test database. | - Write tests for: signup, login, create/read/update/delete a reminder, and the 401/403 cases. |
+| **Real CI with GitHub Actions** | 1 hour | 45 mins |
+| A `.github/workflows/ci.yml` running `npm test` on every push/PR. | - Repository secrets for `TEST_DATABASE_URL`/`TEST_JWT_SECRET`; `npm ci` vs. `npm install`. | - Wire up the workflow; prove it by pushing a deliberately broken test and seeing a red ❌ on Github. |
 
 ### Module 12: Hardening & Shipping
 
 * **Learning Objectives:**
-    * Add baseline security middleware (`helmet`, rate limiting).
+    * Add baseline security middleware (`helmet`, tiered rate limiting).
     * Add structured request logging.
     * Deploy the API to a free-tier host (Railway or Render) with a production Neon database.
     * Confirm the deployed API is the one the shipped React Native app talks to.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Security Headers & Rate Limiting** | 45 mins | 30 mins |
-| `npm install helmet express-rate-limit`. | - Sensible defaults for a small public API. | - Add both middlewares to `src/index.js`. |
+| **Security Headers & Tiered Rate Limiting** | 1 hour | 45 mins |
+| `npm install helmet express-rate-limit`. | - A general app-wide limiter plus a much stricter, dedicated one on `/auth/login` — the actual brute-force target. | - Add the general limiter to `src/app.js` and a second, stricter limiter to the login route. |
 | **Logging** | 30 mins | 30 mins |
-| A basic request logger (method, path, status, response time). | - Why silent failures in production are worse than noisy logs. | - Add a small logging middleware (or `morgan`). |
+| A basic request logger (method, path, status, response time) via `morgan`. | - Why silent failures in production are worse than noisy logs; `pino` as the structured-JSON alternative real teams query in Datadog/CloudWatch. | - Add `morgan`; know `pino`'s name as the production-grade next step. |
 | **Deploying** | 1 hour | 1.5 hours |
-| Railway/Render: connect the Github repo, set environment variables (`DATABASE_URL`, `JWT_SECRET`). | - Production vs. development environment variables. | - Deploy `reminders-api`; confirm the live URL responds to `GET /health`. |
+| Railway/Render: connect the Github repo, set environment variables (`DATABASE_URL`, `JWT_SECRET`). | - Production vs. development environment variables; Docker as the more portable, industry-standard alternative to a platform's auto-detected build. | - Deploy `reminders-api`; confirm the live URL responds to `GET /health`. |
 | **Final Integration** | 30 mins | 1 hour |
 | Point the React Native app's production build at the deployed URL. | - Environment-specific API base URLs. | - Confirm the shipped RN app (from the companion course) works end to end against the deployed API. |
 
 **Week 6 / Final Project:** Ship the Reminders API.
 * **Goal:** Combine everything from all 6 weeks into one live service.
 * **Requirements:**
-    1. **Architecture:** Full Controller/Service/Model layering for both `reminders` and `auth`.
+    1. **Architecture:** Full Controller/Service/Model layering for both `reminders` and `auth`, mounted under `/api/v1`.
     2. **Persistence:** Real PostgreSQL (Neon) via parameterized raw SQL — no in-memory data left anywhere.
-    3. **Auth:** Signup/login with hashed passwords and JWTs; every reminder scoped to its owner.
-    4. **Validation & Errors:** Every write endpoint validated with Zod; all errors flow through one central handler with correct status codes.
-    5. **Tests:** Vitest + Supertest covering auth and full reminders CRUD, passing in CI or locally.
-    6. **Deployment:** Live on Railway or Render, backed by a production Neon database, with environment secrets configured (not committed).
-* **Final Deliverable:** A live API URL, a passing test suite, and a working end-to-end demo with the deployed React Native app from the companion course.
+    3. **Auth:** Signup/login with hashed passwords and a rotating access/refresh JWT pair; every reminder scoped to its owner.
+    4. **Validation & Errors:** Every write endpoint validated with Zod; all errors flow through one central handler with correct status codes, and every error is actually logged.
+    5. **List Endpoint:** Pagination, filtering (`completed`, `overdue`), and sorting on `GET /reminders`, backed by real SQL.
+    6. **Tests & CI:** Vitest + Supertest covering auth and full reminders CRUD, passing automatically in GitHub Actions on every push.
+    7. **Security:** `helmet`, a general rate limiter, and a stricter dedicated limiter on `/auth/login`.
+    8. **Deployment:** Live on Railway or Render, backed by a production Neon database, with environment secrets configured (not committed).
+* **Final Deliverable:** A live API URL, a passing test suite with a green CI run, and a working end-to-end demo with the deployed React Native app from the companion course.

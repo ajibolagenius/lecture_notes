@@ -145,11 +145,18 @@ import ERROR_MESSAGES from '../constants/errorMessages.js';
 function errorHandlerMiddleware(err, req, res, next) {
   const statusCode = err.statusCode || 500;
   const message = err.message || ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
+
+  // Every error that reaches this point gets logged — a silent 500 in production
+  // is strictly worse than a noisy one, because at least a noisy one leaves a trail.
+  console.error(`[${req.method} ${req.originalUrl}] ${statusCode}: ${err.stack || err.message}`);
+
   res.status(statusCode).json({ error: message });
 }
 
 export default errorHandlerMiddleware;
 ```
+
+> **This log line is not optional.** Without it, every unexpected `500` your API ever produces vanishes the instant the response is sent — nothing records what broke, when, or on which request. `console.error` is the minimum bar; Week 6 upgrades this to a real structured logger once the API is actually deployed and `console.error` alone is no longer enough to find anything in production.
 
 Register it **last**, after every route:
 
@@ -222,11 +229,14 @@ Before testing against the real app, walk through every endpoint's JSON shape an
 
 | Endpoint | Response Shape |
 | :--- | :--- |
-| `POST /auth/signup`, `POST /auth/login` | `{ token: string, user: { id, email } }` |
-| `GET /reminders` | `[{ id, title, notes, dueDate, completed, userId, createdAt }, ...]` |
-| `POST /reminders`, `GET /reminders/:id`, `PATCH /reminders/:id` | `{ id, title, notes, dueDate, completed, userId, createdAt }` |
-| `DELETE /reminders/:id` | `{ message: string }` |
+| `POST /api/v1/auth/signup`, `POST /api/v1/auth/login` | `{ accessToken: string, refreshToken: string, user: { id, email } }` |
+| `POST /api/v1/auth/refresh` | `{ accessToken: string, refreshToken: string }` |
+| `GET /api/v1/reminders` | `[{ id, title, notes, dueDate, completed, userId, createdAt }, ...]` |
+| `POST /api/v1/reminders`, `GET /api/v1/reminders/:id`, `PATCH /api/v1/reminders/:id` | `{ id, title, notes, dueDate, completed, userId, createdAt }` |
+| `DELETE /api/v1/reminders/:id` | `{ message: string }` |
 | Any error | `{ error: string }` or `{ error: string, details: [...] }` |
+
+> **This table, formalized:** what you're doing here by hand — writing down every endpoint's shape so another team can build against it — is exactly what an **OpenAPI** spec does formally, in a machine-readable file both sides can generate code and docs from instead of a table in a markdown doc. Worth reaching for on a real team with more than one consumer of an API; this table is the same idea at course scale.
 
 ### 3. Real-Device Testing
 

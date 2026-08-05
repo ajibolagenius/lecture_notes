@@ -33,9 +33,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
-app.use('/auth', authRoutes);
-app.use('/reminders', reminderRoutes);
+app.get('/health', (req, res) => res.status(200).json({ status: 'ok' })); // deliberately unversioned — health checks are infrastructure, not API surface
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/reminders', reminderRoutes);
 
 app.use(errorHandlerMiddleware);
 
@@ -82,32 +82,32 @@ import request from 'supertest';
 import app from '../src/app.js';
 
 describe('Reminders API', () => {
-  let token;
+  let accessToken;
 
   beforeAll(async () => {
     const signupRes = await request(app)
-      .post('/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({ email: `test-${Date.now()}@example.com`, password: 'password123' });
-    token = signupRes.body.token;
+    accessToken = signupRes.body.accessToken;
   });
 
   it('rejects requests with no token', async () => {
-    const res = await request(app).get('/reminders');
+    const res = await request(app).get('/api/v1/reminders');
     expect(res.status).toBe(401);
   });
 
   it('creates and fetches a reminder for the logged-in user', async () => {
     const createRes = await request(app)
-      .post('/reminders')
-      .set('Authorization', `Bearer ${token}`)
+      .post('/api/v1/reminders')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({ title: 'Buy milk', notes: 'Whole milk, not skim' });
 
     expect(createRes.status).toBe(201);
     expect(createRes.body.title).toBe('Buy milk');
 
     const listRes = await request(app)
-      .get('/reminders')
-      .set('Authorization', `Bearer ${token}`);
+      .get('/api/v1/reminders')
+      .set('Authorization', `Bearer ${accessToken}`);
 
     expect(listRes.status).toBe(200);
     expect(listRes.body.length).toBeGreaterThan(0);
@@ -115,8 +115,8 @@ describe('Reminders API', () => {
 
   it('returns 400 when title is missing', async () => {
     const res = await request(app)
-      .post('/reminders')
-      .set('Authorization', `Bearer ${token}`)
+      .post('/api/v1/reminders')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({ notes: 'no title here' });
 
     expect(res.status).toBe(400);
@@ -127,6 +127,44 @@ describe('Reminders API', () => {
 **⭐️ Class Exercise: Write the Missing Tests**
 
 Add tests for: logging in with the wrong password (`401`), updating a reminder (`200`, and the field actually changed), and deleting a reminder you don't own (`403`).
+
+### 4. Making Tests Actually Run Automatically: GitHub Actions
+
+Tests sitting in a `tests/` folder only protect you if you remember to run them before every push. **CI (Continuous Integration)** means a server runs them for you, automatically, on every push or pull request — so a broken test blocks the merge instead of quietly shipping.
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm test
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.TEST_JWT_SECRET }}
+```
+
+* `actions/checkout` pulls your repo onto the runner; `actions/setup-node` installs the exact Node version you specify.
+* `npm ci` (not `npm install`) installs *exactly* what's in `package-lock.json` — the standard, reproducible choice for CI.
+* `secrets.TEST_DATABASE_URL`/`secrets.TEST_JWT_SECRET` are set in your Github repo's **Settings → Secrets and variables → Actions** — pointing at your dedicated Neon test branch from section 3, never your real database.
+
+**⭐️ Class Exercise: Wire Up Real CI**
+1. Add `.github/workflows/ci.yml` exactly as shown, and add `TEST_DATABASE_URL`/`TEST_JWT_SECRET` as repository secrets on Github.
+2. Push a commit and confirm a green checkmark appears next to it on Github — click into it to see your actual test output run remotely.
+3. Deliberately break a test locally, push it, and confirm Github shows a red ❌ instead of a green ✅ — this is the entire point: a broken test is now visible to anyone looking at the repo, not just to you if you happened to run `npm test` yourself.
 
 ---
 
@@ -154,11 +192,26 @@ const limiter = rateLimit({
 app.use(limiter);
 ```
 
-`helmet()` protects against a handful of well-known attack vectors (clickjacking, MIME-sniffing, etc.) with one line. Rate limiting protects against brute-force login attempts and basic abuse.
+`helmet()` protects against a handful of well-known attack vectors (clickjacking, MIME-sniffing, etc.) with one line. This app-wide rate limiter protects against basic abuse — but it under-protects one specific route.
+
+> **Why `/auth/login` needs its own, stricter limiter:** 100 requests per 15 minutes spread across your *entire* API is generous for normal use, but it's a gift to an attacker brute-forcing passwords against `POST /auth/login` specifically — 100 guesses every 15 minutes, forever, is still plenty. A sensitive endpoint like login deserves a tighter limiter of its own, on top of the general one:
+> ```javascript
+> // src/routes/authRoutes.js
+> import rateLimit from 'express-rate-limit';
+>
+> const loginLimiter = rateLimit({
+>   windowMs: 15 * 60 * 1000,
+>   max: 5, // 5 login attempts per 15 minutes, per IP — deliberately much stricter
+>   message: { error: 'Too many login attempts. Please try again later.' },
+> });
+>
+> router.post('/login', loginLimiter, AuthController.login);
+> ```
+> The general `limiter` from above still applies to everything else; this one stacks an extra, tighter check specifically where brute-forcing is actually a risk.
 
 ### 2. Structured Logging
 
-A simple request logger tells you what's actually happening in production, instead of finding out something's broken from a user complaint:
+A simple request logger tells you what's actually happening in production, instead of finding out something's broken from a user complaint. `morgan` is the common starting point:
 
 ```bash
 npm install morgan
@@ -169,6 +222,20 @@ npm install morgan
 import morgan from 'morgan';
 app.use(morgan('combined'));
 ```
+
+**Beyond `morgan`: Structured Logs.** `morgan`'s `combined` format is a plain text line — great for reading in a terminal, much harder to *query* once you're staring at millions of lines in a real hosting provider's log viewer (or a service like Datadog/CloudWatch). A structured logger like **`pino`** logs the same information as JSON instead, so you can filter "every 500 in the last hour" or "every request from this one user" as an actual query, not a `grep` and a prayer:
+
+```bash
+npm install pino pino-http
+```
+
+```javascript
+// src/app.js
+import pinoHttp from 'pino-http';
+app.use(pinoHttp());
+```
+
+`pino-http` logs every request as one JSON line — method, path, status, response time — automatically. This course sticks with `morgan` as the simpler default, but know `pino`'s name: it's what a real production Node API almost always reaches for once logs need to be searched, not just read.
 
 ### 3. Deploying
 
@@ -184,6 +251,17 @@ We'll deploy to **Railway** or **Render** — both have a free tier suitable for
    curl https://your-app.up.railway.app/health
    # {"status":"ok"}
    ```
+
+> **A Note on Docker:** Railway/Render can deploy straight from your Github repo with zero config, which is why this course uses that path. A real production team more often deploys a **container** instead — a `Dockerfile` describing exactly how to build a runnable image of your app, so it behaves identically on your laptop, in CI, and in production. A minimal one for this API would be barely more than:
+> ```dockerfile
+> FROM node:24-alpine
+> WORKDIR /app
+> COPY package*.json ./
+> RUN npm ci --omit=dev
+> COPY . .
+> CMD ["node", "src/index.js"]
+> ```
+> Both Railway and Render accept a `Dockerfile` directly if you ever want to try it — nothing to submit here, just worth knowing this exists as the more portable, industry-standard alternative to a platform's auto-detected build.
 
 ### 4. Final Integration
 
@@ -201,23 +279,25 @@ Deploy your API. Send its live `/health` URL to a classmate and have them hit it
 
 ### Requirements
 
-1. **Architecture:** Full Controller/Service/Model layering for both `reminders` and `auth`.
+1. **Architecture:** Full Controller/Service/Model layering for both `reminders` and `auth`, mounted under `/api/v1`.
 2. **Persistence:** Real PostgreSQL (Neon) via parameterized raw SQL — no in-memory data anywhere.
-3. **Auth:** Signup/login with hashed passwords and JWTs; every reminder scoped to its owner, with ownership enforced on update/delete.
-4. **Validation & Errors:** Every write endpoint validated with Zod; all errors flow through one central handler with correct status codes.
-5. **Tests:** Vitest + Supertest covering auth and full reminders CRUD, all passing.
-6. **Security:** `helmet` and rate limiting enabled; secrets live in environment variables, never in code.
-7. **Deployment:** Live on Railway or Render, backed by a production Neon database.
-8. **Integration:** The deployed React Native app (companion course) works end to end against this live API.
+3. **Auth:** Signup/login with hashed passwords and both an access and refresh JWT; refresh tokens stored and rotated; every reminder scoped to its owner, with ownership enforced on update/delete.
+4. **Validation & Errors:** Every write endpoint validated with Zod; all errors flow through one central handler with correct status codes, and every error is actually logged, not just returned to the client.
+5. **List Endpoint:** `GET /reminders` supports pagination, filtering (including `overdue`, using the previously-unused `due_date` column), and sorting.
+6. **Tests:** Vitest + Supertest covering auth and full reminders CRUD, all passing — and running automatically in GitHub Actions CI on every push.
+7. **Security:** `helmet` enabled; a general rate limiter plus a stricter, dedicated one on `/auth/login`; secrets live in environment variables, never in code.
+8. **Deployment:** Live on Railway or Render, backed by a production Neon database.
+9. **Integration:** The deployed React Native app (companion course) works end to end against this live API.
 
 ### Final Deliverable
 
-Submit: your Github repo URL, your live API URL, and a short screen recording (or live demo) showing the deployed mobile app successfully signing up, logging in, and managing reminders against this deployed API.
+Submit: your Github repo URL, your live API URL, a link to a green CI run on Github, and a short screen recording (or live demo) showing the deployed mobile app successfully signing up, logging in, and managing reminders against this deployed API.
 
 ### Git Workflow
 
 * `git commit -m "test: add Vitest + Supertest coverage for auth and reminders"`
-* `git commit -m "chore: add helmet, rate limiting, and request logging"`
+* `git commit -m "ci: add GitHub Actions workflow to run tests on every push"`
+* `git commit -m "chore: add helmet, tiered rate limiting, and request logging"`
 * `git commit -m "chore: deploy reminders-api to production"`
 
-Congratulations — you've built and shipped a real, authenticated, tested backend service from an empty folder. Everything from here (pagination, refresh tokens, background jobs, richer search) is a natural extension of the architecture you already understand.
+Congratulations — you've built and shipped a real, authenticated, tested, versioned backend service from an empty folder, complete with refresh tokens, pagination, and a real CI pipeline. Everything from here (background jobs, richer full-text search, an OpenAPI spec, Docker) is a natural extension of the architecture you already understand.

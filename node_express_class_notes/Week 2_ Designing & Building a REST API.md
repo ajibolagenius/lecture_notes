@@ -122,7 +122,7 @@ touch src/services/reminderService.js
 ```javascript
 // src/services/reminderService.js
 export const ReminderService = {
-  async getAllReminders() {
+  async getAllReminders(filters) {
     // Fetch All Reminders
     return [];
   },
@@ -296,9 +296,74 @@ export const ReminderController = {
 
 > **Note:** the controller now only knows about *HTTP* concerns — status codes and JSON shapes. It has no idea whether reminders live in an array or a database. That's the whole point of layering: next week, only `reminderModel.js` changes.
 
-### 4. Testing With a Real Postman Collection
+### 4. Real-World List Endpoints: Pagination, Filtering & Sorting
+
+Right now `GET /reminders` returns the *entire* array, every single time, no matter how large it grows. A real client — especially a mobile app rendering a scrolling list — never actually wants "everything at once." This is one of the most common things a junior backend dev is expected to already know how to do.
+
+* **Pagination:** `?limit=20&offset=0` — return a bounded page of results, not the whole table.
+* **Filtering:** `?completed=true` — return only reminders matching a condition.
+* **Sorting:** `?sort=-createdAt` — a leading `-` means descending; no `-` means ascending.
+
+Update all three layers to pass these through:
+
+```javascript
+// src/controllers/reminderController.js (getAllReminders, updated)
+async getAllReminders(req, res) {
+  try {
+    const { completed, sort, limit, offset } = req.query;
+    const filters = {
+      completed: completed === undefined ? undefined : completed === 'true',
+      sort,
+      limit: limit ? parseInt(limit, 10) : 20,
+      offset: offset ? parseInt(offset, 10) : 0,
+    };
+    const reminders = await ReminderService.getAllReminders(filters);
+    res.status(200).json(reminders);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+},
+```
+
+```javascript
+// src/services/reminderService.js (getAllReminders, updated)
+async getAllReminders(filters) {
+  return ReminderModel.getAll(filters);
+},
+```
+
+```javascript
+// src/models/reminderModel.js (getAll, updated — in-memory version)
+async getAll({ completed, sort, limit, offset } = {}) {
+  let result = [...reminders];
+
+  if (completed !== undefined) {
+    result = result.filter((r) => r.completed === completed);
+  }
+
+  if (sort === '-createdAt') {
+    result = result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } else if (sort === 'createdAt') {
+    result = result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  }
+
+  return result.slice(offset, offset + limit);
+},
+```
+
+*This in-memory version is a stand-in — next week, the exact same `{ completed, sort, limit, offset }` shape passes straight through to a real SQL query instead (`WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`), and neither the Controller nor the Service needs to change at all. That's the entire point of the layering you just built.*
+
+**⭐️ Class Exercise: List With Real Query Params**
+1. Create 5+ reminders, some with `completed: true`.
+2. Test `GET /reminders?completed=true` and confirm only completed ones come back.
+3. Test `GET /reminders?limit=2&offset=2` and confirm you get exactly reminders 3-4, not the whole list.
+4. Test `GET /reminders?sort=-createdAt` and confirm the newest reminder comes back first.
+
+### 5. Testing With a Real Postman Collection
 
 A saved Postman collection is a real, useful deliverable — not just busywork. Create requests for all five routes, with example JSON bodies for `POST` and `PATCH`, and export the collection into your repo.
+
+> **Beyond Postman — Naming OpenAPI:** A Postman collection is great for your own manual testing, but it isn't a *contract* another team can generate a client from or validate requests against automatically. **OpenAPI** (formerly Swagger) is the industry-standard format for describing a REST API's shape — every endpoint, every field, every status code — in a single spec file that tools can turn into interactive docs, generated client code, or automated request validation. Given a separate team (the React Native course, in this program's case) has to consume this exact API, an OpenAPI spec is the more rigorous, professional version of what your Postman collection does informally. This course sticks with Postman for simplicity, but know the name — you'll meet it fast on a real team.
 
 | HTTP Status | When To Use It |
 | :--- | :--- |
@@ -323,7 +388,8 @@ Using Postman: create three reminders, list them all, fetch one by id, update on
 2. **Service** (`services/reminderService.js`): holds business logic, delegates all data access to the Model.
 3. **Model** (`models/reminderModel.js`): the only file touching the in-memory `reminders` array.
 4. **Status codes:** `200` for reads/updates/deletes, `201` for creates, `404` when an id isn't found, `500` for unexpected errors.
-5. **Postman collection:** committed to the repo at `postman/reminders-api.postman_collection.json`, covering all 5 routes with example request bodies.
+5. **List endpoint:** `GET /reminders` supports `?completed=`, `?sort=`, and `?limit=`/`?offset=` query params, all the way through Controller → Service → Model.
+6. **Postman collection:** committed to the repo at `postman/reminders-api.postman_collection.json`, covering all 5 routes (including a couple of query-param variations on the list endpoint) with example request bodies.
 
 ### Submission Code Structure (Starter)
 
