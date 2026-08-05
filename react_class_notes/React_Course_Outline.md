@@ -2,7 +2,11 @@
 
 ## Course Overview
 
-This course is designed for developers with a solid understanding of HTML, CSS, and modern JavaScript (ES6+). It takes you from the core concepts of React to building complex, interactive, and fast single-page applications (SPAs). We will focus 100% on functional components and hooks, using modern tools like **Vite** for development and **Git/Github** for version control from day one.
+This course is designed for developers with a solid understanding of HTML, CSS, and modern JavaScript (ES6+) — specifically, the same portfolio site you already built in those three courses. Here, you **rebuild that exact portfolio as a React SPA**: the same name, bio, and skills; the same Featured Work projects (now fetched live from GitHub); the same contact form; the same dark-mode toggle — but now as reusable, component-based, routed architecture instead of hand-written DOM manipulation. We focus 100% on functional components and hooks, using **Vite** for development and **Git/GitHub** for version control from day one.
+
+* **Target Audience:** Students who have completed the HTML, CSS, and JavaScript courses (or have equivalent knowledge of semantic HTML, CSS layout, and vanilla JS DOM/fetch work).
+* **Tools:** Node.js (LTS), VS Code, Vite, Git/GitHub, a modern browser.
+* **Goal:** By the end of this course, students will be able to independently build a routed, component-based React application with real data fetching, global state, and forms — and will have rebuilt their own portfolio as a deployed, professional-grade SPA.
 
 ---
 
@@ -20,48 +24,36 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is React?** | 30 mins | 15 mins |
-| The "Why": Declarative, Component-Based. | - Virtual DOM (briefly). | - Analyze a website and break it down into "components." |
+| Declarative, Component-Based. | - Virtual DOM (briefly). | - Break your own real portfolio (`index.html`/`about.html`/`contact.html`) down into components: `Header`, `Bio`, `ProjectCard`, `ContactForm`. |
 | **Tools & Setup** | 45 mins | 30 mins |
-| Installing Node.js & npm. | - VS Code setup (extensions like ES7+ React snippets). | - Install Node and recommended VS Code extensions. |
+| Installing Node.js & npm. | - VS Code setup (ES7+ React snippets). | - Install Node and recommended VS Code extensions. |
 | **Intro to Git & Github** | 45 mins | 30 mins |
-| What is version control? | - `git init`, `add`, `commit`. | - Create a new repository on Github. |
-| Why Git is essential. | - `git remote add`, `push`. | - Initialize Git in a new local folder and make your first commit. |
+| What is version control? | - `git init`, `add`, `commit`. | - Create a new Github repo for `portfolio-react`. |
 | **Scaffolding with Vite** | 30 mins | 30 mins |
-| Vite vs. Create React App (CRA). | - Why Vite is faster (ESM, HMR). | - Run `npm create vite@latest` to scaffold a new React project. |
-| Project structure (`index.html`, `main.jsx`, `App.jsx`). | - `npm install` and `npm run dev`. | - Run the dev server. Push your new Vite project to your Github repo. |
+| Vite vs. Create React App. | - Why Vite is faster (ESM, HMR). | - Run `npm create vite@latest portfolio-react -- --template react`. |
 
 ### Module 2: JSX & Your First Components
 
 * **Learning Objectives:**
     * Write and understand JSX syntax.
     * Differentiate JSX from HTML (e.g., `className`, `htmlFor`).
-    * Embed JavaScript expressions (variables, functions) inside JSX.
-    * Create and render your first functional component.
-    * Understand how to import and export components (ES6 modules).
+    * Embed JavaScript expressions inside JSX.
+    * Create and render your first functional components.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is JSX?** | 45 mins | 30 mins |
-| JavaScript XML. | - JSX is *not* HTML. | - Clean out the default `App.jsx` file. |
-| JSX Rules: Single parent element, `className`. | - Self-closing tags. | - Write a simple "Hello, React!" `<h1>` in `App.jsx`. |
+| JavaScript XML, not HTML. | - Single parent element, self-closing tags. | - Clear the default `App.jsx`; render your real name in an `<h1>`. |
 | **JavaScript in JSX** | 45 mins | 30 mins |
-| Using curly braces `{}`. | - Variables, simple math, function calls. | - Create a `const name = 'User'` and render `<h1>Hello, {name}</h1>`. |
-| Attributes in JSX. | - JS objects for inline `style` (briefly). | - Add an `img` tag with `src` and `alt` attributes. |
+| Curly braces `{}` for expressions. | - Inline `style` objects (briefly). | - Render your real bio text using a variable and `{}`. |
 | **Functional Components** | 1 hour | 45 mins |
-| What is a component? | - Creating a function that returns JSX. | - Create a new file: `Header.jsx`. |
-| Reusability (DRY). | - Exporting (`export default`) and Importing (`import`). | - Build a `<Header />` component in its own file. |
-| Nesting components. | - PascalCase naming convention. | - Import and render your `<Header />` component inside `App.jsx`. |
+| A component is a function returning JSX. | - `export default` / `import`. | - Build real `Header.jsx`, `Bio.jsx`, and a first, hardcoded `ProjectCard.jsx`. |
 
-**Week 1 Assignment:** Build a "Static Bio Page".
-* Create a new Vite project and push it to a new Github repo.
-* Create a main `App.jsx` component.
-* Create **three** separate child components:
-    1.  `ProfilePicture.jsx` (displays an `<img>`).
-    2.  `Bio.jsx` (contains an `<h1>` with your name and `<p>` with a description).
-    3.  `ContactLinks.jsx` (contains a `<ul>` of `<a>` tags to your social media).
-* Assemble all three components inside `App.jsx` to build the page.
-* Style it using a simple external `index.css` file.
-* **Commit your changes** with a meaningful message (e.g., "feat: Build static bio page").
+**Week 1 Assignment:** Scaffold your portfolio as a React app, and rebuild your header and bio.
+* Scaffold `portfolio-react` with Vite, push to a new Github repo.
+* Build `Header.jsx` (your real name/logo + nav placeholder), `Bio.jsx` (your real About Me text from HTML Week 1-2), and one hardcoded `ProjectCard.jsx` (your first real Featured Work project).
+* Assemble them in `App.jsx`.
+* Commit with meaningful messages as you go.
 
 ---
 
@@ -73,119 +65,89 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
     * Pass data from a parent component to a child component using `props`.
     * Destructure `props` in the child component.
     * Use `props.children` to wrap components.
-    * Understand that `props` are read-only (immutable).
+    * Render a small array of real data with `.map()` and the `key` prop (a first look — Week 3 goes deeper).
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What are Props?** | 45 mins | 30 mins |
-| Passing data "down the tree." | - `props` is an object. | - Create a `User.jsx` component. |
-| **Passing & Receiving** | 1 hour | 45 mins |
-| Passing as attributes: `<User name="Alex" />`. | - Receiving the `props` object. | - In `App.jsx`, render `<User name="Alex" age={30} />`. |
-| Destructuring: `function User({ name, age })`. | - Passing non-string types (`{}`). | - In `User.jsx`, receive and display the `name` and `age` props. |
+| Passing data "down the tree." | - Props are read-only. | - Make `ProjectCard` accept `{ title, description, tags, imageSrc }` props instead of hardcoded content. |
+| **Rendering Your Real Projects** | 1 hour | 45 mins |
+| A small `projects` array (matching your JS course's data). | - `.map()` + the `key` prop (first look). | - Render all 3 of your real projects (Weather App, Task Tracker, This Portfolio) via `projects.map(p => <ProjectCard key={p.id} {...p} />)`. |
 | **`props.children`** | 30 mins | 30 mins |
-| Creating "wrapper" components. | - `function Card({ children })`. | - Create a `Card.jsx` component. |
-| | | - In `App.jsx`, use it: `<Card><h1>Hello</h1></Card>`. The `Card` should render this content. |
+| Creating "wrapper" components. | - `function Badge({ children })`. | - Build a `Badge.jsx` and use it for your real "Featured" badge on one card. |
 
 ### Module 4: State (`useState`) & Events
 
 * **Learning Objectives:**
     * Understand the difference between `props` and `state`.
-    * Import and use the `useState` hook to manage component state.
-    * Handle user events like `onClick` and `onChange`.
-    * Write event handler functions to update state.
-    * Understand the principle of immutability when updating state.
+    * Import and use the `useState` hook.
+    * Handle user events like `onClick`.
+    * Filter a real array of data based on state.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What is State?** | 45 mins | 30 mins |
-| Memory for a component. | - `props` vs. `state`. | - Create a new `Counter.jsx` component. |
-| The `useState` Hook | - `import { useState } from 'react'`. | - Import `useState`. |
-| Array destructuring: `const [count, setCount] = useState(0)`. | | - Initialize a `count` state variable to `0`. |
-| **Handling Events** | 45 mins | 30 mins |
-| Event listeners in JSX (`onClick`). | - Defining the handler function. | - Add a `<button>` to your `Counter`. |
-| Inline vs. separate functions. | | - Add an `onClick` attribute that calls a `handleClick` function. |
-| **Updating State** | 1 hour | 45 mins |
-| The "setter" function (`setCount`). | - State updates trigger re-renders. | - Inside `handleClick`, call `setCount(count + 1)`. |
-| Immutability. | - Updating state based on *previous* state. | - Log the `count` to the console and see the new value. |
-| Using a callback: `setCount(prevCount => prevCount + 1)`. | | - Refactor to use the "previous state" callback. |
+| Memory for a component. | - `props` vs. `state`. | - (Warm-up) Build a throwaway `Counter.jsx` to drill `useState` mechanics before applying it for real. |
+| **Real Tag Filtering** | 1.5 hours | 1 hour |
+| `useState` holding a `selectedTag`. | - Filtering an array before `.map()`-ing it. | - Add tag buttons (e.g., "All", "React Native", "Python") above your Featured Work grid. |
+| **Updating State** | 45 mins | 30 mins |
+| The setter function. | - State updates trigger re-renders. | - Clicking a tag button calls `setSelectedTag`, and `projects.filter(...)` re-renders only matching cards. |
 
-**Week 2 Assignment:** Build a "Simple To-Do List".
-* Create a `TodoList.jsx` component.
-* It should have an `input` field and an "Add" `button`.
-* Use `useState` to hold the *current text* in the input.
-* Use `useState` to hold an *array of to-do items* (e.g., `['Learn React', 'Do laundry']`).
-* When the button is clicked, it should add the current input text to the to-do items array.
-* Render the array as a `<ul>` below the input.
-* **Bonus:** Add a "Remove" button next to each to-do item that, when clicked, removes that item from the array. (Hint: You'll need to `filter` the array and `set` the new array).
-* **Commit your changes** to Github.
+**Week 2 Assignment:** Make your real Featured Work section prop-driven and filterable.
+* Refactor `ProjectCard` to accept props; render your real `projects` array via `.map()`.
+* Build `Badge.jsx` using `props.children` for your "Featured" badge.
+* Add `useState`-driven tag filter buttons that filter the rendered projects live.
 
 ---
 
 ## Week 3: Lifecycle, Conditionals, & Data Fetching
 
-### Module 5: Conditional Rendering & Lists
+### Module 5: Conditional Rendering & Lists (Deep Dive)
 
 * **Learning Objectives:**
-    * Render JSX conditionally using `if` statements, ternary operators, and `&&`.
-    * Render arrays of data into JSX using the `.map()` method.
-    * Understand the importance of the `key` prop and how to use it.
+    * Render JSX conditionally using `if`, ternary, and `&&`.
+    * Understand *why* `.map()` needs a `key`, and why not to use the array index once data can reorder.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Conditional Rendering** | 1 hour | 45 mins |
-| Ternary operator: `isLoggedIn ? <User /> : <Guest />`. | - Short-circuiting with `&&`. | - Create a `Login.jsx` component with an `isLoggedIn` state (boolean). |
-| Returning `null`. | - Show "Welcome back!" or "Please log in." based on the state. |
-| **Rendering Lists** | 1 hour | 45 mins |
-| Using `.map()` to transform data to JSX. | - `const jsxElements = data.map(...)`. | - Take your To-Do list array from last week. |
-| The `key` prop. | - Why `key` is essential for performance. | - Use `.map()` to render the `<li>` elements dynamically. |
-| Using `id` as a `key`. | - What *not* to use as a key (index). | - Add a unique `id` to each to-do object and use it as the `key`. |
+| Ternary, `&&`, early return. | - Loading/error/empty states. | - Add an early return in your Featured Work section for "No projects match this tag." |
+| **The `key` Prop, Properly** | 1 hour | 45 mins |
+| Why keys must be stable and unique. | - What breaks if you use the array index. | - Confirm your real `projects` use a real `id`, not their array index, as the `key`. |
 
 ### Module 6: The `useEffect` Hook (Side Effects)
 
 * **Learning Objectives:**
-    * Explain what a "side effect" is (e.g., API calls, timers, subscriptions).
-    * Import and use the `useEffect` hook to run code after render.
-    * Understand the "dependency array" (`[]`).
-    * Use the dependency array to re-run effects when state or props change.
-    * Write a "cleanup" function returned from `useEffect`.
+    * Explain what a "side effect" is.
+    * Use `useEffect` to run code after render, with a dependency array.
+    * Write a cleanup function.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **What are Side Effects?** | 45 mins | 30 mins |
-| Code that affects "the outside world." | - `useEffect(callback, dependencies)`. | - Create a `Timer.jsx` component. |
-| **The Dependency Array** | 1.5 hours | 1 hour |
-| `[]` (runs once on mount). | - `[prop, state]` (runs when they change). | - Use `useEffect` with `[]` to log "Component mounted" to the console. |
-| No array (runs on *every* render - careful!). | - The "cleanup" function (for unmounting). | - Add a `count` state. Add a *second* `useEffect` that logs "Count changed" and put `count` in its dependency array. |
-| **Cleanup Function** | 30 mins | 30 mins |
-| `return () => { ... }` | - Preventing memory leaks. | - Use `useEffect` to create a `setInterval`. Return a cleanup function that runs `clearInterval`. |
+| Code that affects "the outside world." | - `useEffect(callback, dependencies)`. | - (Lecture) Log "component mounted" with `useEffect(..., [])`. |
+| **The Dependency Array** | 1 hour | 45 mins |
+| `[]` runs once on mount. | - `[dep]` re-runs on change. | - Preview: an empty array is exactly what you'll use to fetch your GitHub repos once, next. |
 
-### Module 7: Data Fetching with `useEffect`
+### Module 7: Real Data Fetching with `useEffect`
 
 * **Learning Objectives:**
-    * Fetch data from a public API (e.g., JSONPlaceholder) inside a `useEffect` hook.
-    * Store the fetched data in state.
+    * Fetch data from a real, public API (the GitHub REST API) inside `useEffect`.
+    * Store fetched data in state, alongside your existing static `projects` array.
     * Handle loading and error states.
-    * Use `async/await` within the `useEffect` hook correctly.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Fetching Strategy** | 1 hour | 45 mins |
-| `fetch()` in `useEffect(..., [])`. | - Handling the `Response` (`.json()`). | - Create a `PostFetcher.jsx` component. |
-| `async/await` in `useEffect`. | - `async function` *inside* the effect. | - Write an `async function fetchData()` inside your `useEffect`. |
+| **Fetching Your Real Repos** | 1 hour | 45 mins |
+| `fetch()` inside `useEffect(..., [])`. | - `async function` *inside* the effect (not on it). | - Fetch `api.github.com/users/<you>/repos` in a `useEffect`. |
 | **Loading & Error States** | 45 mins | 30 mins |
-| Using state for `data`, `loading`, `error`. | - `try...catch` for errors. | - Add `loading` (boolean) and `error` (null/string) state. |
-| Conditional rendering for states. | | - Set `loading` to true before fetch, false after. |
-| | | - Show "Loading...", the error message, or the data list. |
+| `data`, `loading`, `error` state. | - `try...catch` for errors. | - Show "Loading GitHub projects..." / an error message / the merged project list. |
 
-**Week 3 Assignment:** Build a "Blog Post" viewer.
-* Use the JSONPlaceholder API (e.g., `https/jsonplaceholder.typicode.com/posts`).
-* Create a `PostsList.jsx` component.
-* On mount, `useEffect` to fetch all posts.
-* Store the posts in state.
-* Display "Loading..." while fetching.
-* Display an error message if the fetch fails.
-* Once loaded, `.map()` over the posts array and render a list of post `title`s.
-* **Commit your changes** to Github.
+**Week 3 Assignment:** Fetch your real GitHub repos into your Featured Work section.
+* Add `githubRepos`, `loading`, and `error` state.
+* `useEffect(..., [])` to fetch your real repos on mount, mapped into the same shape as your static `projects`.
+* Render the combined list (`[...projects, ...githubRepos]`), each still using a stable `key`.
+* Handle and display loading/error states.
 
 ---
 
@@ -194,67 +156,49 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 ### Module 8: Advanced Forms
 
 * **Learning Objectives:**
-    * Create a "controlled component" by linking form `input`s to state.
-    * Handle `onChange` for multiple inputs with a single function.
-    * Handle form submission with `onSubmit` and `event.preventDefault()`.
+    * Create a "controlled component" by linking form inputs to state.
+    * Handle `onChange` for multiple inputs with one function and computed property names.
+    * Handle submission with `onSubmit` and validation.
 
-| Topic | Lecture/Concept (Est.Time) | Practical Exercise (Est. Time) |
+| Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Controlled Components** | 1 hour | 45 mins |
-| The "React" way to handle forms. | - `value={state}` and `onChange={setState}`. | - Create a `LoginForm.jsx` component. |
-| `input`, `textarea`, `select`. | | - Add state for `username` and `password`. |
-| | | - Link the `value` and `onChange` of two inputs to their state. |
-| **Handling Form State** | 1 hour | 45 mins |
-| Single state object: `useState({ user: '', pass: '' })`. | - Computed property names (`[e.target.name]`). | - Refactor to use a single state object for the form data. |
-| **Form Submission** | 30 mins | 30 mins |
-| The `<form>` `onSubmit` event. | - `event.preventDefault()`. | - Wrap inputs in a `<form>` tag. |
-| | | - Add an `onSubmit` handler that logs the form state. |
+| `value={state}` / `onChange={...}`. | - Your real form: name, email, reason, contact method, message. | - Rebuild your real contact form's fields as controlled inputs. |
+| **Single State Object** | 1 hour | 45 mins |
+| `useState({ name: '', email: '', ... })`. | - Computed property names (`[e.target.name]`). | - Refactor to one `formData` state object with a single `handleChange`. |
+| **Submission & Validation** | 45 mins | 30 mins |
+| `onSubmit` + `event.preventDefault()`. | - Reusing your JS course's validation rules. | - Validate email format and message length; show inline errors. |
 
 ### Module 9: Styling React Components
 
 * **Learning Objectives:**
-    * Compare different styling strategies (CSS, CSS Modules, CSS-in-JS, Utility).
+    * Compare styling strategies.
     * Implement **CSS Modules** for locally-scoped, conflict-free styling.
-    * Conditionally apply classes using template literals or a library like `clsx`.
+    * Conditionally apply classes.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Styling Options** | 45 mins | 15 mins |
-| Global CSS (the "old" way). | - CSS-in-JS (Styled Components). | - (Lecture) Pros and cons of each. |
-| Utility-First (Tailwind CSS). | - **CSS Modules** (the "Vite" way). | |
 | **CSS Modules** | 1 hour | 45 mins |
-| `[filename].module.css`. | - `import styles from './Button.module.css'`. | - Create a `Button.jsx` component. |
-| Using `styles.myClass`. | - Local scope by default. | - Create `Button.module.css` with a `.button` class. |
-| | | - Import and apply the class: `className={styles.button}`. |
+| `[Component].module.css`. | - `import styles from './X.module.css'`. | - Create `ProjectCard.module.css` and `ContactForm.module.css`. |
 | **Conditional Classes** | 30 mins | 30 mins |
-| Using props to change styles. | - `className={isPrimary ? styles.primary : ''}`. | - Add a `primary` prop to your button. |
-| Template literals. | - `clsx` library (briefly). | - Conditionally apply a `styles.primary` class. |
+| Template literals for combining classes. | - A `--featured` modifier class, ported from your CSS course's BEM naming. | - Apply `styles.featured` conditionally on your Featured project's card. |
 
 ### Module 10: `useRef` Hook
 
 * **Learning Objectives:**
-    * Import and use the `useRef` hook to create a "ref."
-    * Understand that `useRef` does *not* trigger a re-render.
-    * Use a ref to access DOM elements directly (e.g., to focus an input).
+    * Use `useRef` to access a DOM element directly.
+    * Understand that refs don't trigger re-renders.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **What is a Ref?** | 30 mins | 15 mins |
-| An "escape hatch" to the DOM. | - The `ref.current` property. | - (Lecture) `useRef` vs. `useState`. |
 | **Accessing the DOM** | 45 mins | 30 mins |
-| The `ref` attribute in JSX. | - `const myRef = useRef(null)`. | - In your `LoginForm.jsx`, create a ref. |
-| `ref={myRef}`. | | - Attach the ref to the `username` input. |
-| **Practical Use Case** | 30 mins | 30 mins |
-| Focusing an input on mount. | - `myRef.current.focus()`. | - Use `useEffect(..., [])` to call `myRef.current.focus()` when the component mounts. |
+| `const ref = useRef(null)` / `ref={ref}`. | - `ref.current.focus()`. | - Auto-focus your contact form's name field on mount using `useEffect` + `useRef`. |
 
-**Week 4 Assignment:** Build an "Invoice" or "Tip" Calculator.
-* Create a form with inputs for "Bill Amount," "Number of People," and "Tip Percentage" (can be a `<select>` or buttons).
-* Use **controlled components** for all inputs.
-* Style the entire application using **CSS Modules**.
-* As the user types, calculate and display the "Tip per person" and "Total per person."
-* Add a "Reset" button that clears all inputs and calculations.
-* **Bonus:** Use `useRef` to auto-focus the "Bill Amount" input on page load.
-* **Commit your changes** to Github.
+**Week 4 Assignment:** Rebuild your real contact form as a controlled, styled, accessible component.
+* `ContactForm.jsx` with a single `formData` state object covering all your real fields.
+* Validate on submit (email format, message length) and show inline errors.
+* Style with `ContactForm.module.css`.
+* Auto-focus the first field with `useRef`.
 
 ---
 
@@ -263,58 +207,40 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 ### Module 11: Client-Side Routing with React Router
 
 * **Learning Objectives:**
-    * Install and set up **React Router** (`react-router-dom`).
-    * Configure routes using `createBrowserRouter` and `RouterProvider`.
-    * Create `Layout`, `Index`, and `Error` routes.
-    * Navigate between pages using the `<Link>` component.
-    * Create dynamic routes and access URL parameters using `useParams`.
+    * Install and configure **React Router** (`createBrowserRouter`/`RouterProvider`).
+    * Create Layout, Index, and Error routes.
+    * Navigate using `<Link>`.
+    * Create a dynamic project-detail route with `useParams`.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **What is a SPA?** | 30 mins | 30 mins |
-| Client-Side vs. Server-Side routing. | - `npm install react-router-dom`. | - Install React Router. |
 | **Configuring Routes** | 1 hour | 45 mins |
-| `createBrowserRouter`. | - `RouterProvider`. | - Set up `main.jsx` with a browser router. |
-| `<Outlet />` for layouts. | - `element`, `path`, `errorElement`. | - Create `HomePage.jsx` and `AboutPage.jsx`. |
+| `createBrowserRouter`, `RouterProvider`. | - `<Outlet />` for your shared header/footer layout. | - Set up real routes: `/`, `/projects`, `/projects/:id`, `/contact`. |
 | **Navigation** | 30 mins | 30 mins |
-| `<a>` vs. `<Link>`. | - The `to` prop. | - Create a `Navbar.jsx` component. |
-| | | - Use `<Link to="/">Home</Link>` and `<Link to="/about">About</Link>`. |
+| `<Link>` vs. `<a>`. | - Update your real `Header`'s nav to use `<Link>`. | - Replace your static nav links with `<Link to="/">`, etc. |
 | **Dynamic Routes** | 1 hour | 45 mins |
-| `path: "/posts/:postId"`. | - The `useParams` hook. | - Create a `PostDetailPage.jsx` component. |
-| | | - Add a dynamic route for it. |
-| | | - In the component, use `useParams` to get the `postId` and display it. |
+| `path: "/projects/:id"`. | - `useParams()`. | - Build `ProjectDetail.jsx` — a real, new page each project didn't have as a static site. |
 
 ### Module 12: Global State with Context API
 
 * **Learning Objectives:**
-    * Explain "prop drilling" and why it's a problem.
-    * Use `createContext` to create a new context.
-    * Provide a context value using the `<MyContext.Provider>` component.
-    * Consume a context value using the `useContext` hook.
+    * Explain "prop drilling."
+    * Create, provide, and consume a Context.
+    * Rebuild your dark-mode toggle from the JS course as real global state.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **The "Prop Drilling" Problem** | 45 mins | 30 mins |
-| Passing props through many levels. | - When to use Context (and when not to). | - (Diagram) Show a prop-drilling example. |
 | **Creating Context** | 30 mins | 30 mins |
-| `createContext(defaultValue)`. | - Creating a `ThemeContext.js` file. | - Create a new context for `theme`. |
-| **The Provider** | 45 mins | 30 mins |
-| `<MyContext.Provider value={...}>`. | - Wrapping your app (or part of it). | - In `App.jsx`, wrap your app in `<ThemeContext.Provider>`. |
+| `createContext`, a custom Provider component. | - `ThemeContext.jsx`. | - Build `ThemeContext` holding `theme` + `toggleTheme`. |
+| **Provider & Persistence** | 45 mins | 45 mins |
+| Wrapping the whole app. | - Reading/writing `localStorage` inside the Provider. | - Persist the theme choice, same as your JS course's dark mode, but now via Context. |
 | **Consuming Context** | 45 mins | 30 mins |
-| `useContext(MyContext)`. | - Accessing the value. | - Create a `ThemeToggleButton.jsx`. |
-| | | - Use `useContext` to get the theme and a function to change it. |
+| `useContext(ThemeContext)`. | - A `ThemeToggleButton.jsx`. | - Use it anywhere in the app without prop drilling. |
 
-**Week 5 Assignment:** Convert your "Blog Post" app into a multi-page site.
-* Use **React Router** to create three routes:
-    1.  `/` (Home): A simple welcome page.
-    2.  `/posts` (Posts): Your `PostsList.jsx` component from Week 3.
-    3.  `/posts/:postId`: A new `PostDetail.jsx` component.
-* When a user clicks a post title on the `/posts` page (use `<Link>`), it should navigate them to `/posts/1` (or similar).
-* The `PostDetail.jsx` component should:
-    1.  Use `useParams` to get the `postId`.
-    2.  `useEffect` to fetch data for *only that one post* (e.g., `.../posts/1`).
-    3.  Display the full post `title` and `body`.
-* **Bonus:** Add a "Dark Mode" toggle using **Context API**. Store the theme (`'light'` or `'dark'`) in context and provide it to the whole app.
+**Week 5 Assignment:** Turn your portfolio into a real, routed, multi-page SPA with global dark mode.
+* Real routes: `/` (Home/About), `/projects` (all projects), `/projects/:id` (detail page), `/contact`.
+* A shared `Layout` (Header with `<Link>` nav + `<Outlet />` + Footer).
+* `ThemeContext` providing app-wide dark mode, persisted to `localStorage`.
 
 ---
 
@@ -323,72 +249,40 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 ### Module 13: Creating Custom Hooks
 
 * **Learning Objectives:**
-    * Identify repetitive logic that can be extracted into a custom hook.
-    * Create and use your first custom hook (e.g., `useToggle`, `useFetch`).
-    * Follow the `use...` naming convention.
+    * Identify repetitive logic to extract into a custom hook.
+    * Build and use `useFetch`.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Why Custom Hooks?** | 30 mins | 30 mins |
-| Reusing stateful logic. | - `use...` naming convention. | - (Review) The logic in your `PostFetcher.jsx` (data, loading, error). |
 | **Building `useFetch`** | 1.5 hours | 1 hour |
-| `function useFetch(url) { ... }`. | - `useEffect`, `useState` inside. | - Create a new file `useFetch.js`. |
-| Returning `[data, loading, error]`. | | - Move all your fetching, loading, and error logic into it. |
-| | | - Refactor your `PostsList` and `PostDetail` components to use your new `useFetch` hook. |
+| Extracting Week 3's GitHub-fetch logic. | - Returning `{ data, loading, error }`. | - Refactor your Week 3 GitHub fetching into `useFetch(url)`, used by both `Projects` and `ProjectDetail`. |
 
 ### Module 14: Performance & Advanced Hooks
 
 * **Learning Objectives:**
-    * Understand what causes unnecessary re-renders.
-    * Use `React.memo` to memoize components.
-    * Understand the basics of `useCallback` and `useMemo`.
-    * Understand `useReducer` as an alternative to `useState` for complex state.
+    * Understand unnecessary re-renders.
+    * Use `React.memo`, `useMemo`, and `useCallback` appropriately.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Memoization** | 1 hour | 30 mins |
-| `React.memo` for components. | - `useMemo` for values. | - (Lecture) Demonstrate a component re-rendering unnecessarily. |
-| `useCallback` for functions. | | - Wrap the component in `React.memo` and see the change. |
-| **`useReducer` Hook** | 1 hour | 45 mins |
-| When to use it (complex state). | - `dispatch` and `reducer` function. | - (Lecture) Refactor a complex `useState` (like a to-do list) to use `useReducer`. |
-| `switch` statement. | | |
+| **Memoization** | 1 hour | 45 mins |
+| `React.memo` on `ProjectCard`. | - `useMemo` for the filtered project list. | - Wrap `ProjectCard` in `React.memo`; memoize the tag-filtered list so it's not recomputed on unrelated state changes. |
 
-### Module 15: Final Project Workshop
+### Module 15: Final Project Workshop & Deployment
 
 * **Learning Objectives:**
-    * Plan a complex React application.
-    * Break down UI into a component hierarchy.
-    * Identify what state is local vs. global.
-    * Deploy a Vite React app to a service like Netlify or Vercel.
+    * Deploy a Vite React app to Netlify or Vercel.
+    * Ship the finished, real portfolio SPA.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
-| **Project Planning** | 45 mins | 30 mins |
-| Component Hierarchy Diagram. | - Data Flow. | - Plan your final project: draw the components. |
-| State Management Plan. | | - Identify where state will live (local, context). |
-| **Deployment** | 45 mins | 30 mins |
-| `npm run build`. | - The `dist` folder. | - Run the build command. |
-| Drag-and-drop to Netlify. | - Connecting to Github for CI/CD. | - Deploy your Week 5 project to Netlify. |
+| **Deployment** | 45 mins | 45 mins |
+| `npm run build`, the `dist` folder. | - Connecting Github to Netlify/Vercel for CI/CD. | - Deploy `portfolio-react` live. |
 
-**Week 6 / Final Project:** Build an "E-commerce Store Front".
-* **Goal:** Combine everything from all 6 weeks.
-* **Repo:** Must be a new, clean Github repository.
-* **Features:**
-    1.  **Routing:** A multi-page app using **React Router**.
-        * `/` (Home Page)
-        * `/products` (Product Listing Page)
-        * `/products/:productId` (Product Detail Page)
-        * `/cart` (Shopping Cart Page)
-    2.  **API:** Use a public API (like the [Fake Store API](https://fakestoreapi.com/)) to fetch products.
-    3.  **Custom Hook:** Use your `useFetch` custom hook to get data for the product list and detail pages.
-    4.  **State & Props:**
-        * The Product Listing Page should `.map()` over the fetched products and render `<ProductCard>` components, passing data via `props`.
-        * The Product Detail Page should fetch and display data for one product.
-    5.  **Global State (Context):**
-        * Create a `CartContext`.
-        * On the Product Detail Page, add an "Add to Cart" button.
-        * This button should add the product to the global cart state (in context).
-        * The `/cart` page should consume this context and display all items in the cart.
-        * A `Navbar` (in your Layout route) should also consume the context to show a "Cart (3)" item count.
-    6.  **Styling:** Style the entire app using **CSS Modules** or **Tailwind CSS**.
-* **Deployment:** The final app must be deployed to Netlify or Vercel, with a link to the live site and the Github repo.
+**Week 6 / Final Project:** Ship your portfolio, rebuilt as a React SPA.
+* **Goal:** Combine everything from all 6 weeks into the finished, live version of your portfolio.
+* **Routes:** `/`, `/projects`, `/projects/:id`, `/contact` (matching Week 5).
+* **Data:** Your real `projects` merged with live GitHub repos, both fetched through your `useFetch` hook.
+* **State:** `ThemeContext` for dark mode; local `useState` for the tag filter and contact form.
+* **Performance:** `ProjectCard` wrapped in `React.memo`; the filtered list memoized with `useMemo`.
+* **Deployment:** Live on Netlify or Vercel — this is the same portfolio from HTML Week 1, now on its 4th and final rebuild.

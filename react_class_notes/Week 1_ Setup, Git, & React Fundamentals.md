@@ -1,6 +1,6 @@
 # Week 1: Setup, Git, & React Fundamentals
 
-Welcome to Week 1! This week is all about building a solid foundation. We'll set up a professional development environment, learn the fundamentals of version control with Git, and write our very first React components.
+Welcome to Week 1! You've built your portfolio three times now — as static HTML, styled with CSS, and made interactive with vanilla JavaScript. This week, you start rebuilding it a fourth time: as a real React application. Same name, same bio, same projects — but now as reusable, composable components.
 
 ---
 
@@ -14,377 +14,219 @@ Welcome to Week 1! This week is all about building a solid foundation. We'll set
     * **What it is:** React is a free and open-source JavaScript **library** for building user interfaces (UIs). It is *not* a full framework (like Angular).
     * **The Core Philosophy:** Its goal is to let you build complex UIs from small, isolated pieces of code called **components**.
     * **Declarative vs. Imperative:**
-        * **Imperative (The "Old Way"):** Manually telling the browser *how* to change. (e.g., "Find the element with ID 'user-name', then set its `textContent` to 'Alex'").
-        * **Declarative (The "React Way"):** You just *describe* what the UI should look like for a given state, and React figures out the *how*. ($UI = f(state)$). You tell React you want the name to be "Alex," and React handles updating the DOM.
-    * **The Virtual DOM (VDOM):** This is *how* React is declarative and fast. Instead of re-building the entire webpage on every change, React builds a lightweight copy of the DOM in memory (the VDOM). When your data changes, it creates a *new* VDOM, compares it to the *old* one, and calculates the most minimal, efficient set of changes needed for the *real* DOM.
+        * **Imperative (what your JS course did):** You manually told the browser *how* to change things — `document.createElement`, `element.append()`, `classList.toggle()`. You were responsible for every DOM update, step by step.
+        * **Declarative (The "React Way"):** You just *describe* what the UI should look like for a given state, and React figures out the *how*. ($UI = f(state)$). Instead of manually creating and appending a `<li>` for each project (like your `renderProjects()` function did), you'll write `projects.map(project => <ProjectCard {...project} />)` and let React handle the DOM.
+    * **The Virtual DOM (VDOM):** React builds a lightweight copy of the DOM in memory. When your data changes, it creates a *new* VDOM, compares it to the *old* one, and calculates the most minimal, efficient set of real DOM changes needed.
 
 * **Practical Application:**
-    * **Analysis:** Open any modern web app (e.g., Facebook, Airbnb, Netflix).
-    * **Discussion:** Identify the "components."
-        * The main navigation bar is a `<Navbar>` component.
-        * The search bar is a `<SearchBar>` component.
-        * Each movie card in a list is a `<MovieCard>` component.
-        * The "Like" button is a `<LikeButton>` component, likely *inside* the `<MovieCard>`.
-    * This exercise trains you to "think in components."
+    * **Analysis:** Open your own real portfolio (`index.html`, `about.html`, `contact.html`) from the HTML/CSS/JS courses.
+    * **Discussion:** Identify the "components" already hiding in your markup:
+        * The `<header>` with your name and nav is a `<Header>` component.
+        * Each `.project-card` `<article>` is a `<ProjectCard>` component.
+        * The `<form>` on `contact.html` is a `<ContactForm>` component.
+    * This exercise trains you to "think in components" — and previews exactly what you'll build this week.
 
 ### 2. Tools & Setup (The "Dev Environment")
 
 * **Lecture & Concepts:**
-    * **Node.js & npm:** Why do we need Node.js if React runs in the browser? Node.js is a **JavaScript runtime** for your *computer*. We use it to run our development server (Vite) and to manage our project's packages (dependencies) via **npm** (Node Package Manager). We will use the **LTS (Long-Term Support)** version.
-    * **VS Code:** Your code editor. We'll install key extensions to make life easier.
+    * **Node.js & npm:** A **JavaScript runtime** for your *computer*, used to run the Vite dev server and manage dependencies via **npm**. Use the **LTS** version.
+    * **VS Code:** Install key extensions: **`ES7+ React/Redux/React-Native snippets`** (try typing `rfce` in a `.jsx` file), **`Prettier`**, and **`ESLint`**.
 
 * **Practical Application:**
-    1.  **Install Node.js:** Go to [nodejs.org](https://nodejs.org/) and download the **LTS** version. Verify by opening your terminal and running `node -v` and `npm -v`.
-    2.  **Install VS Code:** Go to [code.visualstudio.com](https://code.visualstudio.com/) and install it.
-    3.  **Configure VS Code Extensions:** Open VS Code, go to the Extensions tab, and install:
-        * **`ES7+ React/Redux/React-Native snippets`**: Invaluable for boilerplate. (Try typing `rfce` in a `.jsx` file after installing).
-        * **`Prettier - Code formatter`**: Automatically formats your code on save.
-        * **`ESLint`**: Catches errors and style issues as you type.
+    1.  Install Node.js (LTS) from [nodejs.org](https://nodejs.org/). Verify with `node -v` and `npm -v`.
+    2.  Install VS Code and the extensions above.
 
 ### 3. Intro to Git & Github
 
 * **Lecture & Concepts:**
-    * **Git:** A **distributed version control system**. Think of it as "save points" for your code. It lets you track changes, go back to previous versions, and collaborate with others.
-    * **Github:** A **hosting service** for your Git repositories. It's the "cloud" for your code, enabling collaboration, backup, and portfolio building.
-    * **The Basic Workflow:**
-        1.  **`git init`**: Initialize a new Git repository in your project folder.
-        2.  **`git status`**: Check what files have changed.
-        3.  **`git add .`**: "Stage" all your changes (add them to the "snapshot" you're about to take).
-        4.  **`git commit -m "Your message"`**: Take the snapshot and add a descriptive message.
-        5.  **`git push`**: Upload your local "commits" (snapshots) to a remote repository (like Github).
-        6.  **`git pull`**: Download changes from a remote repository.
+    * **Git:** A **distributed version control system** — "save points" for your code.
+    * **Github:** A hosting service for your Git repositories.
+    * **The Basic Workflow:** `git init` → `git add .` → `git commit -m "..."` → `git push`.
 
 * **Practical Application (The First Commit):**
-    1.  **Create Github Repo:** Go to [Github.com](https://github.com/). Create a new, *empty* repository (do *not* add a README or .gitignore).
-    2.  **Create Local Project:** On your computer, create a new folder (e.g., `my-first-repo`). `cd` into it.
-    3.  **`git init`**: Run this in your terminal.
-    4.  **Create a file:** Create `README.md` and write "Hello World" in it.
-    5.  **`git status`**: See that your new file is "untracked."
-    6.  **`git add .`**: Stage the file.
-    7.  **`git commit -m "Initial commit: Add README.md"`**: Save your first snapshot.
-    8.  **Link to Github:** Copy the commands from your empty Github repo (the "push an existing repository" part).
-        ```bash
-        git remote add origin <your-repo-url.git>
-        git branch -M main
-        git push -u origin main
-        ```
-    9.  Refresh your Github page. Your file is there!
+    1.  Create a new, empty repo on Github called `portfolio-react`.
+    2.  On your computer, you'll scaffold directly into this repo below — hold off on `git init` until after Vite scaffolds the project.
 
 ### 4. ⚡ Scaffolding with Vite
 
 * **Lecture & Concepts:**
-    * **What is Vite?** Vite is a modern, extremely fast build tool and development server. It replaces older tools like Create React App (CRA).
-    * **Why Vite?** Its speed. It uses native ES modules in the browser during development, so your server starts almost instantly. Its **Hot Module Replacement (HMR)** is lightning-fast, meaning your changes appear in the browser without a full page reload.
+    * **What is Vite?** A modern, extremely fast build tool and dev server, replacing older tools like Create React App.
+    * **Why Vite?** Native ES modules during development mean an almost-instant server start, and lightning-fast **Hot Module Replacement (HMR)**.
 
-* **Practical Application (Creating Your Project):**
-    1.  **Run the command:** In your terminal (in the folder *outside* your project), run:
+* **Practical Application (Creating Your Real Project):**
+    1.  **Scaffold:**
         ```bash
-        npm create vite@latest my-react-app -- --template react
-        ```
-    2.  **Navigate and Install:**
-        ```bash
-        cd my-react-app
+        npm create vite@latest portfolio-react -- --template react
+        cd portfolio-react
         npm install
-        ```
-    3.  **Run the Dev Server:**
-        ```bash
         npm run dev
         ```
-    4.  Open the `localhost` URL in your browser. You have a running React app!
-    5.  **Integrate Git:**
+    2.  Open the `localhost` URL — you have a running React app.
+    3.  **Integrate Git:**
         ```bash
         git init
         git add .
-        git commit -m "Initial commit: Scaffold React project with Vite"
+        git commit -m "Initial commit: Scaffold portfolio-react with Vite"
+        git remote add origin <your-repo-url.git>
+        git branch -M main
+        git push -u origin main
         ```
-    6.  **Project Structure Deep-Dive:**
-        * `index.html`: The **single HTML file** for your entire app (it's a Single Page Application, or SPA). Notice the `<div id="root"></div>`. This is where React will "attach."
-        * `src/main.jsx`: The **JavaScript entry point**. This file finds the `root` div and tells React to render your `<App />` component inside it.
-        * `src/App.jsx`: Your **root component**. This is the top-level component for your application.
-        * `src/index.css`: A global stylesheet applied to your whole app.
+    4.  **Project Structure Deep-Dive:**
+        * `index.html`: The single HTML file for this SPA. Note `<div id="root"></div>` — where React attaches.
+        * `src/main.jsx`: The entry point. Renders your `<App />` into `#root`.
+        * `src/App.jsx`: Your root component.
+        * `src/index.css`: A global stylesheet.
 
 ---
 
 ## 🎨 Module 2: JSX & Your First Components
 
-**Objective:** Learn to write JSX (the syntax of React) and build your first reusable, functional components.
+**Objective:** Learn to write JSX and build your first reusable, functional components — starting with your real header, bio, and first project card.
 
 ### 1. What is JSX?
 
 * **Lecture & Concepts:**
-    * **JavaScript XML (JSX):** It's a syntax extension for JavaScript that *looks* like HTML but is actually JavaScript. It's the "language" you use to describe your UI in React.
-    * **JSX is *not* HTML:** It's "syntactic sugar" for a JavaScript function call: `React.createElement()`.
-    * **Example:**
-        * **You write this (JSX):**
-            ```jsx
-            const element = <h1 className="greeting">Hello, world!</h1>;
-            ```
-        * **Babel (the compiler) turns it into this (JS):**
-            ```javascript
-            const element = React.createElement(
-              'h1',
-              {className: 'greeting'},
-              'Hello, world!'
-            );
-            ```
+    * **JavaScript XML (JSX):** A syntax extension for JavaScript that *looks* like HTML but compiles to `React.createElement()` calls.
     * **The "Gotchas" (Key Rules):**
-        1.  **Single Parent Element:** A component must return a *single* root element. If you have multiple, wrap them in a **Fragment:** `<> ... </>`.
-        2.  **`className` not `class`:** `class` is a reserved word in JavaScript.
-        3.  **CamelCase Attributes:** HTML attributes like `onclick` and `for` become `onClick` and `htmlFor` in JSX.
-        4.  **All Tags Must Be Closed:** `<img>` is not valid. It must be self-closing: `<img />`. Same for `<input />`, `<br />`, etc.
+        1.  **Single Parent Element:** Wrap multiple elements in a **Fragment:** `<> ... </>`.
+        2.  **`className` not `class`.**
+        3.  **CamelCase Attributes:** `onclick` → `onClick`, `for` → `htmlFor`.
+        4.  **All Tags Must Be Closed:** `<img />`, not `<img>`.
 
-* **Practical Application:**
-    1.  Open `src/App.jsx` in your Vite project.
-    2.  Delete all the default content.
-    3.  Write your first JSX from scratch:
+* **Practical Application (Your Real Name, in JSX):**
+    1.  Open `src/App.jsx` and delete the default content.
+    2.  Write your first real JSX:
         ```jsx
         function App() {
           return (
             <>
-              <h1 className="main-heading">My First React App</h1>
-              <p>This is so cool!</p>
-              <label htmlFor="my-input">My Input: </label>
-              <input id="my-input" />
+              <h1>Alice Chen</h1>
+              <p>Junior developer building projects in HTML, CSS, JavaScript, and React.</p>
             </>
           );
         }
         export default App;
         ```
-    4.  Notice the use of `<>`, `className`, and `htmlFor`.
+        *(Use your own real name and bio line from HTML Week 1-2 here — not the placeholder above.)*
 
 ### 2. JavaScript in JSX (The Curly Braces `{}`)
 
 * **Lecture & Concepts:**
-    * The curly braces `{}` are your "escape hatch" back into JavaScript. Inside them, you can write any valid JavaScript *expression* (something that evaluates to a value).
-    * You can use variables, function calls, math, etc.
-    * **You *cannot* put statements** (like `if`, `for`, `switch`).
-    * **Inline Styles:** Done with an *object*. The "double curlies" `style={ { ... } }` are not special syntax:
-        * The outer `{}` is the JSX "escape hatch."
-        * The inner `{}` is the JavaScript object literal.
-        * Properties must be camelCased: `background-color` becomes `backgroundColor`.
+    * Curly braces `{}` are your "escape hatch" back into JavaScript — for variables, function calls, and expressions (not statements like `if`/`for`).
 
 * **Practical Application:**
-    * Modify your `src/App.jsx`:
-        ```jsx
-        function App() {
-          const userName = "Alex";
-          const appTitle = "React Basics";
-          const styles = {
-            color: "blue",
-            fontSize: "24px", // Note: camelCase and string value
-            backgroundColor: "#f0f0f0"
-          };
+    ```jsx
+    function App() {
+      const name = "Alice Chen";
+      const tagline = "Building things, one module at a time.";
 
-          return (
-            <>
-              {/* Variable */}
-              <h1>Welcome to {appTitle}, {userName}!</h1>
-
-              {/* Math & Function Call */}
-              <p>Your lucky number is {Math.floor(Math.random() * 100)}</p>
-
-              {/* Attribute */}
-              <img src="[https://vitejs.dev/logo.svg](https://vitejs.dev/logo.svg)" alt="Vite Logo" />
-
-              {/* Inline Style Object */}
-              <p style={styles}>This paragraph is styled with a JS object.</p>
-
-              {/* Direct Inline Style (less common) */}
-              <p style={{ color: "red" }}>This one is red.</p>
-            </>
-          );
-        }
-        export default App;
-        ```
+      return (
+        <>
+          <h1>{name}</h1>
+          <p>{tagline}</p>
+        </>
+      );
+    }
+    export default App;
+    ```
 
 ### 3. Functional Components
 
 * **Lecture & Concepts:**
-    * **What is a Component?** A component is a reusable, self-contained piece of UI. In modern React, it's **just a JavaScript function that returns JSX**.
-    * **Two Core Rules:**
-        1.  The function name **must** start with a capital letter (e.g., `MyComponent`, not `myComponent`). This is how React distinguishes components from plain HTML tags.
-        2.  The function **must** return JSX (or `null`).
-    * **Import/Export (ES6 Modules):**
-        * `export default FunctionName`: The standard way to export a single component from a file.
-        * `import FunctionName from './path/to/file.jsx'`: How you import that component to use it elsewhere.
-    * **File Structure:** Best practice is to create a `src/components` folder and give each component its own file (e.g., `src/components/Header.jsx`).
+    * A component is **just a JavaScript function that returns JSX**.
+    * **Two Core Rules:** the function name must start with a capital letter, and it must return JSX (or `null`).
+    * Best practice: a `src/components` folder, one file per component.
 
-* **Practical Application (Component-izing Your App):**
-    1.  **Create a folder:** `src/components`
-    2.  **Create a new file:** `src/components/Header.jsx`
+* **Practical Application (Building Your Real Components):**
+    1.  **`src/components/Header.jsx`:**
         ```jsx
-        // This is a component. It's just a function.
         export default function Header() {
-          const appTitle = "React Basics";
-
           return (
             <header>
-              <h1>Welcome to {appTitle}!</h1>
+              <h1>Alice Chen</h1>
+              {/* Real nav links come in Week 5 once you have React Router */}
             </header>
           );
         }
         ```
-    3.  **Create another file:** `src/components/WelcomeMessage.jsx`
+    2.  **`src/components/Bio.jsx`:** (Reuse your real "About Me" text from HTML Week 1-2, verbatim.)
         ```jsx
-        export default function WelcomeMessage() {
-          const userName = "Alex";
-
+        export default function Bio() {
           return (
-            <p>
-              We're so glad you're here, {userName}.
-            </p>
+            <section>
+              <h2>About Me</h2>
+              <p>
+                Junior developer building projects in HTML, CSS, JavaScript, and React.
+                Currently learning how to turn a static site into a real application.
+              </p>
+            </section>
           );
         }
         ```
-    4.  **Refactor `src/App.jsx` to use them:**
+    3.  **`src/components/ProjectCard.jsx`:** (Hardcoded for now — you'll make this reusable with props next week.)
         ```jsx
-        // Import your new components
+        export default function ProjectCard() {
+          return (
+            <article>
+              <h3>Weather App</h3>
+              <p>A React Native app that fetches live weather data.</p>
+            </article>
+          );
+        }
+        ```
+    4.  **Assemble in `src/App.jsx`:**
+        ```jsx
         import Header from './components/Header.jsx';
-        import WelcomeMessage from './components/WelcomeMessage.jsx';
+        import Bio from './components/Bio.jsx';
+        import ProjectCard from './components/ProjectCard.jsx';
 
         function App() {
-          // App's only job is to assemble other components
           return (
             <>
               <Header />
               <main>
-                <WelcomeMessage />
-                <p>This is the main content of the page.</p>
+                <Bio />
+                <ProjectCard />
               </main>
             </>
           );
         }
-
         export default App;
         ```
-    5.  Your app looks the same, but it's now built from reusable, organized, and maintainable components.
 
 ---
 
-## 🏕️ Week 1 Assignment: Static Portfolio Card
+## 🏕️ Week 1 Assignment: Rebuild Your Header & Bio in React
 
-**Objective:** Combine all skills from Week 1 (Git, Vite, JSX, Components) to build a static portfolio card.
+**Objective:** Scaffold your portfolio as a real React app, and rebuild the first pieces of it as components.
 
 ### 1. Setup
-1.  Go to Github and create a **new, empty repository** called `react-week1-portfolio`.
-2.  On your computer, `cd` into your main development folder.
-3.  Clone your new repo: `git clone <your-repo-url.git>`
-4.  `cd react-week1-portfolio`
-5.  Scaffold a new Vite project *inside this folder*:
-    ```bash
-    npm create vite@latest . -- --template react
-    ```
-    (Note the `.` which means "use the current folder").
-6.  `npm install`
-7.  `npm run dev` to start the server.
-8.  Commit your setup:
-    ```bash
-    git add .
-    git commit -m "Initial commit: Scaffold Vite project"
-    git push origin main
-    ```
+1.  Create the empty `portfolio-react` repo on Github.
+2.  Scaffold: `npm create vite@latest portfolio-react -- --template react`.
+3.  `npm install`, `npm run dev`, confirm it runs.
+4.  `git init`, connect to your Github repo, and make your first commit.
 
 ### 2. Tasks
 
-Your goal is to build this component structure:
+Build this real component structure:
 ```
 App
-└── PortfolioCard
-    ├── Avatar
-    ├── UserInfo
-    └── SkillList
+├── Header (your real name)
+├── Bio (your real About Me text)
+└── ProjectCard (your first real project, hardcoded for now)
 ```
 
-1.  **Clean `App.jsx`:** Delete all default content. Its only job should be to import and render your main `<PortfolioCard />` component.
-2.  **Create `src/components/PortfolioCard.jsx`:** This component will be the main "card" that wraps everything else. It should import and render the next three components.
-3.  **Create `src/components/Avatar.jsx`:** This component should return an `<img>` tag. You can find a profile picture URL online or, for a bonus, add an image to the `public/` folder in Vite and use it (e.g., `<img src="/my-image.png" />`).
-4.  **Create `src/components/UserInfo.jsx`:** This component should return an `<h1>` with your name and a `<p>` with a short bio (e.g., "Full-Stack Developer learning React").
-5.  **Create `src/components/SkillList.jsx`:** This component should return a `<ul>` with at least three `<li>` elements listing your skills (e.g., "HTML", "CSS", "JavaScript").
+1.  **`Header.jsx`:** Your real name in an `<h1>`.
+2.  **`Bio.jsx`:** Your real "About Me" paragraph, ported from HTML Week 1-2.
+3.  **`ProjectCard.jsx`:** One of your real Featured Work projects (title + description), hardcoded — no props yet.
+4.  **Assembly:** `App.jsx` imports and renders all three, in order.
 
 ### 3. Styling
-* You don't need to be a CSS expert. Use the global `src/index.css` file.
-* Add some simple styles to make it look like a card. You can use this as a starting point:
-
-```css
-/* Add this to index.css */
-body {
-  font-family: sans-serif;
-  background-color: #f4f4f4;
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-}
-
-.portfolio-card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  max-width: 400px;
-  text-align: center;
-}
-
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 16px;
-}
-
-.user-info h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.user-info p {
-  font-size: 16px;
-  color: #555;
-  margin-top: 4px;
-}
-
-.skill-list {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-
-.skill-list li {
-  background-color: #e0f7fa;
-  color: #00796b;
-  padding: 8px 12px;
-  border-radius: 16px;
-  font-weight: bold;
-}
-```
-* To use these styles, add the className attributes in your components (e.g., <div className="portfolio-card">, <img className="avatar" />, etc.).
+* Add basic styles to `src/index.css` — reuse ideas from your CSS course (a `.card` look with padding/border/shadow is a good start for `ProjectCard`). You don't need to match your CSS course pixel-for-pixel; that convergence happens naturally as the course progresses.
 
 ### 4. Git Workflow
-
-* As you complete each major step (e.g., create all components, add styling), make a commit!
-
-**Example:**
-
-* `git add .`
-
-* `git commit -m "feat: Create all portfolio card components"`
-
-* (After styling...)
-
-* `git add .`
-
-* `git commit -m "style: Add CSS for portfolio card"`
-
-When you are finished, `git push origin main` and submit your Github repository URL.
+* Commit after each component: `git commit -m "feat: Add Header component"`, `git commit -m "feat: Add Bio component"`, etc.
+* `git push origin main` when done.
 
 ### Bonus Challenge
-
-* Create a `src/components/Footer.jsx` component.
-
-* Inside, add links (`<a>`) to your (real or fake) Github, LinkedIn, and Twitter profiles.
-
-* Import and render this `<Footer />` component in `App.jsx`, below the `<PortfolioCard />`.
+* Create `src/components/Footer.jsx` with your real social links (from HTML Week 6's footer), and render it below your `<main>`.
