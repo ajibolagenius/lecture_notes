@@ -86,6 +86,8 @@ export default function Projects() {
 ```
 *This is exactly the logic from Week 3's `App.jsx`, just extracted into a reusable hook — one line of code (`useFetch(url)`) replaces the entire `useState`/`useEffect`/`try...catch` block, and you can now reuse it for a single project's data too.*
 
+* **What This Doesn't Handle (And What Does, in Production):** `useFetch` re-fetches on every URL change, but it has no cache — navigate away from `/projects` and back, and it fetches your GitHub repos all over again, even though nothing changed. It also can't easily de-duplicate two components requesting the same URL at once, or automatically refetch when the user re-focuses the tab. **TanStack Query** (formerly React Query) is the library real teams reach for to solve exactly these problems — worth knowing the name even though this course builds `useFetch` by hand, since understanding *why* a hand-rolled version is limited is what makes a library like that click later.
+
 * **⭐️ Class Exercise:** Refactor your Week 3 fetching logic into `useFetch`, and use it in your Week 5 `Projects` page.
 
 ---
@@ -136,16 +138,151 @@ export default function Projects() {
     const handleTagSelect = useCallback((tag) => setSelectedTag(tag), []);
     ```
 
+### 4. Code-Splitting with `React.lazy` and `Suspense`
+
+* **Lecture & Concepts:**
+    * Right now, `npm run build` bundles all four of your pages — `Home`, `Projects`, `ProjectDetail`, `Contact` — into one JavaScript file the visitor downloads before seeing anything. A visitor who only ever looks at `Home` still pays to download `ProjectDetail`'s code.
+    * `React.lazy()` turns a regular `import` into a **lazy** one — the component's code splits into its own file and only downloads the first time that route is actually visited. `<Suspense>` provides a fallback to show while that chunk is downloading.
+
+* **In-Depth Example (Lazy-Loading `ProjectDetail`):**
+    ```jsx
+    // src/main.jsx
+    import { lazy, Suspense } from 'react';
+
+    const ProjectDetail = lazy(() => import('./pages/ProjectDetail.jsx'));
+
+    const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <App />,
+        errorElement: <ErrorPage />,
+        children: [
+          { path: "/", element: <Home /> },
+          { path: "/projects", element: <Projects /> },
+          {
+            path: "/projects/:id",
+            element: (
+              <Suspense fallback={<p>Loading project...</p>}>
+                <ProjectDetail />
+              </Suspense>
+            ),
+          },
+          { path: "/contact", element: <Contact /> },
+        ],
+      },
+    ]);
+    ```
+
+* **⭐️ Class Exercise: Lazy-Load a Real Route**
+    1.  Convert your `ProjectDetail` import to `React.lazy()` as shown above, wrapping its route element in `<Suspense>`.
+    2.  Run `npm run build`, then check the `dist` folder (or the build output in your terminal) — confirm `ProjectDetail` now compiles into its own separate chunk file, instead of being bundled into the main one.
+    3.  In the Network tab, reload on `/` and confirm `ProjectDetail`'s chunk *isn't* downloaded until you actually navigate to a project's detail page.
+
 ---
 
-## 🚀 Module 15: Final Project Workshop & Deployment
+## 🧪 Module 15: Testing Your Components
+
+**Objective:** Write real, automated tests for your components — not just "it looked right when I clicked around."
+
+### 1. Why Test Components?
+
+* **Lecture & Concepts:**
+    * Every course before this one eventually introduced real automated testing — JS Week 2 (Vitest for your validators), Node/Express Week 6 (integration tests), and React Native Week 5 (Jest + component tests) all expect it. React is no exception: a component with zero tests is one refactor away from silently breaking.
+    * **Vitest** (the same test runner from your JS course) pairs with **React Testing Library (RTL)** for components specifically. RTL's philosophy: test what a *user* would see and do — the rendered text, a button they'd click — not your component's internal state or implementation details.
+
+* **Setup:**
+    ```bash
+    npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
+    ```
+
+* **In-Depth Example (Testing Your Real `ProjectCard`):**
+    ```jsx
+    // src/components/ProjectCard.test.jsx
+    import { render, screen } from '@testing-library/react';
+    import { test, expect } from 'vitest';
+    import ProjectCard from './ProjectCard.jsx';
+
+    test('renders the project title and description', () => {
+      render(
+        <ProjectCard
+          title="Weather App"
+          description="A React Native app that fetches live weather data."
+          tags={["React Native"]}
+        />
+      );
+
+      expect(screen.getByText('Weather App')).toBeInTheDocument();
+      expect(screen.getByText(/fetches live weather data/)).toBeInTheDocument();
+    });
+
+    test('shows the Featured badge only when featured is true', () => {
+      render(<ProjectCard title="Weather App" description="..." featured={true} />);
+      expect(screen.getByText('Featured')).toBeInTheDocument();
+    });
+    ```
+
+* **In-Depth Example (Testing Your Real `ContactForm`'s Validation):**
+    ```jsx
+    // src/components/ContactForm.test.jsx
+    import { render, screen, fireEvent } from '@testing-library/react';
+    import { test, expect } from 'vitest';
+    import ContactForm from './ContactForm.jsx';
+
+    test('shows an error when the email is invalid', () => {
+      render(<ContactForm />);
+
+      fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'not-an-email' } });
+      fireEvent.click(screen.getByText(/send message/i));
+
+      expect(screen.getByText(/valid email address/i)).toBeInTheDocument();
+    });
+    ```
+
+* **⭐️ Class Exercise: Write Your First Component Tests**
+    1.  Install the packages above, and add `"test": "vitest run"` to your `package.json` scripts.
+    2.  Write `ProjectCard.test.jsx` with at least the two tests shown above, using your real component's actual props.
+    3.  Write `ContactForm.test.jsx` with at least one test proving invalid input blocks submission and shows an error.
+    4.  Run `npm test` and confirm everything passes — then break one component on purpose (e.g., remove the `Featured` badge's conditional rendering) and confirm the matching test catches it.
+
+---
+
+## 🚀 Module 16: Final Project Workshop & Deployment
 
 **Objective:** Deploy the finished, real portfolio SPA.
 
-### 1. Deployment
+### 1. Environment Variables
+
+* **Lecture & Concepts:**
+    * Your GitHub username has been a hardcoded string literal (`'YOUR_USERNAME'`) since Week 3 — fine for learning, but a real deploy shouldn't bake a value like that directly into source code, especially once it might differ between your local machine and production, or include something more sensitive than a public username.
+    * Vite exposes environment variables prefixed `VITE_` via `import.meta.env`. Create a `.env` file (never committed — add it to `.gitignore`), and reference the value through `import.meta.env` instead of typing it directly.
+
+* **In-Depth Example:**
+    ```bash
+    # .env (add this file to .gitignore — don't commit it)
+    VITE_GITHUB_USERNAME=your-actual-username
+    ```
+    ```jsx
+    // src/pages/Projects.jsx
+    const { data: repos, loading, error } = useFetch(
+      `https://api.github.com/users/${import.meta.env.VITE_GITHUB_USERNAME}/repos?sort=updated`
+    );
+    ```
+
+* **⭐️ Class Exercise: Move Your Username Out of Source Code**
+    1.  Create `.env` with `VITE_GITHUB_USERNAME=<your real username>`, and confirm `.env` is listed in `.gitignore`.
+    2.  Replace every hardcoded username in your fetch calls with `import.meta.env.VITE_GITHUB_USERNAME`.
+    3.  Restart `npm run dev` (Vite only reads `.env` on startup) and confirm your real repos still load.
+    4.  Set the same variable in your host's dashboard (Netlify: Site Settings → Environment Variables; Vercel: Project Settings → Environment Variables) before deploying — the build will fail or fall back silently if it's missing there.
+
+### 2. Deployment
 
 * **Build:** `npm run build` — creates an optimized `dist` folder.
 * **Deploy:** Push to Github, connect the repo to Netlify or Vercel, and it auto-detects Vite. Every future `git push` redeploys automatically (CI/CD).
+
+### 3. Beyond a Single Deploy: Real CI/CD
+
+* Connecting Netlify/Vercel to your repo already gives you two things worth naming explicitly: **PR previews** (every pull request gets its own temporary live URL, so you can review a change before merging it to `main`) and **automatic redeploys** (every `git push` to `main` ships immediately). That's a real, working CI/CD pipeline — you already have one.
+* At a larger team, the next step is usually a **GitHub Actions** workflow that runs `npm run lint` and `npm test` (your Week 6 tests) on every pull request, *before* Netlify/Vercel even builds it — so a broken test blocks the merge, not just the deploy. Worth knowing the shape of this even though this course's one-person project doesn't need it yet: a `.github/workflows/ci.yml` file, triggered on `pull_request`, running your existing `npm test`/`npm run lint` scripts.
 
 ---
 
@@ -155,12 +292,13 @@ export default function Projects() {
 
 ### 1. Requirements
 
-1.  **Routing (Week 5):** `/`, `/projects`, `/projects/:id`, `/contact` — a shared `Layout` with `Header`/`Footer`/`<Outlet />`.
-2.  **Real Data, via `useFetch` (this week):** Your static `projects` array merged with live GitHub repos, both flowing through the *same* `ProjectCard`.
+1.  **Routing (Week 5):** `/`, `/projects`, `/projects/:id`, `/contact` — a shared `Layout` with `Header`/`Footer`/`<Outlet />`, and an `ErrorBoundary` around `<Outlet />`.
+2.  **Real Data, via `useFetch` (this week):** Your static `projects` array merged with live GitHub repos, both flowing through the *same* `ProjectCard`, fetched using a username from `import.meta.env` — not a hardcoded string.
 3.  **Global State (Week 5):** `ThemeContext` providing app-wide, `localStorage`-persisted dark mode.
 4.  **Forms (Week 4):** Your real, controlled, validated contact form.
-5.  **Performance (this week):** `ProjectCard` wrapped in `React.memo`; the tag-filtered project list computed with `useMemo`.
-6.  **Styling:** CSS Modules throughout, matching your CSS course's visual design.
+5.  **Performance (this week):** `ProjectCard` wrapped in `React.memo`; the tag-filtered project list computed with `useMemo`; `ProjectDetail` lazy-loaded with `React.lazy`/`Suspense`.
+6.  **Testing (this week):** At least one passing test each for `ProjectCard` and `ContactForm`, run via `npm test`.
+7.  **Styling:** CSS Modules throughout, matching your CSS course's visual design.
 
 ### 2. Suggested Architecture
 
@@ -169,9 +307,10 @@ src/
 ├── components/
 │   ├── Header.jsx
 │   ├── Footer.jsx
-│   ├── ProjectCard.jsx (+ .module.css)
+│   ├── ErrorBoundary.jsx
+│   ├── ProjectCard.jsx (+ .module.css, + .test.jsx)
 │   ├── Badge.jsx
-│   ├── ContactForm.jsx (+ .module.css)
+│   ├── ContactForm.jsx (+ .module.css, + .test.jsx)
 │   └── ThemeToggleButton.jsx
 ├── context/
 │   └── ThemeContext.jsx
@@ -180,10 +319,13 @@ src/
 ├── pages/
 │   ├── Home.jsx
 │   ├── Projects.jsx
-│   ├── ProjectDetail.jsx
+│   ├── ProjectDetail.jsx (lazy-loaded)
 │   └── Contact.jsx
-├── App.jsx (Layout + <Outlet />)
+├── App.jsx (Layout + ErrorBoundary + <Outlet />)
 └── main.jsx (Router + ThemeProvider setup)
+
+.env (VITE_GITHUB_USERNAME — not committed)
+.github/workflows/ci.yml (optional: lint + test on every PR)
 ```
 
 ### 3. Deployment

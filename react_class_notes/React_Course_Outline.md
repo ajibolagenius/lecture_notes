@@ -26,11 +26,11 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 | **What is React?** | 30 mins | 15 mins |
 | Declarative, Component-Based. | - Virtual DOM (briefly). | - Break your own real portfolio (`index.html`/`about.html`/`contact.html`) down into components: `Header`, `Bio`, `ProjectCard`, `ContactForm`. |
 | **Tools & Setup** | 45 mins | 30 mins |
-| Installing Node.js & npm. | - VS Code setup (ES7+ React snippets). | - Install Node and recommended VS Code extensions. |
+| Installing Node.js & npm. | - VS Code setup (ES7+ React snippets), ESLint/Prettier. | - Install Node and recommended VS Code extensions; run `npm run lint` once scaffolded and confirm it actually catches a deliberate mistake. |
 | **Intro to Git & Github** | 45 mins | 30 mins |
 | What is version control? | - `git init`, `add`, `commit`. | - Create a new Github repo for `portfolio-react`. |
 | **Scaffolding with Vite** | 30 mins | 30 mins |
-| Vite vs. Create React App. | - Why Vite is faster (ESM, HMR). | - Run `npm create vite@latest portfolio-react -- --template react`. |
+| Vite vs. Create React App. | - Why Vite is faster (ESM, HMR); TypeScript via `--template react-ts` as the next step after this course. | - Run `npm create vite@latest portfolio-react -- --template react`. |
 
 ### Module 2: JSX & Your First Components
 
@@ -168,6 +168,8 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 | `useState({ name: '', email: '', ... })`. | - Computed property names (`[e.target.name]`). | - Refactor to one `formData` state object with a single `handleChange`. |
 | **Submission & Validation** | 45 mins | 30 mins |
 | `onSubmit` + `event.preventDefault()`. | - Reusing your JS course's validation rules. | - Validate email format and message length; show inline errors. |
+| **`useReducer` (Optional Upgrade)** | 45 mins | 30 mins |
+| Combining related state + updates into one reducer. | - When it's worth it over multiple `useState` calls. | - (Bonus) Refactor `formData`/`errors` into one `useReducer`. |
 
 ### Module 9: Styling React Components
 
@@ -220,6 +222,8 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 | `<Link>` vs. `<a>`. | - Update your real `Header`'s nav to use `<Link>`. | - Replace your static nav links with `<Link to="/">`, etc. |
 | **Dynamic Routes** | 1 hour | 45 mins |
 | `path: "/projects/:id"`. | - `useParams()`. | - Build `ProjectDetail.jsx` — a real, new page each project didn't have as a static site. |
+| **Error Boundaries** | 45 mins | 30 mins |
+| Render crashes vs. route-loader errors (`errorElement`). | - Why an Error Boundary must be a class component. | - Wrap `<Outlet />` in an `ErrorBoundary`; deliberately break a page to confirm the fallback shows. |
 
 ### Module 12: Global State with Context API
 
@@ -235,7 +239,7 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 | **Provider & Persistence** | 45 mins | 45 mins |
 | Wrapping the whole app. | - Reading/writing `localStorage` inside the Provider. | - Persist the theme choice, same as your JS course's dark mode, but now via Context. |
 | **Consuming Context** | 45 mins | 30 mins |
-| `useContext(ThemeContext)`. | - A `ThemeToggleButton.jsx`. | - Use it anywhere in the app without prop drilling. |
+| `useContext(ThemeContext)`. | - A `ThemeToggleButton.jsx`, with an `aria-label` describing the action, not just emoji/text. | - Use it anywhere in the app without prop drilling. |
 
 **Week 5 Assignment:** Turn your portfolio into a real, routed, multi-page SPA with global dark mode.
 * Real routes: `/` (Home/About), `/projects` (all projects), `/projects/:id` (detail page), `/contact`.
@@ -251,38 +255,60 @@ This course is designed for developers with a solid understanding of HTML, CSS, 
 * **Learning Objectives:**
     * Identify repetitive logic to extract into a custom hook.
     * Build and use `useFetch`.
+    * Recognize what a hand-rolled `useFetch` doesn't handle, and why TanStack Query exists.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Building `useFetch`** | 1.5 hours | 1 hour |
-| Extracting Week 3's GitHub-fetch logic. | - Returning `{ data, loading, error }`. | - Refactor your Week 3 GitHub fetching into `useFetch(url)`, used by both `Projects` and `ProjectDetail`. |
+| Extracting Week 3's GitHub-fetch logic. | - Returning `{ data, loading, error }`; what it doesn't handle (caching, dedup) and where TanStack Query fits. | - Refactor your Week 3 GitHub fetching into `useFetch(url)`, used by both `Projects` and `ProjectDetail`. |
 
 ### Module 14: Performance & Advanced Hooks
 
 * **Learning Objectives:**
     * Understand unnecessary re-renders.
     * Use `React.memo`, `useMemo`, and `useCallback` appropriately.
+    * Code-split a route with `React.lazy` and `Suspense`.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
 | **Memoization** | 1 hour | 45 mins |
 | `React.memo` on `ProjectCard`. | - `useMemo` for the filtered project list. | - Wrap `ProjectCard` in `React.memo`; memoize the tag-filtered list so it's not recomputed on unrelated state changes. |
+| **Code-Splitting** | 45 mins | 45 mins |
+| `React.lazy()` + `<Suspense>`. | - Why `ProjectDetail` doesn't need to ship in the main bundle. | - Lazy-load `ProjectDetail`; confirm it downloads as its own chunk, only when visited. |
 
-### Module 15: Final Project Workshop & Deployment
+### Module 15: Testing Your Components
 
 * **Learning Objectives:**
+    * Understand why RTL tests behavior (what a user sees/does), not implementation details.
+    * Write and run real component tests with Vitest + React Testing Library.
+
+| Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
+| :--- | :--- | :--- |
+| **Vitest + React Testing Library** | 1.5 hours | 1 hour |
+| `render`, `screen`, `fireEvent`. | - Testing rendered output and user interaction, not internal state. | - Write real tests for `ProjectCard` and `ContactForm`'s validation. |
+
+### Module 16: Final Project Workshop & Deployment
+
+* **Learning Objectives:**
+    * Move config out of source code with environment variables.
     * Deploy a Vite React app to Netlify or Vercel.
+    * Understand what a real CI/CD pipeline looks like beyond a single deploy.
     * Ship the finished, real portfolio SPA.
 
 | Topic | Lecture/Concept (Est. Time) | Practical Exercise (Est. Time) |
 | :--- | :--- | :--- |
+| **Environment Variables** | 30 mins | 30 mins |
+| `.env` + `import.meta.env.VITE_*`. | - Setting the same variable in Netlify/Vercel's dashboard. | - Move your hardcoded GitHub username into `.env`. |
 | **Deployment** | 45 mins | 45 mins |
 | `npm run build`, the `dist` folder. | - Connecting Github to Netlify/Vercel for CI/CD. | - Deploy `portfolio-react` live. |
+| **Real CI/CD** | 30 mins | — |
+| PR previews and auto-redeploy, namedropping the next step (GitHub Actions running lint/test on every PR). | - Why this gates merges, not just deploys, on a larger team. | - (Lecture-only) No exercise — awareness for your next project. |
 
 **Week 6 / Final Project:** Ship your portfolio, rebuilt as a React SPA.
 * **Goal:** Combine everything from all 6 weeks into the finished, live version of your portfolio.
-* **Routes:** `/`, `/projects`, `/projects/:id`, `/contact` (matching Week 5).
-* **Data:** Your real `projects` merged with live GitHub repos, both fetched through your `useFetch` hook.
+* **Routes:** `/`, `/projects`, `/projects/:id`, `/contact` (matching Week 5), wrapped in an `ErrorBoundary`.
+* **Data:** Your real `projects` merged with live GitHub repos, both fetched through your `useFetch` hook, using a username from `import.meta.env`.
 * **State:** `ThemeContext` for dark mode; local `useState` for the tag filter and contact form.
-* **Performance:** `ProjectCard` wrapped in `React.memo`; the filtered list memoized with `useMemo`.
+* **Performance:** `ProjectCard` wrapped in `React.memo`; the filtered list memoized with `useMemo`; `ProjectDetail` lazy-loaded.
+* **Testing:** Real Vitest + RTL tests for `ProjectCard` and `ContactForm`.
 * **Deployment:** Live on Netlify or Vercel — this is the same portfolio from HTML Week 1, now on its 4th and final rebuild.

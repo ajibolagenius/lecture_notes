@@ -141,6 +141,73 @@ Welcome to Week 4! We move from viewing data to **collecting** it. This week, yo
     ```
     *Every field here matches your real `contact.html` from HTML Week 4 — same names, same options, same validation rules from JS Week 2. The difference is entirely in* how *the state is managed: one object, one `handleChange`, React re-rendering on every keystroke.*
 
+### 3. An Optional Upgrade: `useReducer`
+
+* **Lecture & Concepts:**
+    * Your form already manages two related pieces of state — `formData` and `errors` — each updated from a different place (`handleChange` and `handleSubmit`). `useReducer` is built for exactly this: multiple, related state updates that would otherwise mean several `useState` calls stepping on each other.
+    * Instead of calling a setter directly, you `dispatch` an **action** — a plain object describing *what happened* — and one **reducer function** decides how state changes in response. Every way this form's state can change now lives in one place, instead of scattered across handlers.
+
+* **In-Depth Example (Combining `formData` + `errors` Into One Reducer):**
+    ```jsx
+    import { useReducer } from 'react';
+
+    const initialState = {
+      formData: { name: "", email: "", reason: "", contactMethod: "email", message: "" },
+      errors: {}
+    };
+
+    function formReducer(state, action) {
+      switch (action.type) {
+        case "FIELD_CHANGED":
+          return {
+            ...state,
+            formData: { ...state.formData, [action.field]: action.value }
+          };
+        case "VALIDATION_FAILED":
+          return { ...state, errors: action.errors };
+        case "SUBMIT_SUCCEEDED":
+          return { ...state, errors: {} };
+        default:
+          return state;
+      }
+    }
+
+    export default function ContactForm() {
+      const [state, dispatch] = useReducer(formReducer, initialState);
+
+      const handleChange = (e) => {
+        dispatch({ type: "FIELD_CHANGED", field: e.target.name, value: e.target.value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const newErrors = {};
+        if (!isValidEmail(state.formData.email)) {
+          newErrors.email = "Please enter a valid email address.";
+        }
+        if (!isMessageLongEnough(state.formData.message)) {
+          newErrors.message = "Your message needs to be at least 20 characters.";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+          dispatch({ type: "VALIDATION_FAILED", errors: newErrors });
+        } else {
+          dispatch({ type: "SUBMIT_SUCCEEDED" });
+          console.log("Form is valid! Submitting:", state.formData);
+        }
+      };
+
+      // ...the JSX below now reads state.formData / state.errors instead of formData / errors
+    }
+    ```
+    *This is optional for a form this size — two `useState` calls are genuinely fine here. The point is recognizing the pattern: once a component's state updates start depending on each other in more than one or two places, `useReducer` keeps that logic in one testable function instead of spreading it across handlers.*
+
+* **⭐️ Class Exercise (Optional Upgrade): Refactor to `useReducer`**
+    1.  Write `formReducer` and `initialState` as shown above.
+    2.  Replace your two `useState` calls with one `useReducer`.
+    3.  Update `handleChange` and `handleSubmit` to `dispatch` actions instead of calling setters directly.
+    4.  Confirm the form behaves identically — this is a refactor, not a feature change.
+
 ---
 
 ## 🎨 Module 9: Styling React Components
@@ -254,3 +321,6 @@ export default function ContactForm() {
 * `git commit -m "style: Apply CSS Modules to ContactForm"`
 * `git commit -m "feat: Auto-focus name field with useRef"`
 * Push to Github.
+
+### Bonus Challenge
+* Refactor `ContactForm`'s two `useState` calls (`formData` and `errors`) into a single `useReducer`, dispatching `FIELD_CHANGED`/`VALIDATION_FAILED`/`SUBMIT_SUCCEEDED` actions. Confirm the form behaves identically before and after.

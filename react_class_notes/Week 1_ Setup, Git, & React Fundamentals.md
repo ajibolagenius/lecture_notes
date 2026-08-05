@@ -36,6 +36,11 @@ Welcome to Week 1! You've built your portfolio three times now — as static HTM
     1.  Install Node.js (LTS) from [nodejs.org](https://nodejs.org/). Verify with `node -v` and `npm -v`.
     2.  Install VS Code and the extensions above.
 
+* **⭐️ Don't Just Install ESLint — Run It:** A linter sitting unused in your extensions list catches nothing. Vite's React template ships with ESLint already configured — you're about to prove it actually works, right after scaffolding below:
+    1.  Once you've scaffolded `portfolio-react` (next section), run `npm run lint` and confirm it passes cleanly on the untouched starter.
+    2.  Deliberately add an unused import (e.g. `import { useState } from 'react';` without ever calling it) to `App.jsx`, then run `npm run lint` again and read the warning it produces.
+    3.  Remove the unused import and confirm the warning disappears. Keep this habit going — once Week 2 introduces hooks, this exact linter is also what catches a real Rules-of-Hooks violation (like calling `useState` inside an `if`), not just style nitpicks.
+
 ### 3. Intro to Git & Github
 
 * **Lecture & Concepts:**
@@ -62,7 +67,8 @@ Welcome to Week 1! You've built your portfolio three times now — as static HTM
         npm run dev
         ```
     2.  Open the `localhost` URL — you have a running React app.
-    3.  **Integrate Git:**
+    3.  **A Note on TypeScript:** Most professional React codebases in 2026 are written in TypeScript, not plain JavaScript — it catches a whole category of bugs (a mistyped prop name, a function called with the wrong shape of data) before you ever run the code. This course deliberately stays in plain JavaScript so the focus stays on React's own concepts, not a second language on top of them. When you're ready, `npm create vite@latest my-app -- --template react-ts` scaffolds the exact same starter with TypeScript instead — worth knowing the flag exists, even if you don't reach for it yet.
+    4.  **Integrate Git:**
         ```bash
         git init
         git add .
@@ -71,7 +77,7 @@ Welcome to Week 1! You've built your portfolio three times now — as static HTM
         git branch -M main
         git push -u origin main
         ```
-    4.  **Project Structure Deep-Dive:**
+    5.  **Project Structure Deep-Dive:**
         * `index.html`: The single HTML file for this SPA. Note `<div id="root"></div>` — where React attaches.
         * `src/main.jsx`: The entry point. Renders your `<App />` into `#root`.
         * `src/App.jsx`: Your root component.
@@ -205,6 +211,7 @@ Welcome to Week 1! You've built your portfolio three times now — as static HTM
 2.  Scaffold: `npm create vite@latest portfolio-react -- --template react`.
 3.  `npm install`, `npm run dev`, confirm it runs.
 4.  `git init`, connect to your Github repo, and make your first commit.
+5.  Run `npm run lint` and confirm it passes cleanly before you start building.
 
 ### 2. Tasks
 

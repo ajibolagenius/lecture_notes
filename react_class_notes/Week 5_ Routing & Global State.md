@@ -128,6 +128,63 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     ```
     * On your `Projects` page, wrap each card's title in a `<Link to={`/projects/${project.id}`}>` so clicking a project navigates to its own real page.
 
+### 5. Error Boundaries: Catching Render Crashes
+
+* **Lecture & Concepts:**
+    * The `errorElement` you configured back in section 2 only catches errors thrown while a route is *loading* (a bad URL, a failed loader). It does **not** catch a crash that happens while a component is *rendering* — say, `project.tags.map(...)` on a page where `project` turned out to be `undefined`. An uncaught render error like that currently white-screens your entire app, with nothing shown to the visitor at all.
+    * An **Error Boundary** is a component that catches render-time crashes in the components *beneath* it and shows a fallback UI instead of a blank page. Unlike most React features, it can only be written as a class component — there's no hook equivalent (yet) — but you write it once and never touch it again.
+
+* **In-Depth Example (A Reusable Error Boundary):**
+    ```jsx
+    // src/components/ErrorBoundary.jsx
+    import { Component } from 'react';
+
+    export default class ErrorBoundary extends Component {
+      state = { hasError: false };
+
+      static getDerivedStateFromError() {
+        return { hasError: true };
+      }
+
+      componentDidCatch(error, info) {
+        console.error("Caught a render error:", error, info);
+      }
+
+      render() {
+        if (this.state.hasError) {
+          return <p>Something went wrong loading this page. Please try refreshing.</p>;
+        }
+        return this.props.children;
+      }
+    }
+    ```
+    ```jsx
+    // src/App.jsx (your Layout) — wrap the part that actually varies per route
+    import { Outlet, Link } from "react-router-dom";
+    import ErrorBoundary from './components/ErrorBoundary.jsx';
+    import Header from './components/Header.jsx';
+    import Footer from './components/Footer.jsx';
+
+    export default function App() {
+      return (
+        <>
+          <Header />
+          <main>
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
+          </main>
+          <Footer />
+        </>
+      );
+    }
+    ```
+
+* **⭐️ Class Exercise: Break Your App On Purpose**
+    1.  Add `ErrorBoundary.jsx` exactly as shown above, and wrap `<Outlet />` with it in your real `App.jsx`.
+    2.  Temporarily break `ProjectDetail` — e.g., call `.toUpperCase()` on a field you know can be `undefined` — and navigate to that route. Confirm you see your fallback message, not a white screen or a raw stack trace.
+    3.  Revert your deliberate bug, and confirm the real page renders again.
+
 ---
 
 ## 📡 Module 12: Global State with Context API
@@ -194,12 +251,13 @@ export default function ThemeToggleButton() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <button onClick={toggleTheme}>
+    <button onClick={toggleTheme} aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
       {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
     </button>
   );
 }
 ```
+* **Why the `aria-label` too, even with visible text:** screen readers don't always announce emoji consistently across platforms, and the `aria-label` states the actual *action* ("Switch to dark mode") rather than the current state — a small but real difference for a screen-reader user deciding whether to click it.
 * Drop `<ThemeToggleButton />` into your real `Header` — no prop drilling needed, even though `Header` lives several files away from `ThemeProvider`.
 
 ---
@@ -219,6 +277,7 @@ Configure `createBrowserRouter` with:
 * `/projects` → **Projects**: your real, filterable, GitHub-fetched Featured Work grid (Weeks 2-3).
 * `/projects/:id` → **ProjectDetail**: a real page per project, using `useParams`.
 * `/contact` → **Contact**: your real controlled form (Week 4).
+* An `ErrorBoundary` wrapping `<Outlet />` in your Layout, so a render crash on any one page shows a fallback message instead of a blank screen.
 
 ### 3. Global Theme Context
 
