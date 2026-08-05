@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
-import * as Notifications from 'expo-notifications';
+// Deep imports avoid expo-notifications' push-token auto-registration side effect,
+// which console.error's on Android Expo Go (remote push removed in SDK 53+).
+import { setNotificationHandler } from 'expo-notifications/build/NotificationsHandler';
+import { requestPermissionsAsync } from 'expo-notifications/build/NotificationPermissions';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getToken } from '../services/authService';
 import { setSession, useSession } from '../state/session';
 
-Notifications.setNotificationHandler({
+setNotificationHandler({
   handleNotification: async () => ({
     shouldPlaySound: true,
     shouldSetBadge: false,
@@ -20,7 +23,7 @@ export default function RootLayout() {
   const session = useSession();
 
   useEffect(() => {
-    Notifications.requestPermissionsAsync();
+    requestPermissionsAsync();
     getToken().then((token) => setSession(token ?? null));
   }, []);
 
