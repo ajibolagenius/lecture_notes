@@ -87,7 +87,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
         <Text style={styles.heading}>Reminders</Text>
         <Pressable style={styles.addButton} onPress={() => router.push('/(protected)/createUpdateReminder')}>
           <Text style={styles.addButtonText}>Add</Text>
@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: spacing.lg,
     paddingBottom: spacing.md,
   },
   heading: { fontSize: 28, fontWeight: '700', color: colors.textPrimary },
