@@ -205,6 +205,78 @@ test('renders without notes when none are provided', () => {
 
 Write a test for the create-reminder form: render it, attempt to save with an empty title (simulate pressing "Save" with `fireEvent`), and assert that no navigation/save call happened — the same empty-title validation you built back in Week 3.
 
+### 6. A Design System Pass — Theming the Final App
+
+Every screen so far has used one ad-hoc accent color, hand-typed as the literal string `'#D9793F'` in a dozen different `StyleSheet.create()` calls since Week 2. That was fine for focusing on *behavior* first — but it doesn't scale, and it's not how a real app's visual identity gets managed. This pass gives the finished app one cohesive look, driven from a single file.
+
+* **Lecture & Concepts:**
+    * A **design token** is a named constant for a design decision — a color, a corner radius, a spacing value — kept in one place instead of copy-pasted everywhere. Native has no CSS variables, so the RN equivalent is refreshingly low-tech: a plain exported object.
+    * The reference app's final look is a warm, neutral surface (cream background, white cards) with **one** accent color doing all the work links, buttons, and selection states did separately before — the same "pick one accent, use it consistently" idea, just formalized.
+    * None of this touches logic. Every gesture, mutation, and validation rule from Weeks 1-5 (and the animation/swipe/accessibility work earlier in this module) stays exactly as it is — only `style={...}` values change.
+
+* **In-Depth Example:**
+    ```tsx
+    // constants/theme.ts
+    export const colors = {
+      background: '#F7F1E6',
+      surface: '#FFFFFF',
+      surfaceMuted: '#F1E6D5',
+      border: '#E8DECB',
+      ink: '#221B15',
+      textPrimary: '#221B15',
+      textSecondary: '#8C8072',
+      accent: '#D9793F',
+      accentSoft: '#F5DEC3',
+      danger: '#BE4A3C',
+      white: '#FFFFFF',
+    };
+
+    export const radii = { sm: 10, md: 16, lg: 20, pill: 999 };
+    export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24 };
+    ```
+    `ReminderListItem` becomes a rounded card instead of a bottom-bordered row, its checkbox becomes an icon "bubble" (filled with `colors.accent` and a ✓ glyph once checked, `colors.accentSoft` when not), and a trailing chevron hints that tapping the row opens it — the checkbox's gesture, the row's `onPress`/`onLongPress`, and the accessibility props from section 3 all carry over completely unchanged:
+    ```tsx
+    // components/ReminderListItem.tsx (styles, updated)
+    const styles = StyleSheet.create({
+      container: {
+        flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.md,
+        marginBottom: spacing.sm, backgroundColor: colors.surface, borderRadius: radii.lg,
+        shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1,
+      },
+      checkbox: {
+        width: 40, height: 40, borderRadius: radii.md - 2, backgroundColor: colors.accentSoft,
+        borderWidth: 1.5, borderColor: colors.accent, alignItems: 'center', justifyContent: 'center',
+      },
+      checkboxChecked: { backgroundColor: colors.accent, borderColor: colors.accent },
+      title: { fontSize: 16, fontWeight: '600', color: colors.textPrimary },
+      completedTitle: { textDecorationLine: 'line-through', color: colors.textSecondary },
+      chevron: { fontSize: 20, color: colors.textSecondary },
+      // ...content/subtitle styles follow the same colors.* tokens
+    });
+    ```
+    The home screen trades its floating "+" circle for a header row with title and a solid `Add` pill — matching the reference app's layout — and groups reminders by due date with `SectionList` instead of a flat `FlatList`, plus a floating `All / Active / Done` filter pill along the bottom (pure client-side filtering of `completed` — no backend change needed):
+    ```tsx
+    // app/(protected)/index.tsx (shape, updated)
+    <View style={styles.header}>
+      <Text style={styles.heading}>Reminders</Text>
+      <Pressable style={styles.addButton} onPress={() => router.push('/(protected)/createUpdateReminder')}>
+        <Text style={styles.addButtonText}>Add</Text>
+      </Pressable>
+    </View>
+    <SectionList
+      sections={groupByDueDate(filtered)} // groups by dueDate's day, undated last
+      renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+      renderItem={({ item }) => <ReminderListItem reminderItem={item} ... />}
+    />
+    ```
+    The section title format (`"13 Feb, Mon"`) comes straight from `Date#toLocaleDateString` with `{ day: 'numeric', month: 'short' }` and `{ weekday: 'short' }` — no date library needed for something this simple. The `Add` button keeps the exact `accessibilityRole="button"` / `accessibilityLabel="Add reminder"` pair from section 3; only its position and label text changed.
+    The auth screens (`login.tsx`, `signup.tsx`) and the create/edit form pick up the same tokens too — bordered `colors.surface` inputs on a `colors.background` page, a solid `colors.ink` pill for the primary action, and `colors.accent` for links and the header "Save" text. Update `app.json`'s icon/splash colors to match (see Module 12, next) so the app's identity is consistent from splash screen to every screen after it.
+
+* **⭐️ Class Exercise: Theme the Whole App**
+    1.  Add `constants/theme.ts` exactly as shown, and replace every hardcoded hex value across `components/` and `app/` with the matching `colors.*`/`radii.*`/`spacing.*` token — there should be no bare `'#...'` string left in a screen or component file.
+    2.  Confirm `npm test` still passes unmodified — you changed *how things look*, not what text renders or what any button is named, so every existing assertion should still hold.
+    3.  Confirm the app still behaves identically end to end: create, edit, complete, and delete a reminder, and toggle the `All`/`Active`/`Done` filter — only the visuals should feel different.
+
 ---
 
 ## Module 12: Shipping with EAS
@@ -230,7 +302,7 @@ Before building anything installable, `app.json` needs to actually describe *you
         "icon": "./assets/icon.png",
         "splash": {
           "image": "./assets/splash-icon.png",
-          "backgroundColor": "#0E7AFE"
+          "backgroundColor": "#D9793F"
         },
         "ios": { "bundleIdentifier": "com.yourname.remindersapp" },
         "android": { "package": "com.yourname.remindersapp" }
@@ -323,14 +395,15 @@ Run a `preview` build for whichever platform matches your phone, install it via 
 
 ### Requirements
 
-1. **Core flow, fully working:** signup/login, view reminders (`FlatList`), create/edit a reminder (shared modal, pre-filled on edit), mark complete (checkbox), delete (both the edit screen's button and swipe-to-delete) — all against the live, deployed Node/Express API.
+1. **Core flow, fully working:** signup/login, view reminders grouped by due date (`SectionList`), create/edit a reminder (shared modal, pre-filled on edit), mark complete (checkbox), delete (both the edit screen's button and swipe-to-delete) — all against the live, deployed Node/Express API.
 2. **Device features:** local due-date notifications still working after the Week 5 backend migration, and tapping one deep-links to that specific reminder.
 3. **Polish:** at least one Reanimated animation (e.g. list item entrance/exit) and swipe-to-delete via Gesture Handler.
-4. **Accessibility:** the checkbox and "+" button have real `accessibilityLabel`/`accessibilityRole`/`accessibilityState`, verified with VoiceOver or TalkBack on a real device.
-5. **App identity:** a real icon, splash screen, and `scheme` configured in `app.json` — no default Expo branding left.
-6. **Tests:** component tests for `ReminderListItem` and the create/update form's validation, all passing (`npm test`).
-7. **Shipped build:** a real EAS `preview` (or `production`) build installed on a physical device.
-8. **Submission (stretch):** the build submitted to TestFlight or Play Internal Testing.
+4. **Design system:** a single `constants/theme.ts` of colors/radii/spacing tokens, applied consistently across every screen — no hardcoded hex values left in a component's `StyleSheet`, plus a working `All`/`Active`/`Done` filter on the home screen.
+5. **Accessibility:** the checkbox and "Add" button have real `accessibilityLabel`/`accessibilityRole`/`accessibilityState`, verified with VoiceOver or TalkBack on a real device.
+6. **App identity:** a real icon, splash screen, and `scheme` configured in `app.json` — no default Expo branding left.
+7. **Tests:** component tests for `ReminderListItem` and the create/update form's validation, all passing (`npm test`).
+8. **Shipped build:** a real EAS `preview` (or `production`) build installed on a physical device.
+9. **Submission (stretch):** the build submitted to TestFlight or Play Internal Testing.
 
 ### Final Deliverable
 
@@ -340,6 +413,7 @@ Submit: your Github repo URL, a link to install your build (or a TestFlight/Play
 
 * `git commit -m "feat: add Reanimated entrance/exit animations to reminder list"`
 * `git commit -m "feat: add swipe-to-delete with react-native-gesture-handler"`
+* `git commit -m "feat: apply cream/ink/terracotta design system across all screens"`
 * `git commit -m "fix: add accessibility labels, roles, and state to interactive elements"`
 * `git commit -m "chore: configure real app icon, splash screen, and URL scheme"`
 * `git commit -m "feat: deep-link due-date notifications to their reminder"`

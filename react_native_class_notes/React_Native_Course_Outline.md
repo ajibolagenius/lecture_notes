@@ -254,6 +254,7 @@ This course has one product for its entire duration: **the Reminders app**. Ever
     * Add subtle animation polish with `react-native-reanimated`.
     * Add swipe-to-delete with `react-native-gesture-handler`.
     * Give interactive elements real accessibility labels, roles, and state, verified with a screen reader.
+    * Extract shared design tokens (colors, radii, spacing) and apply one cohesive visual identity across every screen.
     * Write component tests with Jest (`jest-expo`) and React Native Testing Library.
     * Test `ReminderListItem` and the create/update form in isolation.
 
@@ -264,7 +265,9 @@ This course has one product for its entire duration: **the Reminders app**. Ever
 | **Swipe-to-Delete** | 1 hour | 1 hour |
 | `react-native-gesture-handler`'s `Swipeable`, `renderRightActions`. | - Coexisting with the existing tap-to-edit and tap-checkbox-to-complete gestures on the same row. | - Add swipe-to-delete; confirm all three row gestures still work independently. |
 | **Accessibility Pass** | 1 hour | 45 mins |
-| `accessibilityLabel`/`accessibilityRole`/`accessibilityState`; the 44×44pt touch-target minimum. | - Verifying with VoiceOver/TalkBack on a real device, not just visually. | - Label the checkbox and "+" button; confirm a screen reader announces both correctly. |
+| `accessibilityLabel`/`accessibilityRole`/`accessibilityState`; the 44×44pt touch-target minimum. | - Verifying with VoiceOver/TalkBack on a real device, not just visually. | - Label the checkbox and "Add" button; confirm a screen reader announces both correctly. |
+| **A Design System Pass** | 1 hour | 1 hour |
+| A single `constants/theme.ts` of color/radius/spacing tokens; a cream-and-ink surface with one terracotta accent, replacing the placeholder blue used since Week 2. | - Why one token file beats hex values scattered across every `StyleSheet.create()`. | - Theme every screen from `constants/theme.ts`; add due-date section grouping (`SectionList`) and an `All`/`Active`/`Done` filter to the home screen. |
 | **Setting Up Testing** | 30 mins | 30 mins |
 | `@testing-library/react-native` (`jest-expo` already installed in Week 3). | - `npx expo install --dev @testing-library/react-native`. | - Confirm Jest is still configured from Week 3. |
 | **Writing Component Tests** | 1.5 hours | 1.5 hours |
@@ -298,12 +301,13 @@ This course has one product for its entire duration: **the Reminders app**. Ever
 **Week 6 / Final Project:** Ship the Reminders app.
 * **Goal:** Combine everything from all 6 weeks into one shipped app.
 * **Requirements:**
-    1. **Core flow:** login/signup, view reminders (`FlatList`), create/edit a reminder (shared modal, pre-filled), mark complete (checkbox), delete (button and swipe).
+    1. **Core flow:** login/signup, view reminders grouped by due date (`SectionList`), create/edit a reminder (shared modal, pre-filled), mark complete (checkbox), delete (button and swipe).
     2. **Backend:** fully connected to the deployed, versioned Node/Express API from the companion course — no local-only data left.
     3. **Device features:** local due-date notifications working, deep-linking to the specific reminder when tapped.
     4. **Polish:** at least one Reanimated animation, swipe-to-delete.
-    5. **Accessibility:** real labels/roles/state on interactive elements, verified with a screen reader.
-    6. **App identity:** a real icon, splash screen, and scheme — no default Expo branding.
-    7. **Tests:** component tests for `ReminderListItem` and the create/update form, passing.
-    8. **Shipped build:** a real EAS build installed on a physical device, submitted to TestFlight or Play Internal Testing.
+    5. **Design system:** one `constants/theme.ts` of tokens applied across every screen — no stray hex values — plus a working `All`/`Active`/`Done` filter.
+    6. **Accessibility:** real labels/roles/state on interactive elements, verified with a screen reader.
+    7. **App identity:** a real icon, splash screen, and scheme — no default Expo branding.
+    8. **Tests:** component tests for `ReminderListItem` and the create/update form, passing.
+    9. **Shipped build:** a real EAS build installed on a physical device, submitted to TestFlight or Play Internal Testing.
 * **Final Deliverable:** A link to your installable build (or TestFlight/Play invite), your Github repo, and a short demo video showing the full flow against the live, deployed API.

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   heading: { fontSize: 28, fontWeight: '700', marginBottom: 12 },
   addButton: {
     position: 'absolute', right: 24, width: 56, height: 56,
-    borderRadius: 28, backgroundColor: '#0E7AFE', alignItems: 'center', justifyContent: 'center',
+    borderRadius: 28, backgroundColor: '#D9793F', alignItems: 'center', justifyContent: 'center',
   },
   addButtonText: { color: 'white', fontSize: 28 },
 });
@@ -250,7 +250,7 @@ export default function CreateUpdateReminderScreen() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerRight: () => <Text style={{ color: '#0E7AFE' }} onPress={handleSave}>Save</Text>,
+          headerRight: () => <Text style={{ color: '#D9793F' }} onPress={handleSave}>Save</Text>,
         }}
       />
       <TextInput style={styles.titleInput} placeholder="Title" value={title} onChangeText={setTitle} />
@@ -304,7 +304,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   heading: { fontSize: 28, fontWeight: '700', marginBottom: 12 },
-  addButton: { position: 'absolute', right: 24, width: 56, height: 56, borderRadius: 28, backgroundColor: '#0E7AFE', alignItems: 'center', justifyContent: 'center' },
+  addButton: { position: 'absolute', right: 24, width: 56, height: 56, borderRadius: 28, backgroundColor: '#D9793F', alignItems: 'center', justifyContent: 'center' },
   addButtonText: { color: 'white', fontSize: 28 },
 });
 ```
@@ -412,7 +412,7 @@ Week 2 promised this screen would eventually serve both "create" and "update," d
           <Stack.Screen
             options={{
               headerTitle: isEditing ? 'Edit Reminder' : 'New Reminder',
-              headerRight: () => <Text style={{ color: '#0E7AFE' }} onPress={handleSave}>Save</Text>,
+              headerRight: () => <Text style={{ color: '#D9793F' }} onPress={handleSave}>Save</Text>,
             }}
           />
           <TextInput style={styles.titleInput} placeholder="Title" value={title} onChangeText={setTitle} />

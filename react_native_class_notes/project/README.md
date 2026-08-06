@@ -23,7 +23,7 @@ The API must be running (see the Node/Express course, through at least its Week 
 | 3 | `FlatList`, controlled form, due-date picker | `app/(protected)/index.tsx`, `app/(protected)/createUpdateReminder.tsx` |
 | 4 | AsyncStorage persistence, local notifications | `state/notifications.ts` (superseded by Week 5's backend for reminder data itself; notification scheduling stays local per the Week 5 notes) |
 | 5 | Real auth, `(auth)`/`(protected)` groups, TanStack Query | `app/(auth)/`, `services/authService.ts`, `services/reminderService.ts` |
-| 6 | Reanimated polish, Jest tests, EAS | `react-native-reanimated` in `ReminderListItem`, `**/__tests__/*.test.tsx`, `eas.json` |
+| 6 | Reanimated polish, design system & theming, Jest tests, EAS | `react-native-reanimated` in `ReminderListItem`, `constants/theme.ts`, `**/__tests__/*.test.tsx`, `eas.json` |
 
 ## Testing
 

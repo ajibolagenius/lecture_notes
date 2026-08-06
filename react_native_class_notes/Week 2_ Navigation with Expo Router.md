@@ -116,7 +116,7 @@ export default function RootLayout() {
           presentation: 'modal',
           headerTitle: 'New Reminder',
           headerLeft: () => (
-            <Text style={{ color: '#0E7AFE' }} onPress={() => router.back()}>
+            <Text style={{ color: '#D9793F' }} onPress={() => router.back()}>
               Cancel
             </Text>
           ),
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#0E7AFE',
+    backgroundColor: '#D9793F',
     alignItems: 'center',
     justifyContent: 'center',
   },

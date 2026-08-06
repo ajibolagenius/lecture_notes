@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 24, justifyContent: 'center', gap: 12 },
   heading: { fontSize: 28, fontWeight: '700', marginBottom: 12 },
   input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16 },
-  button: { backgroundColor: '#0E7AFE', padding: 14, borderRadius: 8, alignItems: 'center' },
+  button: { backgroundColor: '#D9793F', padding: 14, borderRadius: 8, alignItems: 'center' },
   buttonText: { color: 'white', fontWeight: '600', fontSize: 16 },
-  link: { color: '#0E7AFE', textAlign: 'center', marginTop: 8 },
+  link: { color: '#D9793F', textAlign: 'center', marginTop: 8 },
 });
 ```
 
@@ -358,7 +358,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   heading: { fontSize: 28, fontWeight: '700', marginBottom: 12 },
-  addButton: { position: 'absolute', right: 24, width: 56, height: 56, borderRadius: 28, backgroundColor: '#0E7AFE', alignItems: 'center', justifyContent: 'center' },
+  addButton: { position: 'absolute', right: 24, width: 56, height: 56, borderRadius: 28, backgroundColor: '#D9793F', alignItems: 'center', justifyContent: 'center' },
   addButtonText: { color: 'white', fontSize: 28 },
 });
 ```
@@ -448,7 +448,7 @@ export default function CreateUpdateReminderScreen() {
       <Stack.Screen
         options={{
           headerTitle: isEditing ? 'Edit Reminder' : 'New Reminder',
-          headerRight: () => <Text onPress={handleSave} style={{ color: '#0E7AFE' }}>Save</Text>,
+          headerRight: () => <Text onPress={handleSave} style={{ color: '#D9793F' }}>Save</Text>,
         }}
       />
       <TextInput style={styles.titleInput} placeholder="Title" value={title} onChangeText={setTitle} />

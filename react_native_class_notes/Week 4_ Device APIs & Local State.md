@@ -225,10 +225,10 @@ export default function ReminderListItem({ reminderItem }: { reminderItem: Remin
 const styles = StyleSheet.create({
   container: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderBottomWidth: 1, borderBottomColor: '#e5e5e5' },
   checkbox: {
-    width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: '#0E7AFE',
+    width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: '#D9793F',
     alignItems: 'center', justifyContent: 'center',
   },
-  checkboxFill: { width: 14, height: 14, borderRadius: 7, backgroundColor: '#0E7AFE' },
+  checkboxFill: { width: 14, height: 14, borderRadius: 7, backgroundColor: '#D9793F' },
   textContainer: { flex: 1 },
   title: { fontSize: 16, fontWeight: '600' },
   completedTitle: { textDecorationLine: 'line-through', color: '#999' },
