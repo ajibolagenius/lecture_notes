@@ -270,6 +270,11 @@ Every screen so far has used one ad-hoc accent color, hand-typed as the literal 
     />
     ```
     The section title format (`"13 Feb, Mon"`) comes straight from `Date#toLocaleDateString` with `{ day: 'numeric', month: 'short' }` and `{ weekday: 'short' }` — no date library needed for something this simple. The `Add` button keeps the exact `accessibilityRole="button"` / `accessibilityLabel="Add reminder"` pair from section 3; only its position and label text changed.
+
+    > **Don't forget `useSafeAreaInsets` on the new header, too.** Week 2's `insets.bottom` lesson was about the *floating* "+" button specifically — but moving the title and `Add` button into a header row at the very top of the screen runs into the exact same problem from the other direction: a fixed `paddingTop` looks fine on the simulator you're testing on, then sits half-behind the Dynamic Island or status bar on a real notched phone. Pad the header with `insets.top` (the same `useSafeAreaInsets()` call already in this file), not a hardcoded number:
+    > ```tsx
+    > <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
+    > ```
     The auth screens (`login.tsx`, `signup.tsx`) and the create/edit form pick up the same tokens too — bordered `colors.surface` inputs on a `colors.background` page, a solid `colors.ink` pill for the primary action, and `colors.accent` for links and the header "Save" text. Update `app.json`'s icon/splash colors to match (see Module 12, next) so the app's identity is consistent from splash screen to every screen after it.
 
 * **⭐️ Class Exercise: Theme the Whole App**
