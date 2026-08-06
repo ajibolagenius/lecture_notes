@@ -1,5 +1,6 @@
 import { Stack, router } from 'expo-router';
 import { Text } from 'react-native';
+import { colors } from '../../constants/theme';
 
 export default function ProtectedLayout() {
   return (
@@ -11,7 +12,7 @@ export default function ProtectedLayout() {
           presentation: 'modal',
           headerTitle: 'New Reminder',
           headerLeft: () => (
-            <Text style={{ color: '#0E7AFE' }} onPress={() => router.back()}>
+            <Text style={{ color: colors.accent }} onPress={() => router.back()}>
               Cancel
             </Text>
           ),

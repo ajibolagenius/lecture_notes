@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { createReminder, Reminder, updateReminder } from '../../services/reminderService';
 import { cancelReminderNotification, scheduleReminderNotification } from '../../state/notifications';
+import { colors, radii, spacing } from '../../constants/theme';
 
 type PickerStep = 'date' | 'time' | null;
 
@@ -87,7 +88,7 @@ export default function CreateUpdateReminderScreen() {
         options={{
           headerTitle: existingReminder ? 'Edit Reminder' : 'New Reminder',
           headerRight: () => (
-            <Text onPress={handleSave} style={{ color: '#0E7AFE' }}>
+            <Text onPress={handleSave} style={{ color: colors.accent, fontWeight: '600' }}>
               Save
             </Text>
           ),
@@ -112,8 +113,28 @@ export default function CreateUpdateReminderScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, gap: 12 },
-  titleInput: { fontSize: 20, fontWeight: '600', borderBottomWidth: 1, borderColor: '#ddd', paddingVertical: 8 },
-  notesInput: { fontSize: 16, minHeight: 80, textAlignVertical: 'top' },
-  dueDateText: { fontSize: 16, color: '#0E7AFE' },
+  container: { flex: 1, padding: spacing.lg, gap: spacing.md, backgroundColor: colors.background },
+  titleInput: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: colors.textPrimary,
+    backgroundColor: colors.surface,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+  },
+  notesInput: {
+    fontSize: 16,
+    minHeight: 100,
+    textAlignVertical: 'top',
+    color: colors.textPrimary,
+    backgroundColor: colors.surface,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.md,
+  },
+  dueDateText: { fontSize: 16, color: colors.accent, fontWeight: '600' },
 });

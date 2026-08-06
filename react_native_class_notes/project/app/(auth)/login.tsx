@@ -3,6 +3,7 @@ import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-nativ
 import { router } from 'expo-router';
 import { DEMO_EMAIL, DEMO_PASSWORD, login, loginAsDemo } from '../../services/authService';
 import { setSession } from '../../state/session';
+import { colors, radii, spacing } from '../../constants/theme';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -25,9 +26,11 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Log In</Text>
+      <Text style={styles.subheading}>Welcome back — your reminders are waiting.</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={colors.textSecondary}
         autoCapitalize="none"
         keyboardType="email-address"
         value={email}
@@ -36,6 +39,7 @@ export default function LoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor={colors.textSecondary}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
@@ -61,20 +65,29 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, justifyContent: 'center', gap: 12 },
-  heading: { fontSize: 28, fontWeight: '700', marginBottom: 12 },
-  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16 },
-  button: { backgroundColor: '#0E7AFE', padding: 14, borderRadius: 8, alignItems: 'center' },
-  buttonText: { color: 'white', fontWeight: '600', fontSize: 16 },
+  container: { flex: 1, padding: spacing.xl, justifyContent: 'center', gap: spacing.md, backgroundColor: colors.background },
+  heading: { fontSize: 32, fontWeight: '700', color: colors.textPrimary },
+  subheading: { fontSize: 15, color: colors.textSecondary, marginBottom: spacing.sm },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radii.md,
+    padding: spacing.md,
+    fontSize: 16,
+    backgroundColor: colors.surface,
+    color: colors.textPrimary,
+  },
+  button: { backgroundColor: colors.ink, padding: spacing.md + 2, borderRadius: radii.pill, alignItems: 'center' },
+  buttonText: { color: colors.white, fontWeight: '600', fontSize: 16 },
   demoButton: {
-    backgroundColor: 'white',
-    padding: 14,
-    borderRadius: 8,
+    backgroundColor: colors.surface,
+    padding: spacing.md + 2,
+    borderRadius: radii.pill,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#0E7AFE',
+    borderColor: colors.accent,
   },
-  demoButtonText: { color: '#0E7AFE', fontWeight: '600', fontSize: 16 },
-  demoHint: { color: '#666', textAlign: 'center', fontSize: 13 },
-  link: { color: '#0E7AFE', textAlign: 'center', marginTop: 8 },
+  demoButtonText: { color: colors.accent, fontWeight: '600', fontSize: 16 },
+  demoHint: { color: colors.textSecondary, textAlign: 'center', fontSize: 13 },
+  link: { color: colors.accent, textAlign: 'center', marginTop: spacing.sm, fontWeight: '600' },
 });
