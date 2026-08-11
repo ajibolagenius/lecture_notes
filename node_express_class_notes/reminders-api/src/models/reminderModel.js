@@ -1,0 +1,38 @@
+let reminders = [];
+let nextId = 1;
+
+export const ReminderModel = {
+    async getAll() {
+        return reminders;
+    },
+
+    async findById(id) {
+        return reminders.find((r) => r.id === id);
+    },
+
+    async create({ title, notes, userId }) {
+        const reminder = {
+            id: nextId++,
+            title,
+            notes: notes ?? null,
+            completed: false,
+            userId,
+            createdAt: new Date().toISOString(),
+        };
+        reminders.push(reminder);
+        return reminder;
+    },
+
+    async update(id, newValues) {
+        const reminder = reminders.find((r) => r.id === id);
+        if (!reminder) return null;
+        Object.assign(reminder, newValues);
+        return reminder;
+    },
+
+    async delete(id) {
+        const lengthBefore = reminders.length;
+        reminders = reminders.filter((r) => r.id !== id);
+        return lengthBefore - reminders.length; // rows deleted (0 or 1)
+    },
+};
