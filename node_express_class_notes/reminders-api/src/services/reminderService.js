@@ -3,7 +3,7 @@ import { ReminderModel } from '../models/reminderModel.js'
 export const ReminderService = {
     async getAllReminders(filters) {
         // Fetch All Reminders
-        return ReminderModel.getAll();
+        return ReminderModel.getAll(filters);
     },
 
     async getReminderById(reminderId) {

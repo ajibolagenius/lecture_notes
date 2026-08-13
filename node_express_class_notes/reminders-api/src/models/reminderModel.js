@@ -2,8 +2,21 @@ let reminders = [];
 let nextId = 1;
 
 export const ReminderModel = {
-    async getAll() {
-        return reminders;
+    async getAll({completed, sort, limit, offset} = {}) {
+        
+        let result = [...reminders];
+
+        if (completed !== undefined) {
+            result = result.filter((r) => r.completed === completed)
+        }
+
+        if (sort === '-createdAt') {
+            result = result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        } else if (sort === 'createdAt') {
+            result = result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        }
+
+        return result.slice(offset, offset + limit);
     },
 
     async findById(id) {

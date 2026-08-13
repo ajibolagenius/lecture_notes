@@ -3,7 +3,15 @@ import { ReminderService } from '../services/reminderService.js';
 export const ReminderController = {
     async getAllReminders(req, res) {
         try {
-            const reminders = await ReminderService.getAllReminders();
+
+            const {completed, sort, limit, offset} = req.query;
+            const filters = {
+                completed: completed === undefined ? undefined : completed === 'true', sort,
+                limit: limit ? parseInt(limit, 10) : 20,
+                offset: offset ? parseInt(offset,10) : 0,
+            }
+
+            const reminders = await ReminderService.getAllReminders(filters);
             res.status(200).json(reminders);
         } catch (error) {
             res.status(500).json({ message: 'Internal Server Error' });
