@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import ProjectCard from './components/ProjectCard.jsx';
+import ContactForm from './components/ContactForm.jsx';
 
 const staticProjects = [
     { id: 1, title: "Weather App", description: "A React Native app that fetches live weather data.", tags: ["React Native", "Expo"], featured: false },
@@ -49,11 +50,15 @@ function App() {
     if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
 
     return (
-        <div className="work-grid">
-            {allProjects.map(project => (
-                <ProjectCard key={project.id} {...project} />
-            ))}
-        </div>
+        <>
+            <div className="work-grid">
+                {allProjects.map(project => (
+                    <ProjectCard key={project.id} {...project} />
+                ))}
+            </div>
+            <hr />
+            <ContactForm />
+        </>
     );
 }
 
