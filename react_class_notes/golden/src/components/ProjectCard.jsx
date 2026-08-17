@@ -3,10 +3,10 @@ import Badge from "./Badge";
 export default function ProjectCard({ title, description, tags, imageSrc }) {
     return (
         <article className="project-card">
-            <img src={imageSrc} width={32} height={32} alt={title} />
+            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4bb/512.gif" alt="💻" width="24" height="24" />
             <h3>
                 {title}
-                {<Badge>Featured</Badge>}
+                {/* {<Badge>Featured</Badge>} */}
             </h3>
             <p>{description}</p>
             <ul>
