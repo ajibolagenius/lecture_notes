@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alice Chen - Frontend Developer & UI Engineer portfolio showcasing featured web projects and skills.">
+  <title>Alice Chen | Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- External JS loaded with defer as taught in Week 1 Module 1 -->
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="container header-container">
+      <h1 id="page-title" class="logo">Alice Chen</h1>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <nav class="site-nav" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        <p class="hero-eyebrow">Hi, I'm Alice Chen</p>
+        <h2 class="hero-title">Building clean, interactive, and accessible web experiences.</h2>
+        <p class="hero-description">
+          A passionate frontend developer focusing on semantic HTML, modern CSS architecture, and dynamic JavaScript.
+        </p>
+        <div class="hero-actions">
+          <a href="#featured-work" class="btn btn-primary">View Featured Work</a>
+          <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Work Section (Hardcoded HTML up to Week 2 Module 3; will be dynamically rendered in Week 4) -->
+    <section class="work-section" id="featured-work">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Featured Work</h2>
+          <p class="section-subtitle">A showcase of projects built with modern web technologies.</p>
+        </div>
+
+        <div class="work-grid">
+          <!-- Project 1 -->
+          <article class="project-card">
+            <div class="project-card__content">
+              <h3 class="project-card__title">Weather App</h3>
+              <p class="project-card__description">
+                A React Native app that fetches live weather data, displaying hourly forecasts and animated conditions.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">React Native</span>
+                <span class="tag">Expo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project-card">
+            <div class="project-card__content">
+              <h3 class="project-card__title">Task Tracker</h3>
+              <p class="project-card__description">
+                A Python CLI tool for tracking daily tasks, setting priority queues, and generating productivity summaries.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Python</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 (Featured) -->
+          <article class="project-card project-card--featured">
+            <span class="project-card__badge">Featured</span>
+            <div class="project-card__content">
+              <h3 class="project-card__title">This Portfolio</h3>
+              <p class="project-card__description">
+                The very site you're looking at right now — built module by module across HTML, CSS, and JavaScript courses.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">JavaScript</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <p class="copyright">&copy; 2026 Alice Chen. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
