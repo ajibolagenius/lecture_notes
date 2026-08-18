@@ -1,9 +1,9 @@
 import { ReminderModel } from '../models/reminderModel.js'
 
 export const ReminderService = {
-    async getAllReminders(filters) {
+    async getAllReminders(userIdOrFilters, filters) {
         // Fetch All Reminders
-        return ReminderModel.getAll(filters);
+        return ReminderModel.getAll(userIdOrFilters, filters);
     },
 
     async getReminderById(reminderId) {
@@ -15,8 +15,18 @@ export const ReminderService = {
 
     async createReminder(newReminder) {
         // Create Reminder
-        const { title, notes, userId } = newReminder;
-        const sanitized = { title: title?.trim(), notes: notes?.trim(), userId };
+        const { title, notes, dueDate, due_date, userId, user_id } = newReminder || {};
+        const sanitizedTitle = title?.trim();
+        if (!sanitizedTitle) {
+            throw new Error('Title is required');
+        }
+
+        const sanitized = {
+            title: sanitizedTitle,
+            notes: notes?.trim() ?? null,
+            dueDate: dueDate || due_date || null,
+            userId: userId || user_id || null,
+        };
         return ReminderModel.create(sanitized);
     },
 
