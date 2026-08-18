@@ -1,0 +1,15 @@
+.card {
+  padding: 20px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: scale(1.03);
+}
+.featured {
+    border: 1px solid tomato;
+}
+
+/* (condition) ? 'if condition is true' : 'if condition is false' */

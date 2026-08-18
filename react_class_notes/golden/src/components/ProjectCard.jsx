@@ -1,8 +1,9 @@
 import Badge from "./Badge";
+import styles from './ProjectCard.module.css';
 
-export default function ProjectCard({ title, description, tags, imageSrc }) {
+export default function ProjectCard({ title, description, tags, featured, imageSrc }) {
     return (
-        <article className="project-card">
+        <article className={`${styles.card} ${featured ? styles.featured : ''}`}>
             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4bb/512.gif" alt="💻" width="24" height="24" />
             <h3>
                 {title}

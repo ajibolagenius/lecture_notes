@@ -1,55 +1,62 @@
-import {useState} from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function ContactForm() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        reason: "",
-        contactMethod: "email",
-        message: ""
-    })
+  const nameInputRef = useRef(null);
 
-    const [errors, setErrors] = useState({})
+  useEffect(() => {
+    nameInputRef.current.focus();
+  }, []);
 
-    // Helper functions
-    
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(
-            (prevData) => ({...prevData, [name]: value})
-        )
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    reason: "",
+    contactMethod: "email",
+    message: ""
+  })
+
+  const [errors, setErrors] = useState({})
+
+  // Helper functions
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(
+      (prevData) => ({ ...prevData, [name]: value })
+    )
+  }
+
+  // Validation functions
+  const isValidEmail = (email) => email.includes("@") && email.includes(".");
+  const isMessageLongEnough = (message) => message.trim().length >= 20;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = {};
+    if (!isValidEmail(formData.email)) {
+      newErrors.email = "Please enter a valud email address."
     }
 
-    // Validation functions
-    const isValidEmail = (email) => email.includes("@") && email.includes(".");
-    const isMessageLongEnough = (message) => message.trim().length >= 20;
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const newErrors = {};
-        if (!isValidEmail(formData.email)) {
-            newErrors.email = "Please enter a valud email address."
-        }
-
-        if (!isMessageLongEnough(formData.message)) {
-            newErrors.message = "Your message needs to be at least 20 characters."
-        }
-
-        setErrors(newErrors)
-
-        if (Object.keys(newErrors).length === 0) {
-            console.log("Form is valid! Submitting:", formData)
-        }
+    if (!isMessageLongEnough(formData.message)) {
+      newErrors.message = "Your message needs to be at least 20 characters."
     }
 
-    return (
-        <form onSubmit={handleSubmit}>
+    setErrors(newErrors)
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Form is valid! Submitting:", formData)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Get In Touch</legend>
 
         <label htmlFor="name">Name:</label>
         <input
+          ref={nameInputRef}
           id="name"
           type="text"
           name="name"
@@ -112,6 +119,6 @@ export default function ContactForm() {
 
       <button type="submit">Send Message</button>
     </form>
-    )
+  )
 
 }
