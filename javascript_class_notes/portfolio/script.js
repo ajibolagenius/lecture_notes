@@ -1,5 +1,7 @@
 'use strict';
 
+let name = "Dotun"
+
 /**
  * ==============================================================================
  * JavaScript Course Portfolio Project
@@ -80,3 +82,48 @@ while (attempts < 3) {
 }
 
 console.log("Ready for Week 2 — Module 4: Functions (The Building Blocks)!");
+
+// function isNotEmpty(name = "Guest") {
+//   return name.trim().length > 0;
+// }
+
+// console.log(isNotEmpty())
+// console.log(isNotEmpty("Dotun"))
+
+// Parameters, Arguments & the return Keyword
+
+// function isValidEmail(email) {
+//   return email.includes("@") && email.includes(".");
+// }
+
+// console.log(
+//   isValidEmail("alice@example.com")
+// )
+
+// console.log(
+//   isValidEmail("aliceexample.com")
+// )
+
+// Scope (Global, Function, Block)
+
+// function isMessageLongEnough(message)  {
+//   const minLength = 20
+//   return message.trim().length >= minLength
+// }
+
+// console.log(isMessageLongEnough("Hello! Have a  question or  want to work together? Send me a message below."))
+
+// Closures (A First Look)
+
+function createFieldValidator(minLength) {
+  return function(value) {
+    return value.trim().length >= minLength
+  }
+}
+
+const isMessageLongEnough = createFieldValidator(20);
+const isNameLongEnough = createFieldValidator(2);
+
+console.log(isMessageLongEnough("Too short"));
+console.log(isMessageLongEnough("This message is definitely long enough"));
+console.log(isNameLongEnough("Al"));  
