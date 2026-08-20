@@ -1,15 +1,47 @@
 .card {
-  padding: 20px;
-  margin-bottom: 5px;
-  border: 1px solid #ddd;
+  padding: 16px;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: border-color 180ms ease, transform 180ms ease;
 }
 .card:hover {
-  transform: scale(1.03);
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
 }
 .featured {
-    border: 1px solid tomato;
+    border-color: var(--accent-border);
+}
+
+.card img {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.card ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.card li {
+  padding: 4px 8px !important;
+  margin: 0 !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 999px !important;
+  color: var(--text-h);
+  background: var(--code-bg);
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
 }
 
 /* (condition) ? 'if condition is true' : 'if condition is false' */
