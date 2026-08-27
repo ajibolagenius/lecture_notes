@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 
 import App from './App.jsx'
 import Home from './pages/Home.jsx'
+import Users from './pages/Users.jsx'
 import Projects from './pages/Projects.jsx'
 import ProjectDetail from './pages/ProjectDetail.jsx'
 import Contact from './pages/Contact.jsx'
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "/projects", element: <Projects /> },
       { path: "/projects/:id", element: <ProjectDetail /> },
       { path: "/contact", element: <Contact /> },
+      { path: "/users", element: <Users /> },
     ]
   }
 ])

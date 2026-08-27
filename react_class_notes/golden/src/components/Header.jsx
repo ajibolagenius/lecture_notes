@@ -10,6 +10,7 @@ export default function Header() {
                 <nav>
                     <Link to="/">Home</Link>
                     <Link to="/projects">Projects</Link>
+                    <Link to="/users">Users</Link>
                     <Link to="/contact">Contact</Link>
                 </nav>
             <br />

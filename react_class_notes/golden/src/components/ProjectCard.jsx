@@ -1,13 +1,12 @@
-import Badge from "./Badge";
+import { memo } from 'react';
 import styles from './ProjectCard.module.css';
 
-export default function ProjectCard({ title, description, tags, featured, imageSrc }) {
+function ProjectCard({ title, description, tags, featured }) {
     return (
         <article className={`${styles.card} ${featured ? styles.featured : ''}`}>
             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4bb/512.gif" alt="💻" width="24" height="24" />
             <h3>
                 {title}
-                {/* {<Badge>Featured</Badge>} */}
             </h3>
             <p>{description}</p>
             <ul>
@@ -20,3 +19,5 @@ export default function ProjectCard({ title, description, tags, featured, imageS
         </article>
     );
 }
+
+export default memo(ProjectCard)

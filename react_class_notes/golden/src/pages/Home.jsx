@@ -5,6 +5,7 @@ export default function Home() {
             <p>
                 Welcome to my portfolio.
             </p>
+            <hr />
         </>
     )
     
