@@ -5,7 +5,7 @@ import ProjectCard from '../components/ProjectCard.jsx';
 import staticProjects from '../data/projects.js';
 
 export default function Projects() {
-    const { data: repo, loading, error } = useFetch('https://api.github.com/users/ajibolagenius/repos?sort=updated');
+    const { data: repo, loading, error } = useFetch(`https://api.github.com/users/${import.meta.env.VITE_GITHUB_USERNAME}/repos?sort=updated`);
 
     if (loading) return <p>Loading GitHub projects...</p>;
     if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
