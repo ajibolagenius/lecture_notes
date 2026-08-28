@@ -1,9 +1,9 @@
 import { ReminderModel } from '../models/reminderModel.js'
 
 export const ReminderService = {
-    async getAllReminders(userIdOrFilters, filters) {
+    async getAllReminders(userId, filters) {
         // Fetch All Reminders
-        return ReminderModel.getAll(userIdOrFilters, filters);
+        return ReminderModel.getAll(userId, filters);
     },
 
     async getReminderById(reminderId) {
@@ -30,14 +30,28 @@ export const ReminderService = {
         return ReminderModel.create(sanitized);
     },
 
-    async updateReminder(reminderId, newValues) {
+    async updateReminder(reminderId, newValues, userId) {
+        const reminder = await ReminderModel.findById(reminderId);
+        if (!reminder) throw new Error('Reminder not found')
+        if (reminder.user.id !== userId) {
+            const error = new Error('You are not authorized to update this reminder');
+            error.statusCode = 403
+            throw error
+        }
         // Update Reminder
         const updated = await ReminderModel.update(reminderId, newValues);
         if (!updated) throw new Error('Reminder not found');
         return updated;
     },
 
-    async deleteReminder(reminderId) {
+    async deleteReminder(reminderId, userId) {
+        const reminder = await ReminderModel.findById(reminderId);
+        if (!reminder) throw new Error('Reminder not found')
+        if (reminder.user.id !== userId) {
+            const error = new Error('You are not authorized to delete this reminder');
+            error.statusCode = 403
+            throw error
+        }
         // Delete Reminder
         const rowsDeleted = await ReminderModel.delete(reminderId);
         if (rowsDeleted === 0) throw new Error('Reminder not found');

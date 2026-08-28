@@ -12,7 +12,7 @@ export const ReminderController = {
                 offset: offset ? parseInt(offset, 10) : 0,
             };
 
-            const reminders = await ReminderService.getAllReminders(filters);
+            const reminders = await ReminderService.getAllReminders(req.user.id, filters);
             res.status(200).json(reminders);
         } catch (error) {
             console.error('Error in getAllReminders:', error);
