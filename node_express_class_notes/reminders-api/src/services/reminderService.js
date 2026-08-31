@@ -1,4 +1,6 @@
 import { ReminderModel } from '../models/reminderModel.js'
+import { CustomError } from '../utils/CustomError.js';
+import ERROR_MESSAGES from '../constants/errorMessages.js';
 
 export const ReminderService = {
     async getAllReminders(userId, filters) {
@@ -9,7 +11,7 @@ export const ReminderService = {
     async getReminderById(reminderId) {
         // Fetch Reminder By Id
         const reminder = await ReminderModel.findById(reminderId);
-        if (!reminder) throw new Error('Reminder not found');
+        if (!reminder) throw new CustomError(ERROR_MESSAGES.REMINDER_NOT_FOUND, 404);
         return reminder;
     },
 
@@ -34,7 +36,7 @@ export const ReminderService = {
         const reminder = await ReminderModel.findById(reminderId);
         if (!reminder) throw new Error('Reminder not found')
         if (reminder.user.id !== userId) {
-            const error = new Error('You are not authorized to update this reminder');
+            const error = new CustomError(ERROR_MESSAGES.FORBIDDEN, 403);
             error.statusCode = 403
             throw error
         }

@@ -20,17 +20,16 @@ export const ReminderController = {
         }
     },
 
-    async getReminderById(req, res) {
+    async getReminderById(req, res, next) {
         try {
             const reminderId = parseInt(req.params.id, 10);
             if (isNaN(reminderId)) {
                 return res.status(400).json({ message: 'Invalid reminder ID' });
             }
-            const reminder = await ReminderService.getReminderById(reminderId);
+            const reminder = await ReminderService.getReminderById(reminderId, req.user.id);
             res.status(200).json(reminder);
         } catch (error) {
-            console.error('Error in getReminderById:', error);
-            res.status(404).json({ message: error.message });
+            next(error)
         }
     },
 
