@@ -42,7 +42,7 @@ export const ReminderService = {
         }
         // Update Reminder
         const updated = await ReminderModel.update(reminderId, newValues);
-        if (!updated) throw new Error('Reminder not found');
+        if (!updated) throw new CustomError.ERROR_MESSAGES.REMINDER_NOT_FOUND, 404;
         return updated;
     },
 
