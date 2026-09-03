@@ -6,7 +6,7 @@ export const reminderSchema = z.object({
     id: z.number(),
     title: z.string().min(1, 'Title should be longer').max(255),
     notes: z.string().optional(),
-    dueDate: z.string.datetime().optional(),
+    dueDate: z.string().datetime().optional(),
     completed: z.boolean().optional().default(false),
     userId: z.number(),
     createdAt: z.string().datetime(),    
@@ -27,6 +27,6 @@ export const createReminderSchema = reminderSchema.omit({
 export const updateReminderSchema = z.object({
     title: z.string().min(1, 'Title should be longer').max(255).optional(),
     notes: z.string().nullable().optional(),
-    dueDate: z.string.datetime().nullable().optional(),
+    dueDate: z.string().datetime().nullable().optional(),
     completed: z.boolean().optional(),
 })

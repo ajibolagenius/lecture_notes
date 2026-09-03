@@ -8,10 +8,11 @@ export const ReminderService = {
         return ReminderModel.getAll(userId, filters);
     },
 
-    async getReminderById(reminderId) {
+    async getReminderById(reminderId, userId) {
         // Fetch Reminder By Id
         const reminder = await ReminderModel.findById(reminderId);
         if (!reminder) throw new CustomError(ERROR_MESSAGES.REMINDER_NOT_FOUND, 404);
+        if (reminder.userId !== userId) throw new CustomError(ERROR_MESSAGES.FORBIDDEN, 403);
         return reminder;
     },
 
@@ -34,29 +35,21 @@ export const ReminderService = {
 
     async updateReminder(reminderId, newValues, userId) {
         const reminder = await ReminderModel.findById(reminderId);
-        if (!reminder) throw new Error('Reminder not found')
-        if (reminder.user.id !== userId) {
-            const error = new CustomError(ERROR_MESSAGES.FORBIDDEN, 403);
-            error.statusCode = 403
-            throw error
-        }
+        if (!reminder) throw new CustomError(ERROR_MESSAGES.REMINDER_NOT_FOUND, 404);
+        if (reminder.userId !== userId) throw new CustomError(ERROR_MESSAGES.FORBIDDEN, 403);
         // Update Reminder
         const updated = await ReminderModel.update(reminderId, newValues);
-        if (!updated) throw new CustomError.ERROR_MESSAGES.REMINDER_NOT_FOUND, 404;
+        if (!updated) throw new CustomError(ERROR_MESSAGES.REMINDER_NOT_FOUND, 404);
         return updated;
     },
 
     async deleteReminder(reminderId, userId) {
         const reminder = await ReminderModel.findById(reminderId);
-        if (!reminder) throw new Error('Reminder not found')
-        if (reminder.user.id !== userId) {
-            const error = new Error('You are not authorized to delete this reminder');
-            error.statusCode = 403
-            throw error
-        }
+        if (!reminder) throw new CustomError(ERROR_MESSAGES.REMINDER_NOT_FOUND, 404);
+        if (reminder.userId !== userId) throw new CustomError(ERROR_MESSAGES.FORBIDDEN, 403);
         // Delete Reminder
         const rowsDeleted = await ReminderModel.delete(reminderId);
-        if (rowsDeleted === 0) throw new Error('Reminder not found');
+        if (rowsDeleted === 0) throw new CustomError(ERROR_MESSAGES.REMINDER_NOT_FOUND, 404);
         return { message: 'Reminder deleted successfully' };
     },
 };

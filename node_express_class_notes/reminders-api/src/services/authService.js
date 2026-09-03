@@ -3,11 +3,20 @@ import jwt from 'jsonwebtoken'
 import { UserModel } from '../models/userModel.js'
 
 
-function generateToken(user) {
+function generateAccessToken(user) {
     return jwt.sign({
         sub: user.id,
         email: user.email,
+        type: 'access',
     }, process.env.JWT_SECRET, { expiresIn: '1h' })
+}
+
+function generateRefreshToken(user) {
+    return jwt.sign({
+        sub: user.id,
+        email: user.email,
+        type: 'refresh',
+    }, process.env.JWT_SECRET, { expiresIn: '7d' })
 }
 
 export const AuthService = {
@@ -21,8 +30,11 @@ export const AuthService = {
         const passwordHash = await bcrypt.hash(password, 10)
         const user = await UserModel.create({ email, passwordHash })
 
-        const token = generateToken(user)
-        return { token, user }
+        return {
+            accessToken: generateAccessToken(user),
+            refreshToken: generateRefreshToken(user),
+            user: { id: user.id, email: user.email },
+        }
     },
 
     // Login logic
@@ -34,10 +46,31 @@ export const AuthService = {
         const isMatch = await bcrypt.compare(password, user.passwordHash);
         if (!isMatch) throw new Error('Invalid email or password')
 
-        const token = generateToken(user);
         return {
-            token,
-            user: { id: user.id, email: user.email }
+            accessToken: generateAccessToken(user),
+            refreshToken: generateRefreshToken(user),
+            user: { id: user.id, email: user.email },
+        }
+    },
+
+    // Refresh logic
+
+    async refresh(refreshToken) {
+        if (!refreshToken) throw new Error('Refresh token is required')
+
+        let payload
+        try {
+            payload = jwt.verify(refreshToken, process.env.JWT_SECRET)
+        } catch (error) {
+            throw new Error('Invalid or expired refresh token')
+        }
+
+        if (payload.type !== 'refresh') throw new Error('Invalid or expired refresh token')
+
+        const user = { id: payload.sub, email: payload.email }
+        return {
+            accessToken: generateAccessToken(user),
+            refreshToken: generateRefreshToken(user),
         }
     }
 }

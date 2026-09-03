@@ -16,7 +16,7 @@ export const ReminderController = {
             res.status(200).json(reminders);
         } catch (error) {
             console.error('Error in getAllReminders:', error);
-            res.status(500).json({ message: 'Internal Server Error' });
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     },
 
@@ -24,7 +24,7 @@ export const ReminderController = {
         try {
             const reminderId = parseInt(req.params.id, 10);
             if (isNaN(reminderId)) {
-                return res.status(400).json({ message: 'Invalid reminder ID' });
+                return res.status(400).json({ error: 'Invalid reminder ID' });
             }
             const reminder = await ReminderService.getReminderById(reminderId, req.user.id);
             res.status(200).json(reminder);
@@ -35,42 +35,40 @@ export const ReminderController = {
 
     async createReminder(req, res) {
         try {
-            const newReminder = await ReminderService.createReminder(req.body);
+            const newReminder = await ReminderService.createReminder({ ...req.body, userId: req.user.id });
             res.status(201).json(newReminder);
         } catch (error) {
             console.error('Error in createReminder:', error);
             if (error.message === 'Title is required') {
-                return res.status(400).json({ message: error.message });
+                return res.status(400).json({ error: error.message });
             }
-            res.status(500).json({ message: 'Internal Server Error' });
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     },
 
-    async updateReminder(req, res) {
+    async updateReminder(req, res, next) {
         try {
             const reminderId = parseInt(req.params.id, 10);
             if (isNaN(reminderId)) {
-                return res.status(400).json({ message: 'Invalid reminder ID' });
+                return res.status(400).json({ error: 'Invalid reminder ID' });
             }
-            const updated = await ReminderService.updateReminder(reminderId, req.body);
+            const updated = await ReminderService.updateReminder(reminderId, req.body, req.user.id);
             res.status(200).json(updated);
         } catch (error) {
-            console.error('Error in updateReminder:', error);
-            res.status(404).json({ message: error.message });
+            next(error)
         }
     },
 
-    async deleteReminder(req, res) {
+    async deleteReminder(req, res, next) {
         try {
             const reminderId = parseInt(req.params.id, 10);
             if (isNaN(reminderId)) {
-                return res.status(400).json({ message: 'Invalid reminder ID' });
+                return res.status(400).json({ error: 'Invalid reminder ID' });
             }
-            const result = await ReminderService.deleteReminder(reminderId);
+            const result = await ReminderService.deleteReminder(reminderId, req.user.id);
             res.status(200).json(result);
         } catch (error) {
-            console.error('Error in deleteReminder:', error);
-            res.status(404).json({ message: error.message });
+            next(error)
         }
     },
 };

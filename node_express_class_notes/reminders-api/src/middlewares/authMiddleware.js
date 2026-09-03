@@ -5,19 +5,22 @@ export function authMiddleware(req, res, next) {
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({
-            message: 'Missing oe malformed Authorization header'
-        })   
+            error: 'Missing or malformed Authorization header'
+        })
     }
 
     const token = authHeader.split(' ')[1];
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
+        if (payload.type !== 'access') {
+            return res.status(401).json({ error: 'Invalid or expired token' });
+        }
         req.user = { id: payload.sub, email: payload.email};
         next()
     } catch (error) {
         return res.status(401).json(
-            {message: 'Invalide or expired token'}
+            {error: 'Invalid or expired token'}
         )
     }
 }

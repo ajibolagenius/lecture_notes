@@ -1,5 +1,18 @@
 import db from '../config/db.js'
 
+function mapReminderRow(row) {
+  if (!row) return row;
+  return {
+    id: row.id,
+    title: row.title,
+    notes: row.notes,
+    dueDate: row.due_date,
+    completed: row.completed,
+    userId: row.user_id,
+    createdAt: row.created_at,
+  };
+}
+
 export const ReminderModel = {
   async getAll(userIdOrFilters, options = {}) {
     let userId;
@@ -43,13 +56,13 @@ export const ReminderModel = {
     `;
 
     const result = await db.query(query, values);
-    return result.rows;
+    return result.rows.map(mapReminderRow);
   },
 
   async findById(id) {
     if (isNaN(id)) return null;
     const result = await db.query('SELECT * FROM reminders WHERE id = $1', [id]);
-    return result.rows[0];
+    return mapReminderRow(result.rows[0]);
   },
 
   async create({ title, notes, dueDate, due_date, userId, user_id }) {
@@ -61,7 +74,7 @@ export const ReminderModel = {
        RETURNING *`,
       [title, notes ?? null, resolvedDueDate, resolvedUserId]
     );
-    return result.rows[0];
+    return mapReminderRow(result.rows[0]);
   },
 
   async update(id, newValues) {
@@ -100,7 +113,7 @@ export const ReminderModel = {
       RETURNING *
     `;
     const result = await db.query(query, values);
-    return result.rows[0];
+    return mapReminderRow(result.rows[0]);
   },
 
   async delete(id) {
