@@ -7,6 +7,7 @@ import {
 } from './demoReminders';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_BASE = `${API_URL}/api/v1`;
 
 export type Reminder = {
   id: number;
@@ -18,7 +19,7 @@ export type Reminder = {
 
 async function authedFetch(path: string, options: RequestInit = {}) {
   const token = await getToken();
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
