@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import reminderRoutes from './routes/reminderRoutes.js'
 import authRoutes from './routes/authRoutes.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 
 // Create an instance of the Express application
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 
