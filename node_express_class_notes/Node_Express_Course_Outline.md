@@ -316,3 +316,15 @@ This course has one product for its entire duration: **the Reminders API** — t
     7. **Security:** `helmet`, a general rate limiter, and a stricter dedicated limiter on `/auth/login`.
     8. **Deployment:** Live on Railway or Render, backed by a production Neon database, with environment secrets configured (not committed).
 * **Final Deliverable:** A live API URL, a passing test suite with a green CI run, and a working end-to-end demo with the deployed React Native app from the companion course.
+
+---
+
+## Suggested Post-Course Capstone Projects
+
+Students who have completed this course can build one of three independent capstone projects to demonstrate backend mastery across all 6 weeks (Controller-Service-Model architecture, Neon PostgreSQL raw SQL, JWT + rotating refresh tokens, Zod validation, Vitest/Supertest CI, and cloud deployment):
+
+1. **Expense & Budget Management API (*ExpensePulse*)** — dynamic SQL updates, aggregations (`SUM`/`GROUP BY`), date filtering, and user ownership.
+2. **Event Ticketing & Reservation API (*TicketPass*)** — concurrency-safe seat booking using raw SQL transactions (`BEGIN`, `COMMIT`, `ROLLBACK`), role-based access, and race condition prevention.
+3. **Fitness Workout & Routine Logger API (*FitLog*)** — parent-child relational modeling, nested Zod array validation, and cascading deletions.
+
+👉 **Full specifications, database schemas, endpoint contracts, technical challenges, and submission checklists are documented in [Capstone_Projects.md](./Capstone_Projects.md).**
