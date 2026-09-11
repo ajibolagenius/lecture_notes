@@ -1,6 +1,6 @@
 # Node.js & Express Capstone Projects
 
-This document contains 3 comprehensive, independent capstone projects for students who have completed the [Node.js & Express Course](file:///Users/ajibolagenius/Documents/Node/Deejoft%20Notes/node_express_class_notes/Node_Express_Course_Outline.md).
+This document contains 3 comprehensive, independent capstone projects for students who have completed the [Node.js & Express Course](../node_express_class_notes/Node_Express_Course_Outline.md).
 
 Each project is designed to evaluate a student's ability to architect, build, secure, test, and deploy a production-grade REST API from scratch without using an ORM.
 
